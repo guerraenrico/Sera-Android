@@ -1,0 +1,56 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="toolbar_title_text_size">20sp</dimen>
+    <dimen name="title_text_size">18sp</dimen>
+    <dimen name="sub_title_text_size">14sp</dimen>
+
+    <dimen name="app_bar_elevation">8dp</dimen>
+
+    <!-- Common -->
+    <dimen name="item_list_title_text_size">16sp</dimen>
+    <dimen name="item_list_description_text_size">12sp</dimen>
+    <dimen name="a11y_min_touch_target">48dp</dimen>
+
+    <dimen name="button_corner_radius">50dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+
+    <!-- Button Text -->
+    <dimen name="button_text_primary_text_size">20sp</dimen>
+    <dimen name="button_text_secondary_text_size">14sp</dimen>
+
+    <dimen name="margin_s">12dp</dimen>
+    <dimen name="margin_m">16dp</dimen>
+    <dimen name="margin_l">20dp</dimen>
+    <dimen name="margin_xl">24dp</dimen>
+    <dimen name="margin_xxl">28dp</dimen>
+
+    <dimen name="padding_s">4dp</dimen>
+    <dimen name="padding_m">6dp</dimen>
+    <dimen name="padding_l">8dp</dimen>
+    <dimen name="padding_xl">10dp</dimen>
+
+    <!-- BottomSheet (Todos Filters) -->
+    <dimen name="bottom_sheet_peek_height">@dimen/a11y_min_touch_target</dimen>
+    <dimen name="bottom_sheet_elevation">8dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">16dp</dimen>
+
+    <!-- Category Filter Chip -->
+    <dimen name="chip_category_filter_stroke_width">1dp</dimen>
+
+    <!-- Task -->
+    <dimen name="task_item_border_radius">10dp</dimen>
+    <dimen name="complete_task_size">48dp</dimen>
+
+    <!-- Tip -->
+    <dimen name="tip_primary_text_size">18sp</dimen>
+    <dimen name="tip_text_size">14sp</dimen>
+
+    <!-- Button Google Sign in-->
+    <dimen name="button_google_sign_in_padding_vertical">12dp</dimen>
+    <dimen name="button_google_sign_in_padding_horizontal">18dp</dimen>
+    <dimen name="button_google_sign_in_corner_radius">50dp</dimen>
+    <dimen name="button_google_sign_in_drawable_padding">24dp</dimen>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:height="24dp"
+            android:viewportHeight="100"
+            android:viewportWidth="100"
+            android:width="24dp">
+            <group
+                android:name="uncomplete_group"
+                android:pivotX="50"
+                android:pivotY="50"
+                android:scaleX="1"
+                android:scaleY="1"
+                >
+                <!-- Uncomplete -->
+                <path android:fillColor="#0c1622" android:pathData="M50,50m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0"/>
+                <path android:fillColor="#009688" android:fillType="evenOdd" android:pathData="M69.951,38.829L47.786,60.667l0.069,0.068L44.41,64.129l-0.069,-0.068 -0.1,0.1L40.792,60.77l0.1,-0.1 -8.639,-8.512L35.7,48.762l8.639,8.512L66.506,35.435Z"/>
+            </group>
+            <group
+                android:name="complete_group"
+                android:pivotX="50"
+                android:pivotY="50"
+                android:scaleX="0"
+                android:scaleY="0"
+                >
+                <!-- Complete -->
+                <path android:fillColor="#025251" android:pathData="M50,50m-48,0a48,48 0,1 1,96 0a48,48 0,1 1,-96 0"/>
+                <path android:fillColor="#82878c" android:fillType="evenOdd" android:pathData="M69.951,38.829L47.786,60.667l0.069,0.068L44.41,64.129l-0.069,-0.068 -0.1,0.1L40.792,60.77l0.1,-0.1 -8.639,-8.512L35.7,48.762l8.639,8.512L66.506,35.435ZM-22,-179"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target
+        android:name="uncomplete_group">
+        <aapt:attr name="android:animation">
+            <!-- Uncomplete out -->
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:anim/decelerate_interpolator"
+                    android:propertyName="scaleX"
+                    android:valueFrom="1"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:anim/decelerate_interpolator"
+                    android:propertyName="scaleY"
+                    android:valueFrom="1"
+                    android:valueTo="0" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target
+        android:name="complete_group">
+        <aapt:attr name="android:animation">
+            <!-- Complete in -->
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:anim/decelerate_interpolator"
+                    android:propertyName="scaleX"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:anim/decelerate_interpolator"
+                    android:propertyName="scaleY"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

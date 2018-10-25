@@ -1,0 +1,53 @@
+package com.guerra.enrico.sera.ui.todos.add.steps
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
+import com.guerra.enrico.sera.util.activityViewModelProvider
+import kotlinx.android.synthetic.main.fragment_todo_add_add_task.*
+import javax.inject.Inject
+
+/**
+ * Created by enrico
+ * on 19/10/2018.
+ */
+class AddTaskFragment: BaseFragment() {
+    lateinit var root: View
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModel: TodoAddViewModel
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        root = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = activityViewModelProvider(viewModelFactory)
+
+        viewModel.observeSelectedCategory().observe(this, Observer {selectedCategory ->
+            if (selectedCategory == null) {
+                viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)
+                return@Observer
+            }
+            subTitleAddTask.text = String.format(resources.getString(R.string.subtitle_add_task), selectedCategory.name)
+        })
+        buttonSchedule.setOnClickListener {
+            if (taskTitle.text.isNullOrEmpty()) {
+                Snackbar.make( root, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show()
+            }
+            if(viewModel.onSetTaskInfo(taskTitle.text.toString(), taskDescription.text.toString())){
+                viewModel.goToNextStep(StepEnum.SCHEDULE)
+            }
+        }
+    }
+}

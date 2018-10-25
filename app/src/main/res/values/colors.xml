@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#009688</color>
+    <color name="color_primary_dark">#048478</color>
+    <color name="color_accent">#2196F3</color>
+
+    <color name="color_text_primary">#b8c2ce</color>
+    <color name="color_text_normal">#92a1b6</color>
+    <color name="color_text_secondary">#4c5a6a</color>
+
+    <color name="status_bar_color">#0a1523</color>
+    <color name="toolbar_background_color">#0a1523</color>
+    <color name="bottom_nav_background_color">#009688</color>
+    <color name="bottom_nav_bar_icon_color_selected">#FFFFFF</color>
+    <color name="bottom_nav_bar_icon_color_normal">#7CFFFFFF</color>
+    <color name="bottom_nav_bar_title_color_selected">#FFFFFF</color>
+    <color name="bottom_nav_bar_title_color_normal">#7CFFFFFF</color>
+
+    <color name="toolbar_title_text_color">#FFFFFF</color>
+    <color name="title_text_color">#FFFFFF</color>
+    <color name="title_secondary_text_color">#475b75</color>
+
+    <color name="background_color">#0a1523</color>
+    <color name="background_color_dark">#050e19</color>
+    <color name="background_color_night">#020810</color>
+
+    <color name="window_background_color">#0a1523</color>
+
+    <color name="text_input_background_color">#14202f</color>
+
+    <!-- BottomSheet (Todos Filter) -->
+    <color name="bottom_sheet_background_color">#050e19</color>
+
+    <!-- Task -->
+    <color name="task_card_background_color">#050e19</color>
+    <color name="task_list_item_title_color_active">#a0acba</color>
+
+    <!-- Category Filter Chip -->
+    <color name="category_filter_chip_text_unselected">#a0acba</color>
+    <color name="category_filter_chip_text_selected">#ffffff</color>
+    <color name="category_filter_chip_stroke_color">#1e252f</color>
+
+    <!-- Commons -->
+    <color name="white">#ffffff</color>
+    <color name="extra_light_grey">#f4f4f4</color>
+</resources>

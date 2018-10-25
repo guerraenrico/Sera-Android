@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".ui.login.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/desc_sera_logo"
+        android:src="@drawable/logo_sera"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_google_login"
+        android:textColor="@color/color_accent"
+        android:textAllCaps="false"
+        android:paddingTop="@dimen/button_google_sign_in_padding_vertical"
+        android:paddingLeft="@dimen/button_google_sign_in_padding_horizontal"
+        android:paddingRight="@dimen/button_google_sign_in_padding_horizontal"
+        android:paddingBottom="@dimen/button_google_sign_in_padding_vertical"
+        app:backgroundTint="@color/white"
+        app:rippleColor="#b8c2ce"
+        app:icon="@drawable/logo_google_g"
+        app:iconPadding="@dimen/button_google_sign_in_drawable_padding"
+        app:iconTintMode="multiply"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tip"/>
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/wish_your_were_better"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/margin_xl"
+        android:layout_marginEnd="@dimen/margin_xl"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Tip"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

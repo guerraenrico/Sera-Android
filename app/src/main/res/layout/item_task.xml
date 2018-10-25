@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerTaskItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/task_item_background"
+    android:elevation="3dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentTaskTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/task_item_header_background"
+        android:focusable="true"
+        android:clickable="true"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/taskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTitle"
+            android:layout_margin="@dimen/margin_m"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"/>
+
+        <com.google.android.material.internal.CheckableImageButton
+            android:id="@+id/buttonComplete"
+            android:layout_width="@dimen/complete_task_size"
+            android:layout_height="@dimen/complete_task_size"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/as_ic_task_complete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/taskTitle"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/contentTaskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/taskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_m"
+            style="@style/ListItemDescription"/>
+
+    </LinearLayout>
+
+</LinearLayout>

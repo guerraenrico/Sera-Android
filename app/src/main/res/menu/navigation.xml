@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_todo"
+        android:icon="@drawable/ic_todo"
+        android:title="@string/title_todos" />
+
+    <item
+        android:id="@+id/navigation_chart"
+        android:icon="@drawable/ic_chart"
+        android:title="@string/title_charts" />
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/title_notifications" />
+
+</menu>

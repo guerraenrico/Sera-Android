@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/completed"
+        android:drawable="@drawable/ic_task_completed"
+        android:state_checked="true"
+        />
+
+    <item
+        android:id="@+id/uncompleted"
+        android:drawable="@drawable/ic_task_uncompleted"
+        />
+
+    <transition
+        android:fromId="@id/uncompleted"
+        android:toId="@id/completed"
+        android:drawable="@drawable/av_complete_task" />
+
+    <transition
+        android:fromId="@id/completed"
+        android:toId="@id/uncompleted"
+        android:drawable="@drawable/av_uncomplete_task" />
+
+</animated-selector>

@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Sera</string>
+
+    <string name="title_charts">Charts</string>
+    <string name="title_todos">Todos</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="title_add_todo">Add Todo</string>
+    <string name="title_filter_sheet">Categories</string>
+
+    <!-- Buttons -->
+    <string name="button_google_login">Log in with Google</string>
+    <string name="button_category">Category</string>
+    <string name="button_task">Task</string>
+    <string name="button_add">Add</string>
+    <string name="button_next">Next</string>
+    <string name="button_schedule">Schedule</string>
+    <string name="button_go_back">Never mind, go back</string>
+
+    <!-- Labels -->
+    <string name="label_no_task_description">No description to show :(</string>
+    <!-- TodoAdd -->
+    <string name="title_select_add">What would you like to add?</string>
+    <string name="title_add_category">Add new CATEGORY</string>
+    <string name="title_select_category">Choose a CATEGORY</string>
+    <string name="title_add_task">Add new TASK</string>
+    <string name="subtitle_add_task">for the category: %1$s</string>
+    <string name="title_schedule">Todo within</string>
+    <string name="title_done">Done!</string>
+
+    <!-- Message -->
+    <string name="message_select_category">Select a category</string>
+    <string name="message_insert_task_title">Insert your task\'s title</string>
+
+    <!-- Errors -->
+    <string name="error_google_signin">An error accour while managing response</string>
+    <string name="error_observe_categories">An error accour while fetching categories</string>
+
+    <!-- Content Descriptions -->
+    <string name="desc_sera_logo">Sera Logo</string>
+    <string name="desc_collapse_filter_sheet">Collapse filter sheet</string>
+    <string name="desc_icon_done_todo_add">Icon done</string>
+
+    <!-- Tips -->
+    <string name="learn_to_work_on_yourself">Learn to work harder on your self than you do on your job</string>
+    <string name="wish_your_were_better">Don\'t wish it was easer, wish you were better</string>
+
+    <!-- Hints -->
+    <string name="hint_type_name">Type the name</string>
+    <string name="hint_type_title">Type the title</string>
+    <string name="hint_type_description">Type the description</string>
+    <string name="hint_set_date">Set the date</string>
+</resources>
