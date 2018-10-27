@@ -33,7 +33,8 @@
 
     <!-- Task -->
     <color name="task_card_background_color">#050e19</color>
-    <color name="task_list_item_title_color_active">#a0acba</color>
+    <color name="task_list_item_color_active">#a0acba</color>
+    <color name="task_list_item_color_completed">#475b75</color>
 
     <!-- Category Filter Chip -->
     <color name="category_filter_chip_text_unselected">#a0acba</color>

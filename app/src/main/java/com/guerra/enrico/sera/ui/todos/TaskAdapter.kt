@@ -1,15 +1,19 @@
 package com.guerra.enrico.sera.ui.todos
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
+import android.graphics.Paint
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.util.toDateString
 import kotlinx.android.synthetic.main.item_task.view.*
 
 /**
@@ -42,8 +46,16 @@ class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(task: Task, position: Int, onCompleteClick: (Task, Int) -> Unit, onExpand: () -> Unit) = with(itemView) {
         taskTitle.text = task.title
         taskDescription.text = if(task.description.isEmpty()) resources.getString(R.string.label_no_task_description) else task.description
-        buttonComplete.setOnClickListener { onCompleteClick.invoke(task, position) }
+        taskDate.text = String.format(
+                resources.getString(R.string.label_todo_within),
+                task.todoWithin.toDateString()
+        )
+        
+        taskTitle.paintFlags = if(task.completed) Paint.STRIKE_THRU_TEXT_FLAG else taskTitle.paintFlags
+        setViewColors(resources, task.completed, taskTitle, taskDate, taskDescription)
         buttonComplete.isChecked = task.completed
+
+        buttonComplete.setOnClickListener { onCompleteClick.invoke(task, position) }
         contentTaskTitle.setOnClickListener {
             toogleExpand(containerTaskItem, contentTaskDescription)
             onExpand()
@@ -55,5 +67,15 @@ class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         toogleExpandTransition.duration = if (expanded) 300L else 200L
         TransitionManager.beginDelayedTransition(viewToExpand, toogleExpandTransition)
         viewToShow.visibility = if (expanded) View.VISIBLE else View.GONE
+    }
+
+    private fun setViewColors(resources: Resources, completed: Boolean, vararg views: AppCompatTextView) {
+        views.forEach { view ->
+            if (completed){
+                view.setTextColor(resources.getColor(R.color.task_list_item_color_completed))
+            } else {
+                view.setTextColor(resources.getColor(R.color.task_list_item_color_active))
+            }
+        }
     }
 }

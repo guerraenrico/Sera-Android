@@ -23,8 +23,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/ListItemTitle"
-            android:layout_margin="@dimen/margin_m"
+            android:textColor="@color/task_list_item_color_active"
+            android:layout_marginTop="@dimen/margin_m"
+            android:layout_marginBottom="@dimen/margin_s"
+            android:layout_marginStart="@dimen/margin_m"
+            android:layout_marginEnd="@dimen/margin_m"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/taskDate"
+            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/taskDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTitle"
+            android:textColor="@color/task_list_item_color_active"
+            android:textSize="@dimen/item_list_description_text_size"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:layout_marginStart="@dimen/margin_m"
+            android:layout_marginEnd="@dimen/margin_m"
+            app:layout_constraintTop_toBottomOf="@+id/taskTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonComplete"/>

@@ -89,13 +89,11 @@
     <style name="ListItemTitle">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:textSize">@dimen/item_list_title_text_size</item>
-        <item name=" android:textColor">@color/task_list_item_title_color_active</item>
     </style>
 
     <style name="ListItemDescription">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:textSize">@dimen/item_list_description_text_size</item>
-        <item name=" android:textColor">@color/task_list_item_title_color_active</item>
     </style>
 
     <style name="TipPrimary">
