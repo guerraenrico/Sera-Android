@@ -39,6 +39,27 @@ class TaskRepositoryImpl @Inject constructor(
                 }
     }
 
+    override fun getTasksLocal(categoriesId: List<String>, completed: Boolean, limit: Int, skip: Int): Flowable<List<Task>> {
+        return localDbManager.fetchTasks(categoriesId, completed, limit, skip)
+                .flatMap {
+                    tasks ->
+                    if (tasks.count() > 0 || skip != 0) {
+                        return@flatMap Flowable.just(tasks)
+                    }
+                    localDbManager.getSessionAccessToken().toFlowable()
+                            .flatMap { accessToken ->
+                                remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
+                                        .flatMap{ apiResponse ->
+                                            if (apiResponse.success) {
+                                                val remoteTasks = apiResponse.data ?: emptyList()
+                                                return@flatMap localDbManager.saveTasks(remoteTasks)
+                                                        .andThen(Flowable.just(remoteTasks))
+                                            }
+                                            Flowable.just(emptyList<Task>())
+                                        }
+                            }
+                }
+    }
     override fun insertTask(task: Task): Single<Result<Task>> {
         return localDbManager.getSessionAccessToken()
                 .flatMapSingle {

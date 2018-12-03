@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "Category")
 data class Category constructor (
-        @PrimaryKey @ColumnInfo(name = "id") var id: String = "",
-        @ColumnInfo(name = "name") var name: String = ""
-//        @ColumnInfo(name = "isCheched") var isCheched: Boolean = false
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
+        @ColumnInfo(name = "id") val id: String = "",
+        @ColumnInfo(name = "name") val name: String = ""
 )

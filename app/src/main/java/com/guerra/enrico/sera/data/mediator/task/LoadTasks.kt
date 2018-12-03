@@ -44,6 +44,23 @@ class LoadTasks @Inject constructor(
         result.addSource(tasksObservable) {
             result.postValue(it)
         }
+
+        // TODO Changed local
+//        val tasksObservable = LiveDataReactiveStreams.fromPublisher(
+//                taskRepository.getTasksLocal(selectedCategoriesIds, completed, limit, skip)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .map {
+//                            val list = mutableListOf<Task>()
+//                            list.addAll(loadedTasks)
+//                            list.addAll(it)
+//                            return@map Result.Success(list)
+//                        }
+//        )
+//        result.removeSource(tasksObservable)
+//        result.addSource(tasksObservable) {
+//            result.postValue(it)
+//        }
     }
 }
 

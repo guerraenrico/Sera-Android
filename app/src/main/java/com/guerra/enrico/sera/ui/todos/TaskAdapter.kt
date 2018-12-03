@@ -50,7 +50,7 @@ class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 resources.getString(R.string.label_todo_within),
                 task.todoWithin.toDateString()
         )
-        
+
         taskTitle.paintFlags = if(task.completed) Paint.STRIKE_THRU_TEXT_FLAG else taskTitle.paintFlags
         setViewColors(resources, task.completed, taskTitle, taskDate, taskDescription)
         buttonComplete.isChecked = task.completed

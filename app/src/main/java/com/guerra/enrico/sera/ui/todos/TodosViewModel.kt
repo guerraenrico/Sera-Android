@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.guerra.enrico.sera.data.local.models.Task
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
+import com.guerra.enrico.sera.data.mediator.task.CompleteTaskEvent
 import com.guerra.enrico.sera.data.mediator.task.LoadTaskParameters
 import com.guerra.enrico.sera.data.mediator.task.LoadTasks
 import com.guerra.enrico.sera.data.result.Result
@@ -19,7 +20,8 @@ import javax.inject.Inject
  */
 class TodosViewModel @Inject constructor (
         private val loadCategories: LoadCategoriesFilter,
-        private val loadTasks: LoadTasks
+        private val loadTasks: LoadTasks,
+        private val completeTaskEvent: CompleteTaskEvent
 ): BaseViewModel() {
     private val limit = 10
     private var skip = 0
@@ -35,6 +37,11 @@ class TodosViewModel @Inject constructor (
 
     private val taskRefresh = MutableLiveData<Boolean>()
 
+    private val _snackbarMessage = MediatorLiveData<String>()
+    val snackbarMessage: LiveData<String>
+        get() = _snackbarMessage
+
+
     init {
         loadCategoriesFilterResult = loadCategories.observe()
         categoriesFilter = loadCategoriesFilterResult.map {
@@ -49,6 +56,12 @@ class TodosViewModel @Inject constructor (
         loadTasksResult = loadTasks.observe()
         tasks = loadTasksResult.map {
             it
+        }
+
+        _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
+            if (!completeTaskResult.succeeded) {
+                _snackbarMessage.postValue((completeTaskResult as Result.Error).exception.message)
+            }
         }
     }
 
@@ -80,6 +93,10 @@ class TodosViewModel @Inject constructor (
                         (tasks.value as Result.Success).data
                 )
         )
+    }
+
+    fun toggleTaskComplete(task: Task, completed: Boolean) {
+        completeTaskEvent.execute(task.copy(completed = completed))
     }
 
     fun observeCategories() : LiveData<Result<List<CategoryFilter>>> {

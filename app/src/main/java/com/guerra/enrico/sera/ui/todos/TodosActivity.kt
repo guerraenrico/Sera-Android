@@ -56,12 +56,10 @@ class TodosActivity: BaseActivity() {
         filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         val tasksAdapter = TaskAdapter { task, position ->
-            task.completed = !task.completed
-            val filterAdapter: TaskAdapter
-            if (recyclerViewTasks.adapter != null) {
-                filterAdapter = recyclerViewTasks.adapter as TaskAdapter
-                filterAdapter.notifyItemChanged(position)
-            }
+            viewModel.toggleTaskComplete(task, !task.completed)
+            val adapter = recyclerViewTasks.adapter as TaskAdapter
+            adapter.tasks[position] = task.copy(completed = !task.completed)
+            adapter.notifyItemChanged(position)
         }
 
         refreshLayoutTasks.setOnRefreshListener {
@@ -104,6 +102,10 @@ class TodosActivity: BaseActivity() {
         viewModel.observeTasks().apply {
             this.observe(this@TodosActivity, Observer { processTaskListReponse(it) })
         }
+
+        viewModel.snackbarMessage.observe(this, Observer {
+            showSnakbar(it)
+        })
     }
 
     private fun processTaskListReponse(tasksResult: Result<List<Task>>?) {

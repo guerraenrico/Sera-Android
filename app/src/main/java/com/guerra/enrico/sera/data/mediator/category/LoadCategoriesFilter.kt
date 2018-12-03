@@ -19,7 +19,6 @@ class LoadCategoriesFilter @Inject constructor(
 
     override fun execute(params: Any) {
         result.postValue(Result.Loading)
-
         val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
                 categoryRepository.getCategoriesFilter()
                         .subscribeOn(Schedulers.io())
@@ -32,6 +31,17 @@ class LoadCategoriesFilter @Inject constructor(
         result.addSource(categoriesObservable) {
             result.postValue(it)
         }
+
+        // TODO Changed local
+//        val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
+//                categoryRepository.getCategoriesFilterLocal()
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//        )
+//        result.removeSource(categoriesObservable)
+//        result.addSource(categoriesObservable) {
+//            result.postValue(Result.Success(it))
+//        }
     }
 
 }
