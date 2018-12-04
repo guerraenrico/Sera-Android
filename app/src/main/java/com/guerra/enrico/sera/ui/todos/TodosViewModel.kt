@@ -3,7 +3,7 @@ package com.guerra.enrico.sera.ui.todos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
 import com.guerra.enrico.sera.data.mediator.task.CompleteTaskEvent
 import com.guerra.enrico.sera.data.mediator.task.LoadTaskParameters

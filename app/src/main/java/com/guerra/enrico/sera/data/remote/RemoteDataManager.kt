@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera.data.remote
 
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import io.reactivex.Flowable
 import io.reactivex.Single
 

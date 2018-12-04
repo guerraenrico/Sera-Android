@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.guerra.enrico.sera.data.local.models.Category
+import com.guerra.enrico.sera.data.models.Category
 import io.reactivex.Flowable
 
 /**

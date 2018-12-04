@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.mediator.category
 
 import android.annotation.SuppressLint
-import com.guerra.enrico.sera.data.local.models.Category
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.category.CategoryRepository
 import com.guerra.enrico.sera.data.result.Result

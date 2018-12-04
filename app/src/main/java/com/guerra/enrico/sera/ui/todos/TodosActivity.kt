@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.data.result.succeeded
 import com.guerra.enrico.sera.navigation.NavigationModel

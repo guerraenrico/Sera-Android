@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.repo.task
 
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager

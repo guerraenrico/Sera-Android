@@ -12,7 +12,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.util.toDateString
 import kotlinx.android.synthetic.main.item_task.view.*
 

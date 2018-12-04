@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.mediator.task
 
 import androidx.lifecycle.LiveDataReactiveStreams
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.data.result.Result

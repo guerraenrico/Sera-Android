@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.mediator.auth
 
 import android.annotation.SuppressLint
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.result.Result

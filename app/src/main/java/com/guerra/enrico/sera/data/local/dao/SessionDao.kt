@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.guerra.enrico.sera.data.local.models.Session
-import io.reactivex.Completable
+import com.guerra.enrico.sera.data.models.Session
 import io.reactivex.Maybe
 
 /**

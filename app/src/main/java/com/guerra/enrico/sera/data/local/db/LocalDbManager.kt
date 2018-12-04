@@ -1,9 +1,9 @@
 package com.guerra.enrico.sera.data.local.db
 
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Session
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Session
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe

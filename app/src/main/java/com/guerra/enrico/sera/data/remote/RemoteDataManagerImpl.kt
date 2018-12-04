@@ -2,9 +2,9 @@ package com.guerra.enrico.sera.data.remote
 
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.request.AuthRequestParams
 import com.guerra.enrico.sera.data.remote.request.CategoryParams
 import com.guerra.enrico.sera.data.remote.request.TaskParams

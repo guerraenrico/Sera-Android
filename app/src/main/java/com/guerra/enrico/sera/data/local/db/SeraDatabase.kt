@@ -10,10 +10,10 @@ import com.guerra.enrico.sera.data.local.dao.CategoryDao
 import com.guerra.enrico.sera.data.local.dao.SessionDao
 import com.guerra.enrico.sera.data.local.dao.UserDao
 import com.guerra.enrico.sera.data.local.db.converters.DateConverter
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Session
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Session
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.util.Constants
 
 /**

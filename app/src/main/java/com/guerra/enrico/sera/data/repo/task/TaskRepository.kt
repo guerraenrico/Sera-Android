@@ -1,8 +1,7 @@
 package com.guerra.enrico.sera.data.repo.task
 
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.result.Result
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 

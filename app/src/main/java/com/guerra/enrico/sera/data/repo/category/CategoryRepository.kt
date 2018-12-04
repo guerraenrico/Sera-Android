@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.data.repo.category
 
-import com.guerra.enrico.sera.data.local.models.Category
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
 import io.reactivex.Completable
