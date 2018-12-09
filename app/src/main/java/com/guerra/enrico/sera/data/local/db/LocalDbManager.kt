@@ -22,6 +22,7 @@ interface LocalDbManager {
 
     // User
 
+    fun getUser(userId: String): Single<User>
     fun saveUser(user: User): Completable
 
     // Categories

@@ -14,11 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="142" />
-                            <entry key="outputName" value="ic_done_todo_add" />
+                            <entry key="height" value="347" />
+                            <entry key="outputName" value="ic_internet_connection_unavailable" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\fd\Desktop\ic-done.svg" />
-                            <entry key="width" value="142" />
+                            <entry key="sourceFile" value="C:\Users\fd\Desktop\ic_internet_connection_unavailable.svg" />
+                            <entry key="width" value="347" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,7 +1,9 @@
 package com.guerra.enrico.sera.data.remote
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
@@ -9,8 +11,10 @@ import com.guerra.enrico.sera.data.remote.request.AuthRequestParams
 import com.guerra.enrico.sera.data.remote.request.CategoryParams
 import com.guerra.enrico.sera.data.remote.request.TaskParams
 import com.guerra.enrico.sera.data.remote.request.ValidateAccessTokenParams
+import com.guerra.enrico.sera.util.ConnectionHelper
 import io.reactivex.Flowable
 import io.reactivex.Single
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,13 +26,27 @@ import javax.inject.Singleton
  * on 02/06/2018.
  */
 @Singleton
-class RemoteDataManagerImpl @Inject constructor() : RemoteDataManager{
+class RemoteDataManagerImpl @Inject constructor(
+        context: Context
+) : RemoteDataManager{
     private val gson = GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .setLenient()
             .create()
+
+    private val okHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor {
+                val request = it.request()
+                if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+                    throw OperationException.InternetConnectionUnavailable()
+                }
+                return@addNetworkInterceptor it.proceed(request)
+            }
+            .build()
+
     private val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.ApiBaseUri)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()

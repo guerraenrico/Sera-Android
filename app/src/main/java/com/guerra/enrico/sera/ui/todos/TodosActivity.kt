@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.data.result.succeeded
@@ -90,7 +91,7 @@ class TodosActivity: BaseActivity() {
            addOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
-        viewModel.observeTaskRefresh().apply {
+        viewModel.observeAreTasksReloaded().apply {
             this.observe(this@TodosActivity, Observer {
                 refreshed ->
                 if (refreshed) {
@@ -100,7 +101,7 @@ class TodosActivity: BaseActivity() {
         }
 
         viewModel.observeTasks().apply {
-            this.observe(this@TodosActivity, Observer { processTaskListReponse(it) })
+            this.observe(this@TodosActivity, Observer { processTaskListResponse(it) })
         }
 
         viewModel.snackbarMessage.observe(this, Observer {
@@ -108,24 +109,45 @@ class TodosActivity: BaseActivity() {
         })
     }
 
-    private fun processTaskListReponse(tasksResult: Result<List<Task>>?) {
+    /**
+     * Manage read task result
+     */
+    private fun processTaskListResponse(tasksResult: Result<List<Task>>?) {
         if (tasksResult === null) {
             return
         }
         if (tasksResult == Result.Loading) {
-            refreshLayoutTasks.isRefreshing = true
+            if (!refreshLayoutTasks.isRefreshing) {
+                showOverlayLoader()
+            }
             return
         }
-        refreshLayoutTasks.isRefreshing = false
+        messageLayput.hide()
+        if (refreshLayoutTasks.isRefreshing) {
+            refreshLayoutTasks.isRefreshing = false
+        } else {
+            hideOverlayLoader()
+
+        }
         if (tasksResult.succeeded) {
+            recyclerViewTasks.visibility = View.VISIBLE
             setRecyclerTaskList((tasksResult as Result.Success).data)
             return
         }
         if (tasksResult is Result.Error) {
+            if (tasksResult.exception is OperationException) {
+                recyclerViewTasks.visibility = View.GONE
+                messageLayput.InternetConnectionUnavailable { viewModel.onReloadTasks() }
+                messageLayput.show()
+                return
+            }
             showSnakbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
         }
     }
 
+    /**
+     * Show tasks into the recycler view
+     */
     private fun setRecyclerTaskList(tasks: List<Task>) {
         val filterAdapter: TaskAdapter
         if (recyclerViewTasks.adapter != null) {
@@ -150,6 +172,10 @@ class TodosActivity: BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Manage the system back button; if the bottom sheet is expanded
+     * it will be collapsed
+     */
     override fun onBackPressed() {
         if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {

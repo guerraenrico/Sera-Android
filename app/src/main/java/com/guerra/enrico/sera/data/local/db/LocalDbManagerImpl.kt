@@ -46,6 +46,10 @@ class LocalDbManagerImpl @Inject constructor(
 
     // User
 
+    override fun getUser(userId: String): Single<User> {
+        return database.userDao().getFirst(userId)
+    }
+
     override fun saveUser(user: User): Completable {
         return Completable.fromAction {
             database.userDao().insert(user)

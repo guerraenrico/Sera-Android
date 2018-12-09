@@ -15,6 +15,7 @@ buildscript {
         rxjavaVersion = "2.1.14"
         rxkotlinVersion = "2.2.0"
         rxandroidVersion = "2.0.2"
+        shimmerVersion = "0.3.0"
         googlePlayServicesVersion = "16.0.1"
 
         // Test

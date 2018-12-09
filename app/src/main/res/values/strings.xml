@@ -18,6 +18,7 @@
     <string name="button_go_back">Never mind, go back</string>
 
     <!-- Labels -->
+    <string name="label_loading">Loading…</string>
     <string name="label_no_task_description">No description to show :(</string>
     <string name="label_todo_within">To complete within %1$s</string>
     <!-- TodoAdd -->
@@ -36,11 +37,18 @@
     <!-- Errors -->
     <string name="error_google_signin">An error accour while managing response</string>
     <string name="error_observe_categories">An error accour while fetching categories</string>
+    
+    <!-- Exceptions -->
+    <string name="exception_unauthorized">Please login to continue</string>
+    <string name="exception_internet_connection_unavailable">Internet connection not available</string>
+    <string name="exception_operation_timeout">Operation timeout. Retry</string>
+    <string name="exception_unknown">Ops! Something went wrong. Try again</string>
 
     <!-- Content Descriptions -->
     <string name="desc_sera_logo">Sera Logo</string>
     <string name="desc_collapse_filter_sheet">Collapse filter sheet</string>
     <string name="desc_icon_done_todo_add">Icon done</string>
+    <string name="desc_image_message_layout">Message image</string>
 
     <!-- Tips -->
     <string name="learn_to_work_on_yourself">Learn to work harder on your self than you do on your job</string>
@@ -51,4 +59,7 @@
     <string name="hint_type_title">Type the title</string>
     <string name="hint_type_description">Type the description</string>
     <string name="hint_set_date">Set the date</string>
+
+    <!-- Message Layout -->
+    <string name="message_layout_button_try_again">Try again</string>
 </resources>

@@ -86,6 +86,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
 
+    // Shimmer
+    implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
+
     // Google Signin
     implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
     testImplementation 'junit:junit:4.12'

@@ -6,6 +6,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.util.viewModelProvider
+import kotlinx.android.synthetic.main.activity_charts.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -24,10 +25,15 @@ class ChartsActivity: BaseActivity(){
         viewModel = viewModelProvider(viewModelFactory)
 
         toolbarTitle?.text = resources.getString(R.string.title_charts)
+        initView()
     }
 
     override fun initView() {
+        messageLayput.InternetConnectionUnavailable {
 
+        }
+
+        messageLayput.show()
     }
 
     override fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {

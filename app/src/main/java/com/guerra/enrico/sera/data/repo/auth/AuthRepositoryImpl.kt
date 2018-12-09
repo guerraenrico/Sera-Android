@@ -1,11 +1,13 @@
 package com.guerra.enrico.sera.data.repo.auth
 
+import android.content.Context
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.util.ConnectionHelper
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,8 +18,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuthRepositoryImpl @Inject constructor (
-    private val remoteDataManager: RemoteDataManager,
-    private val localDbManager: LocalDbManager
+        private val context: Context,
+        private val remoteDataManager: RemoteDataManager,
+        private val localDbManager: LocalDbManager
 ) : AuthRepository{
 
     // Sign in
@@ -38,7 +41,10 @@ class AuthRepositoryImpl @Inject constructor (
         return localDbManager.getSessionAccessToken()
                 .flatMapSingle {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.validateAccessToken(accessToken)
+                    if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+                        return@flatMapSingle localDbManager.getUser(accessToken).flatMap { Single.just(Result.Success(it)) }
+                    }
+                    remoteDataManager.validateAccessToken(accessToken)
                             .flatMap { apiResponse ->
                                 if (apiResponse.success && apiResponse.data != null) {
                                     return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)

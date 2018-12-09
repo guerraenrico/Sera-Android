@@ -1,5 +1,7 @@
 package com.guerra.enrico.sera.data.repo.category
 
+import android.content.Context
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -7,6 +9,7 @@ import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
+import com.guerra.enrico.sera.util.ConnectionHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -19,6 +22,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class CategoryRepositoryImpl @Inject constructor(
+        private val context: Context,
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager
 ): CategoryRepository {
@@ -67,22 +71,25 @@ class CategoryRepositoryImpl @Inject constructor(
     }
 
     override fun getCategoriesFilter(): Flowable<Result<List<CategoryFilter>>> {
-        return localDbManager.fetchCategories()
-                .flatMap { categories ->
-                    Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))
-                }
-//        return localDbManager.getSessionAccessToken().toFlowable()
-//                .flatMap { accessToken ->
-//                    return@flatMap remoteDataManager.getCategories(accessToken)
-//                            .map { apiResponse ->
-//                                if (apiResponse.success) {
-//                                    return@map Result.Success(apiResponse.data?.map { CategoryFilter(it) }
-//                                            ?: emptyList())
-//                                }
-//                                return@map Result.Error(ApiException(apiResponse.error
-//                                        ?: ApiError.unknown()))
-//                            }
+        // TODO read categories offline and if connected to internet update data and save in local db
+
+//        return localDbManager.fetchCategories()
+//                .flatMap { categories ->
+//                    Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))
 //                }
+
+        return localDbManager.getSessionAccessToken().toFlowable()
+                .flatMap { accessToken ->
+                    return@flatMap remoteDataManager.getCategories(accessToken)
+                            .map { apiResponse ->
+                                if (apiResponse.success) {
+                                    return@map Result.Success(apiResponse.data?.map { CategoryFilter(it) }
+                                            ?: emptyList())
+                                }
+                                return@map Result.Error(ApiException(apiResponse.error
+                                        ?: ApiError.unknown()))
+                            }
+                }
     }
 
 //    override fun getCategoriesFilterLocal(): Flowable<List<CategoryFilter>> {
