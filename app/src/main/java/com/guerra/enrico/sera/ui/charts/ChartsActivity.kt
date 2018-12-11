@@ -3,9 +3,11 @@ package com.guerra.enrico.sera.ui.charts
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.util.viewModelProvider
+import com.guerra.enrico.sera.widget.MessageLayout
 import kotlinx.android.synthetic.main.activity_charts.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -29,7 +31,7 @@ class ChartsActivity: BaseActivity(){
     }
 
     override fun initView() {
-        messageLayput.InternetConnectionUnavailable {
+        messageLayput.setMessage(OperationException.UnknownError().getBaseMessage()) { code ->
 
         }
 

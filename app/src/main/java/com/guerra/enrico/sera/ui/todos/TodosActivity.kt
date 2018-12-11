@@ -137,7 +137,9 @@ class TodosActivity: BaseActivity() {
         if (tasksResult is Result.Error) {
             if (tasksResult.exception is OperationException) {
                 recyclerViewTasks.visibility = View.GONE
-                messageLayput.InternetConnectionUnavailable { viewModel.onReloadTasks() }
+                messageLayput.setMessage(tasksResult.exception.getBaseMessage()) { code ->
+                    viewModel.onReloadTasks()
+                }
                 messageLayput.show()
                 return
             }

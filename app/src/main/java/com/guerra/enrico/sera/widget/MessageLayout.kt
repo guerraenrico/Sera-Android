@@ -54,22 +54,22 @@ class MessageLayout(context: Context, attributeSet: AttributeSet): FrameLayout(c
         textMessage.text = text
     }
 
-    fun setButton(@StringRes string: Int, onClick: () -> Unit) {
-        setButton(resources.getString(string), onClick)
+    fun setButton(@StringRes string: Int, code: Int, onClick: (Int) -> Unit) {
+        setButton(resources.getString(string), code, onClick)
     }
 
-    fun setButton(text: String, onClick: () -> Unit) {
+    fun setButton(text: String, code: Int, onClick: (Int) -> Unit) {
         buttonMessage.visibility = View.VISIBLE
         buttonMessage.text = text
         buttonMessage.setOnClickListener {
-            onClick()
+            onClick(code)
         }
     }
 
-    fun InternetConnectionUnavailable(onClick: () -> Unit) {
-        setImage(R.drawable.ic_internet_connection_unavailable)
-        setMessage(R.string.exception_internet_connection_unavailable)
-        setButton(resources.getString(R.string.message_layout_button_try_again), onClick)
+    fun setMessage(baseMessage: BaseMessage, onClick: (Int) -> Unit) {
+        setImage(baseMessage.imageResources)
+        setMessage(baseMessage.messageResources)
+        setButton(baseMessage.buttonTextResources, baseMessage.code, onClick)
     }
 
 
@@ -114,4 +114,11 @@ class MessageLayout(context: Context, attributeSet: AttributeSet): FrameLayout(c
             background = backgroundRes
         }
     }
+
+    data class BaseMessage(
+            val code: Int,
+            @DrawableRes val imageResources: Int,
+            @StringRes val messageResources: Int,
+            @StringRes val buttonTextResources: Int
+    )
 }
