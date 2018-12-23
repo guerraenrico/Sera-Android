@@ -8,6 +8,7 @@ import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.util.ConnectionHelper
+import com.guerra.enrico.sera.workers.TodosJob
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,7 +21,8 @@ import javax.inject.Singleton
 class AuthRepositoryImpl @Inject constructor (
         private val context: Context,
         private val remoteDataManager: RemoteDataManager,
-        private val localDbManager: LocalDbManager
+        private val localDbManager: LocalDbManager,
+        private val todosJob: TodosJob
 ) : AuthRepository{
 
     // Sign in
@@ -32,24 +34,26 @@ class AuthRepositoryImpl @Inject constructor (
                         return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
                                 .andThen(localDbManager.saveUser(apiResponse.data))
                                 .andThen(Single.just(Result.Success(apiResponse.data)))
+                                .doOnSuccess { todosJob.syncTodos() }
                     }
                     return@flatMap Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
                 }
     }
 
     override fun validateAccessToken(): Single<Result<User>> {
-        return localDbManager.getSessionAccessToken()
+        return localDbManager.getSession()
                 .flatMap {
-                    accessToken ->
+                    session ->
                     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
-                        return@flatMap localDbManager.getUser(accessToken).flatMap { Single.just(Result.Success(it)) }
+                        return@flatMap localDbManager.getUser(session.userId).flatMap { Single.just(Result.Success(it)) }
                     }
-                    remoteDataManager.validateAccessToken(accessToken)
+                    remoteDataManager.validateAccessToken(session.accessToken)
                             .flatMap { apiResponse ->
                                 if (apiResponse.success && apiResponse.data != null) {
                                     localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
                                             .andThen(localDbManager.saveUser(apiResponse.data))
                                             .andThen(Single.just(Result.Success(apiResponse.data)))
+                                            .doOnSuccess { todosJob.syncTodos() }
                                 } else {
                                     Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
                                 }
