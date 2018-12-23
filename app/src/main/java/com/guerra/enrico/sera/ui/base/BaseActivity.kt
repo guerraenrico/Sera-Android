@@ -19,6 +19,11 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     lateinit var appNavigationView: IAppNavigationView
     private lateinit var overlayLoader: OverlayLoader
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
@@ -26,7 +31,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
             appNavigationView = AppNavigationViewAsBottomNavImpl(navigation)
             appNavigationView.activityReady(this, getSelfNavDrawerItem())
         }
-        overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
     }
 
     fun showSnakbar(@StringRes messageId: Int) {

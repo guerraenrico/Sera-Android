@@ -17,4 +17,7 @@ import io.reactivex.Single
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
+
+    @Query("DELETE FROM User")
+    fun clear()
 }

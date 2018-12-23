@@ -12,9 +12,8 @@ import io.reactivex.Single
  * on 10/09/2018.
  */
 interface CategoryRepository {
-    fun getCategories(): Flowable<Result<List<Category>>>
+    fun getCategories(): Single<Result<List<Category>>>
     fun insertCategory(category: Category): Single<Result<Category>>
     fun deleteCategory(id: String): Single<Result<Any>>
-    fun getCategoriesFilter(): Flowable<Result<List<CategoryFilter>>>
-    fun fetchThenStoreCategories(): Completable
+    fun observeCategoriesFilter(): Flowable<Result<List<CategoryFilter>>>
 }

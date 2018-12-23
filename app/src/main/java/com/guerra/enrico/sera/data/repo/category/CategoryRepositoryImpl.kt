@@ -1,7 +1,6 @@
 package com.guerra.enrico.sera.data.repo.category
 
 import android.content.Context
-import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -9,7 +8,6 @@ import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
-import com.guerra.enrico.sera.util.ConnectionHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -26,9 +24,8 @@ class CategoryRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager
 ): CategoryRepository {
-
-    override fun getCategories(): Flowable<Result<List<Category>>> {
-        return localDbManager.getSessionAccessToken().toFlowable()
+    override fun getCategories(): Single<Result<List<Category>>> {
+        return localDbManager.getSessionAccessToken()
                 .flatMap {
                     accessToken ->
                     return@flatMap remoteDataManager.getCategories(accessToken)
@@ -43,9 +40,9 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override fun insertCategory(category: Category): Single<Result<Category>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.insertCategory(accessToken, category)
+                    return@flatMap remoteDataManager.insertCategory(accessToken, category)
                             .map { apiResponse ->
                                 if (apiResponse.success) {
                                     return@map Result.Success(apiResponse.data ?: Category())
@@ -57,9 +54,9 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override fun deleteCategory(id: String): Single<Result<Any>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.deleteCategory(accessToken, id)
+                    return@flatMap remoteDataManager.deleteCategory(accessToken, id)
                             .map {
                                 apiResponse ->
                                 if (apiResponse.success) {
@@ -70,91 +67,10 @@ class CategoryRepositoryImpl @Inject constructor(
                 }
     }
 
-    override fun getCategoriesFilter(): Flowable<Result<List<CategoryFilter>>> {
-        // TODO read categories offline and if connected to internet update data and save in local db
-
-//        return localDbManager.fetchCategories()
-//                .flatMap { categories ->
-//                    Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))
-//                }
-
-        return localDbManager.getSessionAccessToken().toFlowable()
-                .flatMap { accessToken ->
-                    return@flatMap remoteDataManager.getCategories(accessToken)
-                            .map { apiResponse ->
-                                if (apiResponse.success) {
-                                    return@map Result.Success(apiResponse.data?.map { CategoryFilter(it) }
-                                            ?: emptyList())
-                                }
-                                return@map Result.Error(ApiException(apiResponse.error
-                                        ?: ApiError.unknown()))
-                            }
+    override fun observeCategoriesFilter(): Flowable<Result<List<CategoryFilter>>> {
+        return localDbManager.observeAllCategories()
+                .flatMap { categories ->
+                    Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))
                 }
     }
-
-//    override fun getCategoriesFilterLocal(): Flowable<List<CategoryFilter>> {
-//        return localDbManager.fetchCategories()
-//                .flatMap {
-//                    categories ->
-//                    if (categories.count() > 0) {
-//                        return@flatMap Flowable.just(categories.map { CategoryFilter(it) })
-//                    }
-//                    localDbManager.getSessionAccessToken().toFlowable()
-//                        .flatMap { accessToken ->
-//                            remoteDataManager.getCategories(accessToken)
-//                                .flatMap{ apiResponse ->
-//                                    if (apiResponse.success) {
-//                                        val remoteCategories = apiResponse.data ?: emptyList()
-//                                            return@flatMap localDbManager.saveCategories(remoteCategories)
-//                                                    .andThen(Flowable.just(remoteCategories.map { CategoryFilter(it) }))
-//                                    }
-//                                    Flowable.just(emptyList<CategoryFilter>())
-//                                }
-//                        }
-//                }
-//    }
-
-    override fun fetchThenStoreCategories(): Completable {
-        return localDbManager.getSessionAccessToken()
-                .flatMapCompletable { accessToken ->
-                     remoteDataManager.getCategories(accessToken)
-                            .flatMapCompletable { apiResponse ->
-                                if (apiResponse.success) {
-                                    val remoteCategories = apiResponse.data ?: emptyList()
-                                    localDbManager.saveCategories(remoteCategories)
-                                } else {
-                                    Completable.error(ApiException(apiResponse.error
-                                            ?: ApiError.unknown()))
-                                }
-                            }
-                }
-    }
-
-//    fun syncCategories(localCategories: List<Category>) {
-//        localDbManager.getSessionAccessToken().toFlowable()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .map {
-//                    accessToken ->
-//                    remoteDataManager.getCategories(accessToken)
-//                            .map { apiResponse ->
-//                                if (apiResponse.success) {
-//                                    val remoteCategories = apiResponse.data ?: emptyList()
-//                                    val categoriesToSave = remoteCategories.map { remoteCategory ->
-//                                        val localCategory = localCategories.find { it.id == remoteCategory.id }
-//                                                ?: return@map remoteCategory
-//                                        return@map Category(
-//                                                localCategory.localId,
-//                                                remoteCategory.id,
-//                                                remoteCategory.name
-//                                        )
-//                                    }
-//                                    return@map localDbManager.saveCategories(categoriesToSave)
-//                                } else {
-//
-//                                }
-//                            }
-//                }
-//                .subscribe()
-//    }
 }

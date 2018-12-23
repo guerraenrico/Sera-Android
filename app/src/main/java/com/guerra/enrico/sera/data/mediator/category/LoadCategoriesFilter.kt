@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.mediator.category
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveDataReactiveStreams
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.category.CategoryRepository
@@ -17,10 +18,11 @@ class LoadCategoriesFilter @Inject constructor(
         private val categoryRepository: CategoryRepository
 ) : BaseMediator<Any, List<CategoryFilter>>() {
 
+    @SuppressLint("CheckResult")
     override fun execute(params: Any) {
         result.postValue(Result.Loading)
         val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
-                categoryRepository.getCategoriesFilter()
+                categoryRepository.observeCategoriesFilter()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .onErrorReturn {
@@ -31,17 +33,6 @@ class LoadCategoriesFilter @Inject constructor(
         result.addSource(categoriesObservable) {
             result.postValue(it)
         }
-
-        // TODO Changed local
-//        val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
-//                categoryRepository.getCategoriesFilterLocal()
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//        )
-//        result.removeSource(categoriesObservable)
-//        result.addSource(categoriesObservable) {
-//            result.postValue(Result.Success(it))
-//        }
     }
 
 }

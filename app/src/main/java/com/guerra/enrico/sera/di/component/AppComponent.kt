@@ -4,6 +4,7 @@ import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
+import com.guerra.enrico.sera.workers.JobCreator
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -18,7 +19,8 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     AppModule::class,
     ActivityBindingModule::class,
-    ViewModelModule::class
+    ViewModelModule::class,
+    JobCreator::class
 ])
 interface AppComponent: AndroidInjector<SeraApplication> {
     @Component.Builder

@@ -19,7 +19,7 @@ class CompleteTaskEvent @Inject constructor(
 ): BaseMediator<Task, Task>() {
     @SuppressLint("CheckResult")
     override fun execute(params: Task) {
-        taskRepository.updateTask(params)
+        val disposable = taskRepository.updateTask(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

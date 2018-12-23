@@ -19,7 +19,7 @@ class CreateTask @Inject constructor(
     @SuppressLint("CheckResult")
     override fun execute(params: Task) {
         result.postValue(Result.Loading)
-        taskRepository.insertTask(params)
+        val disposable = taskRepository.insertTask(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

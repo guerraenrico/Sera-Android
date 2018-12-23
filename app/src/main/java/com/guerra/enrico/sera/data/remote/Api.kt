@@ -33,7 +33,7 @@ interface Api {
             @Header("x-token") accessToken: String,
             @Query("limit") limit: Int,
             @Query("skip") skip: Int
-    ): Flowable<ApiResponse<List<Category>>>
+    ): Single<ApiResponse<List<Category>>>
 
     @POST("categories")
     fun insertCategory(
@@ -56,7 +56,7 @@ interface Api {
             @Query("completed") completed: Boolean,
             @Query("limit") limit: Int,
             @Query("skip") skip: Int
-    ): Flowable<ApiResponse<List<Task>>>
+    ): Single<ApiResponse<List<Task>>>
 
     @POST("tasks")
     fun insertTask(

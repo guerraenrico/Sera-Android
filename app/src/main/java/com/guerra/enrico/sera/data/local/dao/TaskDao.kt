@@ -13,7 +13,7 @@ import io.reactivex.Flowable
  */
 @Dao interface TaskDao {
     @Query("SELECT * FROM Task WHERE categoryId IN (:categoriesId) AND completed = :completed LIMIT :limit OFFSET :skip")
-    fun getTasks(
+    fun getAllForCategoryFlowable(
             categoriesId: List<String>,
             completed: Boolean,
             limit: Int,
@@ -21,7 +21,7 @@ import io.reactivex.Flowable
     ): Flowable<List<Task>>
 
     @Query("SELECT * FROM Task LIMIT :limit OFFSET :skip")
-    fun getAllTasks(
+    fun getAllFlowable(
             limit: Int,
             skip: Int
     ): Flowable<List<Task>>
@@ -30,5 +30,8 @@ import io.reactivex.Flowable
     fun insertOne(task: Task): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(tasks: List<Task>)
+    fun insertAll(tasks: List<Task>): List<Long>
+
+    @Query("DELETE FROM Task")
+    fun clear()
 }

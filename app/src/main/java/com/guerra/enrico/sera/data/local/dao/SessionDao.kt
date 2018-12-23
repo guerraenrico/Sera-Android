@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.sera.data.models.Session
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * Created by enrico
@@ -13,8 +13,11 @@ import io.reactivex.Maybe
  */
 @Dao interface SessionDao {
     @Query("SELECT * FROM Session ORDER BY createdAt DESC LIMIT 1")
-    fun getFirst(): Maybe<Session>
+    fun getFirst(): Single<Session>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(session: Session)
+
+    @Query("DELETE FROM Session")
+    fun clear()
 }

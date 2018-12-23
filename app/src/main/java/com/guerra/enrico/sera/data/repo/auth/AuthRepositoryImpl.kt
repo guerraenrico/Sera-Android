@@ -39,19 +39,20 @@ class AuthRepositoryImpl @Inject constructor (
 
     override fun validateAccessToken(): Single<Result<User>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
                     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
-                        return@flatMapSingle localDbManager.getUser(accessToken).flatMap { Single.just(Result.Success(it)) }
+                        return@flatMap localDbManager.getUser(accessToken).flatMap { Single.just(Result.Success(it)) }
                     }
                     remoteDataManager.validateAccessToken(accessToken)
                             .flatMap { apiResponse ->
                                 if (apiResponse.success && apiResponse.data != null) {
-                                    return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
+                                    localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
                                             .andThen(localDbManager.saveUser(apiResponse.data))
                                             .andThen(Single.just(Result.Success(apiResponse.data)))
+                                } else {
+                                    Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
                                 }
-                                return@flatMap Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
                             }
                 }
     }

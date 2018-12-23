@@ -13,11 +13,17 @@ import io.reactivex.Flowable
  */
 @Dao interface CategoryDao {
     @Query("SELECT * FROM Category")
-    fun getCategories(): Flowable<List<Category>>
+    fun getAllFlowable(): Flowable<List<Category>>
+
+    @Query("SELECT * FROM Category")
+    fun getAll(): List<Category>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOne(category: Category): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(categories: List<Category>)
+    fun insertAll(categories: List<Category>): List<Long>
+
+    @Query("DELETE FROM Category")
+    fun clear()
 }

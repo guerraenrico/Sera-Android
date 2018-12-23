@@ -16,8 +16,8 @@ import io.reactivex.Single
 interface LocalDbManager {
     // Session
 
-    fun getSession(): Maybe<Session>
-    fun getSessionAccessToken(): Maybe<String>
+    fun getSession(): Single<Session>
+    fun getSessionAccessToken(): Single<String>
     fun saveSession(userId: String, accessToken: String): Completable
 
     // User
@@ -27,18 +27,22 @@ interface LocalDbManager {
 
     // Categories
 
-    fun fetchCategories(): Flowable<List<Category>>
-    fun saveCategory(category: Category): Single<Long>
-    fun saveCategories(categories: List<Category>): Completable
+    fun observeAllCategories(): Flowable<List<Category>>
+    fun saveCategorySingle(category: Category): Single<Long>
+    fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
+    fun saveCategories(categories: List<Category>)
+    fun clearCategoriesCompletable(): Completable
 
     // Tasks
 
-    fun fetchTasks(
+    fun observeTasks(
             categoriesId: List<String> = listOf("0"),
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
     ): Flowable<List<Task>>
-    fun saveTask(task: Task): Single<Long>
-    fun saveTasks(tasks: List<Task>): Completable
+    fun saveTaskSingle(task: Task): Single<Long>
+    fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
+    fun saveTasks(tasks: List<Task>)
+    fun clearTasksCompletable(): Completable
 }

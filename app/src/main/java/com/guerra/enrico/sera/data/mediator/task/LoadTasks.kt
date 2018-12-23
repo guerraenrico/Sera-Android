@@ -21,46 +21,17 @@ class LoadTasks @Inject constructor(
     override fun execute(params: LoadTaskParameters) {
         result.postValue(Result.Loading)
         val (selectedCategoriesIds, completed, limit, skip, loadedTasks) = params
-        val tasksObservable = LiveDataReactiveStreams.fromPublisher(
-                taskRepository.getTasks(selectedCategoriesIds, completed, limit, skip)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .onErrorReturn {
-                            Result.Error(it as Exception)
-                        }
-                        .map {
-                            if (it.succeeded) {
-                                val list = mutableListOf<Task>()
-                                list.addAll(loadedTasks)
-                                list.addAll((it as Result.Success).data)
-                                return@map Result.Success(
-                                        list
-                                )
-                            }
-                            return@map it
-                        }
-        )
-        result.removeSource(tasksObservable)
-        result.addSource(tasksObservable) {
-            result.postValue(it)
-        }
-
-        // TODO Changed local
-//        val tasksObservable = LiveDataReactiveStreams.fromPublisher(
-//                taskRepository.getTasksLocal(selectedCategoriesIds, completed, limit, skip)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .map {
-//                            val list = mutableListOf<Task>()
-//                            list.addAll(loadedTasks)
-//                            list.addAll(it)
-//                            return@map Result.Success(list)
-//                        }
-//        )
-//        result.removeSource(tasksObservable)
-//        result.addSource(tasksObservable) {
-//            result.postValue(it)
-//        }
+        val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed, limit, skip)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val list = mutableListOf<Task>()
+                    list.addAll(loadedTasks)
+                    list.addAll(it)
+                    result.postValue(Result.Success(list))
+                }, {
+                    result.postValue(Result.Error(it as Exception))
+                })
     }
 }
 

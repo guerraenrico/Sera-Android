@@ -23,7 +23,7 @@ interface RemoteDataManager {
             accessToken: String,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<ApiResponse<List<Category>>>
+    ): Single<ApiResponse<List<Category>>>
 
     fun insertCategory(
             accessToken: String,
@@ -43,7 +43,7 @@ interface RemoteDataManager {
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<ApiResponse<List<Task>>>
+    ): Single<ApiResponse<List<Task>>>
 
     fun insertTask(
             accessToken: String,

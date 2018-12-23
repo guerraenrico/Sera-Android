@@ -15,9 +15,9 @@ interface TaskRepository {
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<Result<List<Task>>>
+    ): Single<Result<List<Task>>>
 
-    fun getTasksLocal(
+    fun observeTasks(
             categoriesId: List<String> = listOf("0"),
             completed: Boolean = false,
             limit: Int = 10,
@@ -27,5 +27,4 @@ interface TaskRepository {
     fun insertTask(task: Task): Single<Result<Task>>
     fun deleteTask(id: String): Single<Result<Any>>
     fun updateTask(task: Task): Single<Result<Task>>
-    // fun fetchThenStoreTasks(): Completable // TODO: Servizio lettura tutti task utente
 }

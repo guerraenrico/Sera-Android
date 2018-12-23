@@ -68,7 +68,7 @@ class RemoteDataManagerImpl @Inject constructor(
             accessToken: String,
             limit: Int,
             skip: Int
-    ): Flowable<ApiResponse<List<Category>>> {
+    ): Single<ApiResponse<List<Category>>> {
         return api.getCategories(accessToken, limit, skip)
     }
 
@@ -91,7 +91,7 @@ class RemoteDataManagerImpl @Inject constructor(
             completed: Boolean,
             limit: Int,
             skip: Int
-    ): Flowable<ApiResponse<List<Task>>> {
+    ): Single<ApiResponse<List<Task>>> {
         return api.getTasks(
                 accessToken,
                 (if (categoriesId.isNotEmpty()) categoriesId else listOf("0")).joinToString().replace("\\s".toRegex(), ""),
