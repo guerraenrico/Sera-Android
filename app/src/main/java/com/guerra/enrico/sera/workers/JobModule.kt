@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
+import androidx.work.Worker
+import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

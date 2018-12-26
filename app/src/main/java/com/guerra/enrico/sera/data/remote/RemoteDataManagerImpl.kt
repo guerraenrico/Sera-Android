@@ -27,7 +27,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class RemoteDataManagerImpl @Inject constructor(
-        context: Context
+//       retrofit: Retrofit
+    context: Context
 ) : RemoteDataManager{
     private val gson = GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
