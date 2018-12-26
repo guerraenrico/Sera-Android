@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.di.module
 
-import com.guerra.enrico.sera.workers.TodosJob
-import com.guerra.enrico.sera.workers.TodosJobImpl
+import com.guerra.enrico.sera.workers.TodosWorker
+import com.guerra.enrico.sera.workers.TodosWorkerImpl
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -14,5 +14,5 @@ import javax.inject.Singleton
 abstract class AppModuleBinds {
     @Singleton
     @Binds
-    abstract fun provideTodoJob(bind: TodosJobImpl): TodosJob
+    abstract fun provideTodoJob(bind: TodosWorkerImpl): TodosWorker
 }

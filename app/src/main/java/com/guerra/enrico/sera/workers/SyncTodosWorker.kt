@@ -4,30 +4,33 @@ import android.content.Context
 import android.util.Log
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
-import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
-import com.guerra.enrico.sera.data.local.db.SeraDatabase
+import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiResponse
-import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
+import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 17/12/2018.
  */
 class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : RxWorker(context, workerParameters) {
-
     companion object {
         const val NIGHTLY_SYNC_TAG = "night_sync_todos"
     }
 
-    private val remoteDataManager = RemoteDataManagerImpl(context)
-    private val localDbManager = LocalDbManagerImpl(SeraDatabase.getInstance(context))
+    @Inject
+    lateinit var remoteDataManager: RemoteDataManager
+    @Inject
+    lateinit var localDbManager : LocalDbManager
 
     override fun createWork(): Single<Result> {
+        AndroidWorkerInjector.inject(this)
+
         Log.i("SYNC_TODO", "worker started")
         return localDbManager.getSessionAccessToken()
                 .flatMap { accessToken ->

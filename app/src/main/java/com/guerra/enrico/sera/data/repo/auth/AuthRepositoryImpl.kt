@@ -8,7 +8,7 @@ import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.util.ConnectionHelper
-import com.guerra.enrico.sera.workers.TodosJob
+import com.guerra.enrico.sera.workers.TodosWorker
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +22,7 @@ class AuthRepositoryImpl @Inject constructor (
         private val context: Context,
         private val remoteDataManager: RemoteDataManager,
         private val localDbManager: LocalDbManager,
-        private val todosJob: TodosJob
+        private val todosJob: TodosWorker
 ) : AuthRepository{
 
     // Sign in

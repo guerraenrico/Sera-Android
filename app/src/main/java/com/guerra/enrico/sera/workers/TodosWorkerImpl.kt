@@ -9,9 +9,9 @@ import javax.inject.Inject
  * Created by enrico
  * on 20/12/2018.
  */
-class TodosJobImpl @Inject constructor(
+class TodosWorkerImpl @Inject constructor(
         private val workManager: WorkManager
-) : TodosJob{
+) : TodosWorker{
     override fun syncTodos() {
         val request = OneTimeWorkRequest.Builder(SyncTodosWorker::class.java)
                 .build()
