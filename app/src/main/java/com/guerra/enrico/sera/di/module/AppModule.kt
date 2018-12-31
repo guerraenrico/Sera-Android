@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.di.module
 
+import android.app.Application
 import android.content.Context
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
@@ -23,10 +24,13 @@ import javax.inject.Singleton
  * Created by enrico
  * on 30/05/2018.
  */
-@Module(includes = [ViewModelModule::class])
+@Module(includes = [ViewModelModule::class, AppModuleBinds::class])
 class AppModule {
     @Provides
     fun provideContext(application: SeraApplication): Context = application.applicationContext
+
+    @Provides
+    fun provideApplication(application: SeraApplication): Application = application
 
     @Provides
     @Singleton

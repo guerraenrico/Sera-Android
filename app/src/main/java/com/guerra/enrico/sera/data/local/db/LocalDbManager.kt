@@ -1,11 +1,13 @@
 package com.guerra.enrico.sera.data.local.db
 
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Session
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Session
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * Created by enrico
@@ -14,15 +16,33 @@ import io.reactivex.Maybe
 interface LocalDbManager {
     // Session
 
-    fun getSession(): Maybe<Session>
-    fun getSessionAccessToken(): Maybe<String>
+    fun getSession(): Single<Session>
+    fun getSessionAccessToken(): Single<String>
     fun saveSession(userId: String, accessToken: String): Completable
 
     // User
 
+    fun getUser(userId: String): Single<User>
     fun saveUser(user: User): Completable
 
     // Categories
 
-    fun fetchCategories(): Flowable<List<Category>>
+    fun observeAllCategories(): Flowable<List<Category>>
+    fun saveCategorySingle(category: Category): Single<Long>
+    fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
+    fun saveCategories(categories: List<Category>)
+    fun clearCategoriesCompletable(): Completable
+
+    // Tasks
+
+    fun observeTasks(
+            categoriesId: List<String> = listOf("0"),
+            completed: Boolean = false,
+            limit: Int = 10,
+            skip: Int = 0
+    ): Flowable<List<Task>>
+    fun saveTaskSingle(task: Task): Single<Long>
+    fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
+    fun saveTasks(tasks: List<Task>)
+    fun clearTasksCompletable(): Completable
 }

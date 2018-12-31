@@ -1,8 +1,7 @@
 package com.guerra.enrico.sera.data.repo.auth
 
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.result.Result
-import io.reactivex.Maybe
 import io.reactivex.Single
 
 /**

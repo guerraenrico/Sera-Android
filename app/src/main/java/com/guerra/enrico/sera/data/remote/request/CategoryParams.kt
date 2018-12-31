@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.data.remote.request
 
-import com.guerra.enrico.sera.data.local.models.Category
+import com.guerra.enrico.sera.data.models.Category
 
 
 /**

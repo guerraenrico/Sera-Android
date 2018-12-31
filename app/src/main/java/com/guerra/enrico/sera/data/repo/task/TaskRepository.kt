@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.data.repo.task
 
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.result.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -15,7 +15,14 @@ interface TaskRepository {
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<Result<List<Task>>>
+    ): Single<Result<List<Task>>>
+
+    fun observeTasks(
+            categoriesId: List<String> = listOf("0"),
+            completed: Boolean = false,
+            limit: Int = 10,
+            skip: Int = 0
+    ): Flowable<List<Task>>
 
     fun insertTask(task: Task): Single<Result<Task>>
     fun deleteTask(id: String): Single<Result<Any>>

@@ -3,8 +3,9 @@ package com.guerra.enrico.sera.ui.todos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
+import com.guerra.enrico.sera.data.mediator.task.CompleteTaskEvent
 import com.guerra.enrico.sera.data.mediator.task.LoadTaskParameters
 import com.guerra.enrico.sera.data.mediator.task.LoadTasks
 import com.guerra.enrico.sera.data.result.Result
@@ -19,7 +20,8 @@ import javax.inject.Inject
  */
 class TodosViewModel @Inject constructor (
         private val loadCategories: LoadCategoriesFilter,
-        private val loadTasks: LoadTasks
+        private val loadTasks: LoadTasks,
+        private val completeTaskEvent: CompleteTaskEvent
 ): BaseViewModel() {
     private val limit = 10
     private var skip = 0
@@ -27,17 +29,20 @@ class TodosViewModel @Inject constructor (
     private var cachedCategoriesFilter = emptyList<CategoryFilter>()
     private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
 
-    private val categoriesFilter: LiveData<Result<List<CategoryFilter>>>
-    private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>>
+    private val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
+    private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()
 
     private val tasks: LiveData<Result<List<Task>>>
     private val loadTasksResult: MediatorLiveData<Result<List<Task>>>
 
-    private val taskRefresh = MutableLiveData<Boolean>()
+    private val areTasksReloaded = MutableLiveData<Boolean>()
+
+    private val _snackbarMessage = MediatorLiveData<String>()
+    val snackbarMessage: LiveData<String>
+        get() = _snackbarMessage
 
     init {
-        loadCategoriesFilterResult = loadCategories.observe()
-        categoriesFilter = loadCategoriesFilterResult.map {
+        categoriesFilterResult = loadCategoriesFilterResult.map {
             if (it.succeeded) {
                 cachedCategoriesFilter = (it as Result.Success).data
                 updateCategoryFilterObservable()
@@ -49,6 +54,12 @@ class TodosViewModel @Inject constructor (
         loadTasksResult = loadTasks.observe()
         tasks = loadTasksResult.map {
             it
+        }
+
+        _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
+            if (!completeTaskResult.succeeded) {
+                _snackbarMessage.postValue((completeTaskResult as Result.Error).exception.message)
+            }
         }
     }
 
@@ -62,13 +73,23 @@ class TodosViewModel @Inject constructor (
         return tasks
     }
 
-    fun observeTaskRefresh(): LiveData<Boolean> = taskRefresh
+    /**
+     * Observe if tasks are reloaded
+     */
+    fun observeAreTasksReloaded(): LiveData<Boolean> = areTasksReloaded
 
+    /**
+     * Reload tasks
+     */
     fun onReloadTasks() {
         skip = 0
         refreshTasks()
     }
 
+    /**
+     * Read more task
+     * @param itemCount current number of task loaded
+     */
     fun onLoadMoreTasks(itemCount: Int) {
         skip = itemCount
         loadTasks.execute(
@@ -82,17 +103,34 @@ class TodosViewModel @Inject constructor (
         )
     }
 
+    /**
+     * Toogle task complete status
+     * @param task task object
+     * @param completed new status
+     */
+    fun toggleTaskComplete(task: Task, completed: Boolean) {
+        completeTaskEvent.execute(task.copy(completed = completed))
+    }
+
+    /**
+     * Observe action categories read
+     */
     fun observeCategories() : LiveData<Result<List<CategoryFilter>>> {
-        if (!categoriesFilter.hasActiveObservers()) {
+        if (!categoriesFilterResult.hasActiveObservers()) {
             loadCategories.execute("")
         }
-        return categoriesFilter
+        return categoriesFilterResult
     }
 
     fun observeSelectedCategories() : LiveData<List<CategoryFilter>> {
         return selectedCategoriesFilter
     }
 
+    /**
+     * Toogle category selection
+     * @param categoryFilter category selected
+     * @param checked new category selection value
+     */
     fun toggleFilter(categoryFilter: CategoryFilter, checked: Boolean) {
         categoryFilter.isChecked.set(checked)
         updateCategoryFilterObservable()
@@ -104,7 +142,7 @@ class TodosViewModel @Inject constructor (
     }
 
     private fun refreshTasks() {
-        taskRefresh.postValue(true)
+        areTasksReloaded.postValue(true)
         loadTasks.execute(
                 LoadTaskParameters(
                         selectedCategoriesFilter.value?.map { it.category.id } ?: listOf("0"),

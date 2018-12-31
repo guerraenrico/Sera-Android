@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.ui.todos
 
 import androidx.databinding.ObservableBoolean
-import com.guerra.enrico.sera.data.local.models.Category
+import com.guerra.enrico.sera.data.models.Category
 
 /**
  * Created by enrico

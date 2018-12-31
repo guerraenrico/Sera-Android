@@ -3,9 +3,11 @@ package com.guerra.enrico.sera.ui.base
 import android.os.Bundle
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.navigation.AppNavigationViewAsBottomNavImpl
 import com.guerra.enrico.sera.navigation.IAppNavigationView
 import com.guerra.enrico.sera.navigation.NavigationModel
+import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
@@ -14,8 +16,13 @@ import kotlinx.android.synthetic.main.bottom_navigation_view.*
  * on 27/05/2018.
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
-
     lateinit var appNavigationView: IAppNavigationView
+    private lateinit var overlayLoader: OverlayLoader
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
+    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -34,6 +41,16 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     fun showSnakbar(message: String) {
         if (isFinishing) return
         Snackbar.make( findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+    }
+
+    fun showOverlayLoader() {
+        if (isFinishing) return
+        overlayLoader.show()
+    }
+
+    fun hideOverlayLoader() {
+        if (isFinishing) return
+        overlayLoader.hide()
     }
 
     abstract fun initView()

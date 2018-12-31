@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera.data.remote
 
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -23,7 +23,7 @@ interface RemoteDataManager {
             accessToken: String,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<ApiResponse<List<Category>>>
+    ): Single<ApiResponse<List<Category>>>
 
     fun insertCategory(
             accessToken: String,
@@ -43,7 +43,7 @@ interface RemoteDataManager {
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
-    ): Flowable<ApiResponse<List<Task>>>
+    ): Single<ApiResponse<List<Task>>>
 
     fun insertTask(
             accessToken: String,

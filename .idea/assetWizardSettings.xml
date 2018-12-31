@@ -14,11 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="142" />
-                            <entry key="outputName" value="ic_done_todo_add" />
+                            <entry key="height" value="339" />
+                            <entry key="outputName" value="ic_error_unknown" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\fd\Desktop\ic-done.svg" />
-                            <entry key="width" value="142" />
+                            <entry key="sourceFile" value="C:\Users\fd\Desktop\ic_unknown.svg" />
+                            <entry key="width" value="339" />
                           </map>
                         </option>
                       </PersistentState>

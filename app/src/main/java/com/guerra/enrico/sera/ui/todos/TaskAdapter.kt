@@ -12,7 +12,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.util.toDateString
 import kotlinx.android.synthetic.main.item_task.view.*
 
@@ -50,7 +50,7 @@ class TaskViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 resources.getString(R.string.label_todo_within),
                 task.todoWithin.toDateString()
         )
-        
+
         taskTitle.paintFlags = if(task.completed) Paint.STRIKE_THRU_TEXT_FLAG else taskTitle.paintFlags
         setViewColors(resources, task.completed, taskTitle, taskDate, taskDescription)
         buttonComplete.isChecked = task.completed

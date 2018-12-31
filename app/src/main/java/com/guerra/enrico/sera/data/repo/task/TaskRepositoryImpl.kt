@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.repo.task
 
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
@@ -25,8 +25,8 @@ class TaskRepositoryImpl @Inject constructor(
             completed: Boolean,
             limit: Int,
             skip: Int
-    ): Flowable<Result<List<Task>>> {
-        return localDbManager.getSessionAccessToken().toFlowable()
+    ): Single<Result<List<Task>>> {
+        return localDbManager.getSessionAccessToken()
                 .flatMap {
                     accessToken ->
                     return@flatMap remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
@@ -39,11 +39,14 @@ class TaskRepositoryImpl @Inject constructor(
                 }
     }
 
+    override fun observeTasks(categoriesId: List<String>, completed: Boolean, limit: Int, skip: Int): Flowable<List<Task>> {
+        return localDbManager.observeTasks(categoriesId, completed, limit, skip)
+    }
     override fun insertTask(task: Task): Single<Result<Task>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.insertTask(accessToken, task)
+                    return@flatMap remoteDataManager.insertTask(accessToken, task)
                             .map { apiResponse ->
                                 if (apiResponse.success) {
                                     return@map Result.Success(apiResponse.data ?: Task())
@@ -55,9 +58,9 @@ class TaskRepositoryImpl @Inject constructor(
 
     override fun deleteTask(id: String): Single<Result<Any>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.deleteTask(accessToken, id)
+                    return@flatMap remoteDataManager.deleteTask(accessToken, id)
                             .map { apiResponse ->
                                 if (apiResponse.success) {
                                     return@map Result.Success("")
@@ -69,9 +72,9 @@ class TaskRepositoryImpl @Inject constructor(
 
     override fun updateTask(task: Task): Single<Result<Task>> {
         return localDbManager.getSessionAccessToken()
-                .flatMapSingle {
+                .flatMap {
                     accessToken ->
-                    return@flatMapSingle remoteDataManager.updateTask(accessToken, task)
+                    return@flatMap remoteDataManager.updateTask(accessToken, task)
                             .map { apiResponse ->
                                 if (apiResponse.success) {
                                     return@map Result.Success(apiResponse.data ?: Task())

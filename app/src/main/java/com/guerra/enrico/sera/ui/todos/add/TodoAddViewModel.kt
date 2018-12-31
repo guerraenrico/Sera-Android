@@ -3,8 +3,8 @@ package com.guerra.enrico.sera.ui.todos.add
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Task
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.category.CreateCategory
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
 import com.guerra.enrico.sera.data.mediator.task.CreateTask
@@ -37,7 +37,7 @@ class TodoAddViewModel @Inject constructor(
     private val createTaskResult: MediatorLiveData<Result<Task>> = createTask.observe()
 
     private val selectedCategory = MutableLiveData<Category>()
-    private val task = Task()
+    private var task = Task()
 
     private val todoAddCurrentStep = MutableLiveData<StepEnum>()
 
@@ -81,13 +81,11 @@ class TodoAddViewModel @Inject constructor(
 
     fun onSetTaskInfo(title: String, description: String = ""): Boolean {
         val category = selectedCategory.value ?: return false
-        task.categoryId = category.id
-        task.title = title
-        task.description = description
+        task = task.copy(categoryId = category.id, title = title, description = description)
         return true
     }
     fun onAddTask(todoWithin: Date) {
-        task.todoWithin = todoWithin
+        task = task.copy(todoWithin = todoWithin)
         createTask.execute(task)
     }
 

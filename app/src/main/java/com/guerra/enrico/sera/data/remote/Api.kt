@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera.data.remote
 
-import com.guerra.enrico.sera.data.local.models.Category
-import com.guerra.enrico.sera.data.local.models.Task
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.request.AuthRequestParams
 import com.guerra.enrico.sera.data.remote.request.CategoryParams
 import com.guerra.enrico.sera.data.remote.request.TaskParams
@@ -33,7 +33,7 @@ interface Api {
             @Header("x-token") accessToken: String,
             @Query("limit") limit: Int,
             @Query("skip") skip: Int
-    ): Flowable<ApiResponse<List<Category>>>
+    ): Single<ApiResponse<List<Category>>>
 
     @POST("categories")
     fun insertCategory(
@@ -56,7 +56,7 @@ interface Api {
             @Query("completed") completed: Boolean,
             @Query("limit") limit: Int,
             @Query("skip") skip: Int
-    ): Flowable<ApiResponse<List<Task>>>
+    ): Single<ApiResponse<List<Task>>>
 
     @POST("tasks")
     fun insertTask(

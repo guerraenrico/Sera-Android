@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.mediator.auth
 
 import android.annotation.SuppressLint
-import com.guerra.enrico.sera.data.local.models.User
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.result.Result
@@ -15,11 +15,11 @@ import javax.inject.Inject
  */
 class ValidateAccessToken @Inject constructor(
         private val authRepository: AuthRepository
-): BaseMediator<Any, User>() {
+): BaseMediator<Unit, User>() {
     @SuppressLint("CheckResult")
-    override fun execute(params: Any) {
+    override fun execute(params: Unit) {
         result.postValue(Result.Loading)
-        authRepository.validateAccessToken()
+        val disposable = authRepository.validateAccessToken()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

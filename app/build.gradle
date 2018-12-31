@@ -43,6 +43,10 @@ android {
     dataBinding {
         enabled true
     }
+
+    configurations.all {
+        resolutionStrategy.force "com.android.tools.build.jetifier:jetifier-core:1.0.0-beta02"
+    }
 }
 
 kapt{
@@ -85,6 +89,16 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+
+    // RxLint
+    implementation "nl.littlerobots.rxlint:rxlint:$rxlintVersion"
+
+    // Work Manager
+    implementation "android.arch.work:work-runtime:$workManagerVersion"
+    implementation "android.arch.work:work-rxjava2:$workManagerVersion"
+
+    // Shimmer
+    implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
 
     // Google Signin
     implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
