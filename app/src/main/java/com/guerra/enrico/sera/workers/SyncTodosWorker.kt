@@ -9,6 +9,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiResponse
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -27,6 +28,8 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
     lateinit var remoteDataManager: RemoteDataManager
     @Inject
     lateinit var localDbManager : LocalDbManager
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     override fun createWork(): Single<Result> {
         AndroidWorkerInjector.inject(this)
@@ -60,6 +63,9 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
                                 }
                             }
                     )
+                    .retryWhen {
+                        authRepository.shouldRefreshToken(it)
+                    }
                 }.flatMap { it }
     }
 }

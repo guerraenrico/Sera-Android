@@ -20,7 +20,7 @@ class TodosWorkerImpl @Inject constructor(
 
     override fun setUpNightTodoSync() {
         val request = PeriodicWorkRequest.Builder(SyncTodosWorker::class.java,
-                12, TimeUnit.HOURS, 3, TimeUnit.HOURS)
+                2, TimeUnit.HOURS, 1, TimeUnit.HOURS)
                 .setConstraints(
                         Constraints.Builder()
                                 .setRequiredNetworkType(NetworkType.UNMETERED)

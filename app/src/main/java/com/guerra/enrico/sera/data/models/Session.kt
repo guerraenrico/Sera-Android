@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 /**
  * Created by enrico
@@ -10,8 +11,9 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "Session")
 data class Session constructor(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
+    @ColumnInfo(name = "id") val id: String = "",
     @ColumnInfo(name = "userId") val userId: String,
     @ColumnInfo(name = "accessToken") val accessToken: String,
-    @ColumnInfo(name = "createdAt") val createdAt: Long
+    @ColumnInfo(name = "createdAt") val createdAt: Date
 )
