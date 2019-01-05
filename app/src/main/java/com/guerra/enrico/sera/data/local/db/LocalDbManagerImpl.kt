@@ -92,30 +92,30 @@ class LocalDbManagerImpl @Inject constructor(
             skip: Int
     ): Flowable<List<Task>> {
         if (categoriesId.count() == 0 || categoriesId[0] == "0") {
-            return database.tasktDao().getAllFlowable(limit, skip)
+            return database.taskDao().getAllFlowable(limit, skip)
         }
-        return database.tasktDao().getAllForCategoryFlowable(categoriesId, completed, limit, skip)
+        return database.taskDao().getAllForCategoryFlowable(categoriesId, completed, limit, skip)
     }
 
     override fun saveTaskSingle(task: Task): Single<Long> {
         return Single.fromCallable {
-            database.tasktDao().insertOne(task)
+            database.taskDao().insertOne(task)
         }
     }
 
     override fun saveTasksSingle(tasks: List<Task>): Single<List<Long>> {
         return Single.fromCallable {
-            database.tasktDao().insertAll(tasks)
+            database.taskDao().insertAll(tasks)
         }
     }
 
     override fun saveTasks(tasks: List<Task>) {
-        database.tasktDao().insertAll(tasks)
+        database.taskDao().insertAll(tasks)
     }
 
     override fun clearTasksCompletable(): Completable {
         return Completable.fromAction {
-            database.tasktDao().clear()
+            database.taskDao().clear()
         }
     }
 }
