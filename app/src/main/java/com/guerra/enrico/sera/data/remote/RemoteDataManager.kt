@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera.data.remote
 
 import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
 import io.reactivex.Flowable
@@ -16,6 +17,8 @@ interface RemoteDataManager {
     fun googleSignInCallback(code: String): Single<ApiResponse<User>>
 
     fun validateAccessToken(accessToken: String): Single<ApiResponse<User>>
+
+    fun refreshAccessToken(accessToken: String): Single<ApiResponse<Session>>
 
     /* Categories */
 

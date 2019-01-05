@@ -20,6 +20,9 @@ class ValidateAccessToken @Inject constructor(
     override fun execute(params: Unit) {
         result.postValue(Result.Loading)
         val disposable = authRepository.validateAccessToken()
+                .retryWhen {
+                    authRepository.shouldRefreshToken(it)
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

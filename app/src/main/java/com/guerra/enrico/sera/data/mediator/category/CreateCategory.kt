@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.data.mediator.category
 import android.annotation.SuppressLint
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.mediator.BaseMediator
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.category.CategoryRepository
 import com.guerra.enrico.sera.data.result.Result
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,12 +16,16 @@ import javax.inject.Inject
  * on 22/10/2018.
  */
 class CreateCategory @Inject constructor(
+        private val authRepository: AuthRepository,
         private val categoryRepository: CategoryRepository
 ): BaseMediator<Category, Category>() {
     @SuppressLint("CheckResult")
     override fun execute(params: Category) {
         result.postValue(Result.Loading)
-        categoryRepository.insertCategory(params)
+        val disposable = categoryRepository.insertCategory(params)
+                .retryWhen {
+                    authRepository.shouldRefreshToken(it)
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

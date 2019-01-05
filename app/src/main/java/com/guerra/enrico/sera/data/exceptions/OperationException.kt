@@ -1,7 +1,5 @@
 package com.guerra.enrico.sera.data.exceptions
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.widget.MessageLayout
 import java.lang.Exception

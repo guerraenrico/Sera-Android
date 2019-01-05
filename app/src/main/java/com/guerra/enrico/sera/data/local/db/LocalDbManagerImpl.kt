@@ -37,7 +37,7 @@ class LocalDbManagerImpl @Inject constructor(
                     Session(
                             userId = userId,
                             accessToken = accessToken,
-                            createdAt = Date().time
+                            createdAt = Date()
                     )
             )
         }

@@ -1,11 +1,10 @@
 package com.guerra.enrico.sera.data.mediator.task
 
-import androidx.lifecycle.LiveDataReactiveStreams
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.BaseMediator
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.data.result.succeeded
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -15,6 +14,7 @@ import javax.inject.Inject
  * on 21/08/2018.
  */
 class LoadTasks @Inject constructor(
+        private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
 ): BaseMediator<LoadTaskParameters, List<Task>>() {
 
@@ -22,6 +22,9 @@ class LoadTasks @Inject constructor(
         result.postValue(Result.Loading)
         val (selectedCategoriesIds, completed, limit, skip, loadedTasks) = params
         val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed, limit, skip)
+                .retryWhen {
+                    authRepository.shouldRefreshToken(it)
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
