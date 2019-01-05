@@ -29,7 +29,7 @@ abstract class SeraDatabase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
 
-    abstract fun tasktDao(): TaskDao
+    abstract fun taskDao(): TaskDao
 
     companion object {
         private var INSTANCE: SeraDatabase? = null

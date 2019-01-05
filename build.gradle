@@ -21,6 +21,12 @@ buildscript {
         googlePlayServicesVersion = "16.0.1"
 
         // Test
+        junitVersion = "4.12"
+        robolectricVersion = "4.1"
+
+        testCoreVersion = "1.0.0"
+        testArchCoreVersion = "2.0.0"
+
         testRunnerVersion = "1.1.0-alpha4"
         testEspresso = "3.1.0-alpha4"
     }

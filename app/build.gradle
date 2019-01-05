@@ -47,6 +47,12 @@ android {
     configurations.all {
         resolutionStrategy.force "com.android.tools.build.jetifier:jetifier-core:1.0.0-beta02"
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 kapt{
@@ -102,7 +108,13 @@ dependencies {
 
     // Google Signin
     implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
-    testImplementation 'junit:junit:4.12'
+
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+
+    testImplementation "androidx.test:core:$testCoreVersion"
+    testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
 }
