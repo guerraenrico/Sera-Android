@@ -111,6 +111,8 @@ dependencies {
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+   testImplementation "org.mockito:mockito-core:$mockitoVersion"
 
     testImplementation "androidx.test:core:$testCoreVersion"
     testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"

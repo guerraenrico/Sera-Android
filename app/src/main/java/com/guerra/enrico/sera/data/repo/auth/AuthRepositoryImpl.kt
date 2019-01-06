@@ -87,7 +87,7 @@ class AuthRepositoryImpl @Inject constructor (
                 }
     }
 
-    override fun shouldRefreshToken(errors: Flowable<out Throwable>): Publisher<Any> {
+    override fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any> {
         val alreadyRetried = AtomicBoolean(false)
         return errors.flatMap { error ->
             if (!alreadyRetried.get() && error is HttpException) {

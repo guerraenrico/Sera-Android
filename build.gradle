@@ -23,6 +23,8 @@ buildscript {
         // Test
         junitVersion = "4.12"
         robolectricVersion = "4.1"
+        mockitoKotlinVersion = "2.1.0"
+        mockitoVersion = "2.23.4"
 
         testCoreVersion = "1.0.0"
         testArchCoreVersion = "2.0.0"

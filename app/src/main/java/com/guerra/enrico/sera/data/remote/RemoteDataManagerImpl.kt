@@ -9,7 +9,6 @@ import com.guerra.enrico.sera.data.remote.request.CategoryParams
 import com.guerra.enrico.sera.data.remote.request.TaskParams
 import com.guerra.enrico.sera.data.remote.request.AccessTokenParams
 import io.reactivex.Single
-import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,10 +18,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class RemoteDataManagerImpl @Inject constructor(
-       retrofit: Retrofit
+       val api: Api
 ) : RemoteDataManager{
-
-    private val api = retrofit.create(Api::class.java)
 
     /* Sign In */
     override fun googleSignInCallback(code: String): Single<ApiResponse<User>> {

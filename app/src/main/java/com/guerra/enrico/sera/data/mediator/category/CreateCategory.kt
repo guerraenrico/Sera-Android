@@ -24,7 +24,7 @@ class CreateCategory @Inject constructor(
         result.postValue(Result.Loading)
         val disposable = categoryRepository.insertCategory(params)
                 .retryWhen {
-                    authRepository.shouldRefreshToken(it)
+                    authRepository.refreshTokenIfNotAuthorized(it)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

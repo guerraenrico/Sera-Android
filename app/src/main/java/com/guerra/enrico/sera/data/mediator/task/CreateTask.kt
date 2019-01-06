@@ -23,7 +23,7 @@ class CreateTask @Inject constructor(
         result.postValue(Result.Loading)
         val disposable = taskRepository.insertTask(params)
                 .retryWhen {
-                    authRepository.shouldRefreshToken(it)
+                    authRepository.refreshTokenIfNotAuthorized(it)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

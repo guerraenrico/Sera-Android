@@ -5,6 +5,11 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
+import com.guerra.enrico.sera.data.remote.ApiResponse
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 import java.util.*
 
 /**
@@ -32,4 +37,18 @@ fun deleteTasks(db: SeraDatabase) = db.taskDao().clear()
 val session1 = Session(1, "1", "1", "aaaaa", Date(Date().time - 24*60*60))
 val session2 = Session(2, "2", "1", "bbbbb", Date())
 
+fun insertSession(db: SeraDatabase) = db.sessionDao().insert(session1)
+
 val user1 = User(1, "1", "google id", "a@b.it", "aa", "IT", "")
+
+fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
+
+val apiValidateAccessTokenResponse = ApiResponse(success = true, data =  user1, accessToken = session1.accessToken, error = null)
+val apiRefreshAccessoTokenResponse = ApiResponse(success = true, data = session2, accessToken = session2.accessToken, error = null)
+
+val httpErrorExpiredSession = HttpException(
+        Response.error<ApiResponse<Any>>(
+                401,
+                ResponseBody.create(
+                        MediaType.parse("application/json"),
+                        "{success:false, error: {code:801, internalError:'ExpiredSession', message:'Expired session'}, accessToken: ''}")))

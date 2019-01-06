@@ -23,7 +23,7 @@ class LoadTasks @Inject constructor(
         val (selectedCategoriesIds, completed, limit, skip, loadedTasks) = params
         val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed, limit, skip)
                 .retryWhen {
-                    authRepository.shouldRefreshToken(it)
+                    authRepository.refreshTokenIfNotAuthorized(it)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

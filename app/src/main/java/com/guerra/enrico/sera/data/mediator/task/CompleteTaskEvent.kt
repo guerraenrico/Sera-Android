@@ -23,7 +23,7 @@ class CompleteTaskEvent @Inject constructor(
     override fun execute(params: Task) {
         val disposable = taskRepository.updateTask(params)
                 .retryWhen {
-                    authRepository.shouldRefreshToken(it)
+                    authRepository.refreshTokenIfNotAuthorized(it)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

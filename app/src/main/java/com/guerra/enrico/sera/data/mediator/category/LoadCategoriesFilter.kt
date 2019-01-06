@@ -26,7 +26,7 @@ class LoadCategoriesFilter @Inject constructor(
         val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
                 categoryRepository.observeCategoriesFilter()
                         .retryWhen {
-                            authRepository.shouldRefreshToken(it)
+                            authRepository.refreshTokenIfNotAuthorized(it)
                         }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

@@ -17,5 +17,5 @@ interface AuthRepository {
 
     fun validateAccessToken(): Single<Result<User>>
     fun refreshToken(): Completable
-    fun shouldRefreshToken(errors: Flowable<out Throwable>): Publisher<Any>
+    fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
 }

@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.data.exceptions.OperationException
+import com.guerra.enrico.sera.data.remote.Api
 import com.guerra.enrico.sera.util.ConnectionHelper
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,9 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 @Module(includes = [AppModule::class])
 class RetrofitModule {
+    @Provides
+    fun provideApi(retrofit: Retrofit) = retrofit.create(Api::class.java)
+
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory, rxJava2CallAdapterFactory: RxJava2CallAdapterFactory) : Retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.ApiBaseUri)
