@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#009688</color>
-    <color name="color_primary_dark">#048478</color>
-    <color name="color_accent">#2196F3</color>
+    <color name="color_primary">#25292E</color>
+    <color name="color_primary_dark">#1F2226</color>
+    <color name="color_accent">#1EBCAD</color>
 
-    <color name="color_text_primary">#b8c2ce</color>
-    <color name="color_text_normal">#92a1b6</color>
-    <color name="color_text_secondary">#4c5a6a</color>
+    <color name="color_text_primary">#fff</color>
+    <color name="color_text_secondary">#a0acba</color>
+    <color name="color_text_third">#475b75</color>
 
-    <color name="status_bar_color">#0a1523</color>
-    <color name="toolbar_background_color">#0a1523</color>
-    <color name="bottom_nav_background_color">#009688</color>
-    <color name="bottom_nav_bar_icon_color_selected">#FFFFFF</color>
+    <color name="status_bar_color">#25292E</color>
+    <color name="toolbar_background_color">#25292E</color>
+    <color name="bottom_nav_background_color">#1F2226</color>
+    <color name="bottom_nav_bar_icon_color_selected">#1EBCAD</color>
     <color name="bottom_nav_bar_icon_color_normal">#7CFFFFFF</color>
-    <color name="bottom_nav_bar_title_color_selected">#FFFFFF</color>
+    <color name="bottom_nav_bar_title_color_selected">#1EBCAD</color>
     <color name="bottom_nav_bar_title_color_normal">#7CFFFFFF</color>
 
     <color name="toolbar_title_text_color">#FFFFFF</color>
     <color name="title_text_color">#FFFFFF</color>
     <color name="title_secondary_text_color">#475b75</color>
 
-    <color name="background_color">#0a1523</color>
-    <color name="background_color_dark">#050e19</color>
-    <color name="background_color_night">#020810</color>
+    <color name="background_color">#25292E</color>
+    <color name="background_color_dark">#1F2226</color>
+    <color name="background_color_night">#181A1E</color>
 
-    <color name="window_background_color">#0a1523</color>
+    <color name="window_background_color">#25292E</color>
 
-    <color name="text_input_background_color">#14202f</color>
+    <color name="text_input_background_color">#3C4148</color>
 
     <!-- BottomSheet (Todos Filter) -->
-    <color name="bottom_sheet_background_color">#050e19</color>
+    <color name="bottom_sheet_background_color">#181A1E</color>
 
     <!-- Task -->
-    <color name="task_card_background_color">#050e19</color>
+    <color name="task_card_background_color">#25292E</color>
     <color name="task_list_item_color_active">#a0acba</color>
     <color name="task_list_item_color_completed">#475b75</color>
 
