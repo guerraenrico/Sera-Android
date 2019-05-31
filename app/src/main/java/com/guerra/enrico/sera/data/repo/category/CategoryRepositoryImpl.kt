@@ -38,6 +38,20 @@ class CategoryRepositoryImpl @Inject constructor(
                 }
     }
 
+    override fun searchCategory(text: String): Single<Result<List<Category>>> {
+        return localDbManager.getSessionAccessToken()
+                .flatMap {
+                    accessToken ->
+                    return@flatMap remoteDataManager.searchCategory(accessToken, text)
+                            .map { apiResponse ->
+                                if (apiResponse.success) {
+                                    return@map Result.Success(apiResponse.data ?: emptyList())
+                                }
+                                return@map Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+                            }
+                }
+    }
+
     override fun insertCategory(category: Category): Single<Result<Category>> {
         return localDbManager.getSessionAccessToken()
                 .flatMap {

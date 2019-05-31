@@ -7,9 +7,9 @@
         android:title="@string/title_todos" />
 
     <item
-        android:id="@+id/navigation_chart"
-        android:icon="@drawable/ic_chart"
-        android:title="@string/title_charts" />
+        android:id="@+id/navigation_goals"
+        android:icon="@drawable/ic_goals"
+        android:title="@string/title_goals" />
 
     <item
         android:id="@+id/navigation_notifications"

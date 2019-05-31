@@ -17,7 +17,7 @@ internal object AndroidWorkerInjector {
     fun inject(worker: RxWorker) {
         val application = worker.applicationContext
         if (application !is HasRxWorkerInjector) {
-            throw RuntimeException("${application.javaClass.canonicalName} does not implement ${HasRxWorkerInjector::class.java.canonicalName}")
+            throw Throwable("${application.javaClass.canonicalName} does not implement ${HasRxWorkerInjector::class.java.canonicalName}")
         }
         val workerInjector = (application as HasRxWorkerInjector).workerInjector()
         workerInjector.inject(worker)

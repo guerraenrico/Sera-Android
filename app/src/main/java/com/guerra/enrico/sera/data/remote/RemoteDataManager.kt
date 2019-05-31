@@ -28,6 +28,11 @@ interface RemoteDataManager {
             skip: Int = 0
     ): Single<ApiResponse<List<Category>>>
 
+    fun searchCategory(
+            accessToken: String,
+            text: String
+    ): Single<ApiResponse<List<Category>>>
+
     fun insertCategory(
             accessToken: String,
             category: Category
@@ -42,7 +47,7 @@ interface RemoteDataManager {
 
     fun getTasks(
             accessToken: String,
-            categoriesId: List<String> = listOf("0"),
+            categoriesId: List<String> = emptyList(),
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0

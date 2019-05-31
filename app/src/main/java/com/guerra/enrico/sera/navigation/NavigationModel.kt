@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.navigation
 
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.charts.ChartsActivity
+import com.guerra.enrico.sera.ui.charts.GoalsActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
 
 /**
@@ -11,17 +11,17 @@ import com.guerra.enrico.sera.ui.todos.TodosActivity
 open class NavigationModel {
     val items = arrayOf(
             NavigationItemEnum.TODOS,
-            NavigationItemEnum.CHARTS,
+            NavigationItemEnum.GOALS,
             NavigationItemEnum.NOTIFICATIONS
     )
 
     enum class NavigationItemEnum(val id: Int, val titleResources: Int, val iconResource: Int, val classToLaunch:  Class<*>?, val finishCurrentActivity: Boolean = false) {
         TODOS(R.id.navigation_todo, R.string.title_todos, R.drawable.ic_todo,
                 TodosActivity::class.java, true),
-        CHARTS(R.id.navigation_chart, R.string.title_charts, R.drawable.ic_chart,
-                ChartsActivity::class.java, true),
+        GOALS(R.id.navigation_goals, R.string.title_goals, R.drawable.ic_goals,
+                GoalsActivity::class.java, true),
         NOTIFICATIONS(R.id.navigation_notifications, R.string.title_notifications, R.drawable.ic_notifications_black_24dp,
-                ChartsActivity::class.java, true),
+                GoalsActivity::class.java, true),
         INVALID(0, 0, 0, null);
 
         object Static {

@@ -18,7 +18,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class RemoteDataManagerImpl @Inject constructor(
-       val api: Api
+       private val api: Api
 ) : RemoteDataManager{
 
     /* Sign In */
@@ -44,6 +44,10 @@ class RemoteDataManagerImpl @Inject constructor(
         return api.getCategories(accessToken, limit, skip)
     }
 
+    override fun searchCategory(accessToken: String, text: String): Single<ApiResponse<List<Category>>> {
+        return  api.searchCategory(accessToken, text)
+    }
+
     override fun insertCategory(accessToken: String, category: Category): Single<ApiResponse<Category>> {
         return api.insertCategory(
                 accessToken,
@@ -66,7 +70,7 @@ class RemoteDataManagerImpl @Inject constructor(
     ): Single<ApiResponse<List<Task>>> {
         return api.getTasks(
                 accessToken,
-                (if (categoriesId.isNotEmpty()) categoriesId else listOf("0")).joinToString().replace("\\s".toRegex(), ""),
+                (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString().replace("\\s".toRegex(), ""),
                 completed,
                 limit,
                 skip

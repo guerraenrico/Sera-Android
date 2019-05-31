@@ -11,14 +11,14 @@ import io.reactivex.Single
  */
 interface TaskRepository {
     fun getTasks(
-            categoriesId: List<String> = listOf("0"),
+            categoriesId: List<String> = emptyList(),
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0
     ): Single<Result<List<Task>>>
 
     fun observeTasks(
-            categoriesId: List<String> = listOf("0"),
+            categoriesId: List<String> = emptyList(),
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0

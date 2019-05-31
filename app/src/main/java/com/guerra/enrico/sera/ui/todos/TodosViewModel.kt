@@ -67,7 +67,7 @@ class TodosViewModel @Inject constructor (
         if (tasks.value == null) {
             loadTasks.execute(
                     LoadTaskParameters(
-                            selectedCategoriesFilter.value?.map { it.category.id } ?: listOf("0")
+                            selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList()
                     ))
         }
         return tasks
@@ -94,7 +94,7 @@ class TodosViewModel @Inject constructor (
         skip = itemCount
         loadTasks.execute(
                 LoadTaskParameters(
-                        selectedCategoriesFilter.value?.map { it.category.id } ?: listOf("0"),
+                        selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList(),
                         false,
                         limit,
                         skip,
@@ -104,7 +104,7 @@ class TodosViewModel @Inject constructor (
     }
 
     /**
-     * Toogle task complete status
+     * Toggle task complete status
      * @param task task object
      * @param completed new status
      */
@@ -127,7 +127,7 @@ class TodosViewModel @Inject constructor (
     }
 
     /**
-     * Toogle category selection
+     * Toggle category selection
      * @param categoryFilter category selected
      * @param checked new category selection value
      */
@@ -145,7 +145,7 @@ class TodosViewModel @Inject constructor (
         areTasksReloaded.postValue(true)
         loadTasks.execute(
                 LoadTaskParameters(
-                        selectedCategoriesFilter.value?.map { it.category.id } ?: listOf("0"),
+                        selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList(),
                         false,
                         limit,
                         0

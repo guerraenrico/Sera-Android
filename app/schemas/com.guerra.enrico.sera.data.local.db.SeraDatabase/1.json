@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "613d9460a495697aad15c5135634abbf",
+    "identityHash": "61c6ea1f9f3415e79193736c5920be4a",
     "entities": [
       {
         "tableName": "Session",
@@ -138,7 +138,7 @@
       },
       {
         "tableName": "Task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `completed` INTEGER NOT NULL, `todoWithin` INTEGER NOT NULL, `completedAt` INTEGER, `categoryId` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `completed` INTEGER NOT NULL, `todoWithin` INTEGER NOT NULL, `completedAt` INTEGER, `createdAt` INTEGER NOT NULL, `categoryId` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -183,6 +183,12 @@
             "notNull": false
           },
           {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "categoryId",
             "columnName": "categoryId",
             "affinity": "TEXT",
@@ -202,7 +208,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"613d9460a495697aad15c5135634abbf\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"61c6ea1f9f3415e79193736c5920be4a\")"
     ]
   }
 }

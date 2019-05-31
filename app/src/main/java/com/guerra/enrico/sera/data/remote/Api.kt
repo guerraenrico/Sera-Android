@@ -40,6 +40,12 @@ interface Api {
             @Query("skip") skip: Int
     ): Single<ApiResponse<List<Category>>>
 
+    @GET("categories/search")
+    fun searchCategory(
+            @Header("x-token") accessToken: String,
+            @Query("text") text: String
+    ): Single<ApiResponse<List<Category>>>
+
     @POST("categories")
     fun insertCategory(
             @Header("x-token") accessToken: String,

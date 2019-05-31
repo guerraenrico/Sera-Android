@@ -36,7 +36,7 @@ interface LocalDbManager {
     // Tasks
 
     fun observeTasks(
-            categoriesId: List<String> = listOf("0"),
+            categoriesId: List<String> = emptyList(),
             completed: Boolean = false,
             limit: Int = 10,
             skip: Int = 0

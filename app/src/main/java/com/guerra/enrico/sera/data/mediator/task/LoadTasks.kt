@@ -39,7 +39,7 @@ class LoadTasks @Inject constructor(
 }
 
 data class LoadTaskParameters(
-        val selectedCategoriesIds: List<String> = listOf("0"),
+        val selectedCategoriesIds: List<String> = emptyList(),
         val completed: Boolean = false,
         val limit: Int = 10,
         val skip: Int = 0,

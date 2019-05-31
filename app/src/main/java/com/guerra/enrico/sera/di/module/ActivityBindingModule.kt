@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.sera.di.PerActivity
-import com.guerra.enrico.sera.ui.charts.ChartsActivity
-import com.guerra.enrico.sera.ui.charts.ChartsModule
+import com.guerra.enrico.sera.ui.charts.GoalsActivity
+import com.guerra.enrico.sera.ui.charts.GoalsModule
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.login.LoginModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
@@ -56,8 +56,8 @@ abstract class ActivityBindingModule {
     @PerActivity
     @ContributesAndroidInjector(
             modules = [
-                ChartsModule::class
+                GoalsModule::class
             ]
     )
-    abstract fun chartsActivity(): ChartsActivity
+    abstract fun goalsActivity(): GoalsActivity
 }

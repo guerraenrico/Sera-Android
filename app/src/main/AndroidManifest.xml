@@ -40,7 +40,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.charts.ChartsActivity"
+            android:name=".ui.charts.GoalsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
