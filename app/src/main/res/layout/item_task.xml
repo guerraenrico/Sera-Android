@@ -1,52 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/containerTaskItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/task_item_background"
-    android:elevation="3dp">
+    android:elevation="3dp"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentTaskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/task_item_header_background"
-        android:focusable="true"
         android:clickable="true"
-        >
+        android:focusable="true">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/taskTitle"
+            style="@style/ListItemTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/ListItemTitle"
-            android:textColor="@color/task_list_item_color_active"
-            android:layout_marginTop="@dimen/margin_m"
-            android:layout_marginBottom="@dimen/margin_s"
             android:layout_marginStart="@dimen/margin_m"
+            android:layout_marginTop="@dimen/margin_m"
             android:layout_marginEnd="@dimen/margin_m"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_s"
+            android:textColor="@color/task_list_item_color_active"
             app:layout_constraintBottom_toTopOf="@+id/taskDate"
-            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"/>
+            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/taskDate"
+            style="@style/ListItemTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/ListItemTitle"
-            android:textColor="@color/task_list_item_color_active"
-            android:textSize="@dimen/item_list_description_text_size"
-            android:layout_marginBottom="@dimen/margin_m"
             android:layout_marginStart="@dimen/margin_m"
             android:layout_marginEnd="@dimen/margin_m"
-            app:layout_constraintTop_toBottomOf="@+id/taskTitle"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_m"
+            android:textColor="@color/task_list_item_color_active"
+            android:textSize="@dimen/item_list_description_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"/>
+            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/taskTitle" />
 
         <com.google.android.material.internal.CheckableImageButton
             android:id="@+id/buttonComplete"
@@ -54,10 +52,10 @@
             android:layout_height="@dimen/complete_task_size"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/as_ic_task_complete"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/taskTitle"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,15 +64,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/taskDescription"
+            style="@style/ListItemDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_m"
-            style="@style/ListItemDescription"/>
+            android:layout_margin="@dimen/margin_m" />
 
     </LinearLayout>
 

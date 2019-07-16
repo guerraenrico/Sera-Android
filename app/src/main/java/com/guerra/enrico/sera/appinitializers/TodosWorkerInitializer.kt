@@ -12,6 +12,6 @@ class TodosWorkerInitializer @Inject constructor(
         private val todosJob: TodosWorker
 ): AppInitializer{
     override fun init(application: Application) {
-        todosJob.syncTodos()
+        todosJob.setUpNightTodoSync()
     }
 }

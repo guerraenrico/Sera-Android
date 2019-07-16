@@ -26,82 +26,84 @@ import javax.inject.Singleton
  * on 14/10/2018.
  */
 @Singleton
-class AuthRepositoryImpl @Inject constructor (
+class AuthRepositoryImpl @Inject constructor(
         private val context: Context,
         private val gson: Gson,
         private val remoteDataManager: RemoteDataManager,
         private val localDbManager: LocalDbManager,
         private val todosJob: TodosWorker
-) : AuthRepository{
+) : AuthRepository {
 
-    // Sign in
+  // Sign in
 
-    override fun googleSignInCallback(code: String): Single<Result<User>> {
-        return remoteDataManager.googleSignInCallback(code)
-                .flatMap { apiResponse ->
-                    if (apiResponse.success && apiResponse.data != null) {
-                        return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
-                                .andThen(localDbManager.saveUser(apiResponse.data))
-                                .andThen(Single.just(Result.Success(apiResponse.data)))
-                                .doOnSuccess { todosJob.syncTodos() }
-                    }
-                    return@flatMap Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
-                }
-    }
-
-    override fun validateAccessToken(): Single<Result<User>> {
-        return localDbManager.getSession()
-                .flatMap {
-                    session ->
-                    if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
-                        return@flatMap localDbManager.getUser(session.userId).flatMap { Single.just(Result.Success(it)) }
-                    }
-                    remoteDataManager.validateAccessToken(session.accessToken)
-                            .flatMap { apiResponse ->
-                                if (apiResponse.success && apiResponse.data != null) {
-                                    localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
-                                            .andThen(localDbManager.saveUser(apiResponse.data))
-                                            .andThen(Single.just(Result.Success(apiResponse.data)))
-                                            .doOnSuccess { todosJob.syncTodos() }
-                                } else {
-                                    Single.just(Result.Error(ApiException(apiResponse.error ?: ApiError.unknown())))
-                                }
-                            }
-                }
-    }
-
-    override fun refreshToken(): Completable {
-        return localDbManager.getSession()
-                .flatMapCompletable {session ->
-                    if (!ConnectionHelper.isInternetConnectionAvailable(context)){
-                        return@flatMapCompletable Completable.complete()
-                    }
-                    remoteDataManager.refreshAccessToken(session.accessToken)
-                            .flatMapCompletable { apiResponse->
-                                if (apiResponse.success && apiResponse.data != null) {
-                                    localDbManager.saveSession(apiResponse.data.userId, apiResponse.data.accessToken)
-                                } else {
-                                    Completable.error(ApiException(apiResponse.error ?: ApiError.unknown()))
-                                }
-                            }
-                }
-    }
-
-    override fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any> {
-        val alreadyRetried = AtomicBoolean(false)
-        return errors.flatMap { error ->
-            if (!alreadyRetried.get() && error is HttpException) {
-                try {
-                    val exception = ApiException(gson.fromJson(error.response().errorBody()?.string(), ApiResponse::class.java).error ?: return@flatMap Flowable.error<Any>(error))
-                    if (exception.isExpiredSession()) {
-                        alreadyRetried.set(true)
-                        return@flatMap refreshToken().andThen(Flowable.just(Any()))
-                    }
-                } catch (e: JsonSyntaxException) {
-                   return@flatMap Flowable.error<Any>(error)
-                }
+  override fun googleSignInCallback(code: String): Single<Result<User>> {
+    return remoteDataManager.googleSignInCallback(code)
+            .flatMap { apiResponse ->
+              if (apiResponse.success && apiResponse.data != null) {
+                return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
+                        .andThen(localDbManager.saveUser(apiResponse.data))
+                        .andThen(Single.just(Result.Success(apiResponse.data)))
+                        .doOnSuccess { todosJob.syncTodos() }
+              }
+              return@flatMap Single.just(Result.Error(ApiException(apiResponse.error
+                      ?: ApiError.unknown())))
             }
-            Flowable.error<Any>(error)
+  }
+
+  override fun validateAccessToken(): Single<Result<User>> {
+    return localDbManager.getSession()
+            .flatMap { session ->
+              if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+                return@flatMap localDbManager.getUser(session.userId).flatMap { Single.just(Result.Success(it)) }
+              }
+              remoteDataManager.validateAccessToken(session.accessToken)
+                      .flatMap { apiResponse ->
+                        if (apiResponse.success && apiResponse.data != null) {
+                          localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
+                                  .andThen(localDbManager.saveUser(apiResponse.data))
+                                  .andThen(Single.just(Result.Success(apiResponse.data)))
+                                  .doOnSuccess { todosJob.syncTodos() }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
+                        }
+                      }
+            }
+  }
+
+  override fun refreshToken(): Completable {
+    return localDbManager.getSession()
+            .flatMapCompletable { session ->
+              if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+                return@flatMapCompletable Completable.complete()
+              }
+              remoteDataManager.refreshAccessToken(session.accessToken)
+                      .flatMapCompletable { apiResponse ->
+                        if (apiResponse.success && apiResponse.data != null) {
+                          localDbManager.saveSession(apiResponse.data.userId, apiResponse.data.accessToken)
+                        } else {
+                          Completable.error(ApiException(apiResponse.error ?: ApiError.unknown()))
+                        }
+                      }
+            }
+  }
+
+  override fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any> {
+    val alreadyRetried = AtomicBoolean(false)
+    return errors.flatMap { error ->
+      if (!alreadyRetried.get() && error is HttpException) {
+        try {
+          val exception = ApiException(gson.fromJson(error.response().errorBody()?.string(), ApiResponse::class.java).error
+                  ?: return@flatMap Flowable.error<Any>(error))
+          if (exception.isExpiredSession()) {
+            alreadyRetried.set(true)
+            return@flatMap refreshToken().andThen(Flowable.just(Any()))
+          }
+        } catch (e: JsonSyntaxException) {
+          return@flatMap Flowable.error<Any>(error)
         }
+      }
+      Flowable.error<Any>(error)
     }
+  }
 }

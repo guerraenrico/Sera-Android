@@ -14,35 +14,33 @@ import io.reactivex.Single
  * on 31/05/2018.
  */
 interface LocalDbManager {
-    // Session
+  // Session
 
-    fun getSession(): Single<Session>
-    fun getSessionAccessToken(): Single<String>
-    fun saveSession(userId: String, accessToken: String): Completable
+  fun getSession(): Single<Session>
+  fun getSessionAccessToken(): Single<String>
+  fun saveSession(userId: String, accessToken: String): Completable
 
-    // User
+  // User
 
-    fun getUser(userId: String): Single<User>
-    fun saveUser(user: User): Completable
+  fun getUser(userId: String): Single<User>
+  fun saveUser(user: User): Completable
 
-    // Categories
+  // Categories
 
-    fun observeAllCategories(): Flowable<List<Category>>
-    fun saveCategorySingle(category: Category): Single<Long>
-    fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
-    fun saveCategories(categories: List<Category>)
-    fun clearCategoriesCompletable(): Completable
+  fun observeAllCategories(): Flowable<List<Category>>
+  fun saveCategorySingle(category: Category): Single<Long>
+  fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
+  fun saveCategories(categories: List<Category>)
+  fun clearCategoriesCompletable(): Completable
 
-    // Tasks
+  // Tasks
 
-    fun observeTasks(
-            categoriesId: List<String> = emptyList(),
-            completed: Boolean = false,
-            limit: Int = 10,
-            skip: Int = 0
-    ): Flowable<List<Task>>
-    fun saveTaskSingle(task: Task): Single<Long>
-    fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
-    fun saveTasks(tasks: List<Task>)
-    fun clearTasksCompletable(): Completable
+  fun observeTasks(
+          completed: Boolean = false
+  ): Flowable<List<Task>>
+
+  fun saveTaskSingle(task: Task): Single<Long>
+  fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
+  fun saveTasks(tasks: List<Task>)
+  fun clearTasksCompletable(): Completable
 }

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.charts
+package com.guerra.enrico.sera.ui.goals
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.sera.di.ViewModelKey

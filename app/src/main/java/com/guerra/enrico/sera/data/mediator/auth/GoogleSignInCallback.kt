@@ -15,17 +15,17 @@ import javax.inject.Inject
  */
 class GoogleSignInCallback @Inject constructor(
         private val authRepository: AuthRepository
-): BaseMediator<String, User>() {
-    @SuppressLint("CheckResult")
-    override fun execute(params: String) {
-        result.postValue(Result.Loading)
-        authRepository.googleSignInCallback(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    result.postValue(it)
-                }, {
-                    result.postValue(Result.Error(it as Exception))
-                })
-    }
+) : BaseMediator<String, User>() {
+  @SuppressLint("CheckResult")
+  override fun execute(params: String) {
+    result.postValue(Result.Loading)
+    val disposable = authRepository.googleSignInCallback(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+              result.postValue(it)
+            }, {
+              result.postValue(Result.Error(it as Exception))
+            })
+  }
 }

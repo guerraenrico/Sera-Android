@@ -99,13 +99,13 @@
     <style name="TipPrimary">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:textSize">@dimen/tip_primary_text_size</item>
-        <item name=" android:textColor">@color/white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Tip">
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textSize">@dimen/tip_text_size</item>
-        <item name=" android:textColor">@color/color_text_secondary</item>
+        <item name="android:textColor">@color/color_text_secondary</item>
     </style>
 
     <!-- Buttons -->

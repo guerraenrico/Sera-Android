@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.remote.request
 
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import java.util.*
 
@@ -13,7 +14,7 @@ class TaskParams (
        val description: String,
        val completed: Boolean,
        val todoWithin: Date,
-       val categoryId: String
+       val categories: List<Category>
 ){
-    constructor(task: Task): this(task.id, task.title, task.description, task.completed, task.todoWithin, task.categoryId)
+    constructor(task: Task): this(task.id, task.title, task.description, task.completed, task.todoWithin, task.categories)
 }

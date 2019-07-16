@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.charts
+package com.guerra.enrico.sera.ui.goals
 
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import javax.inject.Inject

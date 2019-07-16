@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.navigation
 
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.charts.GoalsActivity
+import com.guerra.enrico.sera.ui.goals.GoalsActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
 
 /**

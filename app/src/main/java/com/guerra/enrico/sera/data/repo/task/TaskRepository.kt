@@ -10,21 +10,21 @@ import io.reactivex.Single
  * on 10/09/2018.
  */
 interface TaskRepository {
-    fun getTasks(
-            categoriesId: List<String> = emptyList(),
-            completed: Boolean = false,
-            limit: Int = 10,
-            skip: Int = 0
-    ): Single<Result<List<Task>>>
+  fun getTasks(
+          categoriesId: List<String> = emptyList(),
+          completed: Boolean = false,
+          limit: Int = 10,
+          skip: Int = 0
+  ): Single<Result<List<Task>>>
 
-    fun observeTasks(
-            categoriesId: List<String> = emptyList(),
-            completed: Boolean = false,
-            limit: Int = 10,
-            skip: Int = 0
-    ): Flowable<List<Task>>
+  fun getAllTasks(): Single<Result<List<Task>>>
 
-    fun insertTask(task: Task): Single<Result<Task>>
-    fun deleteTask(id: String): Single<Result<Any>>
-    fun updateTask(task: Task): Single<Result<Task>>
+  fun observeTasks(
+          categoriesId: List<String> = emptyList(),
+          completed: Boolean = false
+  ): Flowable<List<Task>>
+
+  fun insertTask(task: Task): Single<Result<Task>>
+  fun deleteTask(id: String): Single<Result<Any>>
+  fun updateTask(task: Task): Single<Result<Task>>
 }

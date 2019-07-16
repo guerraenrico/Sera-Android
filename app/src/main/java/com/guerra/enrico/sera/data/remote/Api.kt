@@ -69,6 +69,11 @@ interface Api {
             @Query("skip") skip: Int
     ): Single<ApiResponse<List<Task>>>
 
+    @GET("tasks")
+    fun getAllTasks(
+            @Header("x-token") accessToken: String
+    ): Single<ApiResponse<List<Task>>>
+
     @POST("tasks")
     fun insertTask(
             @Header("x-token") accessToken: String,

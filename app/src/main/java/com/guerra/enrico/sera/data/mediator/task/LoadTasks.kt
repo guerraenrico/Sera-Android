@@ -16,32 +16,26 @@ import javax.inject.Inject
 class LoadTasks @Inject constructor(
         private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
-): BaseMediator<LoadTaskParameters, List<Task>>() {
+) : BaseMediator<LoadTaskParameters, List<Task>>() {
 
-    override fun execute(params: LoadTaskParameters) {
-        result.postValue(Result.Loading)
-        val (selectedCategoriesIds, completed, limit, skip, loadedTasks) = params
-        val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed, limit, skip)
-                .retryWhen {
-                    authRepository.refreshTokenIfNotAuthorized(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    val list = mutableListOf<Task>()
-                    list.addAll(loadedTasks)
-                    list.addAll(it)
-                    result.postValue(Result.Success(list))
-                }, {
-                    result.postValue(Result.Error(it as Exception))
-                })
-    }
+  override fun execute(params: LoadTaskParameters) {
+    result.postValue(Result.Loading)
+    val (selectedCategoriesIds, completed) = params
+    val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed)
+            .retryWhen {
+              authRepository.refreshTokenIfNotAuthorized(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+              result.postValue(Result.Success(it))
+            }, {
+              result.postValue(Result.Error(it as Exception))
+            })
+  }
 }
 
 data class LoadTaskParameters(
         val selectedCategoriesIds: List<String> = emptyList(),
-        val completed: Boolean = false,
-        val limit: Int = 10,
-        val skip: Int = 0,
-        val loadedTasks: List<Task> = emptyList()
+        val completed: Boolean = false
 )

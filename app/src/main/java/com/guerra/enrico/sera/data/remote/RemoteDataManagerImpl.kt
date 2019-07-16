@@ -18,80 +18,84 @@ import javax.inject.Singleton
  */
 @Singleton
 class RemoteDataManagerImpl @Inject constructor(
-       private val api: Api
-) : RemoteDataManager{
+        private val api: Api
+) : RemoteDataManager {
 
-    /* Sign In */
-    override fun googleSignInCallback(code: String): Single<ApiResponse<User>> {
-        return api.googleSignInCallback(AuthRequestParams(code))
-    }
+  /* Sign In */
+  override fun googleSignInCallback(code: String): Single<ApiResponse<User>> {
+    return api.googleSignInCallback(AuthRequestParams(code))
+  }
 
-    override fun validateAccessToken(accessToken: String): Single<ApiResponse<User>> {
-        return api.validateAccessToken(AccessTokenParams(accessToken))
-    }
+  override fun validateAccessToken(accessToken: String): Single<ApiResponse<User>> {
+    return api.validateAccessToken(AccessTokenParams(accessToken))
+  }
 
-    override fun refreshAccessToken(accessToken: String): Single<ApiResponse<Session>> {
-        return api.refreshAccessToken(AccessTokenParams(accessToken))
-    }
+  override fun refreshAccessToken(accessToken: String): Single<ApiResponse<Session>> {
+    return api.refreshAccessToken(AccessTokenParams(accessToken))
+  }
 
-    /* Categories */
+  /* Categories */
 
-    override fun getCategories(
-            accessToken: String,
-            limit: Int,
-            skip: Int
-    ): Single<ApiResponse<List<Category>>> {
-        return api.getCategories(accessToken, limit, skip)
-    }
+  override fun getCategories(
+          accessToken: String,
+          limit: Int,
+          skip: Int
+  ): Single<ApiResponse<List<Category>>> {
+    return api.getCategories(accessToken, limit, skip)
+  }
 
-    override fun searchCategory(accessToken: String, text: String): Single<ApiResponse<List<Category>>> {
-        return  api.searchCategory(accessToken, text)
-    }
+  override fun searchCategory(accessToken: String, text: String): Single<ApiResponse<List<Category>>> {
+    return api.searchCategory(accessToken, text)
+  }
 
-    override fun insertCategory(accessToken: String, category: Category): Single<ApiResponse<Category>> {
-        return api.insertCategory(
-                accessToken,
-                CategoryParams(category)
-        )
-    }
+  override fun insertCategory(accessToken: String, category: Category): Single<ApiResponse<Category>> {
+    return api.insertCategory(
+            accessToken,
+            CategoryParams(category)
+    )
+  }
 
-    override fun deleteCategory(accessToken: String, id: String): Single<ApiResponse<Any>> {
-        return api.deleteCategory(accessToken, id)
-    }
+  override fun deleteCategory(accessToken: String, id: String): Single<ApiResponse<Any>> {
+    return api.deleteCategory(accessToken, id)
+  }
 
-    /* Tasks */
+  /* Tasks */
 
-    override fun getTasks(
-            accessToken: String,
-            categoriesId: List<String>,
-            completed: Boolean,
-            limit: Int,
-            skip: Int
-    ): Single<ApiResponse<List<Task>>> {
-        return api.getTasks(
-                accessToken,
-                (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString().replace("\\s".toRegex(), ""),
-                completed,
-                limit,
-                skip
-        )
-    }
+  override fun getTasks(
+          accessToken: String,
+          categoriesId: List<String>,
+          completed: Boolean,
+          limit: Int,
+          skip: Int
+  ): Single<ApiResponse<List<Task>>> {
+    return api.getTasks(
+            accessToken,
+            (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString().replace("\\s".toRegex(), ""),
+            completed,
+            limit,
+            skip
+    )
+  }
 
-    override fun insertTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
-        return api.insertTask(
-                accessToken,
-                TaskParams(task)
-        )
-    }
+  override fun getAllTasks(accessToken: String): Single<ApiResponse<List<Task>>> {
+    return api.getAllTasks(accessToken)
+  }
 
-    override fun deleteTask(accessToken: String, id: String): Single<ApiResponse<Any>> {
-        return api.deleteTask(accessToken, id)
-    }
+  override fun insertTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
+    return api.insertTask(
+            accessToken,
+            TaskParams(task)
+    )
+  }
 
-    override fun updateTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
-        return api.updateTask(
-                accessToken,
-                TaskParams(task)
-        )
-    }
+  override fun deleteTask(accessToken: String, id: String): Single<ApiResponse<Any>> {
+    return api.deleteTask(accessToken, id)
+  }
+
+  override fun updateTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
+    return api.updateTask(
+            accessToken,
+            TaskParams(task)
+    )
+  }
 }

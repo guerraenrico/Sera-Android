@@ -25,71 +25,72 @@ class TodoAddViewModel @Inject constructor(
         private val loadCategories: LoadCategoriesFilter,
         private val createCategory: CreateCategory,
         private val createTask: CreateTask
-): BaseViewModel() {
-    private val categoriesFilter: LiveData<Result<List<CategoryFilter>>>
-    private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> =
-            loadCategories.observe()
+) : BaseViewModel() {
+  private val categoriesFilter: LiveData<Result<List<CategoryFilter>>>
+  private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> =
+          loadCategories.observe()
 
-    private val createdCategory: LiveData<Result<Category>>
-    private val createCategoryResult: MediatorLiveData<Result<Category>> = createCategory.observe()
+  private val createdCategory: LiveData<Result<Category>>
+  private val createCategoryResult: MediatorLiveData<Result<Category>> = createCategory.observe()
 
-    private val createdTask: LiveData<Result<Task>>
-    private val createTaskResult: MediatorLiveData<Result<Task>> = createTask.observe()
+  private val createdTask: LiveData<Result<Task>>
+  private val createTaskResult: MediatorLiveData<Result<Task>> = createTask.observe()
 
-    private val selectedCategory = MutableLiveData<Category>()
-    private var task = Task()
+  private val selectedCategory = MutableLiveData<Category>()
+  private var task = Task()
 
-    private val todoAddCurrentStep = MutableLiveData<StepEnum>()
+  private val todoAddCurrentStep = MutableLiveData<StepEnum>()
 
-    init {
-        categoriesFilter = loadCategoriesFilterResult.map { it }
-        createdCategory = createCategoryResult.map {
-            if (it.succeeded) {
-                selectedCategory.value = (it as Result.Success).data
-            }
-            it
-        }
-        createdTask = createTaskResult.map { it }
-        todoAddCurrentStep.value = StepEnum.SELECT
+  init {
+    categoriesFilter = loadCategoriesFilterResult.map { it }
+    createdCategory = createCategoryResult.map {
+      if (it.succeeded) {
+        selectedCategory.value = (it as Result.Success).data
+      }
+      it
     }
+    createdTask = createTaskResult.map { it }
+    todoAddCurrentStep.value = StepEnum.SELECT
+  }
 
-    fun observeCategories() : LiveData<Result<List<CategoryFilter>>> {
-        if (!categoriesFilter.hasActiveObservers()) {
-            loadCategories.execute("")
-        }
-        return categoriesFilter
+  fun observeCategories(): LiveData<Result<List<CategoryFilter>>> {
+    if (!categoriesFilter.hasActiveObservers()) {
+      loadCategories.execute("")
     }
+    return categoriesFilter
+  }
 
-    fun observeSelectedCategory(): LiveData<Category> = selectedCategory
+  fun observeSelectedCategory(): LiveData<Category> = selectedCategory
 
-    fun observeTodoAddCurrentStep() : LiveData<StepEnum> = todoAddCurrentStep
+  fun observeTodoAddCurrentStep(): LiveData<StepEnum> = todoAddCurrentStep
 
-    fun observeCreateCategory(): LiveData<Result<Category>> = createdCategory
+  fun observeCreateCategory(): LiveData<Result<Category>> = createdCategory
 
-    fun observeCreateTask(): LiveData<Result<Task>> = createdTask
+  fun observeCreateTask(): LiveData<Result<Task>> = createdTask
 
-    fun toggleCategory(categoryFilter: CategoryFilter, checked: Boolean) {
-        categoryFilter.isChecked.set(checked)
-        selectedCategory.value = if (checked) categoryFilter.category else null
-    }
+  fun toggleCategory(categoryFilter: CategoryFilter, checked: Boolean) {
+    categoryFilter.isChecked.set(checked)
+    selectedCategory.value = if (checked) categoryFilter.category else null
+  }
 
-    fun onAddCategory(name: String) {
-        val newCategory = Category(name = name)
-        selectedCategory.value = newCategory
-        createCategory.execute(newCategory)
-    }
+  fun onAddCategory(name: String) {
+    val newCategory = Category(name = name)
+    selectedCategory.value = newCategory
+    createCategory.execute(newCategory)
+  }
 
-    fun onSetTaskInfo(title: String, description: String = ""): Boolean {
-        val category = selectedCategory.value ?: return false
-        task = task.copy(categoryId = category.id, title = title, description = description)
-        return true
-    }
-    fun onAddTask(todoWithin: Date) {
-        task = task.copy(todoWithin = todoWithin)
-        createTask.execute(task)
-    }
+  fun onSetTaskInfo(title: String, description: String = ""): Boolean {
+    val category = selectedCategory.value ?: return false
+    task = task.copy(categories = listOf(category), title = title, description = description)
+    return true
+  }
 
-    fun goToNextStep(stepEnum: StepEnum) {
-        todoAddCurrentStep.value = stepEnum
-    }
+  fun onAddTask(todoWithin: Date) {
+    task = task.copy(todoWithin = todoWithin)
+    createTask.execute(task)
+  }
+
+  fun goToNextStep(stepEnum: StepEnum) {
+    todoAddCurrentStep.value = stepEnum
+  }
 }

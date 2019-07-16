@@ -15,20 +15,20 @@ import javax.inject.Inject
  */
 class LoginViewModel @Inject constructor(
         private val googleSignInCallback: GoogleSignInCallback
-): BaseViewModel() {
-    private val user: LiveData<Result<User>>
-    private val googleSignInCallbackResult: MediatorLiveData<Result<User>>
+) : BaseViewModel() {
+  private val user: LiveData<Result<User>>
+  private val googleSignInCallbackResult: MediatorLiveData<Result<User>>
 
-    init {
-        googleSignInCallbackResult = googleSignInCallback.observe()
-        user = googleSignInCallbackResult.map {
-            it
-        }
+  init {
+    googleSignInCallbackResult = googleSignInCallback.observe()
+    user = googleSignInCallbackResult.map {
+      it
     }
+  }
 
-    fun observeUserSignIn(): LiveData<Result<User>> = user
+  fun observeUserSignIn(): LiveData<Result<User>> = user
 
-    fun onCodeReceived(code: String) {
-        googleSignInCallback.execute(code)
-    }
+  fun onCodeReceived(code: String) {
+    googleSignInCallback.execute(code)
+  }
 }

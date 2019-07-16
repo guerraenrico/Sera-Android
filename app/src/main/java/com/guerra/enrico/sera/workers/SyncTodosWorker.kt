@@ -40,7 +40,7 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
                     Log.i("SYNC_TODO", "token readed")
                     Single.zip(
                             remoteDataManager.getCategories(accessToken),
-                            remoteDataManager.getTasks(accessToken),
+                            remoteDataManager.getAllTasks(accessToken),
                             BiFunction<ApiResponse<List<Category>>, ApiResponse<List<Task>>, Single<Result>> { categoriesResponse, tasksResponse ->
                                 if (categoriesResponse.success && tasksResponse.success) {
                                     Log.i("SYNC_TODO", "received todos cat and task")

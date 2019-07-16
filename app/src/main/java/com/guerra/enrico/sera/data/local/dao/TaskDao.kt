@@ -12,26 +12,18 @@ import io.reactivex.Flowable
  * on 02/06/2018.
  */
 @Dao interface TaskDao {
-    @Query("SELECT * FROM Task WHERE categoryId IN (:categoriesId) AND completed = :completed LIMIT :limit OFFSET :skip")
-    fun getAllForCategoryFlowable(
-            categoriesId: List<String>,
-            completed: Boolean,
-            limit: Int,
-            skip: Int
-    ): Flowable<List<Task>>
 
-    @Query("SELECT * FROM Task LIMIT :limit OFFSET :skip")
-    fun getAllFlowable(
-            limit: Int,
-            skip: Int
-    ): Flowable<List<Task>>
+  @Query("SELECT * FROM Task  WHERE completed = :completed")
+  fun getAllFlowable(
+          completed: Boolean
+  ): Flowable<List<Task>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOne(task: Task): Long
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  fun insertOne(task: Task): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(tasks: List<Task>): List<Long>
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  fun insertAll(tasks: List<Task>): List<Long>
 
-    @Query("DELETE FROM Task")
-    fun clear()
+  @Query("DELETE FROM Task")
+  fun clear()
 }

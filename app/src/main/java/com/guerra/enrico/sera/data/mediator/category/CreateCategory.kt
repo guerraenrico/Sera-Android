@@ -18,20 +18,20 @@ import javax.inject.Inject
 class CreateCategory @Inject constructor(
         private val authRepository: AuthRepository,
         private val categoryRepository: CategoryRepository
-): BaseMediator<Category, Category>() {
-    @SuppressLint("CheckResult")
-    override fun execute(params: Category) {
-        result.postValue(Result.Loading)
-        val disposable = categoryRepository.insertCategory(params)
-                .retryWhen {
-                    authRepository.refreshTokenIfNotAuthorized(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    result.postValue(it)
-                }, {
-                    result.postValue(Result.Error(it as Exception))
-                })
-    }
+) : BaseMediator<Category, Category>() {
+  @SuppressLint("CheckResult")
+  override fun execute(params: Category) {
+    result.postValue(Result.Loading)
+    val disposable = categoryRepository.insertCategory(params)
+            .retryWhen {
+              authRepository.refreshTokenIfNotAuthorized(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+              result.postValue(it)
+            }, {
+              result.postValue(Result.Error(it as Exception))
+            })
+  }
 }
