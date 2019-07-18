@@ -2,6 +2,9 @@ package com.guerra.enrico.sera.ui.base
 
 import android.os.Bundle
 import androidx.annotation.StringRes
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.gms.common.api.internal.LifecycleActivity
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.navigation.AppNavigationViewAsBottomNavImpl

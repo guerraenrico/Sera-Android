@@ -2,6 +2,8 @@ package com.guerra.enrico.sera.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
