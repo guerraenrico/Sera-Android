@@ -33,8 +33,7 @@
 
         <activity
             android:name=".ui.todos.TodosActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".ui.todos.add.TodoAddActivity"

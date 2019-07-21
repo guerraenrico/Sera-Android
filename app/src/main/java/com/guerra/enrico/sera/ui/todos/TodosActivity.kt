@@ -71,11 +71,11 @@ class TodosActivity : BaseActivity() {
     }
 
     val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-//    val endlessRecyclerViewScrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager, 15) {
-//      override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-//        viewModel.onLoadMoreTasks(totalItemsCount)
-//      }
-//    }
+    val endlessRecyclerViewScrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager, 15) {
+      override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+        viewModel.onLoadMoreTasks(totalItemsCount)
+      }
+    }
     recyclerViewTasks.apply {
       layoutManager = linearLayoutManager
       adapter = tasksAdapter
@@ -91,16 +91,16 @@ class TodosActivity : BaseActivity() {
         changeDuration = 160L
         removeDuration = 160L
       }
-//      addOnScrollListener(endlessRecyclerViewScrollListener)
+      addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
-//    viewModel.observeAreTasksReloaded().apply {
-//      this.observe(this@TodosActivity, Observer { refreshed ->
-//        if (refreshed) {
-//          endlessRecyclerViewScrollListener.resetState()
-//        }
-//      })
-//    }
+    viewModel.observeAreTasksReloaded().apply {
+      this.observe(this@TodosActivity, Observer { refreshed ->
+        if (refreshed) {
+          endlessRecyclerViewScrollListener.resetState()
+        }
+      })
+    }
 
     viewModel.observeTasks().apply {
       this.observe(this@TodosActivity, Observer { processTaskListResponse(it) })
@@ -110,17 +110,17 @@ class TodosActivity : BaseActivity() {
       showSnakbar(it)
     })
 
+    // Search action
     toolbarEditTextSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
       override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == IME_ACTION_SEARCH) {
           viewModel.search(textView?.text.toString())
+          toolbarEditTextSearch.clearFocus()
           return true
         }
         return false
       }
     })
-
-
   }
 
   /**
@@ -141,7 +141,6 @@ class TodosActivity : BaseActivity() {
       refreshLayoutTasks.isRefreshing = false
     } else {
       hideOverlayLoader()
-
     }
     if (tasksResult.succeeded) {
       recyclerViewTasks.visibility = View.VISIBLE

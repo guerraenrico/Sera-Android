@@ -31,9 +31,7 @@ class GoalsActivity: BaseActivity(){
 
     override fun initView() {
         messageLayput.setMessage(OperationException.UnknownError().getBaseMessage()) { code ->
-
         }
-
         messageLayput.show()
     }
 

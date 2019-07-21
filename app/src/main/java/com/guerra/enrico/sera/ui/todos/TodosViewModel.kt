@@ -66,6 +66,9 @@ class TodosViewModel @Inject constructor(
     }
   }
 
+  /**
+   * Observe tasks to show
+   */
   fun observeTasks(): LiveData<Result<List<Task>>> {
     if (tasks.value == null) {
       loadTasks.execute(
@@ -105,6 +108,10 @@ class TodosViewModel @Inject constructor(
 //        )
   }
 
+  /**
+   * Search tasks
+   * @param text text to search
+   */
   fun search(text: String) {
     searchTask.execute(SearchTaskParameters(text))
   }
