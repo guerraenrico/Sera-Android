@@ -25,6 +25,10 @@ interface TaskRepository {
   ): Flowable<List<Task>>
 
   fun insertTask(task: Task): Single<Result<Task>>
+
   fun deleteTask(id: String): Single<Result<Any>>
+
   fun updateTask(task: Task): Single<Result<Task>>
+
+  fun searchTask(searchText: String): Single<List<Task>>
 }

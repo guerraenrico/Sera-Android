@@ -26,6 +26,8 @@
     <color name="window_background_color">#1F2226</color>
 
     <color name="text_input_background_color">#25292E</color>
+    <color name="edit_text_background_color">#3C4148</color>
+
 
     <!-- BottomSheet (Todos Filter) -->
     <color name="bottom_sheet_background_color">#181A1E</color>

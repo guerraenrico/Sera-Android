@@ -20,52 +20,54 @@ import javax.inject.Inject
  * on 17/12/2018.
  */
 class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : RxWorker(context, workerParameters) {
-    companion object {
-        const val NIGHTLY_SYNC_TAG = "night_sync_todos"
-    }
+  companion object {
+    const val NIGHTLY_SYNC_TAG = "night_sync_todos"
+  }
 
-    @Inject
-    lateinit var remoteDataManager: RemoteDataManager
-    @Inject
-    lateinit var localDbManager : LocalDbManager
-    @Inject
-    lateinit var authRepository: AuthRepository
+  @Inject
+  lateinit var remoteDataManager: RemoteDataManager
+  @Inject
+  lateinit var localDbManager: LocalDbManager
+  @Inject
+  lateinit var authRepository: AuthRepository
 
-    override fun createWork(): Single<Result> {
-        AndroidWorkerInjector.inject(this)
+  override fun createWork(): Single<Result> {
+    AndroidWorkerInjector.inject(this)
 
-        Log.i("SYNC_TODO", "worker started")
-        return localDbManager.getSessionAccessToken()
-                .flatMap { accessToken ->
-                    Log.i("SYNC_TODO", "token readed")
-                    Single.zip(
-                            remoteDataManager.getCategories(accessToken),
-                            remoteDataManager.getAllTasks(accessToken),
-                            BiFunction<ApiResponse<List<Category>>, ApiResponse<List<Task>>, Single<Result>> { categoriesResponse, tasksResponse ->
-                                if (categoriesResponse.success && tasksResponse.success) {
-                                    Log.i("SYNC_TODO", "received todos cat and task")
-                                    Completable.concatArray(
-                                            localDbManager.clearCategoriesCompletable(),
-                                            localDbManager.clearTasksCompletable()
-                                    ).andThen(
-                                            Single.zip(
-                                                    localDbManager.saveCategoriesSingle(categoriesResponse.data ?: emptyList()),
-                                                    localDbManager.saveTasksSingle(tasksResponse.data ?: emptyList()),
-                                                    BiFunction<List<Long>, List<Long>, Result> { categoriesIds, tastsIds ->
-                                                        Log.i("SYNC_TODO", "complete")
-                                                        Result.success()
-                                                    }
-                                            ).map { it }
-                                    )
-                                } else {
-                                    Log.i("SYNC_TODO", "fail")
-                                    Single.just(Result.failure())
-                                }
-                            }
-                    )
-                    .retryWhen {
+    Log.i("SYNC_TODO", "worker started")
+    return localDbManager.getSessionAccessToken()
+            .flatMap { accessToken ->
+              Log.i("SYNC_TODO", "token readed")
+              Single.zip(
+                      remoteDataManager.getCategories(accessToken),
+                      remoteDataManager.getAllTasks(accessToken),
+                      BiFunction<ApiResponse<List<Category>>, ApiResponse<List<Task>>, Single<Result>> { categoriesResponse, tasksResponse ->
+                        if (categoriesResponse.success && tasksResponse.success) {
+                          Log.i("SYNC_TODO", "received todos cat and task")
+                          Completable.concatArray(
+                                  localDbManager.clearCategoriesCompletable(),
+                                  localDbManager.clearTasksCompletable()
+                          ).andThen(
+                                  Single.zip(
+                                          localDbManager.saveCategoriesSingle(categoriesResponse.data
+                                                  ?: emptyList()),
+                                          localDbManager.saveTasksSingle(tasksResponse.data
+                                                  ?: emptyList()),
+                                          BiFunction<List<Long>, List<Long>, Result> { categoriesIds, tastsIds ->
+                                            Log.i("SYNC_TODO", "complete")
+                                            Result.success()
+                                          }
+                                  ).map { it }
+                          )
+                        } else {
+                          Log.i("SYNC_TODO", "fail")
+                          Single.just(Result.failure())
+                        }
+                      }
+              )
+                      .retryWhen {
                         authRepository.refreshTokenIfNotAuthorized(it)
-                    }
-                }.flatMap { it }
-    }
+                      }
+            }.flatMap { it }
+  }
 }

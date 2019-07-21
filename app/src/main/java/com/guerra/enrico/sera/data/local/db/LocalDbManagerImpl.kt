@@ -112,4 +112,8 @@ class LocalDbManagerImpl @Inject constructor(
       database.taskDao().clear()
     }
   }
+
+  override fun searchTaskSingle(searchText: String): Single<List<Task>> {
+    return database.taskDao().searchSingle("%$searchText%")
+  }
 }

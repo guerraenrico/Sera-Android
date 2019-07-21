@@ -12,7 +12,12 @@
     <!-- Common -->
     <dimen name="item_list_title_text_size">16sp</dimen>
     <dimen name="item_list_description_text_size">12sp</dimen>
+    <dimen name="item_list_spacing">20dp</dimen>
     <dimen name="a11y_min_touch_target">48dp</dimen>
+
+    <!-- Toolbar Search -->
+    <dimen name="toolbar_search_padding_vertical">8dp</dimen>
+    <dimen name="toolbar_search_padding_horizontal">0dp</dimen>
 
     <dimen name="button_corner_radius">50dp</dimen>
     <dimen name="button_text_size">16sp</dimen>
@@ -20,6 +25,12 @@
     <!-- Button Text -->
     <dimen name="button_text_primary_text_size">20sp</dimen>
     <dimen name="button_text_secondary_text_size">14sp</dimen>
+
+    <!-- Search Edit Text-->
+    <dimen name="search_edit_text_border_radius">50dp</dimen>
+    <dimen name="search_edit_text_text_size">18sp</dimen>
+    <dimen name="search_edit_text_padding_vertical">10dp</dimen>
+    <dimen name="search_edit_text_padding_horizontal">20dp</dimen>
 
     <dimen name="margin_s">12dp</dimen>
     <dimen name="margin_m">16dp</dimen>

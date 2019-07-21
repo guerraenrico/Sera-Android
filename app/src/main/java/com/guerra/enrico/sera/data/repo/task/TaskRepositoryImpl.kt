@@ -104,4 +104,8 @@ class TaskRepositoryImpl @Inject constructor(
                       }
             }
   }
+
+  override fun searchTask(searchText: String): Single<List<Task>> {
+    return localDbManager.searchTaskSingle(searchText)
+  }
 }

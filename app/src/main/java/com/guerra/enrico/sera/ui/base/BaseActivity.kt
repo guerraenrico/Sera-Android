@@ -19,52 +19,52 @@ import kotlinx.android.synthetic.main.bottom_navigation_view.*
  * on 27/05/2018.
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
-    lateinit var appNavigationView: IAppNavigationView
-    private lateinit var overlayLoader: OverlayLoader
+  lateinit var appNavigationView: IAppNavigationView
+  private lateinit var overlayLoader: OverlayLoader
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
+  }
+
+  override fun onPostCreate(savedInstanceState: Bundle?) {
+    super.onPostCreate(savedInstanceState)
+
+    if (navigation !== null) {
+      appNavigationView = AppNavigationViewAsBottomNavImpl(navigation)
+      appNavigationView.activityReady(this, getSelfNavDrawerItem())
     }
+  }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+  fun showSnakbar(@StringRes messageId: Int) {
+    if (isFinishing) return
+    showSnakbar(resources.getString(messageId))
+  }
 
-        if (navigation !== null) {
-            appNavigationView = AppNavigationViewAsBottomNavImpl(navigation)
-            appNavigationView.activityReady(this, getSelfNavDrawerItem())
-        }
-    }
+  fun showSnakbar(message: String) {
+    if (isFinishing) return
+    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+  }
 
-    fun showSnakbar(@StringRes messageId: Int) {
-        if (isFinishing) return
-        showSnakbar(resources.getString(messageId))
-    }
+  fun showOverlayLoader() {
+    if (isFinishing) return
+    overlayLoader.show()
+  }
 
-    fun showSnakbar(message: String) {
-        if (isFinishing) return
-        Snackbar.make( findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
-    }
+  fun hideOverlayLoader() {
+    if (isFinishing) return
+    overlayLoader.hide()
+  }
 
-    fun showOverlayLoader() {
-        if (isFinishing) return
-        overlayLoader.show()
-    }
+  abstract fun initView()
 
-    fun hideOverlayLoader() {
-        if (isFinishing) return
-        overlayLoader.hide()
-    }
-
-    abstract fun initView()
-
-    /**
-     * Returns the navigation drawer item that corresponds to this Activity. Subclasses of
-     * BaseActivity override this to indicate what nav drawer item corresponds to them Return
-     * NAVDRAWER_ITEM_INVALID to mean that this Activity should not have a Nav Drawer.
-     */
-    protected open fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
-        return NavigationModel.NavigationItemEnum.INVALID
-    }
+  /**
+   * Returns the navigation drawer item that corresponds to this Activity. Subclasses of
+   * BaseActivity override this to indicate what nav drawer item corresponds to them Return
+   * NAVDRAWER_ITEM_INVALID to mean that this Activity should not have a Nav Drawer.
+   */
+  protected open fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
+    return NavigationModel.NavigationItemEnum.INVALID
+  }
 
 }

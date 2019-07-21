@@ -15,18 +15,15 @@ import io.reactivex.Single
  */
 interface LocalDbManager {
   // Session
-
   fun getSession(): Single<Session>
   fun getSessionAccessToken(): Single<String>
   fun saveSession(userId: String, accessToken: String): Completable
 
   // User
-
   fun getUser(userId: String): Single<User>
   fun saveUser(user: User): Completable
 
   // Categories
-
   fun observeAllCategories(): Flowable<List<Category>>
   fun saveCategorySingle(category: Category): Single<Long>
   fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
@@ -34,7 +31,6 @@ interface LocalDbManager {
   fun clearCategoriesCompletable(): Completable
 
   // Tasks
-
   fun observeTasks(
           completed: Boolean = false
   ): Flowable<List<Task>>
@@ -43,4 +39,5 @@ interface LocalDbManager {
   fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
   fun saveTasks(tasks: List<Task>)
   fun clearTasksCompletable(): Completable
+  fun searchTaskSingle(searchText: String): Single<List<Task>>
 }

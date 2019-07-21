@@ -6,12 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.sera.data.models.Task
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 /**
  * Created by enrico
  * on 02/06/2018.
  */
-@Dao interface TaskDao {
+@Dao
+interface TaskDao {
 
   @Query("SELECT * FROM Task  WHERE completed = :completed")
   fun getAllFlowable(
@@ -23,6 +25,9 @@ import io.reactivex.Flowable
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insertAll(tasks: List<Task>): List<Long>
+
+  @Query("SELECT * FROM Task WHERE title LIKE :text OR description LIKE :text ")
+  fun searchSingle(text: String): Single<List<Task>>
 
   @Query("DELETE FROM Task")
   fun clear()

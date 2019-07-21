@@ -5,9 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
-import com.guerra.enrico.sera.data.mediator.task.CompleteTaskEvent
-import com.guerra.enrico.sera.data.mediator.task.LoadTaskParameters
-import com.guerra.enrico.sera.data.mediator.task.LoadTasks
+import com.guerra.enrico.sera.data.mediator.task.*
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.data.result.succeeded
 import com.guerra.enrico.sera.ui.base.BaseViewModel
@@ -21,7 +19,8 @@ import javax.inject.Inject
 class TodosViewModel @Inject constructor(
         private val loadCategories: LoadCategoriesFilter,
         private val loadTasks: LoadTasks,
-        private val completeTaskEvent: CompleteTaskEvent
+        private val completeTaskEvent: CompleteTaskEvent,
+        private val searchTask: SearchTask
 ) : BaseViewModel() {
   private val limit = 10
   private var skip = 0
@@ -54,6 +53,10 @@ class TodosViewModel @Inject constructor(
     loadTasksResult = loadTasks.observe()
     tasks = loadTasksResult.map {
       it
+    }
+
+    loadTasksResult.addSource(searchTask.observe()) {
+      loadTasksResult.postValue(it)
     }
 
     _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
@@ -100,6 +103,10 @@ class TodosViewModel @Inject constructor(
 //                        false,
 //                )
 //        )
+  }
+
+  fun search(text: String) {
+    searchTask.execute(SearchTaskParameters(text))
   }
 
   /**
