@@ -64,10 +64,9 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
                           Single.just(Result.failure())
                         }
                       }
-              )
-                      .retryWhen {
-                        authRepository.refreshTokenIfNotAuthorized(it)
-                      }
+              ).retryWhen {
+                authRepository.refreshTokenIfNotAuthorized(it)
+              }
             }.flatMap { it }
   }
 }

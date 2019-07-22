@@ -21,7 +21,7 @@ class CompleteTaskEvent @Inject constructor(
 ): BaseMediator<Task, Task>() {
     @SuppressLint("CheckResult")
     override fun execute(params: Task) {
-        val disposable = taskRepository.updateTask(params)
+        val disposable = taskRepository.toggleCompleteTask(params)
                 .retryWhen {
                     authRepository.refreshTokenIfNotAuthorized(it)
                 }

@@ -31,4 +31,6 @@ interface TaskRepository {
   fun updateTask(task: Task): Single<Result<Task>>
 
   fun searchTask(searchText: String): Single<List<Task>>
+
+  fun toggleCompleteTask(task: Task): Single<Result<Task>>
 }

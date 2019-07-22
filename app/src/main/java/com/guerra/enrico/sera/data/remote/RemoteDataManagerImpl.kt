@@ -4,10 +4,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.remote.request.AuthRequestParams
-import com.guerra.enrico.sera.data.remote.request.CategoryParams
-import com.guerra.enrico.sera.data.remote.request.TaskParams
-import com.guerra.enrico.sera.data.remote.request.AccessTokenParams
+import com.guerra.enrico.sera.data.remote.request.*
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -96,6 +93,13 @@ class RemoteDataManagerImpl @Inject constructor(
     return api.updateTask(
             accessToken,
             TaskParams(task)
+    )
+  }
+
+  override fun toggleCompleteTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
+    return  api.toggleCompleteTask(
+            accessToken,
+            TaskToggleCompleteParams(task)
     )
   }
 }

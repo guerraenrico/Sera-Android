@@ -116,4 +116,16 @@ class LocalDbManagerImpl @Inject constructor(
   override fun searchTaskSingle(searchText: String): Single<List<Task>> {
     return database.taskDao().searchSingle("%$searchText%")
   }
+
+  override fun updateTaskSingle(task: Task): Single<Int> {
+    return database.taskDao().updateFieldsSingle(
+            task.id,
+            task.title,
+            task.description,
+            task.completed,
+            task.completedAt,
+            task.todoWithin,
+            task.categories
+    )
+  }
 }

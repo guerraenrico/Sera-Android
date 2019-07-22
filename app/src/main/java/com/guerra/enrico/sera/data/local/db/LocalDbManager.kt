@@ -40,4 +40,5 @@ interface LocalDbManager {
   fun saveTasks(tasks: List<Task>)
   fun clearTasksCompletable(): Completable
   fun searchTaskSingle(searchText: String): Single<List<Task>>
+  fun updateTaskSingle(task: Task): Single<Int>
 }

@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.repo.task
 
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -8,6 +9,7 @@ import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -107,5 +109,30 @@ class TaskRepositoryImpl @Inject constructor(
 
   override fun searchTask(searchText: String): Single<List<Task>> {
     return localDbManager.searchTaskSingle(searchText)
+  }
+
+  override fun toggleCompleteTask(task: Task): Single<Result<Task>> {
+    val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
+    return localDbManager.getSessionAccessToken()
+            .flatMap { accessToken ->
+              remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
+                      .flatMap { apiResponse ->
+                        if (apiResponse.success && apiResponse.data !== null) {
+                          localDbManager.updateTaskSingle(apiResponse.data).map {
+                            if (it == 1) {
+                              Result.Success(apiResponse.data)
+                            } else {
+                              Result.Error(OperationException.UnknownError())
+                            }
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
+                        }
+                      }
+                      .map {
+                        it
+                      }
+            }
   }
 }

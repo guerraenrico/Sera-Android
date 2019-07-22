@@ -60,10 +60,11 @@ class TodosActivity : BaseActivity() {
     filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
     val tasksAdapter = TaskAdapter { task, position ->
-      viewModel.toggleTaskComplete(task, !task.completed)
-      val adapter = recyclerViewTasks.adapter as TaskAdapter
-      adapter.tasks[position] = task.copy(completed = !task.completed)
-      adapter.notifyItemChanged(position)
+      // Toggle task as completed before waiting server response
+      viewModel.toggleTaskComplete(task)
+//      val adapter = recyclerViewTasks.adapter as TaskAdapter
+//      adapter.tasks[position] = task.copy(completed = !task.completed)
+//      adapter.notifyItemChanged(position)
     }
 
     refreshLayoutTasks.setOnRefreshListener {

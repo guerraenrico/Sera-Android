@@ -7,9 +7,9 @@ import com.guerra.enrico.sera.data.models.Category
  * Created by enrico
  * on 17/10/2018.
  */
-class CategoryParams(
-       val id: String,
-       val name: String
+data class CategoryParams(
+        val id: String,
+        val name: String
 ) {
-    constructor(category: Category) : this(category.id, category.name)
+  constructor(category: Category) : this(category.id, category.name)
 }

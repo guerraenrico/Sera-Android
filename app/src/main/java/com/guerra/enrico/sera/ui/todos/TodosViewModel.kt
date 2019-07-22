@@ -119,10 +119,9 @@ class TodosViewModel @Inject constructor(
   /**
    * Toggle task complete status
    * @param task task object
-   * @param completed new status
    */
-  fun toggleTaskComplete(task: Task, completed: Boolean) {
-    completeTaskEvent.execute(task.copy(completed = completed))
+  fun toggleTaskComplete(task: Task) {
+    completeTaskEvent.execute(task)
   }
 
   /**

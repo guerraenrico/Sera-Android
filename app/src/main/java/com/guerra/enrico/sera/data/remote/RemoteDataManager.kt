@@ -69,4 +69,9 @@ interface RemoteDataManager {
           accessToken: String,
           task: Task
   ): Single<ApiResponse<Task>>
+
+  fun toggleCompleteTask(
+          accessToken: String,
+          task: Task
+  ): Single<ApiResponse<Task>>
 }
