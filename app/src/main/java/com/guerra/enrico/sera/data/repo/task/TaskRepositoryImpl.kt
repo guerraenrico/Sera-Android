@@ -69,12 +69,22 @@ class TaskRepositoryImpl @Inject constructor(
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
               return@flatMap remoteDataManager.insertTask(accessToken, task)
-                      .map { apiResponse ->
-                        if (apiResponse.success) {
-                          return@map Result.Success(apiResponse.data ?: Task())
+                      .flatMap { apiResponse ->
+                        if (apiResponse.success && apiResponse.data !== null) {
+                          localDbManager.saveTaskSingle(apiResponse.data).map {
+                            if (it != 0L) {
+                              Result.Success(apiResponse.data)
+                            } else {
+                              Result.Error(OperationException.UnknownError())
+                            }
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
                         }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
+                      }
+                      .map {
+                        it
                       }
             }
   }
