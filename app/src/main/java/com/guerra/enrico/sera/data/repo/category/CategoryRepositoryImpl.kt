@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera.data.repo.category
 
 import android.content.Context
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -56,12 +57,18 @@ class CategoryRepositoryImpl @Inject constructor(
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
               return@flatMap remoteDataManager.insertCategory(accessToken, category)
-                      .map { apiResponse ->
-                        if (apiResponse.success) {
-                          return@map Result.Success(apiResponse.data ?: Category())
+                      .flatMap { apiResponse ->
+                        if (apiResponse.success && apiResponse.data !== null) {
+                          localDbManager.saveCategorySingle(apiResponse.data).map {
+                            Result.Success(apiResponse.data)
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
                         }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
+                      }
+                      .map {
+                        it
                       }
             }
   }

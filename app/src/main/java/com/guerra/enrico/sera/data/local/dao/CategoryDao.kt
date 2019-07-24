@@ -6,6 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.sera.data.models.Category
 import io.reactivex.Flowable
+import io.reactivex.Single
+import java.util.*
 
 /**
  * Created by enrico
@@ -24,6 +26,12 @@ interface CategoryDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insertAll(categories: List<Category>): List<Long>
+
+  @Query("UPDATE CATEGORY SET name= :name WHERE id =:id")
+  fun updateFieldsSingle(
+          id: String,
+          name: String
+  ): Single<Int>
 
   @Query("DELETE FROM Category")
   fun clear()

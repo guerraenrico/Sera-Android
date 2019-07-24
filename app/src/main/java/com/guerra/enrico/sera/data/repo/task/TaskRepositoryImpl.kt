@@ -72,11 +72,7 @@ class TaskRepositoryImpl @Inject constructor(
                       .flatMap { apiResponse ->
                         if (apiResponse.success && apiResponse.data !== null) {
                           localDbManager.saveTaskSingle(apiResponse.data).map {
-                            if (it != 0L) {
-                              Result.Success(apiResponse.data)
-                            } else {
-                              Result.Error(OperationException.UnknownError())
-                            }
+                            Result.Success(apiResponse.data)
                           }
                         } else {
                           Single.just(Result.Error(ApiException(apiResponse.error
@@ -129,11 +125,7 @@ class TaskRepositoryImpl @Inject constructor(
                       .flatMap { apiResponse ->
                         if (apiResponse.success && apiResponse.data !== null) {
                           localDbManager.updateTaskSingle(apiResponse.data).map {
-                            if (it == 1) {
-                              Result.Success(apiResponse.data)
-                            } else {
-                              Result.Error(OperationException.UnknownError())
-                            }
+                            Result.Success(apiResponse.data)
                           }
                         } else {
                           Single.just(Result.Error(ApiException(apiResponse.error

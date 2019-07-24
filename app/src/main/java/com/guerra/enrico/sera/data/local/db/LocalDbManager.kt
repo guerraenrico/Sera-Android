@@ -29,6 +29,7 @@ interface LocalDbManager {
   fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
   fun saveCategories(categories: List<Category>)
   fun clearCategoriesCompletable(): Completable
+  fun updateCategorySingle(category: Category): Single<Int>
 
   // Tasks
   fun observeTasks(

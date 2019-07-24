@@ -83,6 +83,13 @@ class LocalDbManagerImpl @Inject constructor(
     }
   }
 
+  override fun updateCategorySingle(category: Category): Single<Int> {
+    return database.categoryDao().updateFieldsSingle(
+            category.id,
+            category.name
+    )
+  }
+
   // Tasks
 
   override fun observeTasks(

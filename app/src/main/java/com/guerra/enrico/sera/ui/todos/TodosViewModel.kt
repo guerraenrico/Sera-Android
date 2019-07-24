@@ -22,9 +22,6 @@ class TodosViewModel @Inject constructor(
         private val completeTaskEvent: CompleteTaskEvent,
         private val searchTask: SearchTask
 ) : BaseViewModel() {
-  private val limit = 10
-  private var skip = 0
-
   private var cachedCategoriesFilter = emptyList<CategoryFilter>()
   private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
 
@@ -88,7 +85,6 @@ class TodosViewModel @Inject constructor(
    * Reload tasks
    */
   fun onReloadTasks() {
-    skip = 0
     refreshTasks()
   }
 
@@ -96,17 +92,15 @@ class TodosViewModel @Inject constructor(
    * Read more task
    * @param itemCount current number of task loaded
    */
-  fun onLoadMoreTasks(itemCount: Int) {
-    skip = itemCount
-    // TODO if internet connection is available load from remote
-
+//  fun onLoadMoreTasks(itemCount: Int) {
+//    skip = itemCount
 //        loadTasks.execute(
 //                LoadTaskParameters(
 //                        selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList(),
 //                        false,
 //                )
 //        )
-  }
+//  }
 
   /**
    * Search tasks
@@ -134,9 +128,9 @@ class TodosViewModel @Inject constructor(
     return categoriesFilterResult
   }
 
-  fun observeSelectedCategories(): LiveData<List<CategoryFilter>> {
-    return selectedCategoriesFilter
-  }
+//  fun observeSelectedCategories(): LiveData<List<CategoryFilter>> {
+//    return selectedCategoriesFilter
+//  }
 
   /**
    * Toggle category selection
