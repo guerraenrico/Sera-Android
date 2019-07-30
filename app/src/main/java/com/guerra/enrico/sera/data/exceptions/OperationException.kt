@@ -15,10 +15,10 @@ class OperationException(val code: Int): Exception() {
         const val OPERATION_TIMEOUT = 3
         const val UNKNOWN = 999
 
-        fun Unauthenticated() = OperationException(UNAUTHENTICATED)
-        fun InternetConnectionUnavailable() = OperationException(INTERNET_CONNECTION_UNAVAILABLE)
-        fun OperationTimeout() = OperationException(OPERATION_TIMEOUT)
-        fun UnknownError() = OperationException(UNKNOWN)
+        fun unauthenticated() = OperationException(UNAUTHENTICATED)
+        fun internetConnectionUnavailable() = OperationException(INTERNET_CONNECTION_UNAVAILABLE)
+        fun operationTimeout() = OperationException(OPERATION_TIMEOUT)
+        fun unknownError() = OperationException(UNKNOWN)
     }
 
     fun getBaseMessage(): MessageLayout.BaseMessage = when(code) {
