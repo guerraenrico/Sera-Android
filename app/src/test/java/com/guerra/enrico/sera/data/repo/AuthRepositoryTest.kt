@@ -73,7 +73,7 @@ class AuthRepositoryTest: BaseDatabaseTest() {
                 .assertNoErrors()
                 .assertValue { it is Result.Success && it.data == apiValidateAccessTokenResponse.data }
 
-        // Verify that saession is saved
+        // Verify that session is saved
         localDbManager.getSession()
                 .test()
                 .assertSubscribed()

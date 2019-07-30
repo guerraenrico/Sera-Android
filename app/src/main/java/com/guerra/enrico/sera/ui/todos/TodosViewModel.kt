@@ -23,7 +23,7 @@ class TodosViewModel @Inject constructor(
         private val searchTask: SearchTask
 ) : BaseViewModel() {
   private var cachedCategoriesFilter = emptyList<CategoryFilter>()
-  private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
+    private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
 
   private val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
   private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()

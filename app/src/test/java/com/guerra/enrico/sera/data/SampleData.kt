@@ -25,9 +25,9 @@ val categories = listOf(category1, category2)
 fun insertCategories(db: SeraDatabase) = db.categoryDao().insertAll(categories)
 fun deleteCategories(db: SeraDatabase) = db.categoryDao().clear()
 
-val task1 = Task(1, "1", "Task 1", "Descriptin task 1", false, Date(), null, category1.id)
-val task2 = Task(2, "2", "Task 2", "Descriptin task 2", false, Date(), null, category2.id)
-val task3 = Task(3, "3", "Task 3", "Descriptin task 3", false, Date(), null, category2.id)
+val task1 = Task(1, "1", "Task 1", "Description task 1", false, Date(), null, Date(), listOf(category1))
+val task2 = Task(2, "2", "Task 2", "Description task 2", false, Date(), null, Date(), listOf(category2))
+val task3 = Task(3, "3", "Task 3", "Description task 3", false, Date(), null, Date(), listOf(category2))
 
 val tasks = listOf(task1, task2)
 
