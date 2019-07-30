@@ -9,12 +9,12 @@
     <application
         android:name=".SeraApplication"
         android:allowBackup="false"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="false"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
@@ -33,7 +33,7 @@
 
         <activity
             android:name=".ui.todos.TodosActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.todos.add.TodoAddActivity"
@@ -41,7 +41,11 @@
 
         <activity
             android:name=".ui.goals.GoalsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.results.ResultsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"

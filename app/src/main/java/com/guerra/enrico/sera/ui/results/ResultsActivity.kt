@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.goals
+package com.guerra.enrico.sera.ui.results
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -7,25 +7,25 @@ import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.util.viewModelProvider
-import kotlinx.android.synthetic.main.activity_goals.*
+import kotlinx.android.synthetic.main.activity_results.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**
  * Created by enrico
- * on 27/05/2018.
+ * on 30/07/2019.
  */
-class GoalsActivity : BaseActivity() {
+class ResultsActivity: BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: GoalsViewModel
+  private lateinit var viewModel: ResultsViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_goals)
+    setContentView(R.layout.activity_results)
     viewModel = viewModelProvider(viewModelFactory)
 
-    toolbarTitle?.text = resources.getString(R.string.title_goals)
+    toolbarTitle?.text = resources.getString(R.string.title_results)
     initView()
   }
 
@@ -36,6 +36,6 @@ class GoalsActivity : BaseActivity() {
   }
 
   override fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
-    return NavigationModel.NavigationItemEnum.GOALS
+    return NavigationModel.NavigationItemEnum.RESULTS
   }
 }

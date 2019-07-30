@@ -3,7 +3,7 @@
 
     <string name="title_goals">Goals</string>
     <string name="title_todos">Todos</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_results">Results</string>
 
     <string name="title_add_todo">Add Todo</string>
     <string name="title_filter_sheet">Categories</string>

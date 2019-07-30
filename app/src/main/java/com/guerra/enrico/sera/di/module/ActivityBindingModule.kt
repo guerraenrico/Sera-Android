@@ -5,6 +5,8 @@ import com.guerra.enrico.sera.ui.goals.GoalsActivity
 import com.guerra.enrico.sera.ui.goals.GoalsModule
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.login.LoginModule
+import com.guerra.enrico.sera.ui.results.ResultsActivity
+import com.guerra.enrico.sera.ui.results.ResultsModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
 import com.guerra.enrico.sera.ui.splash.SplashModule
 import com.guerra.enrico.sera.ui.todos.TodosActivity
@@ -21,43 +23,51 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBindingModule {
-    @PerActivity
-    @ContributesAndroidInjector(
-            modules = [
-                SplashModule::class
-            ]
-    )
-    abstract fun splashActivity(): SplashActivity
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            SplashModule::class
+          ]
+  )
+  abstract fun splashActivity(): SplashActivity
 
-    @PerActivity
-    @ContributesAndroidInjector(
-            modules = [
-                LoginModule::class
-            ]
-    )
-    abstract fun loginActivity(): LoginActivity
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            LoginModule::class
+          ]
+  )
+  abstract fun loginActivity(): LoginActivity
 
-    @PerActivity
-    @ContributesAndroidInjector(
-            modules = [
-                TodosModule::class
-            ]
-    )
-    abstract fun todosActivxity(): TodosActivity
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            TodosModule::class
+          ]
+  )
+  abstract fun todosActivxity(): TodosActivity
 
-    @PerActivity
-    @ContributesAndroidInjector(
-            modules = [
-                TodoAddModel::class
-            ]
-    )
-    abstract fun todoAddActivity(): TodoAddActivity
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            TodoAddModel::class
+          ]
+  )
+  abstract fun todoAddActivity(): TodoAddActivity
 
-    @PerActivity
-    @ContributesAndroidInjector(
-            modules = [
-                GoalsModule::class
-            ]
-    )
-    abstract fun goalsActivity(): GoalsActivity
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            GoalsModule::class
+          ]
+  )
+  abstract fun goalsActivity(): GoalsActivity
+
+  @PerActivity
+  @ContributesAndroidInjector(
+          modules = [
+            ResultsModule::class
+          ]
+  )
+  abstract fun resultsAcitivity(): ResultsActivity
 }

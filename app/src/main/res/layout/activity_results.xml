@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
-    tools:context=".ui.goals.GoalsActivity">
+    tools:context=".ui.results.ResultsActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -38,7 +38,6 @@
                 android:layout_height="match_parent" />
 
         </LinearLayout>
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
