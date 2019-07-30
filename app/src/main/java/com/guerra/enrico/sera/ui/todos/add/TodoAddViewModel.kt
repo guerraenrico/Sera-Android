@@ -55,7 +55,7 @@ class TodoAddViewModel @Inject constructor(
 
   fun observeCategories(): LiveData<Result<List<CategoryFilter>>> {
     if (!categoriesFilter.hasActiveObservers()) {
-      loadCategories.execute("")
+      loadCategories.execute(Unit)
     }
     return categoriesFilter
   }

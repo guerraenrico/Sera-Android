@@ -23,13 +23,13 @@ class TodosViewModel @Inject constructor(
         private val searchTask: SearchTask
 ) : BaseViewModel() {
   private var cachedCategoriesFilter = emptyList<CategoryFilter>()
-    private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
+  private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
 
-  private val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
-  private val loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()
+  private val loadCategoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
+  private val _loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()
 
-  private val tasks: LiveData<Result<List<Task>>>
-  private val loadTasksResult: MediatorLiveData<Result<List<Task>>>
+  private val loadTasksResult: LiveData<Result<List<Task>>>
+  private val _loadTasksResult: MediatorLiveData<Result<List<Task>>>
 
   private val areTasksReloaded = MutableLiveData<Boolean>()
 
@@ -38,7 +38,7 @@ class TodosViewModel @Inject constructor(
     get() = _snackbarMessage
 
   init {
-    categoriesFilterResult = loadCategoriesFilterResult.map {
+    loadCategoriesFilterResult = _loadCategoriesFilterResult.map {
       if (it.succeeded) {
         cachedCategoriesFilter = (it as Result.Success).data
         updateCategoryFilterObservable()
@@ -47,13 +47,13 @@ class TodosViewModel @Inject constructor(
       it
     }
 
-    loadTasksResult = loadTasks.observe()
-    tasks = loadTasksResult.map {
+    _loadTasksResult = loadTasks.observe()
+    loadTasksResult = _loadTasksResult.map {
       it
     }
 
-    loadTasksResult.addSource(searchTask.observe()) {
-      loadTasksResult.postValue(it)
+    _loadTasksResult.addSource(searchTask.observe()) {
+      _loadTasksResult.postValue(it)
     }
 
     _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
@@ -61,28 +61,24 @@ class TodosViewModel @Inject constructor(
         _snackbarMessage.postValue((completeTaskResult as Result.Error).exception.message)
       }
     }
+    // Start load tasks
+    loadTasks.execute(
+            LoadTaskParameters(
+                    selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList()
+            )
+    )
+    loadCategories.execute(Unit)
   }
 
   /**
-   * Observe tasks to show
+   * Observe loadTasksResult to show
    */
   fun observeTasks(): LiveData<Result<List<Task>>> {
-    if (tasks.value == null) {
-      loadTasks.execute(
-              LoadTaskParameters(
-                      selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList()
-              ))
-    }
-    return tasks
+    return loadTasksResult
   }
 
   /**
-   * Observe if tasks are reloaded
-   */
-  fun observeAreTasksReloaded(): LiveData<Boolean> = areTasksReloaded
-
-  /**
-   * Reload tasks
+   * Reload loadTasksResult
    */
   fun onReloadTasks() {
     refreshTasks()
@@ -103,7 +99,7 @@ class TodosViewModel @Inject constructor(
 //  }
 
   /**
-   * Search tasks
+   * Search loadTasksResult
    * @param text text to search
    */
   fun search(text: String) {
@@ -122,10 +118,7 @@ class TodosViewModel @Inject constructor(
    * Observe action categories read
    */
   fun observeCategories(): LiveData<Result<List<CategoryFilter>>> {
-    if (!categoriesFilterResult.hasActiveObservers()) {
-      loadCategories.execute("")
-    }
-    return categoriesFilterResult
+    return loadCategoriesFilterResult
   }
 
 //  fun observeSelectedCategories(): LiveData<List<CategoryFilter>> {

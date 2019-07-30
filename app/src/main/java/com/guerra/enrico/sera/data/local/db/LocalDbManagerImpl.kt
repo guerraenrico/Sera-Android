@@ -90,6 +90,10 @@ class LocalDbManagerImpl @Inject constructor(
     )
   }
 
+  override fun deleteCategorySingle(category: Category): Single<Int> {
+    return database.categoryDao().removeOneSingle(category.id)
+  }
+
   // Tasks
 
   override fun observeTasks(
@@ -134,5 +138,9 @@ class LocalDbManagerImpl @Inject constructor(
             task.todoWithin,
             task.categories
     )
+  }
+
+  override fun deleteTaskSingle(task: Task): Single<Int> {
+    return database.taskDao().removeOneSingle(task.id)
   }
 }

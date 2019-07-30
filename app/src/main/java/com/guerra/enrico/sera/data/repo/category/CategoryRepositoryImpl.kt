@@ -1,7 +1,6 @@
 package com.guerra.enrico.sera.data.repo.category
 
 import android.content.Context
-import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -9,7 +8,6 @@ import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -25,7 +23,7 @@ class CategoryRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
-  override fun getCategories(): Single<Result<List<Category>>> {
+  override fun getCategoriesRemote(): Single<Result<List<Category>>> {
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
               return@flatMap remoteDataManager.getCategories(accessToken)
@@ -67,27 +65,27 @@ class CategoryRepositoryImpl @Inject constructor(
                                   ?: ApiError.unknown())))
                         }
                       }
-                      .map {
-                        it
-                      }
             }
   }
 
-  override fun deleteCategory(id: String): Single<Result<Any>> {
+  override fun deleteCategory(category: Category): Single<Result<Int>> {
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
-              return@flatMap remoteDataManager.deleteCategory(accessToken, id)
-                      .map { apiResponse ->
+              return@flatMap remoteDataManager.deleteCategory(accessToken, category.id)
+                      .flatMap { apiResponse ->
                         if (apiResponse.success) {
-                          return@map Result.Success("")
+                          localDbManager.deleteCategorySingle(category).map {
+                            Result.Success(it)
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
                         }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
                       }
             }
   }
 
-  override fun observeCategoriesFilter(): Flowable<Result<List<CategoryFilter>>> {
+  override fun observeCategoriesFilterLocal(): Flowable<Result<List<CategoryFilter>>> {
     return localDbManager.observeAllCategories()
             .flatMap { categories ->
               Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))

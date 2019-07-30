@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.data.repo.task
 
-import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -22,7 +21,7 @@ class TaskRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {
-  override fun getTasks(
+  override fun getTasksRemote(
           categoriesId: List<String>,
           completed: Boolean,
           limit: Int,
@@ -41,7 +40,7 @@ class TaskRepositoryImpl @Inject constructor(
             }
   }
 
-  override fun getAllTasks(): Single<Result<List<Task>>> {
+  override fun getAllTasksRemote(): Single<Result<List<Task>>> {
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
               return@flatMap remoteDataManager.getAllTasks(accessToken)
@@ -52,16 +51,6 @@ class TaskRepositoryImpl @Inject constructor(
                         return@map Result.Error(ApiException(apiResponse.error
                                 ?: ApiError.unknown()))
                       }
-            }
-  }
-
-  override fun observeTasks(categoriesId: List<String>, completed: Boolean): Flowable<List<Task>> {
-    return localDbManager.observeTasks(completed)
-            .map { list ->
-              if (categoriesId.isNullOrEmpty()) {
-                return@map list
-              }
-              return@map list.filter { t -> t.categories.any { c -> categoriesId.contains(c.id) } }
             }
   }
 
@@ -79,22 +68,22 @@ class TaskRepositoryImpl @Inject constructor(
                                   ?: ApiError.unknown())))
                         }
                       }
-                      .map {
-                        it
-                      }
             }
   }
 
-  override fun deleteTask(id: String): Single<Result<Any>> {
+  override fun deleteTask(task: Task): Single<Result<Int>> {
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
-              return@flatMap remoteDataManager.deleteTask(accessToken, id)
-                      .map { apiResponse ->
+              return@flatMap remoteDataManager.deleteTask(accessToken, task.id)
+                      .flatMap { apiResponse ->
                         if (apiResponse.success) {
-                          return@map Result.Success("")
+                          localDbManager.deleteTaskSingle(task).map {
+                            Result.Success(it)
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
                         }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
                       }
             }
   }
@@ -103,18 +92,17 @@ class TaskRepositoryImpl @Inject constructor(
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
               return@flatMap remoteDataManager.updateTask(accessToken, task)
-                      .map { apiResponse ->
-                        if (apiResponse.success) {
-                          return@map Result.Success(apiResponse.data ?: Task())
+                      .flatMap { apiResponse ->
+                        if (apiResponse.success && apiResponse.data !== null) {
+                          localDbManager.updateTaskSingle(apiResponse.data).map {
+                            Result.Success(apiResponse.data)
+                          }
+                        } else {
+                          Single.just(Result.Error(ApiException(apiResponse.error
+                                  ?: ApiError.unknown())))
                         }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
                       }
             }
-  }
-
-  override fun searchTask(searchText: String): Single<List<Task>> {
-    return localDbManager.searchTaskSingle(searchText)
   }
 
   override fun toggleCompleteTask(task: Task): Single<Result<Task>> {
@@ -132,9 +120,20 @@ class TaskRepositoryImpl @Inject constructor(
                                   ?: ApiError.unknown())))
                         }
                       }
-                      .map {
-                        it
-                      }
+            }
+  }
+
+  override fun searchTaskLocal(searchText: String): Single<List<Task>> {
+    return localDbManager.searchTaskSingle(searchText)
+  }
+
+  override fun observeTasksLocal(categoriesId: List<String>, completed: Boolean): Flowable<List<Task>> {
+    return localDbManager.observeTasks(completed)
+            .map { list ->
+              if (categoriesId.isNullOrEmpty()) {
+                return@map list
+              }
+              return@map list.filter { t -> t.categories.any { c -> categoriesId.contains(c.id) } }
             }
   }
 }

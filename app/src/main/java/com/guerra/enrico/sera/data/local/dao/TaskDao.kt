@@ -42,6 +42,9 @@ interface TaskDao {
           categories: List<Category>
   ): Single<Int>
 
+  @Query("DELETE FROM task WHERE id = :id")
+  fun removeOneSingle(id: String): Single<Int>
+
   @Query("DELETE FROM Task")
   fun clear()
 }

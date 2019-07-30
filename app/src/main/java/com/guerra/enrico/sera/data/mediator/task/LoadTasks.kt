@@ -21,7 +21,7 @@ class LoadTasks @Inject constructor(
   override fun execute(params: LoadTaskParameters) {
     result.postValue(Result.Loading)
     val (selectedCategoriesIds, completed) = params
-    val tasksObservable = taskRepository.observeTasks(selectedCategoriesIds, completed)
+    val tasksObservable = taskRepository.observeTasksLocal(selectedCategoriesIds, completed)
             .retryWhen {
               authRepository.refreshTokenIfNotAuthorized(it)
             }

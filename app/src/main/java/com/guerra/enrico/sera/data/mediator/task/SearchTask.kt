@@ -17,7 +17,7 @@ class SearchTask @Inject constructor(
 ) : BaseMediator<SearchTaskParameters, List<Task>>() {
   override fun execute(params: SearchTaskParameters) {
     val (searchText) = params;
-    val observable = taskRepository.searchTask(searchText)
+    val observable = taskRepository.searchTaskLocal(searchText)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

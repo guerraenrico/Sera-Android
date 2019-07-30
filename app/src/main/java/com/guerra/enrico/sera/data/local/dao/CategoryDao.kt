@@ -33,6 +33,9 @@ interface CategoryDao {
           name: String
   ): Single<Int>
 
+  @Query("DELETE FROM category WHERE id = :id")
+  fun removeOneSingle(id: String): Single<Int>
+
   @Query("DELETE FROM Category")
   fun clear()
 }

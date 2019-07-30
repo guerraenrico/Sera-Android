@@ -18,13 +18,13 @@ import javax.inject.Inject
 class LoadCategoriesFilter @Inject constructor(
         private val authRepository: AuthRepository,
         private val categoryRepository: CategoryRepository
-) : BaseMediator<Any, List<CategoryFilter>>() {
+) : BaseMediator<Unit, List<CategoryFilter>>() {
 
     @SuppressLint("CheckResult")
-    override fun execute(params: Any) {
+    override fun execute(params: Unit) {
         result.postValue(Result.Loading)
         val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
-                categoryRepository.observeCategoriesFilter()
+                categoryRepository.observeCategoriesFilterLocal()
                         .retryWhen {
                             authRepository.refreshTokenIfNotAuthorized(it)
                         }

@@ -12,9 +12,9 @@ import io.reactivex.Single
  * on 10/09/2018.
  */
 interface CategoryRepository {
-  fun getCategories(): Single<Result<List<Category>>>
+  fun getCategoriesRemote(): Single<Result<List<Category>>>
   fun searchCategory(text: String): Single<Result<List<Category>>>
   fun insertCategory(category: Category): Single<Result<Category>>
-  fun deleteCategory(id: String): Single<Result<Any>>
-  fun observeCategoriesFilter(): Flowable<Result<List<CategoryFilter>>>
+  fun deleteCategory(category: Category): Single<Result<Int>>
+  fun observeCategoriesFilterLocal(): Flowable<Result<List<CategoryFilter>>>
 }

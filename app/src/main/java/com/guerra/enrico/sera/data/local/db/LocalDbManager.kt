@@ -30,16 +30,17 @@ interface LocalDbManager {
   fun saveCategories(categories: List<Category>)
   fun clearCategoriesCompletable(): Completable
   fun updateCategorySingle(category: Category): Single<Int>
+  fun deleteCategorySingle(category: Category): Single<Int>
 
   // Tasks
   fun observeTasks(
           completed: Boolean = false
   ): Flowable<List<Task>>
-
   fun saveTaskSingle(task: Task): Single<Long>
   fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
   fun saveTasks(tasks: List<Task>)
   fun clearTasksCompletable(): Completable
   fun searchTaskSingle(searchText: String): Single<List<Task>>
   fun updateTaskSingle(task: Task): Single<Int>
+  fun deleteTaskSingle(task: Task): Single<Int>
 }

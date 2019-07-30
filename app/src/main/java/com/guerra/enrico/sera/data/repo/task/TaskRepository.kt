@@ -10,27 +10,27 @@ import io.reactivex.Single
  * on 10/09/2018.
  */
 interface TaskRepository {
-  fun getTasks(
+  fun getTasksRemote(
           categoriesId: List<String> = emptyList(),
           completed: Boolean = false,
           limit: Int = 10,
           skip: Int = 0
   ): Single<Result<List<Task>>>
 
-  fun getAllTasks(): Single<Result<List<Task>>>
+  fun getAllTasksRemote(): Single<Result<List<Task>>>
 
-  fun observeTasks(
+  fun observeTasksLocal(
           categoriesId: List<String> = emptyList(),
           completed: Boolean = false
   ): Flowable<List<Task>>
 
   fun insertTask(task: Task): Single<Result<Task>>
 
-  fun deleteTask(id: String): Single<Result<Any>>
+  fun deleteTask(task: Task): Single<Result<Int>>
 
   fun updateTask(task: Task): Single<Result<Task>>
 
-  fun searchTask(searchText: String): Single<List<Task>>
+  fun searchTaskLocal(searchText: String): Single<List<Task>>
 
   fun toggleCompleteTask(task: Task): Single<Result<Task>>
 }
