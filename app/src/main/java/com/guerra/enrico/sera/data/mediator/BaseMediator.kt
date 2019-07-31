@@ -8,11 +8,11 @@ import com.guerra.enrico.sera.data.result.Result
  * on 20/08/2018.
  */
 abstract class BaseMediator<in P, R> {
-    protected val result = MediatorLiveData<Result<R>>()
+  protected val result = MediatorLiveData<Result<R>>()
 
-    open fun observe(): MediatorLiveData<Result<R>> {
-        return result
-    }
+  open fun observe(): MediatorLiveData<Result<R>> {
+    return result
+  }
 
-    abstract fun execute(params: P)
+  abstract fun execute(params: P)
 }

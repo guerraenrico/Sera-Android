@@ -18,19 +18,19 @@ import javax.inject.Inject
 class CompleteTaskEvent @Inject constructor(
         private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
-): BaseMediator<Task, Task>() {
-    @SuppressLint("CheckResult")
-    override fun execute(params: Task) {
-        val disposable = taskRepository.toggleCompleteTask(params)
-                .retryWhen {
-                    authRepository.refreshTokenIfNotAuthorized(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    result.postValue(it)
-                }, {
-                    result.postValue(Result.Error(it as Exception))
-                })
-    }
+) : BaseMediator<Task, Task>() {
+  @SuppressLint("CheckResult", "RxLeakedSubscription")
+  override fun execute(params: Task) {
+    taskRepository.toggleCompleteTask(params)
+            .retryWhen {
+              authRepository.refreshTokenIfNotAuthorized(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+              result.postValue(it)
+            }, {
+              result.postValue(Result.Error(it as Exception))
+            })
+  }
 }

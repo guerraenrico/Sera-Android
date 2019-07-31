@@ -21,7 +21,7 @@ class CreateTask @Inject constructor(
   @SuppressLint("CheckResult")
   override fun execute(params: Task) {
     result.postValue(Result.Loading)
-    val disposable = taskRepository.insertTask(params)
+    taskRepository.insertTask(params)
             .retryWhen {
               authRepository.refreshTokenIfNotAuthorized(it)
             }

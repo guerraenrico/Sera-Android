@@ -15,20 +15,20 @@ import javax.inject.Inject
  */
 class ValidateAccessToken @Inject constructor(
         private val authRepository: AuthRepository
-): BaseMediator<Unit, User>() {
-    @SuppressLint("CheckResult")
-    override fun execute(params: Unit) {
-        result.postValue(Result.Loading)
-        val disposable = authRepository.validateAccessToken()
-                .retryWhen {
-                    authRepository.refreshTokenIfNotAuthorized(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    result.postValue(it)
-                }, {
-                    result.postValue(Result.Error(it as Exception))
-                })
-    }
+) : BaseMediator<Unit, User>() {
+  @SuppressLint("CheckResult")
+  override fun execute(params: Unit) {
+    result.postValue(Result.Loading)
+    val disposable = authRepository.validateAccessToken()
+            .retryWhen {
+              authRepository.refreshTokenIfNotAuthorized(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+              result.postValue(it)
+            }, {
+              result.postValue(Result.Error(it as Exception))
+            })
+  }
 }

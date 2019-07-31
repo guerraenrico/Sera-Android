@@ -19,10 +19,10 @@ class CreateCategory @Inject constructor(
         private val authRepository: AuthRepository,
         private val categoryRepository: CategoryRepository
 ) : BaseMediator<Category, Category>() {
-  @SuppressLint("CheckResult")
+  @SuppressLint("CheckResult", "RxLeakedSubscription")
   override fun execute(params: Category) {
     result.postValue(Result.Loading)
-    val disposable = categoryRepository.insertCategory(params)
+    val observer = categoryRepository.insertCategory(params)
             .retryWhen {
               authRepository.refreshTokenIfNotAuthorized(it)
             }

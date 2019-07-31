@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.mediator.task
 
+import android.annotation.SuppressLint
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
@@ -18,10 +19,11 @@ class LoadTasks @Inject constructor(
         private val taskRepository: TaskRepository
 ) : BaseMediator<LoadTaskParameters, List<Task>>() {
 
+  @SuppressLint("RxLeakedSubscription", "CheckResult")
   override fun execute(params: LoadTaskParameters) {
     result.postValue(Result.Loading)
     val (selectedCategoriesIds, completed) = params
-    val tasksObservable = taskRepository.observeTasksLocal(selectedCategoriesIds, completed)
+    taskRepository.observeTasksLocal(selectedCategoriesIds, completed)
             .retryWhen {
               authRepository.refreshTokenIfNotAuthorized(it)
             }

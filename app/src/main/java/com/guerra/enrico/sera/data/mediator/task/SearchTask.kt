@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.mediator.task
 
+import android.annotation.SuppressLint
 import com.guerra.enrico.sera.data.mediator.BaseMediator
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
@@ -15,9 +16,10 @@ import javax.inject.Inject
 class SearchTask @Inject constructor(
         private val taskRepository: TaskRepository
 ) : BaseMediator<SearchTaskParameters, List<Task>>() {
+  @SuppressLint("RxLeakedSubscription", "CheckResult")
   override fun execute(params: SearchTaskParameters) {
-    val (searchText) = params;
-    val observable = taskRepository.searchTaskLocal(searchText)
+    val (searchText) = params
+    taskRepository.searchTaskLocal(searchText)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

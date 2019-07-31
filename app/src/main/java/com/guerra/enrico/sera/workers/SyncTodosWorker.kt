@@ -37,7 +37,7 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
     Log.i("SYNC_TODO", "worker started")
     return localDbManager.getSessionAccessToken()
             .flatMap { accessToken ->
-              Log.i("SYNC_TODO", "token readed")
+              Log.i("SYNC_TODO", "token read")
               Single.zip(
                       remoteDataManager.getCategories(accessToken),
                       remoteDataManager.getAllTasks(accessToken),
@@ -57,7 +57,7 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
                                             Log.i("SYNC_TODO", "complete")
                                             Result.success()
                                           }
-                                  ).map { it }
+                                  )
                           )
                         } else {
                           Log.i("SYNC_TODO", "fail")

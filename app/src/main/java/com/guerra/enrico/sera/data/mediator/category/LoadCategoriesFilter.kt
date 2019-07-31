@@ -20,24 +20,24 @@ class LoadCategoriesFilter @Inject constructor(
         private val categoryRepository: CategoryRepository
 ) : BaseMediator<Unit, List<CategoryFilter>>() {
 
-    @SuppressLint("CheckResult")
-    override fun execute(params: Unit) {
-        result.postValue(Result.Loading)
-        val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
-                categoryRepository.observeCategoriesFilterLocal()
-                        .retryWhen {
-                            authRepository.refreshTokenIfNotAuthorized(it)
-                        }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .onErrorReturn {
-                            Result.Error(it as Exception)
-                        }
-        )
-        result.removeSource(categoriesObservable)
-        result.addSource(categoriesObservable) {
-            result.postValue(it)
-        }
+  @SuppressLint("CheckResult")
+  override fun execute(params: Unit) {
+    result.postValue(Result.Loading)
+    val categoriesObservable = LiveDataReactiveStreams.fromPublisher(
+            categoryRepository.observeCategoriesFilterLocal()
+                    .retryWhen {
+                      authRepository.refreshTokenIfNotAuthorized(it)
+                    }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorReturn {
+                      Result.Error(it as Exception)
+                    }
+    )
+    result.removeSource(categoriesObservable)
+    result.addSource(categoriesObservable) {
+      result.postValue(it)
     }
+  }
 
 }
