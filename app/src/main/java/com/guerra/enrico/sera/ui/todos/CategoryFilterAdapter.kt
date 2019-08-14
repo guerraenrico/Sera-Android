@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.ui.todos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.guerra.enrico.sera.R
@@ -14,25 +15,45 @@ import kotlinx.android.synthetic.main.item_category_filter.view.*
  */
 class CategoryFilterAdapter(
         private val onCategoryClick: (Chip, CategoryFilter) -> Unit
-): RecyclerView.Adapter<CategoryViewHolder>() {
-    var categoriesFilter = emptyList<CategoryFilter>()
+) : RecyclerView.Adapter<CategoryViewHolder>() {
+  private var categoriesFilter = emptyList<CategoryFilter>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category_filter, parent, false)
-        return CategoryViewHolder(itemView)
-    }
+  fun updateList(list: List<CategoryFilter>) {
+    val diffRes = DiffUtil.calculateDiff(CategoriesFilterDiffCallback(categoriesFilter, list))
+    categoriesFilter = list.toMutableList()
+    diffRes.dispatchUpdatesTo(this)
+  }
 
-    override fun getItemCount(): Int = categoriesFilter.size
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category_filter, parent, false)
+    return CategoryViewHolder(itemView)
+  }
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categoriesFilter[position], onCategoryClick)
-    }
+  override fun getItemCount(): Int = categoriesFilter.size
+
+  override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    holder.bind(categoriesFilter[position], onCategoryClick)
+  }
 }
 
-class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-    fun bind(categoryFilter: CategoryFilter, onClick: (Chip, CategoryFilter) -> Unit) = with(itemView) {
-        categoryChip.text = categoryFilter.category.name
-        categoryChip.isChecked = categoryFilter.isChecked.get()
-        categoryChip.setOnClickListener { onClick.invoke(categoryChip, categoryFilter) }
-    }
+class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+  fun bind(categoryFilter: CategoryFilter, onClick: (Chip, CategoryFilter) -> Unit) = with(itemView) {
+    categoryChip.text = categoryFilter.category.name
+    categoryChip.isChecked = categoryFilter.isChecked.get()
+    categoryChip.setOnClickListener { onClick.invoke(categoryChip, categoryFilter) }
+  }
+}
+
+class CategoriesFilterDiffCallback(
+        private val oldList: List<CategoryFilter>,
+        private val newList: List<CategoryFilter>
+) : DiffUtil.Callback() {
+  override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldList[oldItemPosition].category.id == newList[newItemPosition].category.id
+
+  override fun getOldListSize(): Int = oldList.size
+
+  override fun getNewListSize(): Int = newList.size
+
+  override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+          oldList[oldItemPosition].isChecked.get() == newList[newItemPosition].isChecked.get()
 }

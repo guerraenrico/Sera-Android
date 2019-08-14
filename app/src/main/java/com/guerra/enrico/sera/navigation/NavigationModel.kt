@@ -27,7 +27,7 @@ open class NavigationModel {
 
     object Static {
       fun getById(id: Int): NavigationItemEnum {
-        return NavigationItemEnum.values().firstOrNull { it.id == id }
+        return values().firstOrNull { it.id == id }
                 ?: INVALID
       }
     }

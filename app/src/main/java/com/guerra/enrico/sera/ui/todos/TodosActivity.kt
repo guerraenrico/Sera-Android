@@ -21,7 +21,6 @@ import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
 import com.guerra.enrico.sera.util.viewModelProvider
-import com.guerra.enrico.sera.widget.EndlessRecyclerViewScrollListener
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.activity_todos.*
 import kotlinx.android.synthetic.main.toolbar_search.*
@@ -60,11 +59,7 @@ class TodosActivity : BaseActivity() {
     filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
     val tasksAdapter = TaskAdapter { task, position ->
-      // Toggle task as completed before waiting server response
       viewModel.toggleTaskComplete(task)
-//      val adapter = recyclerViewTasks.adapter as TaskAdapter
-//      adapter.tasks[position] = task.copy(completed = !task.completed)
-//      adapter.notifyItemChanged(position)
     }
 
     refreshLayoutTasks.setOnRefreshListener {
@@ -103,8 +98,8 @@ class TodosActivity : BaseActivity() {
 //      })
 //    }
 
-    viewModel.observeTasks().apply {
-      this.observe(this@TodosActivity, Observer { processTaskListResponse(it) })
+    viewModel.tasksResult.apply {
+      this.observe(this@TodosActivity, Observer { processTaskList(it) })
     }
 
     viewModel.snackbarMessage.observe(this, Observer {
@@ -127,7 +122,7 @@ class TodosActivity : BaseActivity() {
   /**
    * Manage read task result
    */
-  private fun processTaskListResponse(tasksResult: Result<List<Task>>?) {
+  private fun processTaskList(tasksResult: Result<List<Task>>?) {
     if (tasksResult === null) {
       return
     }

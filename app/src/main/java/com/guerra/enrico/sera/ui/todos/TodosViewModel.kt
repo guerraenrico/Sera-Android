@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.mediator.category.LoadCategoriesFilter
 import com.guerra.enrico.sera.data.mediator.task.*
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.result.Result
 import com.guerra.enrico.sera.data.result.succeeded
 import com.guerra.enrico.sera.ui.base.BaseViewModel
@@ -22,14 +23,14 @@ class TodosViewModel @Inject constructor(
         private val completeTaskEvent: CompleteTaskEvent,
         private val searchTask: SearchTask
 ) : BaseViewModel() {
-  private var cachedCategoriesFilter = emptyList<CategoryFilter>()
-  private val selectedCategoriesFilter = MutableLiveData<List<CategoryFilter>>()
 
-  private val loadCategoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
-  private val _loadCategoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()
+  private val _categoriesFilterResult: MediatorLiveData<Result<List<CategoryFilter>>> = loadCategories.observe()
+  val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
+    get() = _categoriesFilterResult
 
-  private val loadTasksResult: LiveData<Result<List<Task>>>
-  private val _loadTasksResult: MediatorLiveData<Result<List<Task>>>
+  private val _tasksResult: MediatorLiveData<Result<List<Task>>> = loadTasks.observe()
+  val tasksResult: LiveData<Result<List<Task>>>
+    get() = _tasksResult
 
   private val areTasksReloaded = MutableLiveData<Boolean>()
 
@@ -38,22 +39,8 @@ class TodosViewModel @Inject constructor(
     get() = _snackbarMessage
 
   init {
-    loadCategoriesFilterResult = _loadCategoriesFilterResult.map {
-      if (it.succeeded) {
-        cachedCategoriesFilter = (it as Result.Success).data
-        updateCategoryFilterObservable()
-        return@map Result.Success(cachedCategoriesFilter)
-      }
-      it
-    }
-
-    _loadTasksResult = loadTasks.observe()
-    loadTasksResult = _loadTasksResult.map {
-      it
-    }
-
-    _loadTasksResult.addSource(searchTask.observe()) {
-      _loadTasksResult.postValue(it)
+    _tasksResult.addSource(searchTask.observe()) {
+      _tasksResult.postValue(it)
     }
 
     _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
@@ -62,23 +49,12 @@ class TodosViewModel @Inject constructor(
       }
     }
     // Start load tasks
-    loadTasks.execute(
-            LoadTaskParameters(
-                    selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList()
-            )
-    )
+    loadTasks.execute(LoadTaskParameters(getSelectedCategoriesIds()))
     loadCategories.execute(Unit)
   }
 
   /**
-   * Observe loadTasksResult to show
-   */
-  fun observeTasks(): LiveData<Result<List<Task>>> {
-    return loadTasksResult
-  }
-
-  /**
-   * Reload loadTasksResult
+   * Reload tasksResult
    */
   fun onReloadTasks() {
     refreshTasks()
@@ -92,14 +68,14 @@ class TodosViewModel @Inject constructor(
 //    skip = itemCount
 //        loadTasks.execute(
 //                LoadTaskParameters(
-//                        selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList(),
+//                        _categoriesFilterResult.value?.map { it.category.id } ?: emptyList(),
 //                        false,
 //                )
 //        )
 //  }
 
   /**
-   * Search loadTasksResult
+   * Search tasksResult
    * @param text text to search
    */
   fun search(text: String) {
@@ -115,38 +91,43 @@ class TodosViewModel @Inject constructor(
   }
 
   /**
-   * Observe action categories read
-   */
-  fun observeCategories(): LiveData<Result<List<CategoryFilter>>> {
-    return loadCategoriesFilterResult
-  }
-
-//  fun observeSelectedCategories(): LiveData<List<CategoryFilter>> {
-//    return selectedCategoriesFilter
-//  }
-
-  /**
    * Toggle category selection
    * @param categoryFilter category selected
    * @param checked new category selection value
    */
   fun toggleFilter(categoryFilter: CategoryFilter, checked: Boolean) {
-    categoryFilter.isChecked.set(checked)
-    updateCategoryFilterObservable()
+    toggleSelectedCategoryFilter(categoryFilter, checked)
     refreshTasks()
-  }
-
-  private fun updateCategoryFilterObservable() {
-    selectedCategoriesFilter.value = cachedCategoriesFilter.filter { it.isChecked.get() }
   }
 
   private fun refreshTasks() {
     areTasksReloaded.postValue(true)
-    loadTasks.execute(
-            LoadTaskParameters(
-                    selectedCategoriesFilter.value?.map { it.category.id } ?: emptyList(),
-                    false
-            )
+    loadTasks.execute(LoadTaskParameters(getSelectedCategoriesIds(), false))
+  }
+
+  private fun getSelectedCategoriesIds(): List<String> {
+    val result = _categoriesFilterResult.value
+    if (result == null || result !is Result.Success) {
+      return emptyList()
+    }
+    return result.data.asSequence()
+            .filter { categoryFilter -> categoryFilter.isChecked.get() }
+            .map { categoryFilter -> categoryFilter.category.id }
+            .toList()
+  }
+
+  private fun toggleSelectedCategoryFilter(categoryFilter: CategoryFilter, checked: Boolean) {
+    val result = _categoriesFilterResult.value
+    if (result == null || result !is Result.Success) {
+      return
+    }
+    _categoriesFilterResult.postValue(
+            Result.Success(result.data.map { cf ->
+              if (categoryFilter.category.id == cf.category.id) {
+                cf.isChecked.set(checked)
+              }
+              return@map cf
+            })
     )
   }
 }
