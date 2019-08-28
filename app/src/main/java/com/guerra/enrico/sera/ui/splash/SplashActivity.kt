@@ -2,13 +2,11 @@ package com.guerra.enrico.sera.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.data.result.succeeded
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
@@ -32,8 +30,8 @@ class SplashActivity : BaseActivity() {
   }
 
   override fun initView() {
-    viewModel.observeUserValidationToken().observe(this, Observer { userResult ->
-      if (userResult == null || isFinishing) return@Observer
+    viewModel.validationAccessTokenResult.observe(this, Observer { userResult ->
+      if (userResult == null) return@Observer
       if (userResult is Result.Loading) return@Observer
       if (userResult.succeeded) {
         gotoTodosActivity()

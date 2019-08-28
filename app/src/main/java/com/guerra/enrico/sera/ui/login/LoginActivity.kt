@@ -9,8 +9,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.data.result.succeeded
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
 import com.guerra.enrico.sera.util.viewModelProvider
@@ -44,8 +44,8 @@ class LoginActivity : BaseActivity() {
     signInButton.setOnClickListener {
       startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGNIN)
     }
-    viewModel.observeUserSignIn().observe(this, Observer { userResult ->
-      if (userResult == null || isFinishing) return@Observer
+    viewModel.user.observe(this, Observer { userResult ->
+      if (userResult == null) return@Observer
       if (userResult == Result.Loading) {
         return@Observer
       }

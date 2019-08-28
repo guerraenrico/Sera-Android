@@ -9,7 +9,7 @@ import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.ApiResponse
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.util.ConnectionHelper
 import com.guerra.enrico.sera.workers.TodosWorker
 import io.reactivex.Completable

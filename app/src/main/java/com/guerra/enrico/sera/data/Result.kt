@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data.result
+package com.guerra.enrico.sera.data
 
 /**
  * Created by enrico
@@ -8,8 +8,6 @@ sealed class Result<out R> {
     data class Success<out T>(val data: T): Result<T>()
     data class Error(val exception: Exception): Result<Nothing>()
     object Loading: Result<Nothing>()
-    object Refreshing: Result<Nothing>()
-    object LoadingMore: Result<Nothing>()
 }
 
 val Result<*>.succeeded

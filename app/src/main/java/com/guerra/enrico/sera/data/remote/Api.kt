@@ -37,7 +37,7 @@ interface Api {
           @Query("skip") skip: Int
   ): Single<ApiResponse<List<Category>>>
 
-  @GET("categories/search")
+  @GET("categories/onSearch")
   fun searchCategory(
           @Header("x-token") accessToken: String,
           @Query("text") text: String

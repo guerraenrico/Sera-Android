@@ -16,48 +16,47 @@ import javax.inject.Inject
  * Created by enrico
  * on 18/10/2018.
  */
-class TodoAddActivity: BaseActivity() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: TodoAddViewModel
+class TodoAddActivity : BaseActivity() {
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+  private lateinit var viewModel: TodoAddViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_todo_add)
-        viewModel = viewModelProvider(viewModelFactory)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_todo_add)
+    viewModel = viewModelProvider(viewModelFactory)
 
-        toolbarTitle?.text = ""
-        toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_close, theme)
-        toolbar.setNavigationOnClickListener { finish() }
-        initView()
+    toolbarTitle?.text = ""
+    toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_close, theme)
+    toolbar.setNavigationOnClickListener { finish() }
+    initView()
+  }
+
+  override fun initView() {
+    viewModel.currentStep.observe(this, Observer { step ->
+      when (step) {
+        StepEnum.SELECT -> attachFragment(SelectFragment::class.java)
+        StepEnum.ADD_CATEGORY -> attachFragment(AddCategoryFragmnet::class.java, StepEnum.SELECT)
+        StepEnum.SELECT_CATEGORY -> attachFragment(SelectCategoryFragment::class.java, StepEnum.SELECT)
+        StepEnum.ADD_TASK -> attachFragment(AddTaskFragment::class.java, StepEnum.SELECT)
+        StepEnum.SCHEDULE -> attachFragment(ScheduleFragment::class.java, StepEnum.ADD_TASK)
+        StepEnum.DONE -> attachFragment(DoneFragment::class.java, StepEnum.SCHEDULE)
+        else -> attachFragment(SelectFragment::class.java)
+      }
+    })
+  }
+
+  private fun attachFragment(fragmentClass: Class<out Fragment>, previousStep: StepEnum? = null) {
+    buttonPrevious.setOnClickListener {
+      if (previousStep != null) {
+        viewModel.goToNextStep(previousStep)
+      } else {
+        finish()
+      }
     }
-
-    override fun initView() {
-        viewModel.observeTodoAddCurrentStep().observe(this, Observer {
-            step ->
-            when (step) {
-                StepEnum.SELECT -> attachFragment(SelectFragment::class.java)
-                StepEnum.ADD_CATEGORY -> attachFragment(AddCategoryFragmnet::class.java, StepEnum.SELECT)
-                StepEnum.SELECT_CATEGORY -> attachFragment(SelectCategoryFragment::class.java, StepEnum.SELECT)
-                StepEnum.ADD_TASK -> attachFragment(AddTaskFragment::class.java, StepEnum.SELECT)
-                StepEnum.SCHEDULE -> attachFragment(ScheduleFragment::class.java, StepEnum.ADD_TASK)
-                StepEnum.DONE -> attachFragment(DoneFragment::class.java, StepEnum.SCHEDULE)
-                else -> attachFragment(SelectFragment::class.java)
-            }
-        })
-    }
-
-    private fun attachFragment(fragmentClass: Class<out Fragment>, previousStep: StepEnum? = null) {
-        buttonPrevious.setOnClickListener {
-            if (previousStep != null) {
-                viewModel.goToNextStep(previousStep)
-            } else {
-                finish()
-            }
-        }
-        val transition = supportFragmentManager.beginTransaction()
-        val fragment = fragmentClass.newInstance()
-        transition.replace(R.id.containerFragment, fragment)
-        transition.commit()
-    }
+    val transition = supportFragmentManager.beginTransaction()
+    val fragment = fragmentClass.newInstance()
+    transition.replace(R.id.containerFragment, fragment)
+    transition.commit()
+  }
 }

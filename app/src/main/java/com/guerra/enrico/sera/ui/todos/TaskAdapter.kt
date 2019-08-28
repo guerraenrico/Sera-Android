@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
@@ -21,7 +22,13 @@ import kotlinx.android.synthetic.main.item_task.view.*
  * on 24/06/2018.
  */
 class TaskAdapter(private val onCompleteClick: (Task, Int) -> Unit) : RecyclerView.Adapter<TaskViewHolder>() {
-  var tasks = mutableListOf<Task>()
+  private var tasks = mutableListOf<Task>()
+
+  fun updateList(list: List<Task>) {
+    val diffRes = DiffUtil.calculateDiff(TasksDiffCallback(tasks, list))
+    tasks = list.toMutableList()
+    diffRes.dispatchUpdatesTo(this)
+  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
@@ -57,12 +64,12 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     buttonComplete.setOnClickListener { onCompleteClick.invoke(task, position) }
     contentTaskTitle.setOnClickListener {
-      toogleExpand(containerTaskItem, contentTaskDescription)
+      toggleExpand(containerTaskItem, contentTaskDescription)
       onExpand()
     }
   }
 
-  private fun toogleExpand(viewToExpand: ViewGroup, viewToShow: ViewGroup) {
+  private fun toggleExpand(viewToExpand: ViewGroup, viewToShow: ViewGroup) {
     expanded = !expanded
     toogleExpandTransition.duration = if (expanded) 300L else 200L
     TransitionManager.beginDelayedTransition(viewToExpand, toogleExpandTransition)
@@ -78,4 +85,19 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       }
     }
   }
+}
+
+class TasksDiffCallback(
+        private val oldList: List<Task>,
+        private val newList: List<Task>
+) : DiffUtil.Callback() {
+  override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+          oldList[oldItemPosition].id == newList[newItemPosition].id
+
+  override fun getOldListSize(): Int = oldList.size
+
+  override fun getNewListSize(): Int = newList.size
+
+  override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+          oldList[oldItemPosition].completed == newList[newItemPosition].completed
 }

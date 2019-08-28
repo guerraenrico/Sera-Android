@@ -1,11 +1,12 @@
 package com.guerra.enrico.sera.data.repo.task
 
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -123,17 +124,17 @@ class TaskRepositoryImpl @Inject constructor(
             }
   }
 
-  override fun searchTaskLocal(searchText: String): Single<List<Task>> {
-    return localDbManager.searchTaskSingle(searchText)
-  }
-
-  override fun observeTasksLocal(categoriesId: List<String>, completed: Boolean): Flowable<List<Task>> {
+  override fun observeTasksLocal(searchText: String, category: Category?, completed: Boolean): Flowable<List<Task>> {
     return localDbManager.observeTasks(completed)
             .map { list ->
-              if (categoriesId.isNullOrEmpty()) {
-                return@map list
+              val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
+              if (searchText.isNotEmpty()) {
+                return@map list.filter { c -> c.description.contains(regex) }
               }
-              return@map list.filter { t -> t.categories.any { c -> categoriesId.contains(c.id) } }
+              if (category !== null) {
+                return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
+              }
+              return@map list
             }
   }
 }

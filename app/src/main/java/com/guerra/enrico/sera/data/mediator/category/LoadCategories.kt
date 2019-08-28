@@ -1,28 +1,29 @@
-package com.guerra.enrico.sera.data.mediator.task
+package com.guerra.enrico.sera.data.mediator.category
 
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.mediator.BaseMediator
+import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
-import com.guerra.enrico.sera.data.repo.task.TaskRepository
+import com.guerra.enrico.sera.data.repo.category.CategoryRepository
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
  * Created by enrico
- * on 30/10/2018.
+ * on 20/08/2018.
  */
-class CompleteTaskEvent @Inject constructor(
+class LoadCategories @Inject constructor(
         private val schedulerProvider: SchedulerProvider,
         private val authRepository: AuthRepository,
-        private val taskRepository: TaskRepository
-) : BaseMediator<Task, Task>() {
-  override fun execute(params: Task): Disposable {
-    return taskRepository.toggleCompleteTask(params)
+        private val categoryRepository: CategoryRepository
+) : BaseMediator<Unit, List<Category>>() {
+  override fun execute(params: Unit): Disposable {
+    result.postValue(Result.Loading)
+    return categoryRepository.observeCategoriesLocal()
             .retryWhen {
               authRepository.refreshTokenIfNotAuthorized(it)
             }
@@ -31,7 +32,13 @@ class CompleteTaskEvent @Inject constructor(
             .subscribe({
               result.postValue(it)
             }, {
-              result.postValue(Result.Error(it as Exception))
+              var e = it as Exception
+              if (e !is OperationException) {
+                e = OperationException.unknownError()
+              }
+              result.postValue(Result.Error(e))
             })
+
   }
+
 }

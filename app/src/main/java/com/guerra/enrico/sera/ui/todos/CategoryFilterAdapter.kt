@@ -15,31 +15,31 @@ import kotlinx.android.synthetic.main.item_category_filter.view.*
  */
 class CategoryFilterAdapter(
         private val onCategoryClick: (Chip, CategoryFilter) -> Unit
-) : RecyclerView.Adapter<CategoryViewHolder>() {
+) : RecyclerView.Adapter<CategoryFilterViewHolder>() {
   private var categoriesFilter = emptyList<CategoryFilter>()
 
   fun updateList(list: List<CategoryFilter>) {
     val diffRes = DiffUtil.calculateDiff(CategoriesFilterDiffCallback(categoriesFilter, list))
-    categoriesFilter = list.toMutableList()
+    categoriesFilter = list
     diffRes.dispatchUpdatesTo(this)
   }
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryFilterViewHolder {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category_filter, parent, false)
-    return CategoryViewHolder(itemView)
+    return CategoryFilterViewHolder(itemView)
   }
 
   override fun getItemCount(): Int = categoriesFilter.size
 
-  override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: CategoryFilterViewHolder, position: Int) {
     holder.bind(categoriesFilter[position], onCategoryClick)
   }
 }
 
-class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CategoryFilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   fun bind(categoryFilter: CategoryFilter, onClick: (Chip, CategoryFilter) -> Unit) = with(itemView) {
     categoryChip.text = categoryFilter.category.name
-    categoryChip.isChecked = categoryFilter.isChecked.get()
+    categoryChip.isChecked = categoryFilter.isChecked
     categoryChip.setOnClickListener { onClick.invoke(categoryChip, categoryFilter) }
   }
 }
@@ -55,5 +55,5 @@ class CategoriesFilterDiffCallback(
   override fun getNewListSize(): Int = newList.size
 
   override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-          oldList[oldItemPosition].isChecked.get() == newList[newItemPosition].isChecked.get()
+          oldList[oldItemPosition].isChecked == newList[newItemPosition].isChecked
 }

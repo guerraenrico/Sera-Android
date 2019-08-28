@@ -9,13 +9,9 @@ import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
 import com.guerra.enrico.sera.data.remote.request.AccessTokenParams
 import com.guerra.enrico.sera.data.repo.auth.AuthRepositoryImpl
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.workers.TodosWorker
-import io.reactivex.Scheduler
-import io.reactivex.Single
 import io.reactivex.Single.just
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.`when`

@@ -16,8 +16,11 @@ import com.guerra.enrico.sera.data.repo.category.CategoryRepository
 import com.guerra.enrico.sera.data.repo.category.CategoryRepositoryImpl
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.data.repo.task.TaskRepositoryImpl
+import com.guerra.enrico.sera.scheduler.SchedulerProvider
+import com.guerra.enrico.sera.scheduler.SchedulerProviderImpl
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
@@ -26,37 +29,44 @@ import javax.inject.Singleton
  */
 @Module(includes = [ViewModelModule::class, AppModuleBinds::class])
 class AppModule {
-    @Provides
-    fun provideContext(application: SeraApplication): Context = application.applicationContext
+  @Provides
+  fun provideContext(application: SeraApplication): Context = application.applicationContext
 
-    @Provides
-    fun provideApplication(application: SeraApplication): Application = application
+  @Provides
+  fun provideApplication(application: SeraApplication): Application = application
 
-    @Provides
-    @Singleton
-    fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
+  @Provides
+  @Singleton
+  fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
 
-    @Provides
-    @Singleton
-    fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository = authRepository
+  @Provides
+  fun provideCompositeDisposable() = CompositeDisposable()
 
-    @Provides
-    @Singleton
-    fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository = categoryRepository
+  @Provides
+  @Singleton
+  fun provideSchedulerProvider(schedulerProvider: SchedulerProviderImpl): SchedulerProvider = schedulerProvider
 
-    @Provides
-    @Singleton
-    fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository = taskRepository
+  @Provides
+  @Singleton
+  fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository = authRepository
 
-    @Provides
-    @Singleton
-    fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager = localDbManager
+  @Provides
+  @Singleton
+  fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository = categoryRepository
 
-    @Provides
-    @Singleton
-    fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager = preferencesManager
+  @Provides
+  @Singleton
+  fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository = taskRepository
 
-    @Provides
-    @Singleton
-    fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager = remoteDataManager
+  @Provides
+  @Singleton
+  fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager = localDbManager
+
+  @Provides
+  @Singleton
+  fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager = preferencesManager
+
+  @Provides
+  @Singleton
+  fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager = remoteDataManager
 }

@@ -9,13 +9,14 @@
     style="@style/ToolbarSearch"
     >
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <AutoCompleteTextView
         android:id="@+id/toolbarEditTextSearch"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="@string/label_search"
+        android:completionThreshold="1"
         android:maxLines="1"
         android:imeOptions="actionSearch"
         style="@style/SearchTextInput"/>

@@ -6,8 +6,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.ui.todos.CategoryFilter
+import com.guerra.enrico.sera.data.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -85,10 +84,10 @@ class CategoryRepositoryImpl @Inject constructor(
             }
   }
 
-  override fun observeCategoriesFilterLocal(): Flowable<Result<List<CategoryFilter>>> {
+  override fun observeCategoriesLocal(): Flowable<Result<List<Category>>> {
     return localDbManager.observeAllCategories()
             .flatMap { categories ->
-              Flowable.just(Result.Success(categories.map { CategoryFilter(it) }))
+              Flowable.just(Result.Success(categories))
             }
   }
 }

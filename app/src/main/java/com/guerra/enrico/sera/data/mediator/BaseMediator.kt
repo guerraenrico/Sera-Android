@@ -1,7 +1,8 @@
 package com.guerra.enrico.sera.data.mediator
 
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by enrico
@@ -14,5 +15,5 @@ abstract class BaseMediator<in P, R> {
     return result
   }
 
-  abstract fun execute(params: P)
+  abstract fun execute(params: P): Disposable
 }

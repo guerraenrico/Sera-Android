@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.mediator.auth.ValidateAccessToken
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import com.guerra.enrico.sera.util.map
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -14,12 +14,15 @@ import javax.inject.Inject
  * on 17/10/2018.
  */
 class SplashViewModel @Inject constructor(
+        private val compositeDisposable: CompositeDisposable,
         private val validateAccessToken: ValidateAccessToken
-): BaseViewModel() {
-    private val validationAccessTokenResult: MediatorLiveData<Result<User>> = validateAccessToken.observe()
+) : BaseViewModel(compositeDisposable) {
+  private val _validationAccessTokenResult: MediatorLiveData<Result<User>> = validateAccessToken.observe()
+  val validationAccessTokenResult: LiveData<Result<User>>
+    get() = _validationAccessTokenResult
 
-    fun observeUserValidationToken(): LiveData<Result<User>> {
-        validateAccessToken.execute(Unit)
-        return validationAccessTokenResult
-    }
+  init {
+    compositeDisposable.add(validateAccessToken.execute(Unit))
+  }
+
 }

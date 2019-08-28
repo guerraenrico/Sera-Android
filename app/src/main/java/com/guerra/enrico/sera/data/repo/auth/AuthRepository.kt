@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.repo.auth
 
 import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.result.Result
+import com.guerra.enrico.sera.data.Result
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

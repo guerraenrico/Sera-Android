@@ -1,9 +1,7 @@
 package com.guerra.enrico.sera.data.repo.category
 
 import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.ui.todos.CategoryFilter
-import io.reactivex.Completable
+import com.guerra.enrico.sera.data.Result
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -16,5 +14,5 @@ interface CategoryRepository {
   fun searchCategory(text: String): Single<Result<List<Category>>>
   fun insertCategory(category: Category): Single<Result<Category>>
   fun deleteCategory(category: Category): Single<Result<Int>>
-  fun observeCategoriesFilterLocal(): Flowable<Result<List<CategoryFilter>>>
+  fun observeCategoriesLocal(): Flowable<Result<List<Category>>>
 }

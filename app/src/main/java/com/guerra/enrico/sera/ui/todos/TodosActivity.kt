@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.ui.todos
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -15,8 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.exceptions.OperationException
 import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.result.Result
-import com.guerra.enrico.sera.data.result.succeeded
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
@@ -27,6 +27,10 @@ import kotlinx.android.synthetic.main.toolbar_search.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import com.guerra.enrico.sera.data.EventObserver
+import com.guerra.enrico.sera.data.models.Category
 
 
 /**
@@ -58,8 +62,67 @@ class TodosActivity : BaseActivity() {
     }
     filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
+    setupRecyclerView()
+    setupSearch()
+
+//    viewModel.observeAreTasksReloaded().apply {
+//      this.observe(this@TodosActivity, Observer { refreshed ->
+//        if (refreshed) {
+//          endlessRecyclerViewScrollListener.resetState()
+//        }
+//      })
+//    }
+
+    viewModel.tasksResult.observe(this@TodosActivity, Observer { processTaskList(it) })
+    viewModel.categories.observe(this@TodosActivity, Observer { categories ->
+      if (categories == null) return@Observer
+      val adapter = SearchTasksAutocompleteAdapter(this, categories)
+      toolbarEditTextSearch.setAdapter(adapter)
+    })
+    viewModel.snackbarMessage.observe(this, EventObserver {
+      showSnakbar(it)
+    })
+  }
+
+  /**
+   * Manage read task result
+   */
+  private fun processTaskList(tasksResult: Result<List<Task>>?) {
+    if (tasksResult === null) {
+      return
+    }
+    if (tasksResult is Result.Loading) {
+      if (!refreshLayoutTasks.isRefreshing) {
+        showOverlayLoader()
+      }
+      return
+    }
+    messageLayout.hide()
+    if (refreshLayoutTasks.isRefreshing) {
+      refreshLayoutTasks.isRefreshing = false
+    }
+    hideOverlayLoader()
+    if (tasksResult is Result.Success) {
+      recyclerViewTasks.visibility = View.VISIBLE
+      setRecyclerTaskList(tasksResult.data)
+      return
+    }
+    if (tasksResult is Result.Error) {
+      if (tasksResult.exception is OperationException) {
+        recyclerViewTasks.visibility = View.GONE
+        messageLayout.setMessage(tasksResult.exception.getBaseMessage()) { code ->
+          viewModel.onReloadTasks()
+        }
+        messageLayout.show()
+        return
+      }
+      showSnakbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
+    }
+  }
+
+  private fun setupRecyclerView() {
     val tasksAdapter = TaskAdapter { task, position ->
-      viewModel.toggleTaskComplete(task)
+      viewModel.onToggleTaskComplete(task)
     }
 
     refreshLayoutTasks.setOnRefreshListener {
@@ -89,83 +152,36 @@ class TodosActivity : BaseActivity() {
       }
 //      addOnScrollListener(endlessRecyclerViewScrollListener)
     }
-
-//    viewModel.observeAreTasksReloaded().apply {
-//      this.observe(this@TodosActivity, Observer { refreshed ->
-//        if (refreshed) {
-//          endlessRecyclerViewScrollListener.resetState()
-//        }
-//      })
-//    }
-
-    viewModel.tasksResult.apply {
-      this.observe(this@TodosActivity, Observer { processTaskList(it) })
-    }
-
-    viewModel.snackbarMessage.observe(this, Observer {
-      showSnakbar(it)
-    })
-
-    // Search action
-    toolbarEditTextSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-      override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-        if (actionId == IME_ACTION_SEARCH) {
-          viewModel.search(textView?.text.toString())
-          toolbarEditTextSearch.clearFocus()
-          return true
-        }
-        return false
-      }
-    })
-  }
-
-  /**
-   * Manage read task result
-   */
-  private fun processTaskList(tasksResult: Result<List<Task>>?) {
-    if (tasksResult === null) {
-      return
-    }
-    if (tasksResult == Result.Loading) {
-      if (!refreshLayoutTasks.isRefreshing) {
-        showOverlayLoader()
-      }
-      return
-    }
-    messageLayout.hide()
-    if (refreshLayoutTasks.isRefreshing) {
-      refreshLayoutTasks.isRefreshing = false
-    } else {
-      hideOverlayLoader()
-    }
-    if (tasksResult.succeeded) {
-      recyclerViewTasks.visibility = View.VISIBLE
-      setRecyclerTaskList((tasksResult as Result.Success).data)
-      return
-    }
-    if (tasksResult is Result.Error) {
-      if (tasksResult.exception is OperationException) {
-        recyclerViewTasks.visibility = View.GONE
-        messageLayout.setMessage(tasksResult.exception.getBaseMessage()) { code ->
-          viewModel.onReloadTasks()
-        }
-        messageLayout.show()
-        return
-      }
-      showSnakbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
-    }
   }
 
   /**
    * Show tasks into the recycler view
+   * @param tasks task's list to show
    */
   private fun setRecyclerTaskList(tasks: List<Task>) {
     val filterAdapter: TaskAdapter
     if (recyclerViewTasks.adapter != null) {
       filterAdapter = recyclerViewTasks.adapter as TaskAdapter
-      filterAdapter.tasks = tasks.toMutableList()
-      filterAdapter.notifyDataSetChanged()
+      filterAdapter.updateList(tasks)
     }
+  }
+
+  private fun setupSearch() {
+    toolbarEditTextSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+      override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == IME_ACTION_SEARCH) {
+          closeKeyboard()
+          viewModel.onSearch(textView?.text.toString())
+          return true
+        }
+        return false
+      }
+    })
+    toolbarEditTextSearch.onItemClickListener =
+            AdapterView.OnItemClickListener { adapter, _view, position, id ->
+              closeKeyboard()
+              viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
+            }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -201,5 +217,18 @@ class TodosActivity : BaseActivity() {
 
   override fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
     return NavigationModel.NavigationItemEnum.TODOS
+  }
+
+  /**
+   * Close keyboard and remove focus from view
+   */
+  private fun closeKeyboard() {
+    if (isFinishing) return
+    val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val focus = currentFocus
+    if (focus !== null) {
+      inputManager.hideSoftInputFromWindow(focus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+      focus.clearFocus()
+    }
   }
 }
