@@ -1,9 +1,9 @@
 package com.guerra.enrico.sera.data.dao
 
 import androidx.room.EmptyResultSetException
-import com.guerra.enrico.sera.data.BaseDatabaseTest
+import com.guerra.enrico.sera.BaseDatabaseTest
 import com.guerra.enrico.sera.data.local.dao.UserDao
-import com.guerra.enrico.sera.data.user1
+import com.guerra.enrico.sera.user1
 import org.junit.Test
 
 /**

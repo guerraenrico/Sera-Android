@@ -1,10 +1,10 @@
 package com.guerra.enrico.sera.data.dao
 
 import androidx.room.EmptyResultSetException
-import com.guerra.enrico.sera.data.BaseDatabaseTest
+import com.guerra.enrico.sera.BaseDatabaseTest
 import com.guerra.enrico.sera.data.local.dao.SessionDao
-import com.guerra.enrico.sera.data.session1
-import com.guerra.enrico.sera.data.session2
+import com.guerra.enrico.sera.session1
+import com.guerra.enrico.sera.session2
 import org.junit.Test
 
 /**

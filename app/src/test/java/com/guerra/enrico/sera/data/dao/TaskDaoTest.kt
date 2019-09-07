@@ -1,7 +1,10 @@
 package com.guerra.enrico.sera.data.dao
 
-import com.guerra.enrico.sera.data.*
+import com.guerra.enrico.sera.BaseDatabaseTest
 import com.guerra.enrico.sera.data.local.dao.TaskDao
+import com.guerra.enrico.sera.insertTasks
+import com.guerra.enrico.sera.task3
+import com.guerra.enrico.sera.tasks
 import org.junit.Test
 
 /**

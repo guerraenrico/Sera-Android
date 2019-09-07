@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data
+package com.guerra.enrico.sera
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule

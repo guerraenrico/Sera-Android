@@ -6,9 +6,7 @@ import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 import javax.inject.Inject
 

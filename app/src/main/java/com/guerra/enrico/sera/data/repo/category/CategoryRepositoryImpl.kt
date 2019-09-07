@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.data.repo.category
 
-import android.content.Context
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.ApiError
@@ -18,7 +17,6 @@ import javax.inject.Singleton
  */
 @Singleton
 class CategoryRepositoryImpl @Inject constructor(
-        private val context: Context,
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {

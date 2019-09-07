@@ -1,11 +1,9 @@
 package com.guerra.enrico.sera.data.dao
 
-import com.guerra.enrico.sera.data.BaseDatabaseTest
-import com.guerra.enrico.sera.data.categories
-import com.guerra.enrico.sera.data.category3
+import com.guerra.enrico.sera.BaseDatabaseTest
+import com.guerra.enrico.sera.categories
+import com.guerra.enrico.sera.category3
 import com.guerra.enrico.sera.data.local.dao.CategoryDao
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertThat
 import org.junit.Test
 
 /**
