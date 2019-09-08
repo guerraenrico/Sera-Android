@@ -8,7 +8,6 @@ import com.guerra.enrico.sera.data.mediator.category.LoadCategories
 import com.guerra.enrico.sera.data.mediator.task.*
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

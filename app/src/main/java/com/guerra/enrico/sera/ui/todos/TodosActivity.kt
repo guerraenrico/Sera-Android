@@ -144,7 +144,7 @@ class TodosActivity : BaseActivity() {
               true
       ))
       (itemAnimator as DefaultItemAnimator).run {
-        supportsChangeAnimations = false
+        supportsChangeAnimations = true
         addDuration = 160L
         moveDuration = 160L
         changeDuration = 160L

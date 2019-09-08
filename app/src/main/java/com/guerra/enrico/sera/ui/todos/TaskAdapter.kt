@@ -45,7 +45,7 @@ class TaskAdapter(private val onCompleteClick: (Task, Int) -> Unit) : RecyclerVi
 }
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  private val toogleExpandTransition: Transition = TransitionInflater.from(itemView.context)
+  private val toggleExpandTransition: Transition = TransitionInflater.from(itemView.context)
           .inflateTransition(R.transition.task_card_toogle_expand)
   private var expanded = false
 
@@ -71,8 +71,8 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
   private fun toggleExpand(viewToExpand: ViewGroup, viewToShow: ViewGroup) {
     expanded = !expanded
-    toogleExpandTransition.duration = if (expanded) 300L else 200L
-    TransitionManager.beginDelayedTransition(viewToExpand, toogleExpandTransition)
+    toggleExpandTransition.duration = if (expanded) 300L else 200L
+    TransitionManager.beginDelayedTransition(viewToExpand, toggleExpandTransition)
     viewToShow.visibility = if (expanded) View.VISIBLE else View.GONE
   }
 
