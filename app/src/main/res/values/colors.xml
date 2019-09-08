@@ -37,6 +37,12 @@
     <color name="task_list_item_color_active">#CAD2DC</color>
     <color name="task_list_item_color_completed">#475b75</color>
 
+    <!-- Category-->
+    <color name="category_item_background_color_not_selected">@color/background_color_dark</color>
+    <color name="category_item_background_color_selected">@color/color_accent</color>
+    <color name="category_item_text_color_not_selected">@color/color_accent</color>
+    <color name="category_item_text_color_selected">#ffffff</color>
+
     <!-- Category Filter Chip -->
     <color name="category_filter_chip_text_unselected">#a0acba</color>
     <color name="category_filter_chip_text_selected">#ffffff</color>

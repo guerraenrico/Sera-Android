@@ -140,4 +140,10 @@
         <item name="rippleColor">@color/color_text_third</item>
     </style>
 
+    <!-- Category -->
+    <style name="CategoryText">
+        <item name="android:textSize">@dimen/category_item_text_size</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

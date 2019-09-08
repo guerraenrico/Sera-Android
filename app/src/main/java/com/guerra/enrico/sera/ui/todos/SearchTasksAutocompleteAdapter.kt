@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
+import kotlinx.android.synthetic.main.item_category.view.*
 import kotlinx.android.synthetic.main.item_search_tasks_autocomplete.view.*
+import kotlinx.android.synthetic.main.item_search_tasks_autocomplete.view.labelCategoryName
 
 /**
  * Created by enrico
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.item_search_tasks_autocomplete.view.*
 class SearchTasksAutocompleteAdapter constructor(
         context: Context,
         private var list: List<Category>
-) : ArrayAdapter<Category>(context, R.layout.item_search_tasks_autocomplete) {
+) : ArrayAdapter<Category>(context, R.layout.item_category) {
 
   private val filter = CategoryAutocompleteFilter(list, this)
 
@@ -31,7 +33,7 @@ class SearchTasksAutocompleteAdapter constructor(
 
   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
     val view = convertView
-            ?: (context as Activity).layoutInflater.inflate(R.layout.item_search_tasks_autocomplete, parent, false)
+            ?: (context as Activity).layoutInflater.inflate(R.layout.item_category, parent, false)
     view.labelCategoryName.text = getItem(position)?.name
     return view
   }

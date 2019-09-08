@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.guerra.enrico.sera.R
-import kotlinx.android.synthetic.main.item_category_filter.view.*
+import kotlinx.android.synthetic.main.item_category.view.*
 
 /**
  * Created by enrico
  * on 21/08/2018.
  */
 class CategoryFilterAdapter(
-        private val onCategoryClick: (Chip, CategoryFilter) -> Unit
+        private val onCategoryClick: (CategoryFilter) -> Unit
 ) : RecyclerView.Adapter<CategoryFilterViewHolder>() {
   private var categoriesFilter = emptyList<CategoryFilter>()
 
@@ -25,7 +25,7 @@ class CategoryFilterAdapter(
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryFilterViewHolder {
-    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category_filter, parent, false)
+    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
     return CategoryFilterViewHolder(itemView)
   }
 
@@ -37,10 +37,11 @@ class CategoryFilterAdapter(
 }
 
 class CategoryFilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  fun bind(categoryFilter: CategoryFilter, onClick: (Chip, CategoryFilter) -> Unit) = with(itemView) {
-    categoryChip.text = categoryFilter.category.name
-    categoryChip.isChecked = categoryFilter.isChecked
-    categoryChip.setOnClickListener { onClick.invoke(categoryChip, categoryFilter) }
+  fun bind(categoryFilter: CategoryFilter, onClick: (CategoryFilter) -> Unit) = with(itemView) {
+    labelCategoryName.text = categoryFilter.category.name
+    labelCategoryName.isSelected = categoryFilter.isChecked
+    contentCategory.isSelected = categoryFilter.isChecked
+    contentCategory.setOnClickListener { onClick.invoke(categoryFilter) }
   }
 }
 

@@ -143,13 +143,7 @@ class TodosActivity : BaseActivity() {
               resources.getDimensionPixelSize(R.dimen.item_list_spacing),
               true
       ))
-      (itemAnimator as DefaultItemAnimator).run {
-        supportsChangeAnimations = true
-        addDuration = 160L
-        moveDuration = 160L
-        changeDuration = 160L
-        removeDuration = 160L
-      }
+      itemAnimator as DefaultItemAnimator
 //      addOnScrollListener(endlessRecyclerViewScrollListener)
     }
   }

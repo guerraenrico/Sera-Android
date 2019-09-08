@@ -42,7 +42,7 @@ class SelectCategoryFragment : BaseFragment() {
     viewModel = activityViewModelProvider(viewModelFactory)
 
     val gridLayoutManager = GridLayoutManager(context, 2)
-    filterAdapter = CategoryFilterAdapter { _, categoryFilter ->
+    filterAdapter = CategoryFilterAdapter { categoryFilter ->
       val checked = !categoryFilter.isChecked
       viewModel.toggleCategory(categoryFilter, checked)
     }
