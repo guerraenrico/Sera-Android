@@ -142,6 +142,7 @@
 
     <!-- Category -->
     <style name="CategoryText">
+        <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textSize">@dimen/category_item_text_size</item>
         <item name="android:textAllCaps">true</item>
     </style>

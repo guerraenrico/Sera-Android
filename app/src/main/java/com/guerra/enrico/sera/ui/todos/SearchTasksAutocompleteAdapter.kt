@@ -6,14 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import android.widget.Filterable
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListUpdateCallback
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
 import kotlinx.android.synthetic.main.item_category.view.*
-import kotlinx.android.synthetic.main.item_search_tasks_autocomplete.view.*
-import kotlinx.android.synthetic.main.item_search_tasks_autocomplete.view.labelCategoryName
 
 /**
  * Created by enrico
