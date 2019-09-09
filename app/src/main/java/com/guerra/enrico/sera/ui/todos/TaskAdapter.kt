@@ -38,9 +38,7 @@ class TaskAdapter(private val onCompleteClick: (Task, Int) -> Unit) : RecyclerVi
   override fun getItemCount(): Int = tasks.size
 
   override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-    holder.bind(tasks[position], position, onCompleteClick) {
-      notifyItemChanged(position)
-    }
+    holder.bind(tasks[position], position, onCompleteClick)
   }
 }
 
@@ -50,7 +48,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   private var expanded = false
 
   @SuppressLint("RestrictedApi")
-  fun bind(task: Task, position: Int, onCompleteClick: (Task, Int) -> Unit, onExpand: () -> Unit) = with(itemView) {
+  fun bind(task: Task, position: Int, onCompleteClick: (Task, Int) -> Unit) = with(itemView) {
     taskTitle.text = task.title
     taskDescription.text = if (task.description.isEmpty()) resources.getString(R.string.label_no_task_description) else task.description
     taskDate.text = String.format(
@@ -65,7 +63,6 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     buttonComplete.setOnClickListener { onCompleteClick.invoke(task, position) }
     contentTaskTitle.setOnClickListener {
       toggleExpand(containerTaskItem, contentTaskDescription)
-      onExpand()
     }
   }
 
