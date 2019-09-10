@@ -66,20 +66,6 @@ class TodosViewModel @Inject constructor(
   }
 
   /**
-   * Read more task
-   * @param itemCount current number of task loaded
-   */
-//  fun onLoadMoreTasks(itemCount: Int) {
-//    skip = itemCount
-//        loadTasks.execute(
-//                LoadTaskParameters(
-//                        _categoriesResult.value?.map { it.category.id } ?: emptyList(),
-//                        false,
-//                )
-//        )
-//  }
-
-  /**
    * Search tasksResult
    * @param text text to onSearch
    */

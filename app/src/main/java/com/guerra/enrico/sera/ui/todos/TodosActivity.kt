@@ -65,14 +65,6 @@ class TodosActivity : BaseActivity() {
     setupRecyclerView()
     setupSearch()
 
-//    viewModel.observeAreTasksReloaded().apply {
-//      this.observe(this@TodosActivity, Observer { refreshed ->
-//        if (refreshed) {
-//          endlessRecyclerViewScrollListener.resetState()
-//        }
-//      })
-//    }
-
     viewModel.tasksResult.observe(this@TodosActivity, Observer { processTaskList(it) })
     viewModel.categories.observe(this@TodosActivity, Observer { categories ->
       if (categories == null) return@Observer
@@ -130,11 +122,6 @@ class TodosActivity : BaseActivity() {
     }
 
     val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-//    val endlessRecyclerViewScrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager, 15) {
-//      override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-//        viewModel.onLoadMoreTasks(totalItemsCount)
-//      }
-//    }
     recyclerViewTasks.apply {
       layoutManager = linearLayoutManager
       adapter = tasksAdapter
@@ -144,7 +131,6 @@ class TodosActivity : BaseActivity() {
               true
       ))
       itemAnimator as DefaultItemAnimator
-//      addOnScrollListener(endlessRecyclerViewScrollListener)
     }
   }
 
