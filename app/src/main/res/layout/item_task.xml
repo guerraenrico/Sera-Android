@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/task_item_background"
     android:elevation="3dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentTaskTitle"
