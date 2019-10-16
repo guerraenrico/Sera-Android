@@ -20,7 +20,7 @@ class SeraApplication: DaggerApplication(), HasRxWorkerInjector {
     override fun workerInjector(): AndroidInjector<RxWorker> = workerInjector
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().create(this)
+        return DaggerAppComponent.factory().create(this)
     }
 
     override fun onCreate() {

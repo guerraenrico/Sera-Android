@@ -7,6 +7,7 @@ import com.guerra.enrico.sera.di.module.RetrofitModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
 import com.guerra.enrico.sera.workers.AndroidRxWorkerInjectorModule
 import com.guerra.enrico.sera.workers.WorkerCreator
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -27,6 +28,8 @@ import javax.inject.Singleton
     WorkerCreator::class
 ])
 interface AppComponent: AndroidInjector<SeraApplication> {
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<SeraApplication>()
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: SeraApplication): AppComponent
+    }
 }

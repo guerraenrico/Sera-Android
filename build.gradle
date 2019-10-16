@@ -9,7 +9,7 @@ buildscript {
         lifecycleVersion = "2.1.0"
         roomVersion = "2.2.0"
         pagingVersion = "2.1.0-alpha01"
-        daggerVersion = "2.19"
+        daggerVersion = "2.24"
         retrofitVersion = "2.4.0"
         gsonVersion = "2.8.5"
         rxjavaVersion = "2.1.14"
