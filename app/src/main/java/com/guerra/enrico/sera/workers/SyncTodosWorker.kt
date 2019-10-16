@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 17/12/2018.
  */
-class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : RxWorker(context, workerParameters) {
+class SyncTodosWorker (context: Context, workerParameters: WorkerParameters) : RxWorker(context, workerParameters) {
   companion object {
     const val NIGHTLY_SYNC_TAG = "night_sync_todos"
   }

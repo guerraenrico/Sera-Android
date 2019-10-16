@@ -23,7 +23,9 @@ class TodosWorkerImpl @Inject constructor(
                 2, TimeUnit.HOURS, 1, TimeUnit.HOURS)
                 .setConstraints(
                         Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.UNMETERED)
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .setRequiresBatteryNotLow(true)
+                                .setRequiresDeviceIdle(true)
                                 .build()
                 )
                 .build()

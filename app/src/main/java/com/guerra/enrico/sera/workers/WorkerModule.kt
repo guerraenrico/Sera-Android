@@ -19,8 +19,7 @@ class WorkerModule {
         return try {
             WorkManager.getInstance()
         } catch (e: IllegalStateException) {
-            // Yes this is gross. It only really happens from tests so we'll just catch it, initialize and
-            // return the instance
+            // Yes this is gross
             WorkManager.initialize(context,
                     Configuration.Builder().build()
             )
