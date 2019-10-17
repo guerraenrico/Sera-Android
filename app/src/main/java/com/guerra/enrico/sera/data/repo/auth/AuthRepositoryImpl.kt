@@ -93,7 +93,7 @@ class AuthRepositoryImpl @Inject constructor(
     return errors.flatMap { error ->
       if (!alreadyRetried.get() && error is HttpException) {
         try {
-          val exception = ApiException(gson.fromJson(error.response().errorBody()?.string(), ApiResponse::class.java).error
+          val exception = ApiException(gson.fromJson(error.response()?.errorBody()?.string(), ApiResponse::class.java).error
                   ?: return@flatMap Flowable.error<Any>(error))
           if (exception.isExpiredSession()) {
             alreadyRetried.set(true)

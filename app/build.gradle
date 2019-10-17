@@ -11,11 +11,11 @@ def configProperties = new Properties()
 configProperties.load(new FileInputStream(configPropertiesFile))
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.guerra.enrico.sera"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,8 +106,8 @@ dependencies {
     implementation "nl.littlerobots.rxlint:rxlint:$rxlintVersion"
 
     // Work Manager
-    implementation "android.arch.work:work-runtime:$workManagerVersion"
-    implementation "android.arch.work:work-rxjava2:$workManagerVersion"
+    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+    implementation "androidx.work:work-rxjava2:$workManagerVersion"
 
     // Shimmer
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
