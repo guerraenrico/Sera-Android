@@ -5,9 +5,9 @@ buildscript {
         kotlinVersion = '1.3.50'
         appCompatVersion = '1.1.0'
         materialVersion = '1.0.0'
-        constraintLayoutVersion = '2.0.0-beta2'
+        constraintLayoutVersion = '2.0.0-beta3'
         lifecycleVersion = "2.1.0"
-        roomVersion = "2.2.0"
+        roomVersion = "2.2.1"
         pagingVersion = "2.1.0-alpha01"
         daggerVersion = "2.24"
         retrofitVersion = '2.6.2'

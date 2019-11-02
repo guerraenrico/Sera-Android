@@ -5,6 +5,8 @@ import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.request.*
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.AuthData
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -16,12 +18,12 @@ interface Api {
   @POST("auth/google/signin/callback")
   fun googleSignInCallback(
           @Body params: AuthRequestParams
-  ): Single<ApiResponse<User>>
+  ): Single<ApiResponse<AuthData>>
 
   @POST("auth/google/validate/token")
   fun validateAccessToken(
           @Body params: AccessTokenParams
-  ): Single<ApiResponse<User>>
+  ): Single<ApiResponse<AuthData>>
 
   @POST("auth/google/refresh/token")
   fun refreshAccessToken(

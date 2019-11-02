@@ -6,7 +6,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.remote.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException

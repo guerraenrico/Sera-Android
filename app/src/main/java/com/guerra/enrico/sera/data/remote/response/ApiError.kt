@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data.remote
+package com.guerra.enrico.sera.data.remote.response
 
 /**
  * Created by enrico

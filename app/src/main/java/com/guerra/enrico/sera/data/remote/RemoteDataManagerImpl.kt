@@ -5,6 +5,8 @@ import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.request.*
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.AuthData
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,11 +21,11 @@ class RemoteDataManagerImpl @Inject constructor(
 ) : RemoteDataManager {
 
   /* Sign In */
-  override fun googleSignInCallback(code: String): Single<ApiResponse<User>> {
+  override fun googleSignInCallback(code: String): Single<ApiResponse<AuthData>> {
     return api.googleSignInCallback(AuthRequestParams(code))
   }
 
-  override fun validateAccessToken(accessToken: String): Single<ApiResponse<User>> {
+  override fun validateAccessToken(accessToken: String): Single<ApiResponse<AuthData>> {
     return api.validateAccessToken(AccessTokenParams(accessToken))
   }
 

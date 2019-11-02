@@ -5,9 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.remote.ApiError
+import com.guerra.enrico.sera.data.remote.response.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
-import com.guerra.enrico.sera.data.remote.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.util.ConnectionHelper
@@ -40,9 +40,9 @@ class AuthRepositoryImpl @Inject constructor(
     return remoteDataManager.googleSignInCallback(code)
             .flatMap { apiResponse ->
               if (apiResponse.success && apiResponse.data != null) {
-                return@flatMap localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
-                        .andThen(localDbManager.saveUser(apiResponse.data))
-                        .andThen(Single.just(Result.Success(apiResponse.data)))
+                return@flatMap localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
+                        .andThen(localDbManager.saveUser(apiResponse.data.user))
+                        .andThen(Single.just(Result.Success(apiResponse.data.user)))
                         .doOnSuccess { todosJob.syncTodos() }
               }
               return@flatMap Single.just(Result.Error(ApiException(apiResponse.error
@@ -59,9 +59,9 @@ class AuthRepositoryImpl @Inject constructor(
               remoteDataManager.validateAccessToken(session.accessToken)
                       .flatMap { apiResponse ->
                         if (apiResponse.success && apiResponse.data != null) {
-                          localDbManager.saveSession(apiResponse.data.id, apiResponse.accessToken)
-                                  .andThen(localDbManager.saveUser(apiResponse.data))
-                                  .andThen(Single.just(Result.Success(apiResponse.data)))
+                          localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
+                                  .andThen(localDbManager.saveUser(apiResponse.data.user))
+                                  .andThen(Single.just(Result.Success(apiResponse.data.user)))
                                   .doOnSuccess { todosJob.syncTodos() }
                         } else {
                           Single.just(Result.Error(ApiException(apiResponse.error

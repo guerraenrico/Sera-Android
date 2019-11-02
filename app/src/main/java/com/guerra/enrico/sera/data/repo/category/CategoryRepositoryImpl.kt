@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.data.repo.category
 
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.remote.ApiError
+import com.guerra.enrico.sera.data.remote.response.ApiError
 import com.guerra.enrico.sera.data.remote.ApiException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.Result

@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.remote.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import io.reactivex.Completable

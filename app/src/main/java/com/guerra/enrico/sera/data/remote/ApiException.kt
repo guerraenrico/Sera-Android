@@ -1,5 +1,7 @@
 package com.guerra.enrico.sera.data.remote
 
+import com.guerra.enrico.sera.data.remote.response.ApiError
+
 
 /**
  * Created by enrico
