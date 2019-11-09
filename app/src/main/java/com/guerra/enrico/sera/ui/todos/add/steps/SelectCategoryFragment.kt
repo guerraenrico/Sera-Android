@@ -8,15 +8,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
 import com.guerra.enrico.sera.ui.todos.CategoryFilterAdapter
-import com.guerra.enrico.sera.util.activityViewModelProvider
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
+import com.guerra.enrico.data.Result
 import javax.inject.Inject
 
 /**
@@ -72,8 +72,8 @@ class SelectCategoryFragment : BaseFragment() {
       observeSelectedCategory()
       return
     }
-    if (categoriesFilterResult is Result.Error) {
-      Snackbar.make(root, categoriesFilterResult.exception.message
+    if (categoriesFilterResult is Error) {
+      Snackbar.make(root, categoriesFilterResult.message
               ?: "An error accour while fetching categories", Snackbar.LENGTH_LONG).show()
     }
   }

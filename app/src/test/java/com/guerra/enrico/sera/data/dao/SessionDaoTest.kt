@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.data.dao
 
 import androidx.room.EmptyResultSetException
 import com.guerra.enrico.sera.BaseDatabaseTest
-import com.guerra.enrico.sera.data.local.dao.SessionDao
+import com.guerra.enrico.data.local.dao.SessionDao
 import com.guerra.enrico.sera.session1
 import com.guerra.enrico.sera.session2
 import org.junit.Test
@@ -12,7 +12,7 @@ import org.junit.Test
  * on 05/01/2019.
  */
 class SessionDaoTest: BaseDatabaseTest() {
-    lateinit var sessionDao: SessionDao
+    lateinit var sessionDao: com.guerra.enrico.data.local.dao.SessionDao
 
     override fun setup() {
         super.setup()

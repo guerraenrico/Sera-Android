@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.add.steps.*
-import com.guerra.enrico.sera.util.viewModelProvider
 import kotlinx.android.synthetic.main.activity_todo_add.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject

@@ -11,10 +11,10 @@ def configProperties = new Properties()
 configProperties.load(new FileInputStream(configPropertiesFile))
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion compileSdk
     defaultConfig {
         applicationId "com.guerra.enrico.sera"
-        minSdkVersion 21
+        minSdkVersion minSdk
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -67,7 +67,13 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation project(":data")
+    implementation project(":base")
+    implementation project(":workers")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -78,10 +84,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion"
 
-    // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-rxjava2:$roomVersion"
 
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"

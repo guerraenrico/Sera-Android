@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion compileSdk
+
+    defaultConfig {
+        minSdkVersion minSdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    // Viewmodel
+    api "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+
+    // Rx
+    api "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    api "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
+    api "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+}

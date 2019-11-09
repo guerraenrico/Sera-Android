@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.dao
 
 import com.guerra.enrico.sera.BaseDatabaseTest
-import com.guerra.enrico.sera.data.local.dao.TaskDao
+import com.guerra.enrico.data.local.dao.TaskDao
 import com.guerra.enrico.sera.insertTasks
 import com.guerra.enrico.sera.task3
 import com.guerra.enrico.sera.tasks
@@ -12,7 +12,7 @@ import org.junit.Test
  * on 05/01/2019.
  */
 class TaskDaoTest : BaseDatabaseTest() {
-  private lateinit var taskDao: TaskDao
+  private lateinit var taskDao: com.guerra.enrico.data.local.dao.TaskDao
 
   override fun setup() {
     super.setup()

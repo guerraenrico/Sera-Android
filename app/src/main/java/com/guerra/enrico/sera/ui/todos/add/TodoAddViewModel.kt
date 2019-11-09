@@ -2,18 +2,17 @@ package com.guerra.enrico.sera.ui.todos.add
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.mediator.category.CreateCategory
-import com.guerra.enrico.sera.data.mediator.category.LoadCategories
-import com.guerra.enrico.sera.data.mediator.task.CreateTask
-import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import javax.inject.Inject
+import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.sera.mediator.category.CreateCategory
+import com.guerra.enrico.sera.mediator.category.LoadCategories
 
 /**
  * Created by enrico
@@ -23,7 +22,7 @@ class TodoAddViewModel @Inject constructor(
         private val compositeDisposable: CompositeDisposable,
         private val loadCategories: LoadCategories,
         private val createCategory: CreateCategory,
-        private val createTask: CreateTask
+        private val createTask: com.guerra.enrico.sera.mediator.task.CreateTask
 ) : BaseViewModel(compositeDisposable) {
   private val _categoriesResult: MediatorLiveData<Result<List<Category>>> = loadCategories.observe()
 

@@ -5,8 +5,8 @@ import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
-import com.guerra.enrico.sera.workers.AndroidRxWorkerInjectorModule
-import com.guerra.enrico.sera.workers.WorkerCreator
+import com.guerra.enrico.sera.di.WorkerCreator
+import com.guerra.enrico.workers.AndroidRxWorkerInjectorModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

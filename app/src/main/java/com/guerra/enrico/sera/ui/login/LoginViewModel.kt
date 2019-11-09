@@ -2,12 +2,11 @@ package com.guerra.enrico.sera.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.mediator.auth.GoogleSignInCallback
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.data.models.User
+import com.guerra.enrico.sera.mediator.auth.GoogleSignInCallback
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import com.guerra.enrico.sera.util.map
 import io.reactivex.disposables.CompositeDisposable
+import com.guerra.enrico.data.Result
 import javax.inject.Inject
 
 /**

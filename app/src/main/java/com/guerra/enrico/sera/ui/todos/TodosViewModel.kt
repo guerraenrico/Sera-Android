@@ -2,12 +2,14 @@ package com.guerra.enrico.sera.ui.todos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.sera.data.Event
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.mediator.category.LoadCategories
-import com.guerra.enrico.sera.data.mediator.task.*
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.data.Event
+import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.sera.mediator.category.LoadCategories
+import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.data.Result
+import com.guerra.enrico.sera.mediator.task.CompleteTaskEvent
+import com.guerra.enrico.sera.mediator.task.LoadTaskParameters
+import com.guerra.enrico.sera.mediator.task.LoadTasks
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -48,9 +50,10 @@ class TodosViewModel @Inject constructor(
       _categories.postValue(emptyList())
     }
 
-    _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult ->
+    _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult: Result<Task> ->
       if (completeTaskResult is Result.Error) {
-        _snackbarMessage.postValue(Event(completeTaskResult.exception.message ?: ""))
+        _snackbarMessage.postValue(Event(completeTaskResult.exception.message
+                ?: ""))
       }
     }
     // Start load tasks

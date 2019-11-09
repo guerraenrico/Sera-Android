@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.succeeded
+import com.guerra.enrico.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
-import com.guerra.enrico.sera.util.viewModelProvider
+import com.guerra.enrico.data.Result
 import javax.inject.Inject
 
 /**

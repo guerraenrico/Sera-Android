@@ -1,12 +1,12 @@
 package com.guerra.enrico.sera
 
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Session
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.remote.response.ApiResponse
+import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.local.db.SeraDatabase
+import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.data.models.Session
+import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.data.models.User
+import com.guerra.enrico.data.remote.response.ApiResponse
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -33,7 +33,7 @@ val task1Completed = task1.copy(completed = true)
 
 val tasks = listOf(task1, task2)
 
-val tasksResultLoading = Result.Loading
+val tasksResultLoading = com.guerra.enrico.data.Result.Loading
 val tasksResultSuccess = Result.Success(tasks)
 val tasksResultSuccess_task1Completed = Result.Success(listOf(task2))
 
@@ -50,10 +50,10 @@ val user1 = User(1, "1", "google id", "a@b.it", "aa", "IT", "")
 
 fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
 
-val apiValidateAccessTokenResponse = ApiResponse(success = true, data = user1, accessToken = session1.accessToken, error = null)
-val apiRefreshAccessTokenResponse = ApiResponse(success = true, data = session2, accessToken = session2.accessToken, error = null)
+val apiValidateAccessTokenResponse = ApiResponse(success = true, data = user1, error = null)
+val apiRefreshAccessTokenResponse = ApiResponse(success = true, data = session2, error = null)
 
-val apiToggleCompleteTask1Response = ApiResponse(success = true, data = task1Completed, accessToken = session1.accessToken, error = null)
+val apiToggleCompleteTask1Response = ApiResponse(success = true, data = task1Completed, error = null)
 
 val httpErrorExpiredSession = HttpException(
         Response.error<ApiResponse<Any>>(

@@ -3,7 +3,7 @@ package com.guerra.enrico.sera.data.dao
 import com.guerra.enrico.sera.BaseDatabaseTest
 import com.guerra.enrico.sera.categories
 import com.guerra.enrico.sera.category3
-import com.guerra.enrico.sera.data.local.dao.CategoryDao
+import com.guerra.enrico.data.local.dao.CategoryDao
 import org.junit.Test
 
 /**
@@ -11,7 +11,7 @@ import org.junit.Test
  * on 05/01/2019.
  */
 class CategoryDaoTest: BaseDatabaseTest() {
-    private lateinit var categoryDao: CategoryDao
+    private lateinit var categoryDao: com.guerra.enrico.data.local.dao.CategoryDao
 
     override fun setup() {
         super.setup()

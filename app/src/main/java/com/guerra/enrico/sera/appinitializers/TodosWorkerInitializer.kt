@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.appinitializers
 
 import android.app.Application
-import com.guerra.enrico.sera.workers.TodosWorker
+import com.guerra.enrico.workers.TodosWorker
 import javax.inject.Inject
 
 /**

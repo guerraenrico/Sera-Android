@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.data.dao
 
 import androidx.room.EmptyResultSetException
 import com.guerra.enrico.sera.BaseDatabaseTest
-import com.guerra.enrico.sera.data.local.dao.UserDao
+import com.guerra.enrico.data.local.dao.UserDao
 import com.guerra.enrico.sera.user1
 import org.junit.Test
 
@@ -11,7 +11,7 @@ import org.junit.Test
  * on 05/01/2019.
  */
 class UserDaoTest: BaseDatabaseTest() {
-    lateinit var userDao: UserDao
+    lateinit var userDao: com.guerra.enrico.data.local.dao.UserDao
 
     override fun setup() {
         super.setup()

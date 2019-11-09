@@ -1,15 +1,7 @@
 package com.guerra.enrico.sera
 
 import com.google.gson.GsonBuilder
-import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
-import com.guerra.enrico.sera.data.remote.Api
-import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
-import com.guerra.enrico.sera.data.repo.auth.AuthRepositoryImpl
-import com.guerra.enrico.sera.data.repo.category.CategoryRepositoryImpl
-import com.guerra.enrico.sera.data.repo.task.TaskRepositoryImpl
-import com.guerra.enrico.sera.workers.TodosWorker
+import com.guerra.enrico.workers.TodosWorker
 import org.junit.Rule
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
@@ -24,33 +16,33 @@ abstract class BaseViewModelTest : BaseDatabaseTest() {
   @JvmField
   val mochitoRule = MockitoJUnit.rule()
 
-  lateinit var api: Api
+  lateinit var api: com.guerra.enrico.data.remote.Api
 
-  lateinit var remoteDataManager: RemoteDataManager
-  lateinit var localDbManager: LocalDbManager
-  lateinit var todosWorker: TodosWorker
+  lateinit var remoteDataManager: com.guerra.enrico.data.remote.RemoteDataManager
+  lateinit var localDbManager: com.guerra.enrico.data.local.db.LocalDbManager
+  lateinit var todosWorker: com.guerra.enrico.workers.TodosWorker
 
-  lateinit var authRepository: AuthRepositoryImpl
-  lateinit var categoryRepository: CategoryRepositoryImpl
-  lateinit var taskRepository: TaskRepositoryImpl
+  lateinit var authRepository: com.guerra.enrico.data.repo.auth.AuthRepositoryImpl
+  lateinit var categoryRepository: com.guerra.enrico.data.repo.category.CategoryRepositoryImpl
+  lateinit var taskRepository: com.guerra.enrico.data.repo.task.TaskRepositoryImpl
 
   override fun setup() {
     super.setup()
 
-    api = Mockito.mock(Api::class.java)
+    api = Mockito.mock(com.guerra.enrico.data.remote.Api::class.java)
 
-    remoteDataManager = RemoteDataManagerImpl(api)
-    localDbManager = LocalDbManagerImpl(db)
-    todosWorker = Mockito.mock(TodosWorker::class.java)
+    remoteDataManager = com.guerra.enrico.data.remote.RemoteDataManagerImpl(api)
+    localDbManager = com.guerra.enrico.data.local.db.LocalDbManagerImpl(db)
+    todosWorker = Mockito.mock(com.guerra.enrico.workers.TodosWorker::class.java)
 
-    authRepository = AuthRepositoryImpl(
+    authRepository = com.guerra.enrico.data.repo.auth.AuthRepositoryImpl(
             RuntimeEnvironment.systemContext,
             GsonBuilder().create(),
             remoteDataManager,
             localDbManager,
             todosWorker
     )
-    categoryRepository = CategoryRepositoryImpl(localDbManager, remoteDataManager)
-    taskRepository = TaskRepositoryImpl(localDbManager, remoteDataManager)
+    categoryRepository = com.guerra.enrico.data.repo.category.CategoryRepositoryImpl(localDbManager, remoteDataManager)
+    taskRepository = com.guerra.enrico.data.repo.task.TaskRepositoryImpl(localDbManager, remoteDataManager)
   }
 }

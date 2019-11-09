@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
-import com.guerra.enrico.sera.util.activityViewModelProvider
 import kotlinx.android.synthetic.main.fragment_todo_add_add_task.*
 import javax.inject.Inject
 

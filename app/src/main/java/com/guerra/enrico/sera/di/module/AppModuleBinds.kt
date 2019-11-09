@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.di.module
 
-import com.guerra.enrico.sera.workers.TodosWorker
-import com.guerra.enrico.sera.workers.TodosWorkerImpl
+import com.guerra.enrico.workers.TodosWorker
+import com.guerra.enrico.workers.TodosWorkerImpl
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton

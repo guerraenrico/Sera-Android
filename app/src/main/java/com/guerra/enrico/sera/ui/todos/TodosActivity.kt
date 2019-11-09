@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.exceptions.OperationException
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.exceptions.OperationException
+import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.data.Result
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
-import com.guerra.enrico.sera.util.viewModelProvider
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.activity_todos.*
 import kotlinx.android.synthetic.main.toolbar_search.*
@@ -29,8 +28,9 @@ import android.widget.TextView
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import com.guerra.enrico.sera.data.EventObserver
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.base.util.viewModelProvider
+import com.guerra.enrico.data.EventObserver
+import com.guerra.enrico.data.models.Category
 
 
 /**
@@ -71,7 +71,7 @@ class TodosActivity : BaseActivity() {
       val adapter = SearchTasksAutocompleteAdapter(this, categories)
       toolbarEditTextSearch.setAdapter(adapter)
     })
-    viewModel.snackbarMessage.observe(this, EventObserver {
+    viewModel.snackbarMessage.observe(this, EventObserver<String> {
       showSnakbar(it)
     })
   }
@@ -102,7 +102,7 @@ class TodosActivity : BaseActivity() {
     if (tasksResult is Result.Error) {
       if (tasksResult.exception is OperationException) {
         recyclerViewTasks.visibility = View.GONE
-        messageLayout.setMessage(tasksResult.exception.getBaseMessage()) { code ->
+        messageLayout.setMessage((tasksResult.exception as OperationException).getBaseMessage()) { code ->
           viewModel.onReloadTasks()
         }
         messageLayout.show()

@@ -1,12 +1,6 @@
 package com.guerra.enrico.sera.viewModel.todos
 
 import com.guerra.enrico.sera.*
-import com.guerra.enrico.sera.data.mediator.category.LoadCategories
-import com.guerra.enrico.sera.data.mediator.task.CompleteTaskEvent
-import com.guerra.enrico.sera.data.mediator.task.LoadTasks
-import com.guerra.enrico.sera.data.repo.auth.AuthRepository
-import com.guerra.enrico.sera.data.repo.category.CategoryRepository
-import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.utils.testEventObserver
@@ -91,19 +85,19 @@ class TodosViewModelTests : BaseViewModelTest() {
     Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
   }
 
-  private fun createViewModel(schedulerProvider: SchedulerProvider, authRepository: AuthRepository, categoryRepository: CategoryRepository, taskRepository: TaskRepository): TodosViewModel =
+  private fun createViewModel(schedulerProvider: SchedulerProvider, authRepository: com.guerra.enrico.data.repo.auth.AuthRepository, categoryRepository: com.guerra.enrico.data.repo.category.CategoryRepository, taskRepository: com.guerra.enrico.data.repo.task.TaskRepository): TodosViewModel =
           TodosViewModel(
                   CompositeDisposable(),
-                  LoadCategories(
+                  com.guerra.enrico.sera.mediator.category.LoadCategories(
                           schedulerProvider,
                           authRepository,
                           categoryRepository
                   ),
-                  LoadTasks(
+                  com.guerra.enrico.sera.mediator.task.LoadTasks(
                           schedulerProvider,
                           taskRepository
                   ),
-                  CompleteTaskEvent(
+                  com.guerra.enrico.sera.mediator.task.CompleteTaskEvent(
                           schedulerProvider,
                           authRepository,
                           taskRepository

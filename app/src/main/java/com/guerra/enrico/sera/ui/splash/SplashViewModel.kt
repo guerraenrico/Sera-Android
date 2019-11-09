@@ -2,12 +2,12 @@ package com.guerra.enrico.sera.ui.splash
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.mediator.auth.ValidateAccessToken
-import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
+import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.models.User
+import com.guerra.enrico.sera.mediator.auth.ValidateAccessToken
 
 /**
  * Created by enrico
