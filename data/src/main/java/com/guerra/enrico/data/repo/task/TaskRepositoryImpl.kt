@@ -7,6 +7,8 @@ import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.remote.ApiException
 import com.guerra.enrico.data.remote.RemoteDataManager
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.repo.auth.AuthRepository
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -21,7 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class TaskRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager
+        private val remoteDataManager: RemoteDataManager,
+        private val authRepository: AuthRepository
 ) : TaskRepository {
   override fun getTasksRemote(
           categoriesId: List<String>,
@@ -137,5 +140,18 @@ class TaskRepositoryImpl @Inject constructor(
               }
               return@map list
             }
+  }
+
+  override fun fetchAndSaveAllTasks(): Completable {
+    return getAllTasksRemote().flatMapCompletable { result ->
+      if (result is Result.Success) {
+        return@flatMapCompletable localDbManager.clearTasksCompletable().andThen {
+          localDbManager.saveTasksSingle(result.data)
+        }.retryWhen {
+          authRepository.refreshTokenIfNotAuthorized(it)
+        }
+      }
+      return@flatMapCompletable Completable.complete()
+    }
   }
 }

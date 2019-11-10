@@ -6,6 +6,8 @@ import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.remote.ApiException
 import com.guerra.enrico.data.remote.RemoteDataManager
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.repo.auth.AuthRepository
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -18,7 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager
+        private val remoteDataManager: RemoteDataManager,
+        private val authRepository: AuthRepository
 ) : CategoryRepository {
   override fun getCategoriesRemote(): Single<Result<List<Category>>> {
     return localDbManager.getSessionAccessToken()
@@ -87,5 +90,18 @@ class CategoryRepositoryImpl @Inject constructor(
             .flatMap { categories ->
               Flowable.just(Result.Success(categories))
             }
+  }
+
+  override fun fetchAndSaveAllCategories(): Completable {
+    return getCategoriesRemote().flatMapCompletable { result ->
+      if (result is Result.Success) {
+        return@flatMapCompletable localDbManager.clearCategoriesCompletable().andThen {
+          localDbManager.saveCategoriesSingle(result.data)
+        }.retryWhen {
+          authRepository.refreshTokenIfNotAuthorized(it)
+        }
+      }
+      return@flatMapCompletable Completable.complete()
+    }
   }
 }

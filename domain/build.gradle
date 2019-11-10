@@ -2,26 +2,31 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion compileSdk
+
     defaultConfig {
         minSdkVersion minSdk
-        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(":base")
+    implementation project(":data")
 
-    implementation project(":domain")
+    // Rx
+    api "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    api "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
+    api "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
 
-    // Dagger Android
+    // Dagger
     api "com.google.dagger:dagger-android:$daggerVersion"
     api "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-
-    // Work Manager
-    api "androidx.work:work-runtime-ktx:$workManagerVersion"
-    api "androidx.work:work-rxjava2:$workManagerVersion"
 }

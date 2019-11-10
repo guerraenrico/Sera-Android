@@ -127,4 +127,6 @@ dependencies {
 
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
+
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
 }

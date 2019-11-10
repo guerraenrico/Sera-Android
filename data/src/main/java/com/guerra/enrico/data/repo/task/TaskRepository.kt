@@ -3,6 +3,7 @@ package com.guerra.enrico.data.repo.task
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.Result
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -33,4 +34,6 @@ interface TaskRepository {
           category: Category?,
           completed: Boolean = false
   ): Flowable<List<Task>>
+
+  fun fetchAndSaveAllTasks(): Completable
 }
