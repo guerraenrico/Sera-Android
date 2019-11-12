@@ -14,7 +14,5 @@ class SyncTasksAndCategories @Inject constructor(
         private val categoryRepository: CategoryRepository
 ) : Interactor<Unit, Completable>() {
 
-  override fun doWork(params: Unit): Completable {
-    return Completable.concatArray(tasksRepository.fetchAndSaveAllTasks(), categoryRepository.fetchAndSaveAllCategories())
-  }
+  override fun doWork(params: Unit): Completable = Completable.concatArray(tasksRepository.fetchAndSaveAllTasks(), categoryRepository.fetchAndSaveAllCategories())
 }

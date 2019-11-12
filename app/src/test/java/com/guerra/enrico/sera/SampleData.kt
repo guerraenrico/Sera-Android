@@ -7,6 +7,7 @@ import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.models.User
 import com.guerra.enrico.data.remote.response.ApiResponse
+import com.guerra.enrico.data.remote.response.AuthData
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -50,7 +51,7 @@ val user1 = User(1, "1", "google id", "a@b.it", "aa", "IT", "")
 
 fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
 
-val apiValidateAccessTokenResponse = ApiResponse(success = true, data = user1, error = null)
+val apiValidateAccessTokenResponse = ApiResponse(success = true, data = AuthData(user1, "aaaaa"), error = null)
 val apiRefreshAccessTokenResponse = ApiResponse(success = true, data = session2, error = null)
 
 val apiToggleCompleteTask1Response = ApiResponse(success = true, data = task1Completed, error = null)
