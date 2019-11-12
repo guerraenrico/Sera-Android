@@ -15,6 +15,6 @@ interface CategoryRepository {
   fun searchCategory(text: String): Single<Result<List<Category>>>
   fun insertCategory(category: Category): Single<Result<Category>>
   fun deleteCategory(category: Category): Single<Result<Int>>
-  fun observeCategoriesLocal(): Flowable<Result<List<Category>>>
+  fun observeCategoriesLocal(): Flowable<List<Category>>
   fun fetchAndSaveAllCategories(): Completable
 }

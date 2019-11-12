@@ -1,7 +1,8 @@
-package com.guerra.enrico.domain
+package com.guerra.enrico.domain.interactors
 
 import com.guerra.enrico.data.repo.category.CategoryRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
+import com.guerra.enrico.domain.Interactor
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -13,6 +14,9 @@ class SyncTasksAndCategories @Inject constructor(
         private val tasksRepository: TaskRepository,
         private val categoryRepository: CategoryRepository
 ) : Interactor<Unit, Completable>() {
-
-  override fun doWork(params: Unit): Completable = Completable.concatArray(tasksRepository.fetchAndSaveAllTasks(), categoryRepository.fetchAndSaveAllCategories())
+  override fun doWork(params: Unit): Completable =
+          Completable.concatArray(
+                  tasksRepository.fetchAndSaveAllTasks(),
+                  categoryRepository.fetchAndSaveAllCategories()
+          )
 }

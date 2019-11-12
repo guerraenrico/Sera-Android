@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
-import com.guerra.enrico.domain.SyncTasksAndCategories
+import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import io.reactivex.Single
 import javax.inject.Inject
 

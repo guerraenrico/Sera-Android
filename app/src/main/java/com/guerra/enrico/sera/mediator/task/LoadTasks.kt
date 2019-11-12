@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.mediator.BaseMediator
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.repo.task.TaskRepository
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -15,13 +16,13 @@ import javax.inject.Inject
  */
 class LoadTasks @Inject constructor(
         private val schedulerProvider: SchedulerProvider,
-        private val taskRepository: TaskRepository
+        private val observeTasks: ObserveTasks
 ) : BaseMediator<LoadTaskParameters, List<Task>>() {
 
   override fun execute(params: LoadTaskParameters): Disposable {
     result.postValue(Result.Loading)
     val (text, category, completed) = params
-    return taskRepository.observeTasksLocal(text, category, completed)
+    return observeTasks.execute(ObserveTasks.Params(text, category, completed))
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({

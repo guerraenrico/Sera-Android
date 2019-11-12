@@ -85,12 +85,8 @@ class CategoryRepositoryImpl @Inject constructor(
             }
   }
 
-  override fun observeCategoriesLocal(): Flowable<Result<List<Category>>> {
-    return localDbManager.observeAllCategories()
-            .flatMap { categories ->
-              Flowable.just(Result.Success(categories))
-            }
-  }
+  override fun observeCategoriesLocal(): Flowable<List<Category>> =
+          localDbManager.observeAllCategories()
 
   override fun fetchAndSaveAllCategories(): Completable {
     return getCategoriesRemote().flatMapCompletable { result ->

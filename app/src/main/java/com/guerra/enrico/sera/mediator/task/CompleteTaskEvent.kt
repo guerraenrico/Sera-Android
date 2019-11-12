@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.mediator.BaseMediator
 import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import io.reactivex.disposables.Disposable
 import java.lang.Exception
@@ -16,14 +17,10 @@ import javax.inject.Inject
  */
 class CompleteTaskEvent @Inject constructor(
         private val schedulerProvider: SchedulerProvider,
-        private val authRepository: AuthRepository,
-        private val taskRepository: TaskRepository
+        private val updateTaskCompleteState: UpdateTaskCompleteState
 ) : BaseMediator<Task, Task>() {
   override fun execute(params: Task): Disposable {
-    return taskRepository.toggleCompleteTask(params)
-            .retryWhen {
-              authRepository.refreshTokenIfNotAuthorized(it)
-            }
+    return updateTaskCompleteState.execute(params)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({

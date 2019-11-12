@@ -2,9 +2,8 @@ package com.guerra.enrico.sera.mediator.category
 
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.sera.mediator.BaseMediator
-import com.guerra.enrico.data.repo.auth.AuthRepository
-import com.guerra.enrico.data.repo.category.CategoryRepository
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.domain.interactors.InsertCategory
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import io.reactivex.disposables.Disposable
 import java.lang.Exception
@@ -16,15 +15,11 @@ import javax.inject.Inject
  */
 class CreateCategory @Inject constructor(
         private val schedulerProvider: SchedulerProvider,
-        private val authRepository: AuthRepository,
-        private val categoryRepository: CategoryRepository
+        private val insertCategory: InsertCategory
 ) : BaseMediator<Category, Category>() {
   override fun execute(params: Category): Disposable {
     result.postValue(Result.Loading)
-    return categoryRepository.insertCategory(params)
-            .retryWhen {
-              authRepository.refreshTokenIfNotAuthorized(it)
-            }
+    return insertCategory.execute(params)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({

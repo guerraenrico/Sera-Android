@@ -2,8 +2,8 @@ package com.guerra.enrico.sera.mediator.auth
 
 import com.guerra.enrico.data.models.User
 import com.guerra.enrico.sera.mediator.BaseMediator
-import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.sera.scheduler.SchedulerProvider
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -14,11 +14,11 @@ import javax.inject.Inject
  */
 class GoogleSignInCallback @Inject constructor(
         private val schedulerProvider: SchedulerProvider,
-        private val authRepository: AuthRepository
+        private val signIn: SignIn
 ) : BaseMediator<String, User>() {
   override fun execute(params: String): Disposable {
     result.postValue(Result.Loading)
-    return authRepository.googleSignInCallback(params)
+    return signIn.execute(params)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({
