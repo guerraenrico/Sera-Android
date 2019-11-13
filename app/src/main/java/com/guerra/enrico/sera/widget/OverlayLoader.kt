@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.widget
 
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
@@ -13,35 +12,39 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.LifecycleObserver
 import kotlin.math.roundToInt
 
 /**
  * Created by enrico
  * on 06/12/2018.
  */
-class OverlayLoader(val context: Context, private val layoutBackground: LinearLayout, private var isShowing: Boolean = false) {
-  private val handler = Handler()
-
+class OverlayLoader private constructor(val context: Context, private val layoutBackground: LinearLayout): LifecycleObserver  {
   companion object {
     fun make(context: Context, message: String): OverlayLoader {
-      val layout = LinearLayout(context)
-      layout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-      layout.setBackgroundColor(Color.argb(200, 0, 0, 0))
-      layout.visibility = View.GONE
-      layout.gravity = Gravity.CENTER
-      layout.orientation = LinearLayout.HORIZONTAL
-      layout.isClickable = true
+      val layout = LinearLayout(context).apply {
+        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        setBackgroundColor(Color.argb(200, 0, 0, 0))
+        visibility = View.GONE
+        gravity = Gravity.CENTER
+        orientation = LinearLayout.HORIZONTAL
+        isClickable = true
+      }
 
-      val textView = TextView(context)
-      textView.text = message
-      textView.setTextColor(Color.argb(200, 160, 160, 160))
+      val textView = TextView(context).apply {
+        text = message
+        setTextColor(Color.argb(200, 160, 160, 160))
+      }
 
-      val progressBar = ProgressBar(context)
-      progressBar.isIndeterminate = true
-      progressBar.alpha = 0.7f
-      val params = LinearLayout.LayoutParams(dpToPx(30, context), dpToPx(30, context))
-      params.setMargins(0, 0, dpToPx(15, context), 0)
-      progressBar.layoutParams = params
+      val params = LinearLayout.LayoutParams(dpToPx(30, context), dpToPx(30, context)).apply {
+        setMargins(0, 0, dpToPx(15, context), 0)
+      }
+      val progressBar = ProgressBar(context).apply {
+        isIndeterminate = true
+        alpha = 0.7f
+        layoutParams = params
+      }
+
       layout.addView(progressBar)
       layout.addView(textView)
       val vg = (context as Activity).window.decorView.rootView as ViewGroup
@@ -52,31 +55,40 @@ class OverlayLoader(val context: Context, private val layoutBackground: LinearLa
     private fun dpToPx(dp: Int, context: Context): Int {
       return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).roundToInt()
     }
+
+    private const val ANIMATION_DURATION = 300L
+    private const val ANIMATION_SHOW_DELAY = 3000L
+  }
+
+  private val handler = Handler()
+  private var isShowing = false
+
+  private val showAnimationRunnable = Runnable {
+    kotlin.run {
+      if (isShowing) {
+        layoutBackground.visibility = View.VISIBLE
+        ObjectAnimator.ofFloat(layoutBackground, View.ALPHA.name, 0f, 1f).apply {
+          duration = ANIMATION_DURATION
+        }.start()
+      }
+    }
   }
 
   fun show() {
     if (!isShowing) {
       isShowing = true
-      handler.postDelayed({
-        kotlin.run {
-          if (isShowing) {
-            layoutBackground.visibility = View.VISIBLE
-            val colorFade = ObjectAnimator.ofObject(layoutBackground, "backgroundColor", ArgbEvaluator(), (0x00000000).toInt(), Color.argb(200, 0, 0, 0))
-            colorFade.duration = 300
-            colorFade.start()
-          }
-        }
-      }, 750)
+      handler.postDelayed(showAnimationRunnable, ANIMATION_SHOW_DELAY)
     }
   }
 
   fun hide() {
     if (isShowing) {
-      layoutBackground.visibility = View.GONE
-      val colorFade = ObjectAnimator.ofObject(layoutBackground, "backgroundColor", ArgbEvaluator(), Color.argb(200, 0, 0, 0), (0x00000000).toInt())
-      colorFade.duration = 300
-      colorFade.start()
+      handler.removeCallbacks(showAnimationRunnable)
       isShowing = false
+      layoutBackground.visibility = View.GONE
+      ObjectAnimator.ofFloat(layoutBackground, View.ALPHA.name, 1f, 0f).apply {
+        duration = ANIMATION_DURATION
+      }.start()
     }
   }
 }
