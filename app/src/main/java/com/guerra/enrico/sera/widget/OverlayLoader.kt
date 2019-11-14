@@ -12,14 +12,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.lifecycle.LifecycleObserver
 import kotlin.math.roundToInt
 
 /**
  * Created by enrico
  * on 06/12/2018.
  */
-class OverlayLoader private constructor(val context: Context, private val layoutBackground: LinearLayout): LifecycleObserver  {
+class OverlayLoader private constructor(val context: Context, private val layoutBackground: LinearLayout) {
   companion object {
     fun make(context: Context, message: String): OverlayLoader {
       val layout = LinearLayout(context).apply {
