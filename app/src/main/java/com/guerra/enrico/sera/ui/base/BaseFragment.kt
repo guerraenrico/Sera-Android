@@ -9,12 +9,12 @@ import dagger.android.support.DaggerFragment
  * on 18/08/2018.
  */
 open class BaseFragment : DaggerFragment() {
-  fun showSnakbar(@StringRes messageId: Int) {
+  fun showSnackbar(@StringRes messageId: Int) {
     if (!isAdded) return
-    showSnakbar(resources.getString(messageId))
+    showSnackbar(resources.getString(messageId))
   }
 
-  fun showSnakbar(message: String) {
+  fun showSnackbar(message: String) {
     val mActivity = activity
     if (!isAdded || mActivity == null) return
     Snackbar.make(mActivity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()

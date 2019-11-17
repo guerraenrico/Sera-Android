@@ -7,10 +7,10 @@ import io.reactivex.subjects.BehaviorSubject
  * on 10/06/2018.
  */
 class ObservableVariable<T>(initalValue: T) {
-    var value: T = initalValue
-        set(value) {
-            field = value
-            observable.onNext(value)
-        }
-    var observable =  BehaviorSubject.createDefault(value)
+  var value: T = initalValue
+    set(value) {
+      field = value
+      observable.onNext(value)
+    }
+  var observable = BehaviorSubject.createDefault(value)
 }

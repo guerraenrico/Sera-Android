@@ -14,10 +14,10 @@ class PreferencesManagerImpl @Inject constructor(
         private val context: Context
 ) : PreferencesManager {
 
-    companion object {
-        const val PREFERENCE_FILE_NAME = "sera"
-    }
+  companion object {
+    const val PREFERENCE_FILE_NAME = "sera"
+  }
 
-    private val preferences = context.applicationContext.getSharedPreferences(PREFERENCE_FILE_NAME, MODE_PRIVATE)
+  private val preferences = context.applicationContext.getSharedPreferences(PREFERENCE_FILE_NAME, MODE_PRIVATE)
 
 }

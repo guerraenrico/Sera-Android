@@ -10,4 +10,4 @@ import javax.inject.Inject
  */
 class GoalsViewModel @Inject constructor(
         compositeDisposable: CompositeDisposable
-): BaseViewModel(compositeDisposable)
+) : BaseViewModel(compositeDisposable)

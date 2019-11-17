@@ -13,17 +13,17 @@ import javax.inject.Singleton
  */
 @Module
 class WorkerModule {
-    @Provides
-    @Singleton
-    fun provideWorkManager(context: Context): WorkManager {
-        return try {
-            WorkManager.getInstance()
-        } catch (e: IllegalStateException) {
-            // Yes this is gross
-            WorkManager.initialize(context,
-                    Configuration.Builder().build()
-            )
-            WorkManager.getInstance()
-        }
+  @Provides
+  @Singleton
+  fun provideWorkManager(context: Context): WorkManager {
+    return try {
+      WorkManager.getInstance()
+    } catch (e: IllegalStateException) {
+      // Yes this is gross
+      WorkManager.initialize(context,
+              Configuration.Builder().build()
+      )
+      WorkManager.getInstance()
     }
+  }
 }

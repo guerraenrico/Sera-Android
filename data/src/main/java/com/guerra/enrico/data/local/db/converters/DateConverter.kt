@@ -8,11 +8,11 @@ import java.util.*
  * on 18/10/2018.
  */
 object DateConverter {
-    @TypeConverter
-    @JvmStatic
-    fun fromTimestamp(value: Long?): Date? = if (value == null) null else Date(value)
+  @TypeConverter
+  @JvmStatic
+  fun fromTimestamp(value: Long?): Date? = if (value == null) null else Date(value)
 
-    @TypeConverter
-    @JvmStatic
-    fun dateToTimestamp(date: Date?): Long? = date?.time
+  @TypeConverter
+  @JvmStatic
+  fun dateToTimestamp(date: Date?): Long? = date?.time
 }

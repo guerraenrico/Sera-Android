@@ -98,7 +98,7 @@ class RemoteDataManagerImpl @Inject constructor(
   }
 
   override fun toggleCompleteTask(accessToken: String, task: Task): Single<ApiResponse<Task>> {
-    return  api.toggleCompleteTask(
+    return api.toggleCompleteTask(
             accessToken,
             TaskToggleCompleteParams(task)
     )

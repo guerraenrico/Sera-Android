@@ -14,8 +14,8 @@ import com.guerra.enrico.sera.mediator.auth.ValidateAccessToken
  * on 17/10/2018.
  */
 class SplashViewModel @Inject constructor(
-        private val compositeDisposable: CompositeDisposable,
-        private val validateAccessToken: ValidateAccessToken
+        compositeDisposable: CompositeDisposable,
+        validateAccessToken: ValidateAccessToken
 ) : BaseViewModel(compositeDisposable) {
   private val _validationAccessTokenResult: MediatorLiveData<Result<User>> = validateAccessToken.observe()
   val validationAccessTokenResult: LiveData<Result<User>>

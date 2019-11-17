@@ -52,7 +52,7 @@ class LoginActivity : BaseActivity() {
         gotoTodosActivity()
       }
       if (userResult is com.guerra.enrico.data.Result.Error) {
-        showSnakbar(userResult.exception.message
+        showSnackbar(userResult.exception.message
                 ?: resources.getString(R.string.error_google_signin))
       }
     })
@@ -70,7 +70,7 @@ class LoginActivity : BaseActivity() {
       val account = task.getResult(ApiException::class.java)
       viewModel.onCodeReceived(account?.serverAuthCode ?: "")
     } catch (ex: ApiException) {
-      showSnakbar(R.string.error_google_signin)
+      showSnackbar(R.string.error_google_signin)
     }
   }
 

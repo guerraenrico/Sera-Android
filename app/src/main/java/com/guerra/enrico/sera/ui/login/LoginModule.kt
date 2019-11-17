@@ -12,8 +12,8 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class LoginModule {
-    @Binds
-    @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
+  @Binds
+  @IntoMap
+  @ViewModelKey(LoginViewModel::class)
+  abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
 }

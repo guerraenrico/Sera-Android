@@ -25,7 +25,7 @@ import java.util.*
  * on 21/10/2018.
  */
 class ScheduleFragment : BaseFragment() {
-  lateinit var root: View
+  private lateinit var root: View
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

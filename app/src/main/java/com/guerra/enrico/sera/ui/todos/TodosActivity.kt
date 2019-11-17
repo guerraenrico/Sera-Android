@@ -71,8 +71,8 @@ class TodosActivity : BaseActivity() {
       val adapter = SearchTasksAutocompleteAdapter(this, categories)
       toolbarEditTextSearch.setAdapter(adapter)
     })
-    viewModel.snackbarMessage.observe(this, EventObserver<String> {
-      showSnakbar(it)
+    viewModel.snackbarMessage.observe(this, EventObserver {
+      showSnackbar(it)
     })
   }
 
@@ -108,7 +108,7 @@ class TodosActivity : BaseActivity() {
         messageLayout.show()
         return
       }
-      showSnakbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
+      showSnackbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
     }
   }
 
@@ -158,7 +158,7 @@ class TodosActivity : BaseActivity() {
       }
     })
     toolbarEditTextSearch.onItemClickListener =
-            AdapterView.OnItemClickListener { adapter, _view, position, id ->
+            AdapterView.OnItemClickListener { adapter, view, position, id ->
               closeKeyboard()
               viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
             }

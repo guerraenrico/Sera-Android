@@ -15,32 +15,32 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class TodoAddModel {
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeDoneFragment(): DoneFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeDoneFragment(): DoneFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeScheduleFragment(): ScheduleFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeScheduleFragment(): ScheduleFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeAddTaskFragment(): AddTaskFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeAddTaskFragment(): AddTaskFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeSelectCategoryFragment(): SelectCategoryFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeSelectCategoryFragment(): SelectCategoryFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun  contributeAddCategoryFragment(): AddCategoryFragmnet
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeAddCategoryFragment(): AddCategoryFragment
 
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeSelectFragment(): SelectFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeSelectFragment(): SelectFragment
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(TodoAddViewModel::class)
-    abstract fun bindTodoAddViewModel(viewModel: TodoAddViewModel): ViewModel
+  @Binds
+  @IntoMap
+  @ViewModelKey(TodoAddViewModel::class)
+  abstract fun bindTodoAddViewModel(viewModel: TodoAddViewModel): ViewModel
 }

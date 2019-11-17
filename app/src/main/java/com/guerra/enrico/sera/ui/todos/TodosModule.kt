@@ -3,9 +3,6 @@ package com.guerra.enrico.sera.ui.todos
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.sera.di.PerFragment
 import com.guerra.enrico.sera.di.ViewModelKey
-import com.guerra.enrico.sera.ui.todos.add.steps.AddCategoryFragmnet
-import com.guerra.enrico.sera.ui.todos.add.steps.SelectCategoryFragment
-import com.guerra.enrico.sera.ui.todos.add.steps.SelectFragment
 import com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment
 import dagger.Binds
 import dagger.Module
@@ -18,12 +15,12 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class TodosModule {
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract fun contributeTodosFilterFragment(): TodosFilterFragment
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeTodosFilterFragment(): TodosFilterFragment
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(TodosViewModel::class)
-    abstract fun bindTodosViewModel(viewModel: TodosViewModel): ViewModel
+  @Binds
+  @IntoMap
+  @ViewModelKey(TodosViewModel::class)
+  abstract fun bindTodosViewModel(viewModel: TodosViewModel): ViewModel
 }

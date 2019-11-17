@@ -16,28 +16,28 @@ import javax.inject.Inject
  * Created by enrico
  * on 19/10/2018.
  */
-class SelectFragment: BaseFragment() {
-    lateinit var root: View
+class SelectFragment : BaseFragment() {
+  private lateinit var root: View
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: TodoAddViewModel
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+  private lateinit var viewModel: TodoAddViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        root = inflater.inflate(R.layout.fragment_todo_add_select, container, false)
-        return root
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    root = inflater.inflate(R.layout.fragment_todo_add_select, container, false)
+    return root
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    viewModel = activityViewModelProvider(viewModelFactory)
+
+    buttonAddCategory.setOnClickListener {
+      viewModel.goToNextStep(StepEnum.ADD_CATEGORY)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = activityViewModelProvider(viewModelFactory)
-
-        buttonAddCategory.setOnClickListener {
-            viewModel.goToNextStep(StepEnum.ADD_CATEGORY)
-        }
-
-        buttonAddTask.setOnClickListener {
-            viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)
-        }
+    buttonAddTask.setOnClickListener {
+      viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)
     }
+  }
 }

@@ -8,7 +8,7 @@ import dagger.android.AndroidInjector
  * on 26/12/2018.
  */
 @Subcomponent
-interface SyncTodosWorkerSubcomponent: AndroidInjector<SyncTodosWorker> {
-    @Subcomponent.Builder
-    abstract class Builder: AndroidInjector.Builder<SyncTodosWorker>()
+interface SyncTodosWorkerSubcomponent : AndroidInjector<SyncTodosWorker> {
+  @Subcomponent.Builder
+  abstract class Builder : AndroidInjector.Builder<SyncTodosWorker>()
 }

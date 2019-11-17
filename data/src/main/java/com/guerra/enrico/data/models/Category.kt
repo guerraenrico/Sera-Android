@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  * on 02/06/2018.
  */
 @Entity(tableName = "Category")
-data class Category constructor (
+data class Category constructor(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
         @ColumnInfo(name = "id") val id: String = "",
         @ColumnInfo(name = "name") val name: String = ""

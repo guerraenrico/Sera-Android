@@ -12,8 +12,8 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class SplashModule {
-    @Binds
-    @IntoMap
-    @ViewModelKey(SplashViewModel::class)
-    abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+  @Binds
+  @IntoMap
+  @ViewModelKey(SplashViewModel::class)
+  abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
 }

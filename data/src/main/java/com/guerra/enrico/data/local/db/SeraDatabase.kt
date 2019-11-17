@@ -23,28 +23,27 @@ import com.guerra.enrico.data.models.User
 @Database(entities = [Session::class, User::class, Category::class, Task::class], version = 1)
 @TypeConverters(DateConverter::class, CategoryConverter::class)
 abstract class SeraDatabase : RoomDatabase() {
-    abstract fun sessionDao(): SessionDao
+  abstract fun sessionDao(): SessionDao
 
-    abstract fun userDao(): UserDao
+  abstract fun userDao(): UserDao
 
-    abstract fun categoryDao(): CategoryDao
+  abstract fun categoryDao(): CategoryDao
 
-    abstract fun taskDao(): TaskDao
+  abstract fun taskDao(): TaskDao
 
-    companion object {
-        private var INSTANCE: SeraDatabase? = null
+  companion object {
+    private var INSTANCE: SeraDatabase? = null
 
-        fun getInstance(context: Context): SeraDatabase =
+    fun getInstance(context: Context): SeraDatabase =
             INSTANCE ?: synchronized(this) {
-                    INSTANCE ?:
-                    buildDatabase(context).also { INSTANCE = it }
+              INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
             }
 
-        private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(
-                        context.applicationContext,
-                        SeraDatabase::class.java,
-                        "Sera.db"
-                ).build()
-    }
+    private fun buildDatabase(context: Context) =
+            Room.databaseBuilder(
+                    context.applicationContext,
+                    SeraDatabase::class.java,
+                    "Sera.db"
+            ).build()
+  }
 }

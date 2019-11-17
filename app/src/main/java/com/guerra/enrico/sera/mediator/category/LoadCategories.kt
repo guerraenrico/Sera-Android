@@ -33,7 +33,5 @@ class LoadCategories @Inject constructor(
               }
               result.postValue(Result.Error(e))
             })
-
   }
-
 }

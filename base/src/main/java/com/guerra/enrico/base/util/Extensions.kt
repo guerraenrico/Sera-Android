@@ -14,8 +14,8 @@ import java.util.*
  * Created by enrico
  * on 02/06/2018.
  */
-fun ViewGroup.inflate(@LayoutRes layoutId : Int): View {
-    return LayoutInflater.from(context).inflate(layoutId, this,false)
+fun ViewGroup.inflate(@LayoutRes layoutId: Int): View {
+  return LayoutInflater.from(context).inflate(layoutId, this, false)
 }
 
 /**
@@ -23,7 +23,7 @@ fun ViewGroup.inflate(@LayoutRes layoutId : Int): View {
  */
 inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
         provider: ViewModelProvider.Factory
-) =  ViewModelProviders.of(this, provider).get(VM::class.java)
+) = ViewModelProviders.of(this, provider).get(VM::class.java)
 
 /**
  * Fragment view model provider
@@ -34,13 +34,13 @@ inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
 
 /** Uses `Transformations.map` on a LiveData */
 fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
-    return Transformations.map(this, body)
+  return Transformations.map(this, body)
 }
 
 /**
  * Format date to string with a specific pattern
  */
 fun Date.toDateString(pattern: String = "EEEE dd MMM yyyy"): String {
-    val simpleDateFormat = SimpleDateFormat(pattern, Locale.US)
-    return simpleDateFormat.format(this)
+  val simpleDateFormat = SimpleDateFormat(pattern, Locale.US)
+  return simpleDateFormat.format(this)
 }

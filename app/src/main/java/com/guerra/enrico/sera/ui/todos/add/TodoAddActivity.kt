@@ -36,7 +36,7 @@ class TodoAddActivity : BaseActivity() {
     viewModel.currentStep.observe(this, Observer { step ->
       when (step) {
         StepEnum.SELECT -> attachFragment(SelectFragment::class.java)
-        StepEnum.ADD_CATEGORY -> attachFragment(AddCategoryFragmnet::class.java, StepEnum.SELECT)
+        StepEnum.ADD_CATEGORY -> attachFragment(AddCategoryFragment::class.java, StepEnum.SELECT)
         StepEnum.SELECT_CATEGORY -> attachFragment(SelectCategoryFragment::class.java, StepEnum.SELECT)
         StepEnum.ADD_TASK -> attachFragment(AddTaskFragment::class.java, StepEnum.SELECT)
         StepEnum.SCHEDULE -> attachFragment(ScheduleFragment::class.java, StepEnum.ADD_TASK)

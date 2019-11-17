@@ -16,7 +16,7 @@ import javax.inject.Inject
  * on 19/10/2018.
  */
 class DoneFragment : BaseFragment() {
-  lateinit var root: View
+  private lateinit var root: View
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

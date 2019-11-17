@@ -12,10 +12,10 @@ import org.reactivestreams.Publisher
  * on 14/10/2018.
  */
 interface AuthRepository {
-    // Sign in
-    fun googleSignInCallback(code: String): Single<Result<User>>
+  // Sign in
+  fun googleSignInCallback(code: String): Single<Result<User>>
 
-    fun validateAccessToken(): Single<Result<User>>
-    fun refreshToken(): Completable
-    fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
+  fun validateAccessToken(): Single<Result<User>>
+  fun refreshToken(): Completable
+  fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
 }
