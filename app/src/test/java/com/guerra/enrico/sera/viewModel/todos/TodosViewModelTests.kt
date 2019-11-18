@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.viewModel.todos
 
 import com.guerra.enrico.sera.*
-import com.guerra.enrico.sera.scheduler.SchedulerProvider
+import com.guerra.enrico.base.scheduler.SchedulerProvider
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.utils.testEventObserver
 import com.guerra.enrico.sera.utils.testObserver

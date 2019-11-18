@@ -58,6 +58,8 @@ dependencies {
     api "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     api "androidx.room:room-rxjava2:$roomVersion"
+    api "androidx.room:room-ktx:$roomVersion"
+
 
     // Dagger
     api "com.google.dagger:dagger-android:$daggerVersion"

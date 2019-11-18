@@ -11,7 +11,9 @@ buildscript {
         appCompatVersion = '1.1.0'
         materialVersion = '1.0.0'
         constraintLayoutVersion = '2.0.0-beta3'
+        lifecycleKtxVersion = "2.2.0-rc02"
         lifecycleVersion = "2.1.0"
+        coroutineVersion = "1.3.2"
         roomVersion = "2.2.1"
         pagingVersion = "2.1.0-alpha01"
         daggerVersion = "2.24"

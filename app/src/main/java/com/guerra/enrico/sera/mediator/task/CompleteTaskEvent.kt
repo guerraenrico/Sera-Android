@@ -6,7 +6,7 @@ import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
-import com.guerra.enrico.sera.scheduler.SchedulerProvider
+import com.guerra.enrico.base.scheduler.SchedulerProvider
 import io.reactivex.disposables.Disposable
 import java.lang.Exception
 import javax.inject.Inject

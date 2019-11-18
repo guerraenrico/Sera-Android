@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera
 
-import com.guerra.enrico.sera.scheduler.SchedulerProvider
+import com.guerra.enrico.base.scheduler.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 

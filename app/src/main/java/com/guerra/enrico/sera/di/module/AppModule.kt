@@ -2,6 +2,8 @@ package com.guerra.enrico.sera.di.module
 
 import android.app.Application
 import android.content.Context
+import com.guerra.enrico.base.dispatcher.AppDispatchers
+import com.guerra.enrico.base.dispatcher.AppDispatchersImpl
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.local.db.LocalDbManagerImpl
@@ -16,8 +18,8 @@ import com.guerra.enrico.data.repo.category.CategoryRepository
 import com.guerra.enrico.data.repo.category.CategoryRepositoryImpl
 import com.guerra.enrico.data.repo.task.TaskRepository
 import com.guerra.enrico.data.repo.task.TaskRepositoryImpl
-import com.guerra.enrico.sera.scheduler.SchedulerProvider
-import com.guerra.enrico.sera.scheduler.SchedulerProviderImpl
+import com.guerra.enrico.base.scheduler.SchedulerProvider
+import com.guerra.enrico.base.scheduler.SchedulerProviderImpl
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -45,6 +47,10 @@ class AppModule {
   @Provides
   @Singleton
   fun provideSchedulerProvider(schedulerProvider: SchedulerProviderImpl): SchedulerProvider = schedulerProvider
+
+  @Provides
+  @Singleton
+  fun provideAppDispatchers(appDispatchers: AppDispatchersImpl): AppDispatchers = appDispatchers
 
   @Provides
   @Singleton

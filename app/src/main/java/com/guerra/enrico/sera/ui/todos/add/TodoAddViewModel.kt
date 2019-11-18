@@ -2,6 +2,7 @@ package com.guerra.enrico.sera.ui.todos.add
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.asLiveData
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum
 import com.guerra.enrico.sera.ui.todos.CategoryFilter
@@ -11,8 +12,10 @@ import javax.inject.Inject
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.sera.mediator.category.CreateCategory
-import com.guerra.enrico.sera.mediator.category.LoadCategories
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 /**
  * Created by enrico
@@ -20,11 +23,15 @@ import com.guerra.enrico.sera.mediator.category.LoadCategories
  */
 class TodoAddViewModel @Inject constructor(
         private val compositeDisposable: CompositeDisposable,
-        private val loadCategories: LoadCategories,
+        observeCategories: ObserveCategories,
         private val createCategory: CreateCategory,
         private val createTask: com.guerra.enrico.sera.mediator.task.CreateTask
 ) : BaseViewModel(compositeDisposable) {
-  private val _categoriesResult: MediatorLiveData<Result<List<Category>>> = loadCategories.observe()
+  private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
+          .onStart { Result.Loading }
+          .map { Result.Success(it) }
+          .asLiveData()
+
 
   private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryFilter>>>()
   val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
@@ -78,8 +85,7 @@ class TodoAddViewModel @Inject constructor(
     }
 
     _currentStep.value = StepEnum.SELECT
-
-    compositeDisposable.add(loadCategories.execute(Unit))
+    observeCategories.invoke(Unit)
   }
 
   fun toggleCategory(categoryFilter: CategoryFilter, checked: Boolean) {

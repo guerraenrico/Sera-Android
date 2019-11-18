@@ -7,6 +7,7 @@ import com.guerra.enrico.data.models.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -57,9 +58,7 @@ class LocalDbManagerImpl @Inject constructor(
 
   // Categories
 
-  override fun observeAllCategories(): Flowable<List<Category>> {
-    return database.categoryDao().getAllFlowable()
-  }
+  override fun observeAllCategories(): Flow<List<Category>> = database.categoryDao().observeAll()
 
   override fun saveCategorySingle(category: Category): Single<Long> {
     return Single.fromCallable {

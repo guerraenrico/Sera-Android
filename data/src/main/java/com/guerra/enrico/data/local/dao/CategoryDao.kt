@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.data.models.Category
-import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by enrico
@@ -15,10 +15,7 @@ import io.reactivex.Single
 @Dao
 interface CategoryDao {
   @Query("SELECT * FROM Category")
-  fun getAllFlowable(): Flowable<List<Category>>
-
-  @Query("SELECT * FROM Category")
-  fun getAll(): List<Category>
+  fun observeAll(): Flow<List<Category>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun insertOne(category: Category): Long

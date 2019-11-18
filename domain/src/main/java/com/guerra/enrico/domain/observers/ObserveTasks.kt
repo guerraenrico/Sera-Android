@@ -4,7 +4,7 @@ import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
-import com.guerra.enrico.domain.Interactor
+import com.guerra.enrico.domain.InteractorRx
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ObserveTasks @Inject constructor(
         private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
-) : Interactor<ObserveTasks.Params, Flowable<List<Task>>>() {
+) : InteractorRx<ObserveTasks.Params, Flowable<List<Task>>>() {
 
   override fun doWork(params: Params): Flowable<List<Task>> {
     val (text, category, completed) = params

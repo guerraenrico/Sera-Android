@@ -7,6 +7,7 @@ import com.guerra.enrico.data.models.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by enrico
@@ -25,7 +26,7 @@ interface LocalDbManager {
   fun saveUser(user: User): Completable
 
   // Categories
-  fun observeAllCategories(): Flowable<List<Category>>
+  fun observeAllCategories(): Flow<List<Category>>
 
   fun saveCategorySingle(category: Category): Single<Long>
   fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>

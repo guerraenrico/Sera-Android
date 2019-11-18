@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.scheduler
+package com.guerra.enrico.base.scheduler
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

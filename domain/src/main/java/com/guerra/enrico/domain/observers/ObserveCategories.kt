@@ -1,24 +1,26 @@
 package com.guerra.enrico.domain.observers
 
+import com.guerra.enrico.base.dispatcher.AppDispatchers
 import com.guerra.enrico.data.models.Category
-import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.category.CategoryRepository
-import com.guerra.enrico.domain.Interactor
-import io.reactivex.Flowable
+import com.guerra.enrico.domain.SubjectInteractor
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 12/11/2019.
  */
+@FlowPreview
+@ExperimentalCoroutinesApi
 class ObserveCategories @Inject constructor(
-        private val authRepository: AuthRepository,
+        dispatchers: AppDispatchers,
         private val categoryRepository: CategoryRepository
-) : Interactor<Unit, Flowable<List<Category>>>() {
+) : SubjectInteractor<Unit, List<Category>>() {
+  override val dispatcher: CoroutineDispatcher = dispatchers.io()
 
-  override fun doWork(params: Unit): Flowable<List<Category>> =
-          categoryRepository.observeCategoriesLocal()
-                  .retryWhen {
-                    authRepository.refreshTokenIfNotAuthorized(it)
-                  }
+  override fun createObservable(params: Unit): Flow<List<Category>> = categoryRepository.observeCategories()
 }

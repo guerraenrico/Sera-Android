@@ -3,8 +3,8 @@ package com.guerra.enrico.data.repo.category
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.Result
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by enrico
@@ -15,6 +15,6 @@ interface CategoryRepository {
   fun searchCategory(text: String): Single<Result<List<Category>>>
   fun insertCategory(category: Category): Single<Result<Category>>
   fun deleteCategory(category: Category): Single<Result<Int>>
-  fun observeCategoriesLocal(): Flowable<List<Category>>
+  fun observeCategories(): Flow<List<Category>>
   fun fetchAndSaveAllCategories(): Completable
 }

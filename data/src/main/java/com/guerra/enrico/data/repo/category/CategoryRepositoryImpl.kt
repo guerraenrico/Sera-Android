@@ -10,6 +10,7 @@ import com.guerra.enrico.data.repo.auth.AuthRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -85,8 +86,7 @@ class CategoryRepositoryImpl @Inject constructor(
             }
   }
 
-  override fun observeCategoriesLocal(): Flowable<List<Category>> =
-          localDbManager.observeAllCategories()
+  override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()
 
   override fun fetchAndSaveAllCategories(): Completable {
     return getCategoriesRemote().flatMapCompletable { result ->

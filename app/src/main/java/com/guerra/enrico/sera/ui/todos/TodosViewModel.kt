@@ -1,17 +1,21 @@
 package com.guerra.enrico.sera.ui.todos
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.*
 import com.guerra.enrico.data.Event
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.sera.mediator.category.LoadCategories
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.domain.launchObserve
+import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.sera.mediator.task.CompleteTaskEvent
 import com.guerra.enrico.sera.mediator.task.LoadTaskParameters
 import com.guerra.enrico.sera.mediator.task.LoadTasks
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 /**
@@ -20,14 +24,17 @@ import javax.inject.Inject
  */
 class TodosViewModel @Inject constructor(
         private val compositeDisposable: CompositeDisposable,
-        private val loadCategories: LoadCategories,
+        observeCategories: ObserveCategories,
         private val loadTasks: LoadTasks,
         private val completeTaskEvent: CompleteTaskEvent
 ) : BaseViewModel(compositeDisposable) {
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
 
-  private val _categoriesResult: MediatorLiveData<Result<List<Category>>> = loadCategories.observe()
+  private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
+          .onStart { Result.Loading }
+          .map { Result.Success(it) }
+          .asLiveData()
 
   private val _categories = MediatorLiveData<List<Category>>()
   val categories: LiveData<List<Category>>
@@ -56,9 +63,19 @@ class TodosViewModel @Inject constructor(
                 ?: ""))
       }
     }
+
+//    viewModelScope.launchObserve(observeCategories) { flow ->
+//      flow.onStart {
+//        _categoriesResult.value = Result.Loading
+//      }
+//      flow.onEach {
+//        _categoriesResult.value = Result.Success(it)
+//      }
+//    }
+
     // Start load tasks
     compositeDisposable.add(loadTasks.execute(LoadTaskParameters()))
-    compositeDisposable.add(loadCategories.execute(Unit))
+    observeCategories.invoke(Unit)
   }
 
   /**
