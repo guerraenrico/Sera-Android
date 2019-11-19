@@ -85,7 +85,7 @@ class TodoAddViewModel @Inject constructor(
     }
 
     _currentStep.value = StepEnum.SELECT
-    observeCategories.invoke(Unit)
+    observeCategories(Unit)
   }
 
   fun toggleCategory(categoryFilter: CategoryFilter, checked: Boolean) {
