@@ -1,39 +1,37 @@
 package com.guerra.enrico.data.repo.task
 
+import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.Result
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by enrico
  * on 10/09/2018.
  */
 interface TaskRepository {
-  fun getTasksRemote(
+  suspend fun getTasksRemote(
           categoriesId: List<String> = emptyList(),
           completed: Boolean = false,
           limit: Int = 10,
           skip: Int = 0
-  ): Single<Result<List<Task>>>
+  ): Result<List<Task>>
 
-  fun getAllTasksRemote(): Single<Result<List<Task>>>
+  suspend fun getAllTasksRemote(): Result<List<Task>>
 
-  fun insertTask(task: Task): Single<Result<Task>>
+  suspend fun insertTask(task: Task): Result<Task>
 
-  fun deleteTask(task: Task): Single<Result<Int>>
+  suspend fun deleteTask(task: Task): Result<Int>
 
-  fun updateTask(task: Task): Single<Result<Task>>
+  suspend fun updateTask(task: Task): Result<Task>
 
-  fun toggleCompleteTask(task: Task): Single<Result<Task>>
+  suspend fun toggleCompleteTask(task: Task): Result<Task>
 
-  fun observeTasksLocal(
+  fun observeTasks(
           searchText: String = "",
           category: Category?,
           completed: Boolean = false
-  ): Flowable<List<Task>>
+  ): Flow<List<Task>>
 
-  fun fetchAndSaveAllTasks(): Completable
+  suspend fun fetchAndSaveAllTasks()
 }

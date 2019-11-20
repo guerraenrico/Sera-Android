@@ -5,7 +5,6 @@ import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.remote.response.ApiResponse
 import com.guerra.enrico.data.remote.response.AuthData
-import io.reactivex.Single
 
 /**
  * Created by enrico
@@ -14,64 +13,64 @@ import io.reactivex.Single
 interface RemoteDataManager {
   /* Sign In */
 
-  fun googleSignInCallback(code: String): Single<ApiResponse<AuthData>>
+  suspend fun googleSignInCallback(code: String): ApiResponse<AuthData>
 
-  fun validateAccessToken(accessToken: String): Single<ApiResponse<AuthData>>
+  suspend fun validateAccessToken(accessToken: String): ApiResponse<AuthData>
 
-  fun refreshAccessToken(accessToken: String): Single<ApiResponse<Session>>
+  suspend fun refreshAccessToken(accessToken: String): ApiResponse<Session>
 
   /* Categories */
 
-  fun getCategories(
+  suspend fun getCategories(
           accessToken: String,
           limit: Int = 10,
           skip: Int = 0
-  ): Single<ApiResponse<List<Category>>>
+  ): ApiResponse<List<Category>>
 
-  fun searchCategory(
+  suspend fun searchCategory(
           accessToken: String,
           text: String
-  ): Single<ApiResponse<List<Category>>>
+  ): ApiResponse<List<Category>>
 
-  fun insertCategory(
+  suspend fun insertCategory(
           accessToken: String,
           category: Category
-  ): Single<ApiResponse<Category>>
+  ): ApiResponse<Category>
 
-  fun deleteCategory(
+  suspend fun deleteCategory(
           accessToken: String,
           id: String
-  ): Single<ApiResponse<Any>>
+  ): ApiResponse<Any>
 
   /* Tasks */
 
-  fun getTasks(
+  suspend fun getTasks(
           accessToken: String,
           categoriesId: List<String> = emptyList(),
           completed: Boolean = false,
           limit: Int = 10,
           skip: Int = 0
-  ): Single<ApiResponse<List<Task>>>
+  ): ApiResponse<List<Task>>
 
-  fun getAllTasks(accessToken: String): Single<ApiResponse<List<Task>>>
+  suspend fun getAllTasks(accessToken: String): ApiResponse<List<Task>>
 
-  fun insertTask(
+  suspend fun insertTask(
           accessToken: String,
           task: Task
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 
-  fun deleteTask(
+  suspend fun deleteTask(
           accessToken: String,
           id: String
-  ): Single<ApiResponse<Any>>
+  ): ApiResponse<Any>
 
-  fun updateTask(
+  suspend fun updateTask(
           accessToken: String,
           task: Task
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 
-  fun toggleCompleteTask(
+  suspend fun toggleCompleteTask(
           accessToken: String,
           task: Task
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 }

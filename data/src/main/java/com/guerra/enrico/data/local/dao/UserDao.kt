@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.data.models.User
-import io.reactivex.Single
 
 /**
  * Created by enrico
@@ -14,11 +13,11 @@ import io.reactivex.Single
 @Dao
 interface UserDao {
   @Query("SELECT * FROM User WHERE id = :userId LIMIT 1")
-  fun getFirst(userId: String): Single<User>
+  suspend fun getFirst(userId: String): User
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insert(user: User)
+  suspend fun insert(user: User)
 
   @Query("DELETE FROM User")
-  fun clear()
+  suspend fun clear()
 }

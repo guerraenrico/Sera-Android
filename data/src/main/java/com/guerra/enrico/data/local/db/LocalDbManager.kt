@@ -4,9 +4,6 @@ import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.models.User
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -15,36 +12,30 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LocalDbManager {
   // Session
-  fun getSession(): Single<Session>
+  suspend fun getSession(): Session
 
-  fun getSessionAccessToken(): Single<String>
-  fun saveSession(userId: String, accessToken: String): Completable
+  suspend fun getSessionAccessToken(): String
+  suspend fun saveSession(userId: String, accessToken: String)
 
   // User
-  fun getUser(userId: String): Single<User>
+  suspend fun getUser(userId: String): User
 
-  fun saveUser(user: User): Completable
+  suspend fun saveUser(user: User)
 
   // Categories
   fun observeAllCategories(): Flow<List<Category>>
-
-  fun saveCategorySingle(category: Category): Single<Long>
-  fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>>
-  fun saveCategories(categories: List<Category>)
-  fun clearCategoriesCompletable(): Completable
-  fun updateCategorySingle(category: Category): Single<Int>
-  fun deleteCategorySingle(category: Category): Single<Int>
+  suspend fun saveCategory(category: Category): Long
+  suspend fun saveCategories(categories: List<Category>): List<Long>
+  suspend fun clearCategories()
+  suspend fun updateCategory(category: Category): Int
+  suspend fun deleteCategory(category: Category): Int
 
   // Tasks
-  fun observeTasks(
-          completed: Boolean = false
-  ): Flowable<List<Task>>
-
-  fun saveTaskSingle(task: Task): Single<Long>
-  fun saveTasksSingle(tasks: List<Task>): Single<List<Long>>
-  fun saveTasks(tasks: List<Task>)
-  fun clearTasksCompletable(): Completable
-  fun searchTaskSingle(searchText: String): Single<List<Task>>
-  fun updateTaskSingle(task: Task): Single<Int>
-  fun deleteTaskSingle(task: Task): Single<Int>
+  fun observeTasks(completed: Boolean = false): Flow<List<Task>>
+  suspend fun saveTask(task: Task): Long
+  suspend fun saveTasks(tasks: List<Task>): List<Long>
+  suspend fun clearTasks()
+  suspend fun searchTask(searchText: String): List<Task>
+  suspend fun updateTask(task: Task): Int
+  suspend fun deleteTask(task: Task): Int
 }

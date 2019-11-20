@@ -1,16 +1,15 @@
 package com.guerra.enrico.data.repo.task
 
+import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.remote.ApiException
 import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.repo.auth.AuthRepository
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.*
 import java.util.Collections.emptyList
 import javax.inject.Inject
@@ -26,132 +25,90 @@ class TaskRepositoryImpl @Inject constructor(
         private val remoteDataManager: RemoteDataManager,
         private val authRepository: AuthRepository
 ) : TaskRepository {
-  override fun getTasksRemote(
+  override suspend fun getTasksRemote(
           categoriesId: List<String>,
           completed: Boolean,
           limit: Int,
           skip: Int
-  ): Single<Result<List<Task>>> {
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              return@flatMap remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
-                      .map { apiResponse ->
-                        if (apiResponse.success) {
-                          return@map Result.Success(apiResponse.data ?: emptyList())
-                        }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
-                      }
-            }
-  }
-
-  override fun getAllTasksRemote(): Single<Result<List<Task>>> {
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              return@flatMap remoteDataManager.getAllTasks(accessToken)
-                      .map { apiResponse ->
-                        if (apiResponse.success) {
-                          return@map Result.Success(apiResponse.data ?: emptyList())
-                        }
-                        return@map Result.Error(ApiException(apiResponse.error
-                                ?: ApiError.unknown()))
-                      }
-            }
-  }
-
-  override fun insertTask(task: Task): Single<Result<Task>> {
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              return@flatMap remoteDataManager.insertTask(accessToken, task)
-                      .flatMap { apiResponse ->
-                        if (apiResponse.success && apiResponse.data !== null) {
-                          localDbManager.saveTaskSingle(apiResponse.data).map {
-                            Result.Success(apiResponse.data)
-                          }
-                        } else {
-                          Single.just(Result.Error(ApiException(apiResponse.error
-                                  ?: ApiError.unknown())))
-                        }
-                      }
-            }
-  }
-
-  override fun deleteTask(task: Task): Single<Result<Int>> {
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              return@flatMap remoteDataManager.deleteTask(accessToken, task.id)
-                      .flatMap { apiResponse ->
-                        if (apiResponse.success) {
-                          localDbManager.deleteTaskSingle(task).map {
-                            Result.Success(it)
-                          }
-                        } else {
-                          Single.just(Result.Error(ApiException(apiResponse.error
-                                  ?: ApiError.unknown())))
-                        }
-                      }
-            }
-  }
-
-  override fun updateTask(task: Task): Single<Result<Task>> {
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              return@flatMap remoteDataManager.updateTask(accessToken, task)
-                      .flatMap { apiResponse ->
-                        if (apiResponse.success && apiResponse.data !== null) {
-                          localDbManager.updateTaskSingle(apiResponse.data).map {
-                            Result.Success(apiResponse.data)
-                          }
-                        } else {
-                          Single.just(Result.Error(ApiException(apiResponse.error
-                                  ?: ApiError.unknown())))
-                        }
-                      }
-            }
-  }
-
-  override fun toggleCompleteTask(task: Task): Single<Result<Task>> {
-    val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
-    return localDbManager.getSessionAccessToken()
-            .flatMap { accessToken ->
-              remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
-                      .flatMap { apiResponse ->
-                        if (apiResponse.success && apiResponse.data !== null) {
-                          localDbManager.updateTaskSingle(apiResponse.data).map {
-                            Result.Success(apiResponse.data)
-                          }
-                        } else {
-                          Single.just(Result.Error(ApiException(apiResponse.error
-                                  ?: ApiError.unknown())))
-                        }
-                      }
-            }
-  }
-
-  override fun observeTasksLocal(searchText: String, category: Category?, completed: Boolean): Flowable<List<Task>> {
-    return localDbManager.observeTasks(completed)
-            .map { list ->
-              val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
-              if (searchText.isNotEmpty()) {
-                return@map list.filter { c -> c.description.contains(regex) }
-              }
-              if (category !== null) {
-                return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
-              }
-              return@map list
-            }
-  }
-
-  override fun fetchAndSaveAllTasks(): Completable {
-    return getAllTasksRemote().flatMapCompletable { result ->
-      if (result is Result.Success) {
-        return@flatMapCompletable localDbManager.clearTasksCompletable().andThen {
-          localDbManager.saveTasksSingle(result.data)
-        }.retryWhen {
-          authRepository.refreshTokenIfNotAuthorized(it)
-        }
-      }
-      return@flatMapCompletable Completable.complete()
+  ): Result<List<Task>> {
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
+    if (apiResponse.success) {
+      return Result.Success(apiResponse.data ?: emptyList())
     }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
   }
+
+  override suspend fun getAllTasksRemote(): Result<List<Task>> {
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.getAllTasks(accessToken)
+    if (apiResponse.success) {
+      return Result.Success(apiResponse.data ?: emptyList())
+    }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+  }
+
+  override suspend fun insertTask(task: Task): Result<Task> {
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.insertTask(accessToken, task)
+    if (apiResponse.success && apiResponse.data !== null) {
+      localDbManager.saveTask(apiResponse.data)
+      return Result.Success(apiResponse.data)
+    }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+  }
+
+  override suspend fun deleteTask(task: Task): Result<Int> {
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.deleteTask(accessToken, task.id)
+    if (apiResponse.success) {
+      val result = localDbManager.deleteTask(task)
+      return Result.Success(result)
+    }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+  }
+
+  override suspend fun updateTask(task: Task): Result<Task> {
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.updateTask(accessToken, task)
+    if (apiResponse.success && apiResponse.data !== null) {
+      localDbManager.updateTask(apiResponse.data)
+      return Result.Success(apiResponse.data)
+    }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+  }
+
+  override suspend fun toggleCompleteTask(task: Task): Result<Task> {
+    val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
+    val accessToken = localDbManager.getSessionAccessToken()
+    val apiResponse = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
+    if (apiResponse.success && apiResponse.data !== null) {
+      localDbManager.updateTask(apiResponse.data)
+      return Result.Success(apiResponse.data)
+    }
+    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+  }
+
+  override fun observeTasks(searchText: String, category: Category?, completed: Boolean): Flow<List<Task>> =
+          localDbManager.observeTasks(completed).map { list ->
+            val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
+            if (searchText.isNotEmpty()) {
+              return@map list.filter { c -> c.description.contains(regex) }
+            }
+            if (category !== null) {
+              return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
+            }
+            return@map list
+          }
+
+override suspend fun fetchAndSaveAllTasks() {
+  val result = getAllTasksRemote()
+  if (result is Result.Success) {
+    localDbManager.clearTasks()
+    localDbManager.saveTasks(result.data)
+//            .retryWhen {
+//      authRepository.refreshTokenIfNotAuthorized(it)
+//    }
+  }
+}
 }

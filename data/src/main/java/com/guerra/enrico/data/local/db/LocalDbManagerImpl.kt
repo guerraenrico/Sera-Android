@@ -4,9 +4,6 @@ import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.models.User
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
@@ -23,123 +20,82 @@ class LocalDbManagerImpl @Inject constructor(
 
   // Session
 
-  override fun getSession(): Single<Session> {
-    return database.sessionDao().getFirst()
-  }
+  override suspend fun getSession(): Session =
+          database.sessionDao().getFirst()
 
-  override fun getSessionAccessToken(): Single<String> {
-    return getSession()
-            .map { session -> session.accessToken }
-  }
+  override suspend fun getSessionAccessToken(): String =
+          getSession().accessToken
 
-  override fun saveSession(userId: String, accessToken: String): Completable {
-    return Completable.fromAction {
-      database.sessionDao().insert(
-              Session(
-                      userId = userId,
-                      accessToken = accessToken,
-                      createdAt = Date()
-              )
-      )
-    }
+  override suspend fun saveSession(userId: String, accessToken: String) {
+    database.sessionDao().insert(
+            Session(
+                    userId = userId,
+                    accessToken = accessToken,
+                    createdAt = Date()
+            )
+    )
   }
 
   // User
 
-  override fun getUser(userId: String): Single<User> {
-    return database.userDao().getFirst(userId)
-  }
+  override suspend fun getUser(userId: String): User =
+          database.userDao().getFirst(userId)
 
-  override fun saveUser(user: User): Completable {
-    return Completable.fromAction {
-      database.userDao().insert(user)
-    }
-  }
+  override suspend fun saveUser(user: User) =
+          database.userDao().insert(user)
 
   // Categories
 
   override fun observeAllCategories(): Flow<List<Category>> = database.categoryDao().observeAll()
 
-  override fun saveCategorySingle(category: Category): Single<Long> {
-    return Single.fromCallable {
-      database.categoryDao().insertOne(category)
-    }
+  override suspend fun saveCategory(category: Category): Long =
+          database.categoryDao().insertOne(category)
+
+  override suspend fun saveCategories(categories: List<Category>): List<Long> =
+          database.categoryDao().insertAll(categories)
+
+  override suspend fun clearCategories() {
+    database.categoryDao().clear()
   }
 
-  override fun saveCategoriesSingle(categories: List<Category>): Single<List<Long>> {
-    return Single.fromCallable {
-      database.categoryDao().insertAll(categories)
-    }
-  }
+  override suspend fun updateCategory(category: Category): Int =
+          database.categoryDao().updateFields(
+                  category.id,
+                  category.name
+          )
 
-  override fun saveCategories(categories: List<Category>) {
-    database.categoryDao().insertAll(categories)
-  }
-
-  override fun clearCategoriesCompletable(): Completable {
-    return Completable.fromAction {
-      database.categoryDao().clear()
-    }
-  }
-
-  override fun updateCategorySingle(category: Category): Single<Int> {
-    return database.categoryDao().updateFieldsSingle(
-            category.id,
-            category.name
-    )
-  }
-
-  override fun deleteCategorySingle(category: Category): Single<Int> {
-    return database.categoryDao().removeOneSingle(category.id)
-  }
+  override suspend fun deleteCategory(category: Category): Int =
+          database.categoryDao().removeOne(category.id)
 
   // Tasks
 
-  override fun observeTasks(
-          completed: Boolean
-  ): Flowable<List<Task>> {
-    return database.taskDao().getAllFlowable(completed)
+  override fun observeTasks(completed: Boolean): Flow<List<Task>> =
+          database.taskDao().observeAll(completed)
+
+  override suspend fun saveTask(task: Task): Long =
+          database.taskDao().insertOne(task)
+
+  override suspend fun saveTasks(tasks: List<Task>): List<Long> =
+          database.taskDao().insertAll(tasks)
+
+  override suspend fun clearTasks() {
+    database.taskDao().clear()
   }
 
-  override fun saveTaskSingle(task: Task): Single<Long> {
-    return Single.fromCallable {
-      database.taskDao().insertOne(task)
-    }
-  }
+  override suspend fun searchTask(searchText: String): List<Task> =
+          database.taskDao().search("%$searchText%")
 
-  override fun saveTasksSingle(tasks: List<Task>): Single<List<Long>> {
-    return Single.fromCallable {
-      database.taskDao().insertAll(tasks)
-    }
-  }
+  override suspend fun updateTask(task: Task): Int =
+          database.taskDao().updateFields(
+                  task.id,
+                  task.title,
+                  task.description,
+                  task.completed,
+                  task.completedAt,
+                  task.todoWithin,
+                  task.categories
+          )
 
-  override fun saveTasks(tasks: List<Task>) {
-    database.taskDao().insertAll(tasks)
-  }
-
-  override fun clearTasksCompletable(): Completable {
-    return Completable.fromAction {
-      database.taskDao().clear()
-    }
-  }
-
-  override fun searchTaskSingle(searchText: String): Single<List<Task>> {
-    return database.taskDao().searchSingle("%$searchText%")
-  }
-
-  override fun updateTaskSingle(task: Task): Single<Int> {
-    return database.taskDao().updateFieldsSingle(
-            task.id,
-            task.title,
-            task.description,
-            task.completed,
-            task.completedAt,
-            task.todoWithin,
-            task.categories
-    )
-  }
-
-  override fun deleteTaskSingle(task: Task): Single<Int> {
-    return database.taskDao().removeOneSingle(task.id)
-  }
+  override suspend fun deleteTask(task: Task): Int =
+          database.taskDao().removeOne(task.id)
 }

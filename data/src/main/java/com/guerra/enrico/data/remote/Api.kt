@@ -6,7 +6,6 @@ import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.remote.request.*
 import com.guerra.enrico.data.remote.response.ApiResponse
 import com.guerra.enrico.data.remote.response.AuthData
-import io.reactivex.Single
 import retrofit2.http.*
 
 /**
@@ -15,84 +14,84 @@ import retrofit2.http.*
  */
 interface Api {
   @POST("auth/google/signin/callback")
-  fun googleSignInCallback(
+  suspend fun googleSignInCallback(
           @Body params: AuthRequestParams
-  ): Single<ApiResponse<AuthData>>
+  ): ApiResponse<AuthData>
 
   @POST("auth/google/validate/token")
-  fun validateAccessToken(
+  suspend fun validateAccessToken(
           @Body params: AccessTokenParams
-  ): Single<ApiResponse<AuthData>>
+  ): ApiResponse<AuthData>
 
   @POST("auth/google/refresh/token")
-  fun refreshAccessToken(
+  suspend fun refreshAccessToken(
           @Body params: AccessTokenParams
-  ): Single<ApiResponse<Session>>
+  ): ApiResponse<Session>
 
   // Categories
 
   @GET("categories")
-  fun getCategories(
+  suspend fun getCategories(
           @Header("x-token") accessToken: String,
           @Query("limit") limit: Int,
           @Query("skip") skip: Int
-  ): Single<ApiResponse<List<Category>>>
+  ): ApiResponse<List<Category>>
 
   @GET("categories/onSearch")
-  fun searchCategory(
+  suspend fun searchCategory(
           @Header("x-token") accessToken: String,
           @Query("text") text: String
-  ): Single<ApiResponse<List<Category>>>
+  ): ApiResponse<List<Category>>
 
   @POST("categories")
-  fun insertCategory(
+  suspend fun insertCategory(
           @Header("x-token") accessToken: String,
           @Body params: CategoryParams
-  ): Single<ApiResponse<Category>>
+  ): ApiResponse<Category>
 
   @DELETE("categories")
-  fun deleteCategory(
+  suspend fun deleteCategory(
           @Header("x-token") accessToken: String,
           @Query("id") id: String
-  ): Single<ApiResponse<Any>>
+  ): ApiResponse<Any>
 
   // Tasks
 
   @GET("tasks")
-  fun getTasks(
+  suspend fun getTasks(
           @Header("x-token") accessToken: String,
           @Query("categoriesId") categoriesId: String,
           @Query("completed") completed: Boolean,
           @Query("limit") limit: Int,
           @Query("skip") skip: Int
-  ): Single<ApiResponse<List<Task>>>
+  ): ApiResponse<List<Task>>
 
   @GET("tasks")
-  fun getAllTasks(
+  suspend fun getAllTasks(
           @Header("x-token") accessToken: String
-  ): Single<ApiResponse<List<Task>>>
+  ): ApiResponse<List<Task>>
 
   @POST("tasks")
-  fun insertTask(
+  suspend fun insertTask(
           @Header("x-token") accessToken: String,
           @Body params: TaskParams
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 
   @DELETE("tasks")
-  fun deleteTask(
+  suspend fun deleteTask(
           @Header("x-token") accessToken: String,
           @Query("id") id: String
-  ): Single<ApiResponse<Any>>
+  ): ApiResponse<Any>
 
   @PATCH("tasks")
-  fun updateTask(
+  suspend fun updateTask(
           @Header("x-token") accessToken: String,
           @Body params: TaskParams
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 
   @PATCH("tasks/toggle-complete")
-  fun toggleCompleteTask(
+  suspend fun toggleCompleteTask(
           @Header("x-token") accessToken: String,
           @Body params: TaskToggleCompleteParams
-  ): Single<ApiResponse<Task>>
+  ): ApiResponse<Task>
 }

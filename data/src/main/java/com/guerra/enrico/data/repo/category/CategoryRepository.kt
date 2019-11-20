@@ -1,9 +1,7 @@
 package com.guerra.enrico.data.repo.category
 
-import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.Result
-import io.reactivex.Completable
-import io.reactivex.Single
+import com.guerra.enrico.data.models.Category
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -11,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
  * on 10/09/2018.
  */
 interface CategoryRepository {
-  fun getCategoriesRemote(): Single<Result<List<Category>>>
-  fun searchCategory(text: String): Single<Result<List<Category>>>
-  fun insertCategory(category: Category): Single<Result<Category>>
-  fun deleteCategory(category: Category): Single<Result<Int>>
+  suspend fun getCategoriesRemote(): Result<List<Category>>
+  suspend fun searchCategory(text: String): Result<List<Category>>
+  suspend fun insertCategory(category: Category): Result<Category>
+  suspend fun deleteCategory(category: Category): Result<Int>
   fun observeCategories(): Flow<List<Category>>
-  fun fetchAndSaveAllCategories(): Completable
+  suspend fun fetchAndSaveAllCategories()
 }

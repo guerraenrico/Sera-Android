@@ -1,11 +1,7 @@
 package com.guerra.enrico.data.repo.auth
 
-import com.guerra.enrico.data.models.User
 import com.guerra.enrico.data.Result
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
-import org.reactivestreams.Publisher
+import com.guerra.enrico.data.models.User
 
 /**
  * Created by enrico
@@ -13,9 +9,9 @@ import org.reactivestreams.Publisher
  */
 interface AuthRepository {
   // Sign in
-  fun googleSignInCallback(code: String): Single<Result<User>>
+  suspend fun googleSignInCallback(code: String): Result<User>
 
-  fun validateAccessToken(): Single<Result<User>>
-  fun refreshToken(): Completable
-  fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
+  suspend fun validateAccessToken(): Result<User>
+  suspend fun refreshToken()
+//  fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
 }

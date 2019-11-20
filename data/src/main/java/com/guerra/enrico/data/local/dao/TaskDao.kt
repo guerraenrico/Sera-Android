@@ -3,9 +3,7 @@ package com.guerra.enrico.data.local.dao
 import androidx.room.*
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 /**
@@ -15,24 +13,24 @@ import java.util.*
 @Dao
 interface TaskDao {
   @Query("SELECT * FROM Task  WHERE completed = :completed")
-  fun getAllFlowable(
+  fun observeAll(
           completed: Boolean
-  ): Flowable<List<Task>>
+  ): Flow<List<Task>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertOne(task: Task): Long
+  suspend fun insertOne(task: Task): Long
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertAll(tasks: List<Task>): List<Long>
+  suspend fun insertAll(tasks: List<Task>): List<Long>
 
   @Query("SELECT * FROM Task WHERE title LIKE :text OR description LIKE :text ")
-  fun searchSingle(text: String): Single<List<Task>>
+  suspend fun search(text: String): List<Task>
 
   @Update
-  fun update(task: Task): Completable
+  suspend fun update(task: Task)
 
   @Query("UPDATE Task SET title= :title, description= :description, completed= :completed, completedAt= :completedAt, todoWithin= :todoWithin, categories= :categories WHERE id =:id")
-  fun updateFieldsSingle(
+  suspend fun updateFields(
           id: String,
           title: String,
           description: String,
@@ -40,11 +38,11 @@ interface TaskDao {
           completedAt: Date?,
           todoWithin: Date,
           categories: List<Category>
-  ): Single<Int>
+  ): Int
 
   @Query("DELETE FROM task WHERE id = :id")
-  fun removeOneSingle(id: String): Single<Int>
+  suspend fun removeOne(id: String): Int
 
   @Query("DELETE FROM Task")
-  fun clear()
+  suspend fun clear()
 }
