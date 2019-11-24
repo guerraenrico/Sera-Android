@@ -4,8 +4,7 @@ import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
-import com.guerra.enrico.domain.InteractorRx
-import io.reactivex.Single
+import com.guerra.enrico.domain.Interactor
 import javax.inject.Inject
 
 /**
@@ -15,12 +14,7 @@ import javax.inject.Inject
 class InsertTask @Inject constructor(
         private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
-) : InteractorRx<Task, Single<Result<Task>>>() {
-
-  override fun doWork(params: Task): Single<Result<Task>> {
-    return taskRepository.insertTask(params)
-            .retryWhen {
-              authRepository.refreshTokenIfNotAuthorized(it)
-            }
-  }
+) : Interactor<Task, Result<Task>>() {
+  override suspend fun doWork(params: Task): Result<Task> =
+          taskRepository.insertTask(params)
 }

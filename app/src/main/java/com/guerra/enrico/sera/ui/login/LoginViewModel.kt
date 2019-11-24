@@ -2,11 +2,13 @@ package com.guerra.enrico.sera.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.guerra.enrico.data.models.User
-import com.guerra.enrico.sera.mediator.auth.GoogleSignInCallback
-import com.guerra.enrico.sera.ui.base.BaseViewModel
-import io.reactivex.disposables.CompositeDisposable
+import androidx.lifecycle.viewModelScope
+import com.guerra.enrico.base.dispatcher.AppDispatchers
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.models.User
+import com.guerra.enrico.domain.interactors.SignIn
+import com.guerra.enrico.sera.ui.base.BaseViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -14,15 +16,18 @@ import javax.inject.Inject
  * on 12/10/2018.
  */
 class LoginViewModel @Inject constructor(
-        private val compositeDisposable: CompositeDisposable,
-        private val googleSignInCallback: GoogleSignInCallback
-) : BaseViewModel(compositeDisposable) {
+        private val dispatchers: AppDispatchers,
+        private val signIn: SignIn
+) : BaseViewModel() {
 
-  private val _user: MediatorLiveData<Result<User>> = googleSignInCallback.observe()
+  private val _user: MediatorLiveData<Result<User>> = MediatorLiveData()
   val user: LiveData<Result<User>>
     get() = _user
 
   fun onCodeReceived(code: String) {
-    compositeDisposable.add(googleSignInCallback.execute(code))
+    viewModelScope.launch(dispatchers.io()) {
+      _user.postValue(Result.Loading)
+      _user.postValue(signIn.execute(code))
+    }
   }
 }

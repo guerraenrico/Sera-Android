@@ -2,10 +2,9 @@ package com.guerra.enrico.domain.observers
 
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
-import com.guerra.enrico.domain.InteractorRx
-import io.reactivex.Flowable
+import com.guerra.enrico.domain.SubjectInteractor
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -13,16 +12,12 @@ import javax.inject.Inject
  * on 12/11/2019.
  */
 class ObserveTasks @Inject constructor(
-        private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
-) : InteractorRx<ObserveTasks.Params, Flowable<List<Task>>>() {
+) : SubjectInteractor<ObserveTasks.Params, List<Task>>() {
 
-  override fun doWork(params: Params): Flowable<List<Task>> {
+  override fun createObservable(params: Params): Flow<List<Task>> {
     val (text, category, completed) = params
-    return taskRepository.observeTasksLocal(text, category, completed)
-            .retryWhen {
-              authRepository.refreshTokenIfNotAuthorized(it)
-            }
+    return taskRepository.observeTasks(text, category, completed)
   }
 
   data class Params(

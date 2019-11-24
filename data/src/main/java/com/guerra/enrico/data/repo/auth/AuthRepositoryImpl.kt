@@ -42,13 +42,17 @@ class AuthRepositoryImpl @Inject constructor(
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
-    val apiResponse = remoteDataManager.validateAccessToken(session.accessToken)
-    if (apiResponse.success && apiResponse.data != null) {
-      localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
-      localDbManager.saveUser(apiResponse.data.user)
-      return Result.Success(apiResponse.data.user)
+    try {
+      val apiResponse = remoteDataManager.validateAccessToken(session.accessToken)
+      if (apiResponse.success && apiResponse.data != null) {
+        localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
+        localDbManager.saveUser(apiResponse.data.user)
+        return Result.Success(apiResponse.data.user)
+      }
+      return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    } catch (e: Exception) {
+      return Result.Error(ApiException(ApiError.unknown()))
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
   }
 
   override suspend fun refreshToken() {

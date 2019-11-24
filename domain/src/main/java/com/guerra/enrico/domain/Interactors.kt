@@ -1,6 +1,5 @@
 package com.guerra.enrico.domain
 
-import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -17,17 +16,18 @@ abstract class InteractorRx<in P, out R> {
   fun execute(params: P) = doWork(params)
 }
 
-abstract class Interactor<in P> {
+abstract class Interactor<in P, out R> {
 
+  suspend fun execute(params: P): R = doWork(params)
+
+  protected abstract suspend fun doWork(params: P): R
 }
 
 interface ObservableInteractor<T> {
-  val dispatcher: CoroutineDispatcher
+//  val dispatcher: CoroutineDispatcher
   fun observe(): Flow<T>
 }
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 abstract class SubjectInteractor<in P, R>: ObservableInteractor<R> {
   private val channel = ConflatedBroadcastChannel<P>()
 
@@ -38,11 +38,11 @@ abstract class SubjectInteractor<in P, R>: ObservableInteractor<R> {
   override fun observe(): Flow<R> = channel.asFlow().distinctUntilChanged().flatMapLatest { createObservable(it) }
 }
 
-fun <I : ObservableInteractor<T>, T> CoroutineScope.launchObserve(
-        interactor: I,
-        f: suspend (Flow<T>) -> Unit
-) {
-  launch(interactor.dispatcher) {
-    f(interactor.observe())
-  }
-}
+//fun <I : ObservableInteractor<T>, T> CoroutineScope.launchObserve(
+//        interactor: I,
+//        f: suspend (Flow<T>) -> Unit
+//) {
+//  launch(interactor.dispatcher) {
+//    f(interactor.observe())
+//  }
+//}

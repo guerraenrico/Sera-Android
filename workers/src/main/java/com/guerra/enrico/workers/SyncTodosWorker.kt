@@ -24,6 +24,8 @@ class SyncTodosWorker(context: Context, workerParameters: WorkerParameters) : Rx
     AndroidWorkerInjector.inject(this)
 
     Log.i("SYNC_TODO", "worker started")
-    return syncTasksAndCategories.execute(Unit).toSingle { Result.success() }
+    return Single.just(Result.success())
+    // TODO: fix
+//    return syncTasksAndCategories.execute(Unit).toSingle { Result.success() }
   }
 }

@@ -29,11 +29,12 @@ class TodosWorkerImpl @Inject constructor(
                             .build()
             )
             .build()
-    workManager.enqueueUniquePeriodicWork(
-            SyncTodosWorker.NIGHTLY_SYNC_TAG,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            request
-    )
+    // TODO enable
+//    workManager.enqueueUniquePeriodicWork(
+//            SyncTodosWorker.NIGHTLY_SYNC_TAG,
+//            ExistingPeriodicWorkPolicy.REPLACE,
+//            request
+//    )
     Log.i("SYNC_TODO", "work setup")
   }
 }

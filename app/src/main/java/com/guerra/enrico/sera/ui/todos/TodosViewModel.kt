@@ -1,21 +1,21 @@
 package com.guerra.enrico.sera.ui.todos
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.guerra.enrico.base.dispatcher.AppDispatchers
 import com.guerra.enrico.data.Event
-import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.Result
-import com.guerra.enrico.domain.launchObserve
+import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.observers.ObserveCategories
-import com.guerra.enrico.sera.mediator.task.CompleteTaskEvent
-import com.guerra.enrico.sera.mediator.task.LoadTaskParameters
-import com.guerra.enrico.sera.mediator.task.LoadTasks
+import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -23,26 +23,27 @@ import javax.inject.Inject
  * on 30/05/2018.
  */
 class TodosViewModel @Inject constructor(
-        private val compositeDisposable: CompositeDisposable,
+        private val dispatchers: AppDispatchers,
         observeCategories: ObserveCategories,
-        private val loadTasks: LoadTasks,
-        private val completeTaskEvent: CompleteTaskEvent
-) : BaseViewModel(compositeDisposable) {
+        private val observeTasks: ObserveTasks,
+        private val updateTaskCompleteState: UpdateTaskCompleteState
+) : BaseViewModel() {
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
 
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
           .onStart { Result.Loading }
           .map { Result.Success(it) }
-          .asLiveData()
+          .asLiveData(dispatchers.io())
+
+  val tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
+          .onStart { Result.Loading }
+          .map { Result.Success(it) }
+          .asLiveData(dispatchers.io())
 
   private val _categories = MediatorLiveData<List<Category>>()
   val categories: LiveData<List<Category>>
     get() = _categories
-
-  private val _tasksResult: MediatorLiveData<Result<List<Task>>> = loadTasks.observe()
-  val tasksResult: LiveData<Result<List<Task>>>
-    get() = _tasksResult
 
   private val _snackbarMessage = MediatorLiveData<Event<String>>()
   val snackbarMessage: LiveData<Event<String>>
@@ -56,33 +57,16 @@ class TodosViewModel @Inject constructor(
       }
       _categories.postValue(emptyList())
     }
-
-    _snackbarMessage.addSource(completeTaskEvent.observe()) { completeTaskResult: Result<Task> ->
-      if (completeTaskResult is Result.Error) {
-        _snackbarMessage.postValue(Event(completeTaskResult.exception.message
-                ?: ""))
-      }
-    }
-
-//    viewModelScope.launchObserve(observeCategories) { flow ->
-//      flow.onStart {
-//        _categoriesResult.value = Result.Loading
-//      }
-//      flow.onEach {
-//        _categoriesResult.value = Result.Success(it)
-//      }
-//    }
-
     // Start load tasks
-    compositeDisposable.add(loadTasks.execute(LoadTaskParameters()))
-    observeCategories.invoke(Unit)
+    observeTasks(ObserveTasks.Params())
+    observeCategories(Unit)
   }
 
   /**
    * Reload tasksResult
    */
   fun onReloadTasks() {
-    compositeDisposable.add(loadTasks.execute(LoadTaskParameters(text = searchText, category = searchSelectedCategory)))
+    observeTasks(ObserveTasks.Params(text = searchText, category = searchSelectedCategory))
   }
 
   /**
@@ -92,20 +76,26 @@ class TodosViewModel @Inject constructor(
   fun onSearch(text: String) {
     searchText = text
     searchSelectedCategory = null
-    compositeDisposable.add(loadTasks.execute(LoadTaskParameters(text = searchText)))
+    observeTasks(ObserveTasks.Params(text = searchText))
   }
 
   fun onSearchCategory(category: Category?) {
     searchText = ""
     searchSelectedCategory = category
-    compositeDisposable.add(loadTasks.execute(LoadTaskParameters(category = category)))
+    observeTasks(ObserveTasks.Params(category = category))
   }
 
   /**
    * Toggle task complete status
    * @param task task object
    */
-  fun onToggleTaskComplete(task: Task) {
-    compositeDisposable.add(completeTaskEvent.execute(task))
+   fun onToggleTaskComplete(task: Task) {
+    viewModelScope.launch(dispatchers.io()) {
+      val completeTaskResult = updateTaskCompleteState.execute(task)
+      if (completeTaskResult is Result.Error) {
+        _snackbarMessage.postValue(Event(completeTaskResult.exception.message
+                ?: ""))
+      }
+    }
   }
 }

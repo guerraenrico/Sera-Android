@@ -4,8 +4,7 @@ import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.category.CategoryRepository
-import com.guerra.enrico.domain.InteractorRx
-import io.reactivex.Single
+import com.guerra.enrico.domain.Interactor
 import javax.inject.Inject
 
 /**
@@ -15,12 +14,8 @@ import javax.inject.Inject
 class InsertCategory @Inject constructor(
         private val authRepository: AuthRepository,
         private val categoryRepository: CategoryRepository
-) : InteractorRx<Category, Single<Result<Category>>>() {
+) : Interactor<Category, Result<Category>>() {
 
-  override fun doWork(params: Category): Single<Result<Category>> {
-    return categoryRepository.insertCategory(params)
-            .retryWhen {
-              authRepository.refreshTokenIfNotAuthorized(it)
-            }
-  }
+  override suspend fun doWork(params: Category): Result<Category> =
+          categoryRepository.insertCategory(params)
 }
