@@ -1,11 +1,17 @@
 package com.guerra.enrico.data.remote
 
+import com.google.gson.Gson
+import com.guerra.enrico.base.dispatcher.AppDispatchers
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.remote.request.*
+import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.remote.response.ApiResponse
 import com.guerra.enrico.data.remote.response.AuthData
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.Reader
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,18 +21,21 @@ import javax.inject.Singleton
  */
 @Singleton
 class RemoteDataManagerImpl @Inject constructor(
-        private val api: Api
+        private val api: Api,
+        private val gson: Gson,
+        private val appDispatchers: AppDispatchers
 ) : RemoteDataManager {
 
   /* Sign In */
   override suspend fun googleSignInCallback(code: String): ApiResponse<AuthData> =
-          api.googleSignInCallback(AuthRequestParams(code))
+          callAndCatch { api.googleSignInCallback(AuthRequestParams(code)) }
+
 
   override suspend fun validateAccessToken(accessToken: String): ApiResponse<AuthData> =
-          api.validateAccessToken(AccessTokenParams(accessToken))
+          callAndCatch { api.validateAccessToken(AccessTokenParams(accessToken)) }
 
   override suspend fun refreshAccessToken(accessToken: String): ApiResponse<Session> =
-          api.refreshAccessToken(AccessTokenParams(accessToken))
+          callAndCatch { api.refreshAccessToken(AccessTokenParams(accessToken)) }
 
   /* Categories */
 
@@ -35,19 +44,22 @@ class RemoteDataManagerImpl @Inject constructor(
           limit: Int,
           skip: Int
   ): ApiResponse<List<Category>> =
-          api.getCategories(accessToken, limit, skip)
+          callAndCatch { api.getCategories(accessToken, limit, skip) }
 
   override suspend fun searchCategory(accessToken: String, text: String): ApiResponse<List<Category>> =
-          api.searchCategory(accessToken, text)
+          callAndCatch { api.searchCategory(accessToken, text) }
+
 
   override suspend fun insertCategory(accessToken: String, category: Category): ApiResponse<Category> =
-          api.insertCategory(
-                  accessToken,
-                  CategoryParams(category)
-          )
+          callAndCatch {
+            api.insertCategory(
+                    accessToken,
+                    CategoryParams(category)
+            )
+          }
 
   override suspend fun deleteCategory(accessToken: String, id: String): ApiResponse<Any> =
-          api.deleteCategory(accessToken, id)
+          callAndCatch { api.deleteCategory(accessToken, id) }
 
   /* Tasks */
 
@@ -58,35 +70,61 @@ class RemoteDataManagerImpl @Inject constructor(
           limit: Int,
           skip: Int
   ): ApiResponse<List<Task>> =
-          api.getTasks(
-                  accessToken,
-                  (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString().replace("\\s".toRegex(), ""),
-                  completed,
-                  limit,
-                  skip
-          )
+          callAndCatch {
+            api.getTasks(
+                    accessToken,
+                    (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString().replace("\\s".toRegex(), ""),
+                    completed,
+                    limit,
+                    skip
+            )
+          }
 
   override suspend fun getAllTasks(accessToken: String): ApiResponse<List<Task>> =
-          api.getAllTasks(accessToken)
+          callAndCatch { api.getAllTasks(accessToken) }
 
   override suspend fun insertTask(accessToken: String, task: Task): ApiResponse<Task> =
-          api.insertTask(
-                  accessToken,
-                  TaskParams(task)
-          )
+          callAndCatch {
+            api.insertTask(
+                    accessToken,
+                    TaskParams(task)
+            )
+          }
 
   override suspend fun deleteTask(accessToken: String, id: String): ApiResponse<Any> =
-          api.deleteTask(accessToken, id)
+          callAndCatch { api.deleteTask(accessToken, id) }
 
   override suspend fun updateTask(accessToken: String, task: Task): ApiResponse<Task> =
-          api.updateTask(
-                  accessToken,
-                  TaskParams(task)
-          )
+          callAndCatch {
+            api.updateTask(
+                    accessToken,
+                    TaskParams(task)
+            )
+          }
 
   override suspend fun toggleCompleteTask(accessToken: String, task: Task): ApiResponse<Task> =
-          api.toggleCompleteTask(
-                  accessToken,
-                  TaskToggleCompleteParams(task)
-          )
+          callAndCatch {
+            api.toggleCompleteTask(
+                    accessToken,
+                    TaskToggleCompleteParams(task)
+            )
+          }
+
+  private suspend fun <R> callAndCatch(block: suspend () -> ApiResponse<R>): ApiResponse<R> = runCatching {
+    block()
+  }.getOrElse { e ->
+    // TODO: How to manage connection exception and others?
+    if (e is HttpException) {
+      val reader = e.response()?.errorBody()?.charStream()
+              ?: return@getOrElse ApiResponse(false, null, ApiError.unknown())
+      val result = convertJson(reader)
+      ApiResponse(result.success, null, result.error)
+    } else {
+      ApiResponse(false, null, ApiError.unknown())
+    }
+  }
+
+  private suspend fun convertJson(reader: Reader) = withContext(appDispatchers.io()) {
+    gson.fromJson(reader, ApiResponse::class.java)
+  }
 }

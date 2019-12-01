@@ -15,7 +15,9 @@ class ValidateToken @Inject constructor(
         private val syncTasksAndCategories: SyncTasksAndCategories
 ) : Interactor<Unit, Result<User>>() {
   override suspend fun doWork(params: Unit): Result<User> {
-    val result = authRepository.validateAccessToken()
+    val result = authRepository.refreshTokenIfNotAuthorized {
+      authRepository.validateAccessToken()
+    }
     if (result is Result.Success) {
       syncTasksAndCategories.execute(Unit)
     }

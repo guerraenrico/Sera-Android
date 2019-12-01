@@ -108,7 +108,7 @@ class TodosActivity : BaseActivity() {
         messageLayout.show()
         return
       }
-      showSnackbar(tasksResult.exception.message ?: "An error accour while fetching tasks")
+      showSnackbar(tasksResult.exception.message ?: "An error accur while fetching tasks")
     }
   }
 

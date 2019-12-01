@@ -12,6 +12,6 @@ interface AuthRepository {
   suspend fun googleSignInCallback(code: String): Result<User>
 
   suspend fun validateAccessToken(): Result<User>
-  suspend fun refreshToken()
-//  fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any>
+  suspend fun refreshToken(): Result<Unit>
+  suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T>
 }

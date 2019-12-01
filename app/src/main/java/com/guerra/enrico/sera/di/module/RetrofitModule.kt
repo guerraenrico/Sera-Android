@@ -5,13 +5,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.base.util.ConnectionHelper
-import com.guerra.enrico.sera.exceptions.OperationException
+import com.guerra.enrico.data.exceptions.ConnectionException
+import com.guerra.enrico.data.remote.Api
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import okhttp3.*
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -24,18 +23,14 @@ import java.util.concurrent.TimeUnit
 @Module(includes = [AppModule::class])
 class RetrofitModule {
   @Provides
-  fun provideApi(retrofit: Retrofit) = retrofit.create(com.guerra.enrico.data.remote.Api::class.java)
+  fun provideApi(retrofit: Retrofit) = retrofit.create(Api::class.java)
 
   @Provides
-  fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory, rxJava2CallAdapterFactory: RxJava2CallAdapterFactory): Retrofit = Retrofit.Builder()
+  fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit = Retrofit.Builder()
           .baseUrl(BuildConfig.ApiBaseUri)
           .client(okHttpClient)
           .addConverterFactory(gsonConverterFactory)
-          .addCallAdapterFactory(rxJava2CallAdapterFactory)
           .build()
-
-  @Provides
-  fun provideRxCallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
 
   @Provides
   fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
@@ -55,16 +50,16 @@ class RetrofitModule {
           .build()
 
   @Provides
-  fun provideNetworkInterceptor(context: Context): Interceptor = Interceptor { chain ->
+  fun provideInterceptor(context: Context): Interceptor = Interceptor { chain ->
     val request = chain.request()
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
-      throw OperationException.internetConnectionUnavailable()
+      throw ConnectionException.internetConnectionNotAvailable()
     }
     try {
       chain.proceed(request)
     } catch (e: IOException) {
       if (e is SocketTimeoutException) {
-        throw OperationException.operationTimeout()
+        throw ConnectionException.operationTimeout()
       }
       throw e
     }

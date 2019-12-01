@@ -1,14 +1,14 @@
 package com.guerra.enrico.data.repo.auth
 
 import android.content.Context
-import com.google.gson.Gson
 import com.guerra.enrico.base.util.ConnectionHelper
 import com.guerra.enrico.data.Result
+import com.guerra.enrico.data.exceptions.ConnectionException
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.models.User
-import com.guerra.enrico.data.remote.ApiException
+import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.remote.response.ApiError
+import com.guerra.enrico.data.succeeded
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +19,6 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
         private val context: Context,
-        private val gson: Gson,
         private val remoteDataManager: RemoteDataManager,
         private val localDbManager: LocalDbManager
 ) : AuthRepository {
@@ -33,7 +32,7 @@ class AuthRepositoryImpl @Inject constructor(
       localDbManager.saveUser(apiResponse.data.user)
       return Result.Success(apiResponse.data.user)
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun validateAccessToken(): Result<User> {
@@ -42,48 +41,38 @@ class AuthRepositoryImpl @Inject constructor(
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
-    try {
-      val apiResponse = remoteDataManager.validateAccessToken(session.accessToken)
-      if (apiResponse.success && apiResponse.data != null) {
-        localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
-        localDbManager.saveUser(apiResponse.data.user)
-        return Result.Success(apiResponse.data.user)
-      }
-      return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
-    } catch (e: Exception) {
-      return Result.Error(ApiException(ApiError.unknown()))
+    val apiResponse = remoteDataManager.validateAccessToken(session.accessToken)
+    if (apiResponse.success && apiResponse.data != null) {
+      localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
+      localDbManager.saveUser(apiResponse.data.user)
+      return Result.Success(apiResponse.data.user)
     }
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
-  override suspend fun refreshToken() {
+  override suspend fun refreshToken(): Result<Unit> {
     val session = localDbManager.getSession()
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
-      return
+      return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
     val apiResponse = remoteDataManager.refreshAccessToken(session.accessToken)
     if (apiResponse.success && apiResponse.data != null) {
       localDbManager.saveSession(apiResponse.data.userId, apiResponse.data.accessToken)
-      return
+      return Result.Success(Unit)
     }
-    throw ApiException(apiResponse.error ?: ApiError.unknown())
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
-//  override fun refreshTokenIfNotAuthorized(errors: Flowable<out Throwable>): Publisher<Any> {
-//    val alreadyRetried = AtomicBoolean(false)
-//    return errors.flatMap { error ->
-//      if (!alreadyRetried.get() && error is HttpException) {
-//        try {
-//          val exception = ApiException(gson.fromJson(error.response()?.errorBody()?.string(), ApiResponse::class.java).error
-//                  ?: return@flatMap Flowable.error<Any>(error))
-//          if (exception.isExpiredSession()) {
-//            alreadyRetried.set(true)
-//            return@flatMap refreshToken().andThen(Flowable.just(Any()))
-//          }
-//        } catch (e: JsonSyntaxException) {
-//          return@flatMap Flowable.error<Any>(error)
-//        }
-//      }
-//      Flowable.error<Any>(error)
-//    }
-//  }
+  override suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {
+    val result = block()
+    if (result is Result.Error && result.exception is RemoteException) {
+      if (result.exception.isExpiredSession()) {
+        val refreshResult = refreshToken()
+        if (refreshResult.succeeded) {
+          return block()
+        }
+      }
+    }
+    return result
+  }
 }

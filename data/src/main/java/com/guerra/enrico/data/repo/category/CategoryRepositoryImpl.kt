@@ -3,7 +3,7 @@ package com.guerra.enrico.data.repo.category
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.models.Category
-import com.guerra.enrico.data.remote.ApiException
+import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.RemoteDataManager
 import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.repo.auth.AuthRepository
@@ -28,8 +28,7 @@ class CategoryRepositoryImpl @Inject constructor(
     if (apiResponse.success) {
       return Result.Success(apiResponse.data ?: emptyList())
     }
-    return Result.Error(ApiException(apiResponse.error
-            ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun searchCategory(text: String): Result<List<Category>> {
@@ -38,8 +37,7 @@ class CategoryRepositoryImpl @Inject constructor(
     if (apiResponse.success) {
       return Result.Success(apiResponse.data ?: emptyList())
     }
-    return Result.Error(ApiException(apiResponse.error
-            ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
@@ -49,8 +47,7 @@ class CategoryRepositoryImpl @Inject constructor(
       localDbManager.saveCategory(apiResponse.data)
       return Result.Success(apiResponse.data)
     }
-    return Result.Error(ApiException(apiResponse.error
-            ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
@@ -60,8 +57,7 @@ class CategoryRepositoryImpl @Inject constructor(
       val result = localDbManager.deleteCategory(category)
       return Result.Success(result)
     }
-    return Result.Error(ApiException(apiResponse.error
-            ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()

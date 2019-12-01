@@ -40,7 +40,7 @@
     <string name="error_observe_categories">An error accour while fetching categories</string>
     
     <!-- Exceptions -->
-    <string name="exception_unauthorized">Please login to continue</string>
+    <string name="exception_not_authenticated">Please login to continue</string>
     <string name="exception_internet_connection_unavailable">Internet connection not available</string>
     <string name="exception_operation_timeout">Operation timeout. Retry</string>
     <string name="exception_unknown">Ops! Something went wrong. Try again</string>

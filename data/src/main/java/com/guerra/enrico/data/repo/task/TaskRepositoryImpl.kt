@@ -4,7 +4,7 @@ import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.remote.ApiException
+import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.RemoteDataManager
 import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.data.repo.auth.AuthRepository
@@ -36,7 +36,7 @@ class TaskRepositoryImpl @Inject constructor(
     if (apiResponse.success) {
       return Result.Success(apiResponse.data ?: emptyList())
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun getAllTasksRemote(): Result<List<Task>> {
@@ -45,7 +45,7 @@ class TaskRepositoryImpl @Inject constructor(
     if (apiResponse.success) {
       return Result.Success(apiResponse.data ?: emptyList())
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun insertTask(task: Task): Result<Task> {
@@ -55,7 +55,7 @@ class TaskRepositoryImpl @Inject constructor(
       localDbManager.saveTask(apiResponse.data)
       return Result.Success(apiResponse.data)
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
@@ -65,7 +65,7 @@ class TaskRepositoryImpl @Inject constructor(
       val result = localDbManager.deleteTask(task)
       return Result.Success(result)
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
@@ -75,7 +75,7 @@ class TaskRepositoryImpl @Inject constructor(
       localDbManager.updateTask(apiResponse.data)
       return Result.Success(apiResponse.data)
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override suspend fun toggleCompleteTask(task: Task): Result<Task> {
@@ -86,7 +86,7 @@ class TaskRepositoryImpl @Inject constructor(
       localDbManager.updateTask(apiResponse.data)
       return Result.Success(apiResponse.data)
     }
-    return Result.Error(ApiException(apiResponse.error ?: ApiError.unknown()))
+    return Result.Error(RemoteException.fromApiError(apiResponse.error))
   }
 
   override fun observeTasks(searchText: String, category: Category?, completed: Boolean): Flow<List<Task>> =
