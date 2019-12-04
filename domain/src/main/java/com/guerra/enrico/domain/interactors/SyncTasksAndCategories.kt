@@ -1,5 +1,6 @@
 package com.guerra.enrico.domain.interactors
 
+import com.guerra.enrico.data.repo.auth.AuthRepository
 import com.guerra.enrico.data.repo.category.CategoryRepository
 import com.guerra.enrico.data.repo.task.TaskRepository
 import com.guerra.enrico.domain.Interactor
@@ -10,11 +11,17 @@ import javax.inject.Inject
  * on 10/11/2019.
  */
 class SyncTasksAndCategories @Inject constructor(
+        private val authRepository: AuthRepository,
         private val tasksRepository: TaskRepository,
         private val categoryRepository: CategoryRepository
 ) : Interactor<Unit, Unit>() {
   override suspend fun doWork(params: Unit) {
-    tasksRepository.fetchAndSaveAllTasks()
-    categoryRepository.fetchAndSaveAllCategories()
+    // TODO: find better solution
+    authRepository.refreshTokenIfNotAuthorized {
+      tasksRepository.fetchAndSaveAllTasks()
+    }
+    authRepository.refreshTokenIfNotAuthorized {
+      categoryRepository.fetchAndSaveAllCategories()
+    }
   }
 }

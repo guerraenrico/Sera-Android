@@ -54,22 +54,22 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
     textMessage.text = text
   }
 
-  fun setButton(@StringRes string: Int, code: Int, onClick: (Int) -> Unit) {
-    setButton(resources.getString(string), code, onClick)
+  fun setButton(@StringRes string: Int, onClick: () -> Unit) {
+    setButton(resources.getString(string), onClick)
   }
 
-  fun setButton(text: String, code: Int, onClick: (Int) -> Unit) {
+  fun setButton(text: String, onClick: () -> Unit) {
     buttonMessage.visibility = View.VISIBLE
     buttonMessage.text = text
     buttonMessage.setOnClickListener {
-      onClick(code)
+      onClick()
     }
   }
 
-  fun setMessage(baseMessage: BaseMessage, onClick: (Int) -> Unit) {
+  fun setMessage(baseMessage: BaseMessage, onClick: () -> Unit) {
     setImage(baseMessage.imageResources)
     setMessage(baseMessage.messageResources)
-    setButton(baseMessage.buttonTextResources, baseMessage.code, onClick)
+    setButton(baseMessage.buttonTextResources, onClick)
   }
 
 
@@ -116,7 +116,6 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
   }
 
   data class BaseMessage(
-          val code: Int,
           @DrawableRes val imageResources: Int,
           @StringRes val messageResources: Int,
           @StringRes val buttonTextResources: Int

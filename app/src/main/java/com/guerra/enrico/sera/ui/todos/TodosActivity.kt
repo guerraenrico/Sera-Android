@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.exceptions.OperationException
+import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.sera.navigation.NavigationModel
@@ -100,15 +100,13 @@ class TodosActivity : BaseActivity() {
       return
     }
     if (tasksResult is Result.Error) {
-      if (tasksResult.exception is OperationException) {
-        recyclerViewTasks.visibility = View.GONE
-        messageLayout.setMessage((tasksResult.exception as OperationException).getBaseMessage()) { code ->
-          viewModel.onReloadTasks()
-        }
-        messageLayout.show()
-        return
+      val messageExceptionManager = MessageExceptionManager(tasksResult.exception)
+      recyclerViewTasks.visibility = View.GONE
+      messageLayout.setMessage(messageExceptionManager.getBaseMessage()) {
+        viewModel.onReloadTasks()
       }
-      showSnackbar(tasksResult.exception.message ?: "An error accur while fetching tasks")
+      messageLayout.show()
+      return
     }
   }
 

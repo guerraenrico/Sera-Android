@@ -14,5 +14,5 @@ interface CategoryRepository {
   suspend fun insertCategory(category: Category): Result<Category>
   suspend fun deleteCategory(category: Category): Result<Int>
   fun observeCategories(): Flow<List<Category>>
-  suspend fun fetchAndSaveAllCategories()
+  suspend fun fetchAndSaveAllCategories(): Result<Unit>
 }

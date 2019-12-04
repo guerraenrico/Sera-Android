@@ -4,11 +4,14 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.exceptions.OperationException
+import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_goals.*
 import kotlinx.android.synthetic.main.activity_results.*
+import kotlinx.android.synthetic.main.activity_results.messageLayout
 import kotlinx.android.synthetic.main.toolbar.*
+import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -30,8 +33,7 @@ class ResultsActivity : BaseActivity() {
   }
 
   override fun initView() {
-    messageLayout.setMessage(OperationException.unknownError().getBaseMessage()) { code ->
-    }
+    messageLayout.setMessage(MessageExceptionManager(Exception()).getBaseMessage()) {}
     messageLayout.show()
   }
 

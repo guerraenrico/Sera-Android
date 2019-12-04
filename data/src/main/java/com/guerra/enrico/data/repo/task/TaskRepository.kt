@@ -33,5 +33,5 @@ interface TaskRepository {
           completed: Boolean = false
   ): Flow<List<Task>>
 
-  suspend fun fetchAndSaveAllTasks()
+  suspend fun fetchAndSaveAllTasks(): Result<Unit>
 }

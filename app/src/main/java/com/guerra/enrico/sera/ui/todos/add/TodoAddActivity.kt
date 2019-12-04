@@ -54,9 +54,9 @@ class TodoAddActivity : BaseActivity() {
         finish()
       }
     }
-    val transition = supportFragmentManager.beginTransaction()
-    val fragment = fragmentClass.newInstance()
-    transition.replace(R.id.containerFragment, fragment)
-    transition.commit()
+    supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.containerFragment, fragmentClass.newInstance())
+            .commit()
   }
 }

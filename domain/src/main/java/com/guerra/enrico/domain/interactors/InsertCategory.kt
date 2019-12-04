@@ -16,6 +16,7 @@ class InsertCategory @Inject constructor(
         private val categoryRepository: CategoryRepository
 ) : Interactor<Category, Result<Category>>() {
 
-  override suspend fun doWork(params: Category): Result<Category> =
-          categoryRepository.insertCategory(params)
+  override suspend fun doWork(params: Category): Result<Category> = authRepository.refreshTokenIfNotAuthorized {
+    categoryRepository.insertCategory(params)
+  }
 }

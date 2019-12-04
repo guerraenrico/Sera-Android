@@ -101,14 +101,16 @@ class TaskRepositoryImpl @Inject constructor(
             return@map list
           }
 
-override suspend fun fetchAndSaveAllTasks() {
-  val result = getAllTasksRemote()
-  if (result is Result.Success) {
-    localDbManager.clearTasks()
-    localDbManager.saveTasks(result.data)
-//            .retryWhen {
-//      authRepository.refreshTokenIfNotAuthorized(it)
-//    }
+  override suspend fun fetchAndSaveAllTasks(): Result<Unit> {
+    val result = getAllTasksRemote()
+    if (result is Result.Success) {
+      localDbManager.clearTasks()
+      localDbManager.saveTasks(result.data)
+      return Result.Success(Unit)
+    }
+    if (result is Result.Error) {
+      return Result.Error(result.exception)
+    }
+    return Result.Success(Unit)
   }
-}
 }

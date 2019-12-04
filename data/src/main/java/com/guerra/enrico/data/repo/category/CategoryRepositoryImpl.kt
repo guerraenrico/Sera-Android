@@ -62,14 +62,15 @@ class CategoryRepositoryImpl @Inject constructor(
 
   override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()
 
-  override suspend fun fetchAndSaveAllCategories() {
+  override suspend fun fetchAndSaveAllCategories(): Result<Unit> {
     val result = getCategoriesRemote()
     if (result is Result.Success) {
       localDbManager.clearCategories()
       localDbManager.saveCategories(result.data)
-    } else {
-      // TODO: how to catch errors and retry after operation?
-//      authRepository.refreshTokenIfNotAuthorized(it)
     }
+    if (result is Result.Error) {
+      return Result.Error(result.exception)
+    }
+    return Result.Success(Unit)
   }
 }

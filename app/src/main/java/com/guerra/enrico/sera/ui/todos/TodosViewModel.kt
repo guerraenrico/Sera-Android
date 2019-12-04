@@ -52,10 +52,10 @@ class TodosViewModel @Inject constructor(
   init {
     _categories.addSource(_categoriesResult) { result ->
       if (result is Result.Success) {
-        _categories.postValue(result.data)
-        return@addSource
+        _categories.value = result.data
+      } else {
+        _categories.value = emptyList()
       }
-      _categories.postValue(emptyList())
     }
     // Start load tasks
     observeTasks(ObserveTasks.Params())

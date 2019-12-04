@@ -15,6 +15,7 @@ class InsertTask @Inject constructor(
         private val authRepository: AuthRepository,
         private val taskRepository: TaskRepository
 ) : Interactor<Task, Result<Task>>() {
-  override suspend fun doWork(params: Task): Result<Task> =
-          taskRepository.insertTask(params)
+  override suspend fun doWork(params: Task): Result<Task> = authRepository.refreshTokenIfNotAuthorized {
+    taskRepository.insertTask(params)
+  }
 }
