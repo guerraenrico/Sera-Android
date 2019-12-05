@@ -21,6 +21,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+    // Asisted Inkect
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assistedInjectVersion"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
+
     // Work Manager
     api "androidx.work:work-runtime-ktx:$workManagerVersion"
     api "androidx.work:work-rxjava2:$workManagerVersion"
