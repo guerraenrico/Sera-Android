@@ -23,7 +23,7 @@ import javax.inject.Singleton
 class RemoteDataManagerImpl @Inject constructor(
         private val api: Api,
         private val gson: Gson,
-        private val appDispatchers: CoroutineContextProvider
+        private val coroutineContextProvider: CoroutineContextProvider
 ) : RemoteDataManager {
 
   /* Sign In */
@@ -124,7 +124,7 @@ class RemoteDataManagerImpl @Inject constructor(
     }
   }
 
-  private suspend fun convertJson(reader: Reader) = withContext(appDispatchers.io()) {
+  private suspend fun convertJson(reader: Reader) = withContext(coroutineContextProvider.io()) {
     gson.fromJson(reader, ApiResponse::class.java)
   }
 }
