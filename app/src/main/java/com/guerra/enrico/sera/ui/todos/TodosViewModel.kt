@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.AppDispatchers
+import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
 import com.guerra.enrico.data.Event
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Category
@@ -23,7 +23,7 @@ import javax.inject.Inject
  * on 30/05/2018.
  */
 class TodosViewModel @Inject constructor(
-        private val dispatchers: AppDispatchers,
+        private val dispatchers: CoroutineContextProvider,
         observeCategories: ObserveCategories,
         private val observeTasks: ObserveTasks,
         private val updateTaskCompleteState: UpdateTaskCompleteState

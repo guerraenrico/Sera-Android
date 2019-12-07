@@ -136,5 +136,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
 }

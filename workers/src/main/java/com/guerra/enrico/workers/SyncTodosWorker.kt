@@ -16,7 +16,8 @@ import com.squareup.inject.assisted.AssistedInject
 class SyncTodosWorker @AssistedInject constructor(
         @Assisted context: Context,
         @Assisted params: WorkerParameters,
-        private val syncTasksAndCategories: SyncTasksAndCategories) : CoroutineWorker(context, params) {
+        private val syncTasksAndCategories: SyncTasksAndCategories
+) : CoroutineWorker(context, params) {
   companion object {
     const val SYNC_TAG = "sync_todos"
     const val NIGHTLY_SYNC_TAG = "night_sync_todos"

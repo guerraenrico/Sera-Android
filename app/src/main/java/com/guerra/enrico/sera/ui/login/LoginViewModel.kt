@@ -3,7 +3,7 @@ package com.guerra.enrico.sera.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.AppDispatchers
+import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.User
 import com.guerra.enrico.domain.interactors.SignIn
@@ -16,7 +16,7 @@ import javax.inject.Inject
  * on 12/10/2018.
  */
 class LoginViewModel @Inject constructor(
-        private val dispatchers: AppDispatchers,
+        private val dispatchers: CoroutineContextProvider,
         private val signIn: SignIn
 ) : BaseViewModel() {
 

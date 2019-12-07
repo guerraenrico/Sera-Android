@@ -2,8 +2,8 @@ package com.guerra.enrico.sera.di.module
 
 import android.app.Application
 import android.content.Context
-import com.guerra.enrico.base.dispatcher.AppDispatchers
-import com.guerra.enrico.base.dispatcher.AppDispatchersImpl
+import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
+import com.guerra.enrico.base.dispatcher.CoroutineContextProviderImpl
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.local.db.LocalDbManagerImpl
@@ -29,7 +29,7 @@ import javax.inject.Singleton
  * Created by enrico
  * on 30/05/2018.
  */
-@Module(includes = [ViewModelModule::class, AppModuleBinds::class])
+@Module(includes = [ViewModelModule::class])
 class AppModule {
   @Provides
   fun provideContext(application: SeraApplication): Context = application.applicationContext
@@ -50,7 +50,7 @@ class AppModule {
 
   @Provides
   @Singleton
-  fun provideAppDispatchers(appDispatchers: AppDispatchersImpl): AppDispatchers = appDispatchers
+  fun provideAppDispatchers(appDispatchers: CoroutineContextProviderImpl): CoroutineContextProvider = appDispatchers
 
   @Provides
   @Singleton

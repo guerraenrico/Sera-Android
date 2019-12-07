@@ -24,7 +24,7 @@ val category3 = Category(3, "3", "Category 3")
 
 val categories = listOf(category1, category2)
 
-fun insertCategories(db: SeraDatabase) = db.categoryDao().insertAll(categories)
+suspend fun insertCategories(db: SeraDatabase) = db.categoryDao().insertAll(categories)
 fun deleteCategories(db: SeraDatabase) = db.categoryDao().clear()
 
 val task1 = Task(1, "1", "Task 1", "Description task 1", false, Date(), null, Date(), listOf(category1))
@@ -38,18 +38,18 @@ val tasksResultLoading = com.guerra.enrico.data.Result.Loading
 val tasksResultSuccess = Result.Success(tasks)
 val tasksResultSuccess_task1Completed = Result.Success(listOf(task2))
 
-fun insertTasks(db: SeraDatabase) = db.taskDao().insertAll(tasks)
-fun deleteTasks(db: SeraDatabase) = db.taskDao().clear()
-fun updateTask(db: SeraDatabase, task: Task) = db.taskDao().update(task)
+suspend fun insertTasks(db: SeraDatabase) = db.taskDao().insertAll(tasks)
+suspend fun deleteTasks(db: SeraDatabase) = db.taskDao().clear()
+suspend fun updateTask(db: SeraDatabase, task: Task) = db.taskDao().update(task)
 
 val session1 = Session(1, "1", "1", "aaaaa", Date(Date().time - 24 * 60 * 60))
 val session2 = Session(2, "2", "1", "bbbbb", Date())
 
-fun insertSession(db: SeraDatabase) = db.sessionDao().insert(session1)
+suspend fun insertSession(db: SeraDatabase) = db.sessionDao().insert(session1)
 
 val user1 = User(1, "1", "google id", "a@b.it", "aa", "IT", "")
 
-fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
+suspend fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
 
 val apiValidateAccessTokenResponse = ApiResponse(success = true, data = AuthData(user1, "aaaaa"), error = null)
 val apiRefreshAccessTokenResponse = ApiResponse(success = true, data = session2, error = null)

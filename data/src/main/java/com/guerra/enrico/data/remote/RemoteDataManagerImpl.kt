@@ -1,7 +1,7 @@
 package com.guerra.enrico.data.remote
 
 import com.google.gson.Gson
-import com.guerra.enrico.base.dispatcher.AppDispatchers
+import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Session
 import com.guerra.enrico.data.models.Task
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 class RemoteDataManagerImpl @Inject constructor(
         private val api: Api,
         private val gson: Gson,
-        private val appDispatchers: AppDispatchers
+        private val appDispatchers: CoroutineContextProvider
 ) : RemoteDataManager {
 
   /* Sign In */

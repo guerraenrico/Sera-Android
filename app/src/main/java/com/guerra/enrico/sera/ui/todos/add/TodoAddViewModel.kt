@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.AppDispatchers
+import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
@@ -25,7 +25,7 @@ import javax.inject.Inject
  * on 21/10/2018.
  */
 class TodoAddViewModel @Inject constructor(
-        private val dispatchers: AppDispatchers,
+        private val dispatchers: CoroutineContextProvider,
         observeCategories: ObserveCategories,
         private val insertCategory: InsertCategory,
         private val insertTask: InsertTask

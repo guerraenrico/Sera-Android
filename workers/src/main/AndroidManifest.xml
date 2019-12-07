@@ -1,2 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.guerra.enrico.workers" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.guerra.enrico.workers">
+
+    <application>
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove"
+            android:exported="false" />
+    </application>
+
+</manifest>
