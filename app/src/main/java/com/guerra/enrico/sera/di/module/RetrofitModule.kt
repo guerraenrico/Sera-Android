@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 @Module(includes = [AppModule::class])
 class RetrofitModule {
   @Provides
-  fun provideApi(retrofit: Retrofit) = retrofit.create(Api::class.java)
+  fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
   @Provides
   fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit = Retrofit.Builder()

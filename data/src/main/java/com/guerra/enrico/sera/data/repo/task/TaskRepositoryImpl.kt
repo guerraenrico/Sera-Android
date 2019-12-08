@@ -1,4 +1,4 @@
-package com.guerra.enrico.data.repo.task
+package com.guerra.enrico.sera.data.repo.task
 
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.LocalDbManager
@@ -6,8 +6,7 @@ import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
 import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.remote.response.ApiError
-import com.guerra.enrico.data.repo.auth.AuthRepository
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*

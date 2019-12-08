@@ -2,7 +2,7 @@ package com.guerra.enrico.domain.observers
 
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.repo.task.TaskRepository
+import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.domain.SubjectInteractor
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

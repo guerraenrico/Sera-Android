@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera
+package com.guerra.enrico.sera.data
 
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.SeraDatabase
@@ -34,7 +34,7 @@ val task1Completed = task1.copy(completed = true)
 
 val tasks = listOf(task1, task2)
 
-val tasksResultLoading = com.guerra.enrico.data.Result.Loading
+val tasksResultLoading = Result.Loading
 val tasksResultSuccess = Result.Success(tasks)
 val tasksResultSuccess_task1Completed = Result.Success(listOf(task2))
 

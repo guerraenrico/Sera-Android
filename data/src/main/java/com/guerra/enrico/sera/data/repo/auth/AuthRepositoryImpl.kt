@@ -1,4 +1,4 @@
-package com.guerra.enrico.data.repo.auth
+package com.guerra.enrico.sera.data.repo.auth
 
 import android.content.Context
 import com.guerra.enrico.base.util.ConnectionHelper

@@ -1,12 +1,11 @@
-package com.guerra.enrico.data.repo.category
+package com.guerra.enrico.sera.data.repo.category
 
 import com.guerra.enrico.data.Result
 import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.models.Category
 import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.remote.response.ApiError
-import com.guerra.enrico.data.repo.auth.AuthRepository
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -2,7 +2,6 @@ package com.guerra.enrico.sera.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.guerra.enrico.data.Event
 
 /**
  * Created by enrico

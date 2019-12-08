@@ -1,56 +1,64 @@
 package com.guerra.enrico.sera.data.repo
 
-import com.google.gson.GsonBuilder
-import com.guerra.enrico.data.Result
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.guerra.enrico.sera.utils.TestCoroutineRule
 import com.guerra.enrico.data.local.db.LocalDbManager
-import com.guerra.enrico.data.local.db.LocalDbManagerImpl
+import com.guerra.enrico.data.local.db.SeraDatabase
 import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.remote.RemoteDataManagerImpl
-import com.guerra.enrico.data.remote.request.AccessTokenParams
-import com.guerra.enrico.data.repo.auth.AuthRepository
-import com.guerra.enrico.data.repo.auth.AuthRepositoryImpl
-import com.guerra.enrico.sera.*
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.spy
+import com.guerra.enrico.data.*
+import com.guerra.enrico.sera.data.*
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.nhaarman.mockitokotlin2.whenever
-import org.junit.Assert
-import org.junit.Rule
-import org.junit.Test
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-import org.robolectric.RuntimeEnvironment
+import org.junit.*
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 05/01/2019.
  */
-class AuthRepositoryTest : BaseDatabaseTest() {
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class AuthRepositoryTest {
+  @get:Rule
+  val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-  private lateinit var authRepository: AuthRepository
-  private lateinit var localDbManager: LocalDbManager
-  private lateinit var remoteDataManager: RemoteDataManager
+  private val testCoroutineRule = TestCoroutineRule()
 
-  override fun setup() {
-    super.setup()
+  @Inject
+  lateinit var database: SeraDatabase
+  @Inject
+  lateinit var authRepository: AuthRepository
+  @Inject
+  lateinit var localDbManager: LocalDbManager
+  @Inject
+  lateinit var remoteDataManager: RemoteDataManager
 
-    remoteDataManager = RemoteDataManagerImpl(api, GsonBuilder().create(), coroutineContextProviderTest)
-    localDbManager = LocalDbManagerImpl(db)
-
-    authRepository = AuthRepositoryImpl(
-            context,
-            remoteDataManager,
-            localDbManager
-    )
+  @Before
+  fun setup() {
+    DaggerTestComponent.builder()
+            .testDataManagerModule(TestDataManagerModule())
+            .build()
+            .inject(this)
 
     testCoroutineRule.runBlockingTest {
-      insertSession(db)
-      insertUser(db)
+      insertSession(database)
+      insertUser(database)
     }
+  }
+
+  @After
+  @Throws(IOException::class)
+  fun closeDb() {
+    database.close()
   }
 
   @Test
   fun validateAccessToken() = testCoroutineRule.runBlockingTest {
-    whenever(api.validateAccessToken(AccessTokenParams(session1.accessToken)))
+    whenever(remoteDataManager.validateAccessToken(session1.accessToken))
             .thenReturn(apiValidateAccessTokenResponse)
 
     // Verify result
@@ -71,7 +79,7 @@ class AuthRepositoryTest : BaseDatabaseTest() {
 
   @Test
   fun refreshToken() = testCoroutineRule.runBlockingTest {
-    whenever(api.refreshAccessToken(AccessTokenParams(session1.accessToken)))
+    whenever(remoteDataManager.refreshAccessToken(session1.accessToken))
             .thenReturn(apiRefreshAccessTokenResponse)
 
     // Verify result
@@ -81,10 +89,10 @@ class AuthRepositoryTest : BaseDatabaseTest() {
 
   @Test
   fun refreshTokenIfNotAuthorized() = testCoroutineRule.runBlockingTest {
-    whenever(api.refreshAccessToken(AccessTokenParams(session1.accessToken)))
+    whenever(remoteDataManager.refreshAccessToken(session1.accessToken))
             .thenReturn(apiRefreshAccessTokenResponse)
 
-    whenever(api.validateAccessToken(AccessTokenParams(session1.accessToken)))
+    whenever(remoteDataManager.validateAccessToken(session1.accessToken))
             .thenThrow(httpErrorExpiredSession)
 
     val result = authRepository.refreshTokenIfNotAuthorized {

@@ -80,8 +80,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
     // Coroutine
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
 
     // Architecture Component
@@ -137,6 +135,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+
+    kaptTest "androidx.room:room-compiler:$roomVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
 }
