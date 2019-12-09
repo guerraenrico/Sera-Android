@@ -17,8 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager,
-        private val authRepository: AuthRepository
+        private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
 
   override suspend fun getCategoriesRemote(): Result<List<Category>> {

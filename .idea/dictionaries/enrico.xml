@@ -4,7 +4,9 @@
       <w>coroutine</w>
       <w>gson</w>
       <w>initializers</w>
+      <w>interactor</w>
       <w>sera</w>
+      <w>snackbar</w>
       <w>todos</w>
     </words>
   </dictionary>

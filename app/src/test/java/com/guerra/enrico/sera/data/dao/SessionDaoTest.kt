@@ -3,6 +3,8 @@ package com.guerra.enrico.sera.data.dao
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.guerra.enrico.data.local.dao.SessionDao
 import com.guerra.enrico.data.local.db.SeraDatabase
+import com.guerra.enrico.sera.DaggerTestComponent
+import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import org.hamcrest.CoreMatchers

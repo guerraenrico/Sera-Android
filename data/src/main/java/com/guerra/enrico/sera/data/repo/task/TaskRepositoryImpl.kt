@@ -21,8 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class TaskRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager,
-        private val authRepository: AuthRepository
+        private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {
   override suspend fun getTasksRemote(
           categoriesId: List<String>,

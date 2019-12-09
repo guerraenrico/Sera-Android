@@ -6,6 +6,8 @@ import com.guerra.enrico.data.local.db.LocalDbManager
 import com.guerra.enrico.data.local.db.SeraDatabase
 import com.guerra.enrico.data.remote.RemoteDataManager
 import com.guerra.enrico.data.*
+import com.guerra.enrico.sera.DaggerTestComponent
+import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.nhaarman.mockitokotlin2.whenever
