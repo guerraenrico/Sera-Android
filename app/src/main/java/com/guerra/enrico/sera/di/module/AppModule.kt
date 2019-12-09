@@ -18,8 +18,6 @@ import com.guerra.enrico.sera.data.repo.category.CategoryRepository
 import com.guerra.enrico.sera.data.repo.category.CategoryRepositoryImpl
 import com.guerra.enrico.sera.data.repo.task.TaskRepository
 import com.guerra.enrico.sera.data.repo.task.TaskRepositoryImpl
-import com.guerra.enrico.base.scheduler.SchedulerProvider
-import com.guerra.enrico.base.scheduler.SchedulerProviderImpl
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -43,10 +41,6 @@ class AppModule {
 
   @Provides
   fun provideCompositeDisposable() = CompositeDisposable()
-
-  @Provides
-  @Singleton
-  fun provideSchedulerProvider(schedulerProvider: SchedulerProviderImpl): SchedulerProvider = schedulerProvider
 
   @Provides
   @Singleton

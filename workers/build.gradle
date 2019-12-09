@@ -27,5 +27,4 @@ dependencies {
 
     // Work Manager
     api "androidx.work:work-runtime-ktx:$workManagerVersion"
-    api "androidx.work:work-rxjava2:$workManagerVersion"
 }

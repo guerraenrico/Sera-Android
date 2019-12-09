@@ -20,11 +20,6 @@ dependencies {
     api project(":base")
     implementation project(":data")
 
-    // Rx
-    api "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
-    api "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
-    api "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
-
     // Dagger
     api "com.google.dagger:dagger-android:$daggerVersion"
     api "com.google.dagger:dagger-android-support:$daggerVersion"

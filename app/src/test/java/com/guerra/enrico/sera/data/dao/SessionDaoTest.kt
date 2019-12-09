@@ -1,7 +1,6 @@
 package com.guerra.enrico.sera.data.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.EmptyResultSetException
 import com.guerra.enrico.data.local.dao.SessionDao
 import com.guerra.enrico.data.local.db.SeraDatabase
 import com.guerra.enrico.sera.data.*

@@ -100,15 +100,9 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     // Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
-
-    // Rx
-    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
 
     // RxLint
     implementation "nl.littlerobots.rxlint:rxlint:$rxlintVersion"
