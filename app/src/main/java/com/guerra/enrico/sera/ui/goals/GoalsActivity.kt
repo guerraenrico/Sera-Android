@@ -3,7 +3,6 @@ package com.guerra.enrico.sera.ui.goals
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.util.viewModelProvider
-import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.navigation.NavigationModel
@@ -32,8 +31,13 @@ class GoalsActivity : BaseActivity() {
   }
 
   override fun initView() {
-    messageLayout.setMessage(MessageExceptionManager(Exception()).getBaseMessage()) {}
-    messageLayout.show()
+    val messageResources = MessageExceptionManager(Exception()).getResources()
+    messageLayout.apply {
+      setImage(messageResources.icon)
+      setMessage(messageResources.message)
+      setButton(resources.getString(R.string.message_layout_button_try_again)) {}
+      show()
+    }
   }
 
   override fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {

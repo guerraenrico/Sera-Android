@@ -14,6 +14,6 @@ class TodosWorkerInitializer @Inject constructor(
         private val todosJob: Lazy<TodosWorker>
 ): AppInitializer {
     override fun init(application: Application) {
-        todosJob.get().syncTodos()
+        todosJob.get().setUpNightTodoSync()
     }
 }

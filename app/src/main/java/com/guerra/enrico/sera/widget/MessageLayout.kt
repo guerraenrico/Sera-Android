@@ -66,13 +66,6 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
     }
   }
 
-  fun setMessage(baseMessage: BaseMessage, onClick: () -> Unit) {
-    setImage(baseMessage.imageResources)
-    setMessage(baseMessage.messageResources)
-    setButton(baseMessage.buttonTextResources, onClick)
-  }
-
-
   fun show() {
     visibility = View.VISIBLE
     _isShowing = true
@@ -114,10 +107,4 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
       background = backgroundRes
     }
   }
-
-  data class BaseMessage(
-          @DrawableRes val imageResources: Int,
-          @StringRes val messageResources: Int,
-          @StringRes val buttonTextResources: Int
-  )
 }

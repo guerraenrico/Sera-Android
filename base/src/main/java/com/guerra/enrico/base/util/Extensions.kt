@@ -44,3 +44,10 @@ fun Date.toDateString(pattern: String = "EEEE dd MMM yyyy"): String {
   val simpleDateFormat = SimpleDateFormat(pattern, Locale.US)
   return simpleDateFormat.format(this)
 }
+
+/**
+ * Force compiler to treat a when a block as an expression
+ * so it force to specify all cases
+ */
+val <T> T.exhaustive: T
+  get() = this

@@ -1,6 +1,9 @@
 package com.guerra.enrico.sera.exceptions
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.guerra.enrico.data.exceptions.ConnectionException
+import com.guerra.enrico.data.exceptions.GenericException
 import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.sera.R
@@ -10,43 +13,45 @@ import com.guerra.enrico.sera.widget.MessageLayout
  * Created by enrico
  * on 04/12/2018.
  */
-// TODO: Review using LocalException, RemoteException and ConnectionException; this need to become a manger class
 class MessageExceptionManager(private val throwable: Throwable) {
 
-  fun getBaseMessage(): MessageLayout.BaseMessage = when (throwable) {
+  fun getResources(): ExceptionResources = when (throwable) {
     is RemoteException -> when (throwable.code) {
-      ApiError.NOT_AUTHORIZED -> MessageLayout.BaseMessage(
+      ApiError.NOT_AUTHORIZED -> ExceptionResources(
               R.drawable.ic_not_authorized,
-              R.string.exception_not_authenticated,
-              R.string.message_layout_button_try_again
+              R.string.exception_not_authenticated
       )
-      else -> MessageLayout.BaseMessage(
+      else -> ExceptionResources(
               R.drawable.ic_error_unknown,
-              R.string.exception_unknown,
-              R.string.message_layout_button_try_again
+              R.string.exception_unknown
       )
     }
     is ConnectionException -> when (throwable.code) {
-      ConnectionException.INTERNET_CONNECTION_NOT_AVAILABLE -> MessageLayout.BaseMessage(
+      ConnectionException.INTERNET_CONNECTION_NOT_AVAILABLE -> ExceptionResources(
               R.drawable.ic_internet_connection_unavailable,
-              R.string.exception_internet_connection_unavailable,
-              R.string.message_layout_button_try_again
+              R.string.exception_internet_connection_unavailable
       )
-      ConnectionException.OPERATION_TIMEOUT -> MessageLayout.BaseMessage(
+      ConnectionException.OPERATION_TIMEOUT -> ExceptionResources(
               R.drawable.ic_operation_timeout,
-              R.string.exception_operation_timeout,
-              R.string.message_layout_button_try_again
+              R.string.exception_operation_timeout
       )
-      else -> MessageLayout.BaseMessage(
+      else -> ExceptionResources(
               R.drawable.ic_error_unknown,
-              R.string.exception_unknown,
-              R.string.message_layout_button_try_again
+              R.string.exception_unknown
       )
     }
-    else -> MessageLayout.BaseMessage(
+    is GenericException -> ExceptionResources(
             R.drawable.ic_error_unknown,
-            R.string.exception_unknown,
-            R.string.message_layout_button_try_again
+            R.string.exception_unknown
+    )
+    else -> ExceptionResources(
+            R.drawable.ic_error_unknown,
+            R.string.exception_unknown
     )
   }
 }
+
+data class ExceptionResources(
+        @DrawableRes val icon: Int,
+        @StringRes val message: Int
+)

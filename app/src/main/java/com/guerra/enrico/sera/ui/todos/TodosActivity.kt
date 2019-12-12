@@ -100,18 +100,21 @@ class TodosActivity : BaseActivity() {
       return
     }
     if (tasksResult is Result.Error) {
-      val messageExceptionManager = MessageExceptionManager(tasksResult.exception)
+      val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
       recyclerViewTasks.visibility = View.GONE
-      messageLayout.setMessage(messageExceptionManager.getBaseMessage()) {
-        viewModel.onReloadTasks()
+      messageLayout.apply {
+        setImage(messageResources.icon)
+        setMessage(messageResources.message)
+        setButton(resources.getString(R.string.message_layout_button_try_again)) {
+          viewModel.onReloadTasks()
+        }
+        show()
       }
-      messageLayout.show()
-      return
     }
   }
 
   private fun setupRecyclerView() {
-    val tasksAdapter = TaskAdapter { task, position ->
+    val tasksAdapter = TaskAdapter { task, _ ->
       viewModel.onToggleTaskComplete(task)
     }
 
@@ -156,19 +159,19 @@ class TodosActivity : BaseActivity() {
       }
     })
     toolbarEditTextSearch.onItemClickListener =
-            AdapterView.OnItemClickListener { adapter, view, position, id ->
+            AdapterView.OnItemClickListener { adapter, _, position, _ ->
               closeKeyboard()
               viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
             }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
     menuInflater.inflate(R.menu.todos, menu)
     return super.onCreateOptionsMenu(menu)
   }
 
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when (item?.itemId) {
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when (item.itemId) {
       R.id.action_add_todo -> {
         startActivity(Intent(this, TodoAddActivity::class.java))
         return true

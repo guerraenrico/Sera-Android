@@ -9,7 +9,7 @@ import com.guerra.enrico.data.remote.response.ApiError.Companion.NOT_AUTHORIZED
  * Created by enrico
  * on 17/08/2018.
  */
-class RemoteException(val code: String, val messageServer: String) : Exception() {
+class RemoteException(val code: String, val messageServer: String) : GenericException() {
   companion object {
     fun fromApiError(apiError: ApiError?): RemoteException {
       val error = apiError ?: ApiError.unknown()
