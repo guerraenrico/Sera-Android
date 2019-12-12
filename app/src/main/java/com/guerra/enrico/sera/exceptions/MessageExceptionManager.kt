@@ -4,10 +4,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.guerra.enrico.data.exceptions.ConnectionException
 import com.guerra.enrico.data.exceptions.GenericException
+import com.guerra.enrico.data.exceptions.LocalException
 import com.guerra.enrico.data.exceptions.RemoteException
 import com.guerra.enrico.data.remote.response.ApiError
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.widget.MessageLayout
 
 /**
  * Created by enrico
@@ -41,6 +41,10 @@ class MessageExceptionManager(private val throwable: Throwable) {
       )
     }
     is GenericException -> ExceptionResources(
+            R.drawable.ic_error_unknown,
+            R.string.exception_unknown
+    )
+    is LocalException -> ExceptionResources(
             R.drawable.ic_error_unknown,
             R.string.exception_unknown
     )
