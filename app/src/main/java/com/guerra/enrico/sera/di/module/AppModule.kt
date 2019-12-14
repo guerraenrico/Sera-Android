@@ -22,7 +22,6 @@ import com.guerra.enrico.sera.repo.task.TaskRepository
 import com.guerra.enrico.sera.repo.task.TaskRepositoryImpl
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
@@ -42,7 +41,6 @@ class AppModule {
   fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
 
   @Provides
-  @Singleton
   fun provideAppDispatchers(appDispatchers: CoroutineContextProviderImpl): CoroutineContextProvider = appDispatchers
 
   @Provides

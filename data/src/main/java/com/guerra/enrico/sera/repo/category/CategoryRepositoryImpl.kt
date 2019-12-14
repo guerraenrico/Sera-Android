@@ -1,19 +1,17 @@
 package com.guerra.enrico.sera.repo.category
 
 import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 04/06/2018.
  */
-@Singleton
 class CategoryRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager

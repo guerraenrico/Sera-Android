@@ -7,13 +7,11 @@ import com.guerra.enrico.sera.data.models.User
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 31/05/2018.
  */
-@Singleton
 class LocalDbManagerImpl @Inject constructor(
         private val database: SeraDatabase
 ) : LocalDbManager {

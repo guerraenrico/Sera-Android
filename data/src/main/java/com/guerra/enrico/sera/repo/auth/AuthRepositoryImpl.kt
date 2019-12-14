@@ -4,19 +4,17 @@ import android.content.Context
 import com.guerra.enrico.base.util.ConnectionHelper
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
+import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.succeeded
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 14/10/2018.
  */
-@Singleton
 class AuthRepositoryImpl @Inject constructor(
         private val context: Context,
         private val remoteDataManager: RemoteDataManager,

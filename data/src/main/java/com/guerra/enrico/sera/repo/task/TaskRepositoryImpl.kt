@@ -1,23 +1,21 @@
 package com.guerra.enrico.sera.repo.task
 
 import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
 import java.util.Collections.emptyList
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 21/08/2018.
  */
-@Singleton
 class TaskRepositoryImpl @Inject constructor(
         private val localDbManager: LocalDbManager,
         private val remoteDataManager: RemoteDataManager

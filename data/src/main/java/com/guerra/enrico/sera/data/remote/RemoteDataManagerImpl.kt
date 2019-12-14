@@ -14,13 +14,11 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.Reader
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 02/06/2018.
  */
-@Singleton
 class RemoteDataManagerImpl @Inject constructor(
         private val api: Api,
         private val gson: Gson,
