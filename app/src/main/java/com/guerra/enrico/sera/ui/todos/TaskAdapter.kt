@@ -14,7 +14,7 @@ import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import com.guerra.enrico.base.util.toDateString
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.sera.data.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
 /**

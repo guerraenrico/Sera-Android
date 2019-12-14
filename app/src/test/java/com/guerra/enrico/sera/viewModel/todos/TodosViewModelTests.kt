@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.viewModel.todos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.guerra.enrico.data.local.db.SeraDatabase
+import com.guerra.enrico.sera.data.local.db.SeraDatabase
 import com.guerra.enrico.sera.DaggerTestComponent
 import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.TestViewModelModule

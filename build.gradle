@@ -26,6 +26,7 @@ buildscript {
         rxlintVersion = "1.7.4"
         workManagerVersion = "2.2.0"
         shimmerVersion = '0.5.0'
+        timberVersion = '4.7.1'
         googlePlayServicesVersion = "17.0.0"
 
         // Test

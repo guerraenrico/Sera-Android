@@ -1,13 +1,12 @@
 package com.guerra.enrico.sera.data
 
-import com.guerra.enrico.data.Result
-import com.guerra.enrico.data.local.db.SeraDatabase
-import com.guerra.enrico.data.models.Category
-import com.guerra.enrico.data.models.Session
-import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.models.User
-import com.guerra.enrico.data.remote.response.ApiResponse
-import com.guerra.enrico.data.remote.response.AuthData
+import com.guerra.enrico.sera.data.local.db.SeraDatabase
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Session
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.User
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.AuthData
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException

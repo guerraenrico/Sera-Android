@@ -5,10 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
-import com.guerra.enrico.data.Event
-import com.guerra.enrico.data.Result
-import com.guerra.enrico.data.models.Category
-import com.guerra.enrico.data.models.Task
+import com.guerra.enrico.sera.data.Event
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks

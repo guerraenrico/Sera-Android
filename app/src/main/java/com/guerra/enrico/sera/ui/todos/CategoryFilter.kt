@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.ui.todos
 
-import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.sera.data.models.Category
 
 /**
  * Created by enrico

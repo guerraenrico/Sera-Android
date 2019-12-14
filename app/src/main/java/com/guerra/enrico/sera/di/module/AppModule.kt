@@ -4,20 +4,22 @@ import android.app.Application
 import android.content.Context
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
 import com.guerra.enrico.base.dispatcher.CoroutineContextProviderImpl
+import com.guerra.enrico.base.logger.Logger
+import com.guerra.enrico.base.logger.SeraLogger
 import com.guerra.enrico.sera.SeraApplication
-import com.guerra.enrico.data.local.db.LocalDbManager
-import com.guerra.enrico.data.local.db.LocalDbManagerImpl
-import com.guerra.enrico.data.local.db.SeraDatabase
-import com.guerra.enrico.data.local.prefs.PreferencesManager
-import com.guerra.enrico.data.local.prefs.PreferencesManagerImpl
-import com.guerra.enrico.data.remote.RemoteDataManager
-import com.guerra.enrico.data.remote.RemoteDataManagerImpl
-import com.guerra.enrico.sera.data.repo.auth.AuthRepository
-import com.guerra.enrico.sera.data.repo.auth.AuthRepositoryImpl
-import com.guerra.enrico.sera.data.repo.category.CategoryRepository
-import com.guerra.enrico.sera.data.repo.category.CategoryRepositoryImpl
-import com.guerra.enrico.sera.data.repo.task.TaskRepository
-import com.guerra.enrico.sera.data.repo.task.TaskRepositoryImpl
+import com.guerra.enrico.sera.data.local.db.LocalDbManager
+import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
+import com.guerra.enrico.sera.data.local.db.SeraDatabase
+import com.guerra.enrico.sera.data.local.prefs.PreferencesManager
+import com.guerra.enrico.sera.data.local.prefs.PreferencesManagerImpl
+import com.guerra.enrico.sera.data.remote.RemoteDataManager
+import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
+import com.guerra.enrico.sera.repo.auth.AuthRepository
+import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
+import com.guerra.enrico.sera.repo.category.CategoryRepository
+import com.guerra.enrico.sera.repo.category.CategoryRepositoryImpl
+import com.guerra.enrico.sera.repo.task.TaskRepository
+import com.guerra.enrico.sera.repo.task.TaskRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -40,11 +42,12 @@ class AppModule {
   fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
 
   @Provides
-  fun provideCompositeDisposable() = CompositeDisposable()
+  @Singleton
+  fun provideAppDispatchers(appDispatchers: CoroutineContextProviderImpl): CoroutineContextProvider = appDispatchers
 
   @Provides
   @Singleton
-  fun provideAppDispatchers(appDispatchers: CoroutineContextProviderImpl): CoroutineContextProvider = appDispatchers
+  fun provideLogger(logger: SeraLogger): Logger = logger
 
   @Provides
   @Singleton

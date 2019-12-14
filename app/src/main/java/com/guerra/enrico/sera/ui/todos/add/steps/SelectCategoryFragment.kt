@@ -16,7 +16,7 @@ import com.guerra.enrico.sera.ui.todos.CategoryFilter
 import com.guerra.enrico.sera.ui.todos.CategoryFilterAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
-import com.guerra.enrico.data.Result
+import com.guerra.enrico.sera.data.Result
 import javax.inject.Inject
 
 /**

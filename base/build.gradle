@@ -27,4 +27,7 @@ dependencies {
 
     // Dagger
     api "com.google.dagger:dagger-android:$daggerVersion"
+
+    // Timber
+    api "com.jakewharton.timber:timber:$timberVersion"
 }

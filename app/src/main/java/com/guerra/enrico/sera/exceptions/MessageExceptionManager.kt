@@ -2,11 +2,11 @@ package com.guerra.enrico.sera.exceptions
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.guerra.enrico.data.exceptions.ConnectionException
-import com.guerra.enrico.data.exceptions.GenericException
-import com.guerra.enrico.data.exceptions.LocalException
-import com.guerra.enrico.data.exceptions.RemoteException
-import com.guerra.enrico.data.remote.response.ApiError
+import com.guerra.enrico.sera.data.exceptions.ConnectionException
+import com.guerra.enrico.sera.data.exceptions.GenericException
+import com.guerra.enrico.sera.data.exceptions.LocalException
+import com.guerra.enrico.sera.data.exceptions.RemoteException
+import com.guerra.enrico.sera.data.remote.response.ApiError
 import com.guerra.enrico.sera.R
 
 /**

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
-import com.guerra.enrico.data.models.Task
-import com.guerra.enrico.data.Result
+import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
@@ -29,8 +29,8 @@ import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import com.guerra.enrico.base.util.viewModelProvider
-import com.guerra.enrico.data.EventObserver
-import com.guerra.enrico.data.models.Category
+import com.guerra.enrico.sera.data.EventObserver
+import com.guerra.enrico.sera.data.models.Category
 
 
 /**

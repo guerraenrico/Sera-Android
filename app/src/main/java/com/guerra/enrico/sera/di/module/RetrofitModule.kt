@@ -5,8 +5,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.base.util.ConnectionHelper
-import com.guerra.enrico.data.exceptions.ConnectionException
-import com.guerra.enrico.data.remote.Api
+import com.guerra.enrico.sera.data.exceptions.ConnectionException
+import com.guerra.enrico.sera.data.remote.Api
 import dagger.Module
 import dagger.Provides
 import okhttp3.*

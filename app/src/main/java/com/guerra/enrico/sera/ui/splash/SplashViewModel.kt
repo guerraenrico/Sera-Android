@@ -3,8 +3,8 @@ package com.guerra.enrico.sera.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
-import com.guerra.enrico.data.Result
-import com.guerra.enrico.data.models.User
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.domain.interactors.ValidateToken
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import javax.inject.Inject

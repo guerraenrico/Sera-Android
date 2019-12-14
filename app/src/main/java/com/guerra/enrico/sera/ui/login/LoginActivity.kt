@@ -10,7 +10,8 @@ import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.data.succeeded
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.todos.TodosActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -45,13 +46,13 @@ class LoginActivity : BaseActivity() {
     }
     viewModel.user.observe(this, Observer { userResult ->
       if (userResult == null) return@Observer
-      if (userResult == com.guerra.enrico.data.Result.Loading) {
+      if (userResult == Result.Loading) {
         return@Observer
       }
       if (userResult.succeeded) {
         gotoTodosActivity()
       }
-      if (userResult is com.guerra.enrico.data.Result.Error) {
+      if (userResult is Result.Error) {
         showSnackbar(userResult.exception.message
                 ?: resources.getString(R.string.error_google_signin))
       }

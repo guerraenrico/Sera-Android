@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.appinitializers.AppInitializers
 import com.guerra.enrico.sera.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,6 +25,10 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
   override fun onCreate() {
     super.onCreate()
     initializers.init(this)
+
+    if (BuildConfig.DEBUG) {
+      Timber.plant(Timber.DebugTree())
+    }
   }
 
   override fun getWorkManagerConfiguration(): Configuration = workConfiguration

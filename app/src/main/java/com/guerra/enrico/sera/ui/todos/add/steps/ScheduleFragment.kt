@@ -14,9 +14,9 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.DatePickerDialog
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.activityViewModelProvider
-import com.guerra.enrico.data.succeeded
+import com.guerra.enrico.sera.data.succeeded
 import java.text.SimpleDateFormat
-import com.guerra.enrico.data.Result
+import com.guerra.enrico.sera.data.Result
 import java.util.*
 
 

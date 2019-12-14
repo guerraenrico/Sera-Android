@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
-import com.guerra.enrico.data.Result
-import com.guerra.enrico.data.models.User
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import kotlinx.coroutines.launch

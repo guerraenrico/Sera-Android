@@ -114,7 +114,10 @@ dependencies {
     // Shimmer
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
 
-    // Google Signin
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // Google SignIn
     implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
 
     testImplementation "junit:junit:$junitVersion"
