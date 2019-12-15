@@ -31,6 +31,5 @@ open class NavigationModel {
                 ?: INVALID
       }
     }
-
   }
 }
