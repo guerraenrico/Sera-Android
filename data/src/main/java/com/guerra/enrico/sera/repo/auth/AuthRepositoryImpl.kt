@@ -2,12 +2,14 @@ package com.guerra.enrico.sera.repo.auth
 
 import android.content.Context
 import com.guerra.enrico.base.util.ConnectionHelper
+import com.guerra.enrico.base.util.exhaustive
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
+import com.guerra.enrico.sera.data.remote.response.CallResult
 import com.guerra.enrico.sera.data.succeeded
 import javax.inject.Inject
 
@@ -24,13 +26,21 @@ class AuthRepositoryImpl @Inject constructor(
   // Sign in
 
   override suspend fun googleSignInCallback(code: String): Result<User> {
-    val apiResponse = remoteDataManager.googleSignInCallback(code)
-    if (apiResponse.success && apiResponse.data != null) {
-      localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
-      localDbManager.saveUser(apiResponse.data.user)
-      return Result.Success(apiResponse.data.user)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.googleSignInCallback(code)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.saveSession(apiResult.apiResponse.data.user.id, apiResult.apiResponse.data.accessToken)
+          localDbManager.saveUser(apiResult.apiResponse.data.user)
+          Result.Success(apiResult.apiResponse.data.user)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun validateAccessToken(): Result<User> {
@@ -39,13 +49,21 @@ class AuthRepositoryImpl @Inject constructor(
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
-    val apiResponse = remoteDataManager.validateAccessToken(session.accessToken)
-    if (apiResponse.success && apiResponse.data != null) {
-      localDbManager.saveSession(apiResponse.data.user.id, apiResponse.data.accessToken)
-      localDbManager.saveUser(apiResponse.data.user)
-      return Result.Success(apiResponse.data.user)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.validateAccessToken(session.accessToken)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.saveSession(apiResult.apiResponse.data.user.id, apiResult.apiResponse.data.accessToken)
+          localDbManager.saveUser(apiResult.apiResponse.data.user)
+          Result.Success(apiResult.apiResponse.data.user)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun refreshToken(): Result<Unit> {
@@ -53,12 +71,20 @@ class AuthRepositoryImpl @Inject constructor(
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
-    val apiResponse = remoteDataManager.refreshAccessToken(session.accessToken)
-    if (apiResponse.success && apiResponse.data != null) {
-      localDbManager.saveSession(apiResponse.data.userId, apiResponse.data.accessToken)
-      return Result.Success(Unit)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.saveSession(apiResult.apiResponse.data.userId, apiResult.apiResponse.data.accessToken)
+          Result.Success(Unit)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {

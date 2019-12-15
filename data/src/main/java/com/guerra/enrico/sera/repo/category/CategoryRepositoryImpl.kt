@@ -1,11 +1,14 @@
 package com.guerra.enrico.sera.repo.category
 
+import com.guerra.enrico.base.util.exhaustive
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
+import com.guerra.enrico.sera.data.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -19,40 +22,72 @@ class CategoryRepositoryImpl @Inject constructor(
 
   override suspend fun getCategoriesRemote(): Result<List<Category>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.getCategories(accessToken)
-    if (apiResponse.success) {
-      return Result.Success(apiResponse.data ?: emptyList())
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.getCategories(accessToken)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          Result.Success(apiResult.apiResponse.data ?: emptyList())
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun searchCategory(text: String): Result<List<Category>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.searchCategory(accessToken, text)
-    if (apiResponse.success) {
-      return Result.Success(apiResponse.data ?: emptyList())
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.searchCategory(accessToken, text)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          Result.Success(apiResult.apiResponse.data ?: emptyList())
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.insertCategory(accessToken, category)
-    if (apiResponse.success && apiResponse.data !== null) {
-      localDbManager.saveCategory(apiResponse.data)
-      return Result.Success(apiResponse.data)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.insertCategory(accessToken, category)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.saveCategory(apiResult.apiResponse.data)
+          Result.Success(apiResult.apiResponse.data)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.deleteCategory(accessToken, category.id)
-    if (apiResponse.success) {
-      val result = localDbManager.deleteCategory(category)
-      return Result.Success(result)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.deleteCategory(accessToken, category.id)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          val result = localDbManager.deleteCategory(category)
+          Result.Success(result)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()

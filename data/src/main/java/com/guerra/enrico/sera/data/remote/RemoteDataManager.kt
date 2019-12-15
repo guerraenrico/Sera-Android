@@ -3,7 +3,7 @@ package com.guerra.enrico.sera.data.remote
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.remote.response.ApiResponse
+import com.guerra.enrico.sera.data.remote.response.CallResult
 import com.guerra.enrico.sera.data.remote.response.AuthData
 
 /**
@@ -13,11 +13,11 @@ import com.guerra.enrico.sera.data.remote.response.AuthData
 interface RemoteDataManager {
   /* Sign In */
 
-  suspend fun googleSignInCallback(code: String): ApiResponse<AuthData>
+  suspend fun googleSignInCallback(code: String): CallResult<AuthData>
 
-  suspend fun validateAccessToken(accessToken: String): ApiResponse<AuthData>
+  suspend fun validateAccessToken(accessToken: String): CallResult<AuthData>
 
-  suspend fun refreshAccessToken(accessToken: String): ApiResponse<Session>
+  suspend fun refreshAccessToken(accessToken: String): CallResult<Session>
 
   /* Categories */
 
@@ -25,22 +25,22 @@ interface RemoteDataManager {
           accessToken: String,
           limit: Int = 10,
           skip: Int = 0
-  ): ApiResponse<List<Category>>
+  ): CallResult<List<Category>>
 
   suspend fun searchCategory(
           accessToken: String,
           text: String
-  ): ApiResponse<List<Category>>
+  ): CallResult<List<Category>>
 
   suspend fun insertCategory(
           accessToken: String,
           category: Category
-  ): ApiResponse<Category>
+  ): CallResult<Category>
 
   suspend fun deleteCategory(
           accessToken: String,
           id: String
-  ): ApiResponse<Any>
+  ): CallResult<Any>
 
   /* Tasks */
 
@@ -50,27 +50,27 @@ interface RemoteDataManager {
           completed: Boolean = false,
           limit: Int = 10,
           skip: Int = 0
-  ): ApiResponse<List<Task>>
+  ): CallResult<List<Task>>
 
-  suspend fun getAllTasks(accessToken: String): ApiResponse<List<Task>>
+  suspend fun getAllTasks(accessToken: String): CallResult<List<Task>>
 
   suspend fun insertTask(
           accessToken: String,
           task: Task
-  ): ApiResponse<Task>
+  ): CallResult<Task>
 
   suspend fun deleteTask(
           accessToken: String,
           id: String
-  ): ApiResponse<Any>
+  ): CallResult<Any>
 
   suspend fun updateTask(
           accessToken: String,
           task: Task
-  ): ApiResponse<Task>
+  ): CallResult<Task>
 
   suspend fun toggleCompleteTask(
           accessToken: String,
           task: Task
-  ): ApiResponse<Task>
+  ): CallResult<Task>
 }

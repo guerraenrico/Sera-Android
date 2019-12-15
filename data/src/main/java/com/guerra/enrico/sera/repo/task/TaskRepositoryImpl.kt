@@ -1,11 +1,13 @@
 package com.guerra.enrico.sera.repo.task
 
+import com.guerra.enrico.base.util.exhaustive
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
+import com.guerra.enrico.sera.data.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*
@@ -27,61 +29,109 @@ class TaskRepositoryImpl @Inject constructor(
           skip: Int
   ): Result<List<Task>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
-    if (apiResponse.success) {
-      return Result.Success(apiResponse.data ?: emptyList())
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          Result.Success(apiResult.apiResponse.data ?: emptyList())
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun getAllTasksRemote(): Result<List<Task>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.getAllTasks(accessToken)
-    if (apiResponse.success) {
-      return Result.Success(apiResponse.data ?: emptyList())
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.getAllTasks(accessToken)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          Result.Success(apiResult.apiResponse.data ?: emptyList())
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun insertTask(task: Task): Result<Task> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.insertTask(accessToken, task)
-    if (apiResponse.success && apiResponse.data !== null) {
-      localDbManager.saveTask(apiResponse.data)
-      return Result.Success(apiResponse.data)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.insertTask(accessToken, task)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.saveTask(apiResult.apiResponse.data)
+          Result.Success(apiResult.apiResponse.data)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.deleteTask(accessToken, task.id)
-    if (apiResponse.success) {
-      val result = localDbManager.deleteTask(task)
-      return Result.Success(result)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.deleteTask(accessToken, task.id)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success) {
+          val result = localDbManager.deleteTask(task)
+          Result.Success(result)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.updateTask(accessToken, task)
-    if (apiResponse.success && apiResponse.data !== null) {
-      localDbManager.updateTask(apiResponse.data)
-      return Result.Success(apiResponse.data)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.updateTask(accessToken, task)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.updateTask(apiResult.apiResponse.data)
+          Result.Success(apiResult.apiResponse.data)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override suspend fun toggleCompleteTask(task: Task): Result<Task> {
     val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResponse = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
-    if (apiResponse.success && apiResponse.data !== null) {
-      localDbManager.updateTask(apiResponse.data)
-      return Result.Success(apiResponse.data)
-    }
-    return Result.Error(RemoteException.fromApiError(apiResponse.error))
+    val apiResult = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
+    return when (apiResult) {
+      is CallResult.Result -> {
+        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
+          localDbManager.updateTask(apiResult.apiResponse.data)
+          Result.Success(apiResult.apiResponse.data)
+        } else {
+          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }.exhaustive
   }
 
   override fun observeTasks(searchText: String, category: Category?, completed: Boolean): Flow<List<Task>> =
