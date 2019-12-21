@@ -1,15 +1,16 @@
 package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.sera.di.PerActivity
-import com.guerra.enrico.sera.ui.goals.GoalsActivity
+import com.guerra.enrico.sera.di.PerFragment
+import com.guerra.enrico.sera.ui.goals.GoalsFragment
 import com.guerra.enrico.sera.ui.goals.GoalsModule
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.login.LoginModule
-import com.guerra.enrico.sera.ui.results.ResultsActivity
+import com.guerra.enrico.sera.ui.results.ResultsFragment
 import com.guerra.enrico.sera.ui.results.ResultsModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
 import com.guerra.enrico.sera.ui.splash.SplashModule
-import com.guerra.enrico.sera.ui.todos.TodosActivity
+import com.guerra.enrico.sera.ui.todos.TodosFragment
 import com.guerra.enrico.sera.ui.todos.TodosModule
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddModel
@@ -39,13 +40,13 @@ abstract class ActivityBindingModule {
   )
   abstract fun loginActivity(): LoginActivity
 
-  @PerActivity
+  @PerFragment
   @ContributesAndroidInjector(
           modules = [
             TodosModule::class
           ]
   )
-  abstract fun todosActivxity(): TodosActivity
+  abstract fun todosActivxity(): TodosFragment
 
   @PerActivity
   @ContributesAndroidInjector(
@@ -55,19 +56,19 @@ abstract class ActivityBindingModule {
   )
   abstract fun todoAddActivity(): TodoAddActivity
 
-  @PerActivity
+  @PerFragment
   @ContributesAndroidInjector(
           modules = [
             GoalsModule::class
           ]
   )
-  abstract fun goalsActivity(): GoalsActivity
+  abstract fun goalsActivity(): GoalsFragment
 
-  @PerActivity
+  @PerFragment
   @ContributesAndroidInjector(
           modules = [
             ResultsModule::class
           ]
   )
-  abstract fun resultsAcitivity(): ResultsActivity
+  abstract fun resultsFragment(): ResultsFragment
 }

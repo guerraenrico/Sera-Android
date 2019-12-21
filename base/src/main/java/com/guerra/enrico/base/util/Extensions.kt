@@ -1,9 +1,12 @@
 package com.guerra.enrico.base.util
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
@@ -26,15 +29,37 @@ inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
 ) = ViewModelProviders.of(this, provider).get(VM::class.java)
 
 /**
- * Fragment view model provider
+ * Fragment activity's view model provider
  */
 inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
         provider: ViewModelProvider.Factory
 ) = ViewModelProviders.of(requireActivity(), provider).get(VM::class.java)
 
+/**
+ *  Fragment view model provider
+ */
+inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
+        provider: ViewModelProvider.Factory
+) = ViewModelProviders.of(this, provider).get(VM::class.java)
+
 /** Uses `Transformations.map` on a LiveData */
 fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
   return Transformations.map(this, body)
+}
+
+/**
+ * Close keyboard and remove focus from view
+ */
+fun Fragment.closeKeyboard() {
+  if (!isAdded) return
+  activity?.let {
+    val inputManager = it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val focus = it.currentFocus
+    if (focus !== null) {
+      inputManager.hideSoftInputFromWindow(focus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+      focus.clearFocus()
+    }
+  }
 }
 
 /**

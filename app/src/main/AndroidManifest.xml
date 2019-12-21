@@ -17,14 +17,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".ui.splash.SplashActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <activity
@@ -32,19 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.todos.TodosActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
             android:name=".ui.todos.add.TodoAddActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.goals.GoalsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.results.ResultsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

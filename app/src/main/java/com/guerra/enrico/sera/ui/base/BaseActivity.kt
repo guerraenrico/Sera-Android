@@ -4,33 +4,19 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.navigation.AppNavigationViewAsBottomNavImpl
-import com.guerra.enrico.sera.navigation.IAppNavigationView
-import com.guerra.enrico.sera.navigation.NavigationModel
 import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
 /**
  * Created by enrico
  * on 27/05/2018.
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
-  lateinit var appNavigationView: IAppNavigationView
   private lateinit var overlayLoader: OverlayLoader
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
-  }
-
-  override fun onPostCreate(savedInstanceState: Bundle?) {
-    super.onPostCreate(savedInstanceState)
-
-    if (navigation !== null) {
-      appNavigationView = AppNavigationViewAsBottomNavImpl(navigation)
-      appNavigationView.activityReady(this, getSelfNavDrawerItem())
-    }
   }
 
   fun showSnackbar(@StringRes messageId: Int) {
@@ -54,14 +40,4 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
   }
 
   abstract fun initView()
-
-  /**
-   * Returns the navigation drawer item that corresponds to this Activity. Subclasses of
-   * BaseActivity override this to indicate what nav drawer item corresponds to them Return
-   * NAVDRAWER_ITEM_INVALID to mean that this Activity should not have a Nav Drawer.
-   */
-  protected open fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
-    return NavigationModel.NavigationItemEnum.INVALID
-  }
-
 }

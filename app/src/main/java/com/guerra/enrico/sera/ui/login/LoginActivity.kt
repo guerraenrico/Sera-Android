@@ -13,7 +13,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
-import com.guerra.enrico.sera.ui.todos.TodosActivity
+import com.guerra.enrico.sera.ui.todos.TodosFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -76,7 +76,7 @@ class LoginActivity : BaseActivity() {
   }
 
   private fun gotoTodosActivity() {
-    startActivity(Intent(this, TodosActivity::class.java))
+    startActivity(Intent(this, TodosFragment::class.java))
     finish()
   }
 }

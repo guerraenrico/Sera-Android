@@ -9,7 +9,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import com.guerra.enrico.sera.ui.login.LoginActivity
-import com.guerra.enrico.sera.ui.todos.TodosActivity
+import com.guerra.enrico.sera.ui.todos.TodosFragment
 import com.guerra.enrico.sera.data.Result
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class SplashActivity : BaseActivity() {
   }
 
   private fun gotoTodosActivity() {
-    startActivity(Intent(this, TodosActivity::class.java))
+    startActivity(Intent(this, TodosFragment::class.java))
     finish()
   }
 

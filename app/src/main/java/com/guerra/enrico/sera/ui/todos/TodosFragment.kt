@@ -1,11 +1,8 @@
 package com.guerra.enrico.sera.ui.todos
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,46 +14,45 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.navigation.NavigationModel
-import com.guerra.enrico.sera.ui.base.BaseActivity
-import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
-import kotlinx.android.synthetic.main.activity_todos.*
+import kotlinx.android.synthetic.main.fragment_todos.*
 import kotlinx.android.synthetic.main.toolbar_search.*
 import javax.inject.Inject
 import android.widget.TextView
-import android.view.KeyEvent
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
 
 
 /**
  * Created by enrico
  * on 27/05/2018.
  */
-class TodosActivity : BaseActivity() {
+class TodosFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodosViewModel
 
   private lateinit var filtersBottomSheetBehavior: BottomSheetBehavior<*>
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_todos)
-
-    viewModel = viewModelProvider(viewModelFactory)
-
-    setSupportActionBar(toolbar)
-    supportActionBar?.title = ""
-    initView()
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    return inflater.inflate(R.layout.fragment_todos, container, false)
   }
 
-  override fun initView() {
-    filtersBottomSheetBehavior = BottomSheetBehavior.from(findViewById<View>(R.id.filtersSheet))
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    viewModel = viewModelProvider(viewModelFactory)
+    initView(view)
+  }
+
+  private fun initView(view: View) {
+    toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
+
+    filtersBottomSheetBehavior = BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
     fabFilter.setOnClickListener {
       filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
@@ -65,11 +61,14 @@ class TodosActivity : BaseActivity() {
     setupRecyclerView()
     setupSearch()
 
-    viewModel.tasksResult.observe(this@TodosActivity, Observer { processTaskList(it) })
-    viewModel.categories.observe(this@TodosActivity, Observer { categories ->
+    viewModel.tasksResult.observe(this@TodosFragment, Observer { processTaskList(it) })
+    viewModel.categories.observe(this@TodosFragment, Observer { categories ->
       if (categories == null) return@Observer
-      val adapter = SearchTasksAutocompleteAdapter(this, categories)
-      toolbarEditTextSearch.setAdapter(adapter)
+      context?.let { context ->
+        val adapter = SearchTasksAutocompleteAdapter(context, categories)
+        toolbarEditTextSearch.setAdapter(adapter)
+      }
+
     })
     viewModel.snackbarMessage.observe(this, EventObserver {
       showSnackbar(it)
@@ -84,16 +83,12 @@ class TodosActivity : BaseActivity() {
       return
     }
     if (tasksResult is Result.Loading) {
-      if (!refreshLayoutTasks.isRefreshing) {
-        showOverlayLoader()
-      }
       return
     }
     messageLayout.hide()
     if (refreshLayoutTasks.isRefreshing) {
       refreshLayoutTasks.isRefreshing = false
     }
-    hideOverlayLoader()
     if (tasksResult is Result.Success) {
       recyclerViewTasks.visibility = View.VISIBLE
       setRecyclerTaskList(tasksResult.data)
@@ -122,16 +117,18 @@ class TodosActivity : BaseActivity() {
       viewModel.onReloadTasks()
     }
 
-    val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-    recyclerViewTasks.apply {
-      layoutManager = linearLayoutManager
-      adapter = tasksAdapter
-      addItemDecoration(GridSpacingItemDecoration(
-              1,
-              resources.getDimensionPixelSize(R.dimen.item_list_spacing),
-              true
-      ))
-      itemAnimator as DefaultItemAnimator
+    context?.let { context ->
+      val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+      recyclerViewTasks.apply {
+        layoutManager = linearLayoutManager
+        adapter = tasksAdapter
+        addItemDecoration(GridSpacingItemDecoration(
+                1,
+                resources.getDimensionPixelSize(R.dimen.item_list_spacing),
+                true
+        ))
+        itemAnimator as DefaultItemAnimator
+      }
     }
   }
 
@@ -165,51 +162,31 @@ class TodosActivity : BaseActivity() {
             }
   }
 
-  override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    menuInflater.inflate(R.menu.todos, menu)
-    return super.onCreateOptionsMenu(menu)
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    when (item.itemId) {
+  private fun onMenuItemClick(item: MenuItem): Boolean {
+    return when (item.itemId) {
       R.id.action_add_todo -> {
-        startActivity(Intent(this, TodoAddActivity::class.java))
-        return true
+        context?.let {
+          startActivity(Intent(context, TodoAddActivity::class.java))
+        }
+        true
       }
+      else -> false
     }
-    return super.onOptionsItemSelected(item)
   }
 
   /**
    * Manage the system back button; if the bottom sheet is expanded
    * it will be collapsed
    */
-  override fun onBackPressed() {
-    if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-      if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {
-        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-      } else {
-        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-      }
-    } else {
-      super.onBackPressed()
-    }
-  }
-
-  override fun getSelfNavDrawerItem(): NavigationModel.NavigationItemEnum {
-    return NavigationModel.NavigationItemEnum.TODOS
-  }
-
-  /**
-   * Close keyboard and remove focus from view
-   */
-  private fun closeKeyboard() {
-    if (isFinishing) return
-    val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    val focus = currentFocus
-    if (focus !== null) {
-      inputManager.hideSoftInputFromWindow(focus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-      focus.clearFocus()
-    }
-  }
+//  override fun onBackPressed() {
+//    if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+//      if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {
+//        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//      } else {
+//        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//      }
+//    } else {
+//      super.onBackPressed()
+//    }
+//  }
 }

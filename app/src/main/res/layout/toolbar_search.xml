@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
+    style="@style/ToolbarSearch"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?attr/actionBarSize"
     android:background="@android:color/transparent"
-    style="@style/ToolbarSearch"
-    >
+    android:minHeight="?attr/actionBarSize"
+    app:menu="@menu/todos">
 
     <AutoCompleteTextView
         android:id="@+id/toolbarEditTextSearch"
-        android:inputType="text"
+        style="@style/SearchTextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/label_search"
         android:completionThreshold="1"
-        android:maxLines="1"
+        android:hint="@string/label_search"
         android:imeOptions="actionSearch"
-        style="@style/SearchTextInput"/>
+        android:inputType="text"
+        android:maxLines="1" />
 
 </androidx.appcompat.widget.Toolbar>
