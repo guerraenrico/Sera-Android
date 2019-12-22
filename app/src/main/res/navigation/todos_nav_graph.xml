@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todos_nav_graph"
+    app:startDestination="@id/activity_todo_add">
+
+    <activity
+        android:id="@+id/activity_todo_add"
+        android:name="com.guerra.enrico.sera.ui.todos.add.TodoAddActivity"
+        android:label="activity_todo_add"
+        tools:layout="@layout/activity_todo_add"
+        >
+
+    </activity>
+
+</navigation>

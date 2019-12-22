@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.toolbar_search.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
+import androidx.activity.addCallback
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
@@ -39,6 +40,33 @@ class TodosFragment : BaseFragment() {
 
   private lateinit var filtersBottomSheetBehavior: BottomSheetBehavior<*>
 
+  /**
+   * Callback fired when the back button is pressed; the bottom sheet is closed if it's open
+   */
+  private val onBackPressedCallback by lazy {
+    requireActivity().onBackPressedDispatcher.addCallback(this) {
+      if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+        if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {
+          filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        } else {
+          filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+      }
+    }
+  }
+
+  /**
+   * Callback fired when the state of the bottom sheet change; when the bottom sheet opens
+   * enable the back button callback
+   */
+  private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+    override fun onStateChanged(bottomSheet: View, newState: Int) {
+      onBackPressedCallback.isEnabled = newState == BottomSheetBehavior.STATE_EXPANDED
+    }
+  }
+
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.fragment_todos, container, false)
   }
@@ -53,6 +81,7 @@ class TodosFragment : BaseFragment() {
     toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
 
     filtersBottomSheetBehavior = BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
+    filtersBottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback)
     fabFilter.setOnClickListener {
       filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
@@ -173,20 +202,4 @@ class TodosFragment : BaseFragment() {
       else -> false
     }
   }
-
-  /**
-   * Manage the system back button; if the bottom sheet is expanded
-   * it will be collapsed
-   */
-//  override fun onBackPressed() {
-//    if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-//      if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {
-//        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-//      } else {
-//        filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//      }
-//    } else {
-//      super.onBackPressed()
-//    }
-//  }
 }
