@@ -16,5 +16,8 @@
         android:name="com.guerra.enrico.sera.ui.results.ResultsFragment"
         android:label="@string/title_results" />
 
-    <include app:graph="@navigation/todo_add_nav_graph" />
+    <activity
+        android:id="@+id/todo_add"
+        android:name="com.guerra.enrico.sera.ui.todos.add.TodoAddActivity"
+        android:label="@string/title_add_todo" />
 </navigation>

@@ -21,6 +21,7 @@ import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
 import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
@@ -198,7 +199,8 @@ class TodosFragment : BaseFragment() {
     return when (item.itemId) {
       R.id.action_add_todo -> {
         context?.let {
-          startActivity(Intent(context, TodoAddActivity::class.java))
+//          startActivity(Intent(context, TodoAddActivity::class.java))
+          findNavController().navigate(R.id.todo_add)
         }
         true
       }
