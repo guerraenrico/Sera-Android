@@ -17,6 +17,7 @@ import com.guerra.enrico.sera.ui.todos.CategoryFilterAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 import com.guerra.enrico.sera.data.Result
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -24,17 +25,16 @@ import javax.inject.Inject
  * on 19/10/2018.
  */
 class SelectCategoryFragment : BaseFragment() {
-  private lateinit var root: View
+  private lateinit var root: WeakReference<View>
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   lateinit var viewModel: TodoAddViewModel
 
-  private lateinit var filterAdapter: CategoryFilterAdapter
-
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    root = inflater.inflate(R.layout.fragment_todo_add_select_category, container, false)
-    return root
+    val view = inflater.inflate(R.layout.fragment_todo_add_select_category, container, false)
+    root = WeakReference(view)
+    return view
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class SelectCategoryFragment : BaseFragment() {
     viewModel = activityViewModelProvider(viewModelFactory)
 
     val gridLayoutManager = GridLayoutManager(context, 2)
-    filterAdapter = CategoryFilterAdapter { categoryFilter ->
+    val filterAdapter = CategoryFilterAdapter { categoryFilter ->
       val checked = !categoryFilter.isChecked
       viewModel.toggleCategory(categoryFilter, checked)
     }
@@ -61,20 +61,22 @@ class SelectCategoryFragment : BaseFragment() {
   }
 
   private fun processCategoryListResponse(categoriesFilterResult: Result<List<CategoryFilter>>?) {
-    if (!isAdded || categoriesFilterResult === null) {
+    if (categoriesFilterResult == null) {
       return
     }
     if (categoriesFilterResult is Result.Loading) {
       return
     }
     if (categoriesFilterResult is Result.Success) {
-      filterAdapter.updateList(categoriesFilterResult.data)
+      (recyclerViewCategories.adapter as CategoryFilterAdapter).updateList(categoriesFilterResult.data)
       observeSelectedCategory()
       return
     }
     if (categoriesFilterResult is Error) {
-      Snackbar.make(root, categoriesFilterResult.message
-              ?: "An error accour while fetching categories", Snackbar.LENGTH_LONG).show()
+      root.get()?.let {
+        Snackbar.make(it, categoriesFilterResult.message
+                ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG).show()
+      }
     }
   }
 
@@ -92,6 +94,12 @@ class SelectCategoryFragment : BaseFragment() {
   }
 
   private fun showMessageSelectCategory() {
-    Snackbar.make(root, resources.getString(R.string.message_select_category), Snackbar.LENGTH_LONG).show()
+    root.get()?.let {
+      Snackbar.make(it, resources.getString(R.string.message_select_category), Snackbar.LENGTH_LONG).show()
+    }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
   }
 }

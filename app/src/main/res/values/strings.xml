@@ -36,8 +36,8 @@
     <string name="message_insert_task_title">Insert your task\'s title</string>
 
     <!-- Errors -->
-    <string name="error_google_signin">An error accour while managing response</string>
-    <string name="error_observe_categories">An error accour while fetching categories</string>
+    <string name="error_google_signin">An error occur while managing response</string>
+    <string name="error_observe_categories">An error occur while fetching categories</string>
     
     <!-- Exceptions -->
     <string name="exception_not_authenticated">Please login to continue</string>

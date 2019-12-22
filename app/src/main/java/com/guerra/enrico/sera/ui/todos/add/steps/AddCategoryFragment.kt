@@ -14,6 +14,7 @@ import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_add_category.*
 import com.guerra.enrico.sera.data.Result
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -21,15 +22,16 @@ import javax.inject.Inject
  * on 19/10/2018.
  */
 class AddCategoryFragment : BaseFragment() {
-  private lateinit var root: View
+  private lateinit var root: WeakReference<View>
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodoAddViewModel
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    root = inflater.inflate(R.layout.fragment_todo_add_add_category, container, false)
-    return root
+    val view = inflater.inflate(R.layout.fragment_todo_add_add_category, container, false)
+    root = WeakReference(view)
+    return view
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -38,7 +40,7 @@ class AddCategoryFragment : BaseFragment() {
     observeCreateCategory()
     buttonAdd.setOnClickListener {
       if (categoryName.text.isNullOrEmpty()) {
-        Snackbar.make(root, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show()
+        root.get()?.let { Snackbar.make(it, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show() }
       }
       viewModel.onAddCategory(categoryName.text.toString())
     }
@@ -51,8 +53,10 @@ class AddCategoryFragment : BaseFragment() {
         viewModel.goToNextStep(StepEnum.ADD_TASK)
       }
       if (result is Result.Error) {
-        Snackbar.make(root, result.exception.message
-                ?: "An error accour while creating the category", Snackbar.LENGTH_LONG).show()
+        root.get()?.let {
+          Snackbar.make(it, result.exception.message
+                  ?: "An error occur while creating the category", Snackbar.LENGTH_LONG).show()
+        }
       }
     })
   }

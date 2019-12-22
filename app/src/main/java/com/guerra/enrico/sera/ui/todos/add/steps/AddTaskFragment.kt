@@ -12,6 +12,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_add_task.*
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -19,15 +20,16 @@ import javax.inject.Inject
  * on 19/10/2018.
  */
 class AddTaskFragment : BaseFragment() {
-  private lateinit var root: View
+  private lateinit var root: WeakReference<View>
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   lateinit var viewModel: TodoAddViewModel
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    root = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
-    return root
+    val view = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
+    root = WeakReference(view)
+    return view
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -43,7 +45,9 @@ class AddTaskFragment : BaseFragment() {
     })
     buttonSchedule.setOnClickListener {
       if (taskTitle.text.isNullOrEmpty()) {
-        Snackbar.make(root, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show()
+        root.get()?.let {
+          Snackbar.make(it, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show()
+        }
       }
       if (viewModel.onSetTaskInfo(taskTitle.text.toString(), taskDescription.text.toString())) {
         viewModel.goToNextStep(StepEnum.SCHEDULE)

@@ -17,6 +17,7 @@ import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.data.succeeded
 import java.text.SimpleDateFormat
 import com.guerra.enrico.sera.data.Result
+import java.lang.ref.WeakReference
 import java.util.*
 
 
@@ -25,7 +26,7 @@ import java.util.*
  * on 21/10/2018.
  */
 class ScheduleFragment : BaseFragment() {
-  private lateinit var root: View
+  private lateinit var root: WeakReference<View>
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -34,8 +35,9 @@ class ScheduleFragment : BaseFragment() {
   private var selectedDate = Date()
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    root = inflater.inflate(R.layout.fragment_todo_add_schedule, container, false)
-    return root
+    val view = inflater.inflate(R.layout.fragment_todo_add_schedule, container, false)
+    root = WeakReference(view)
+    return view
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -57,8 +59,11 @@ class ScheduleFragment : BaseFragment() {
         viewModel.goToNextStep(StepEnum.DONE)
       }
       if (result is Result.Error) {
-        Snackbar.make(root, result.exception.message
-                ?: "An error accour while creating the task", Snackbar.LENGTH_LONG).show()
+        root.get()?.let {
+          Snackbar.make(it, result.exception.message
+                  ?: "An error occur while creating the task", Snackbar.LENGTH_LONG).show()
+        }
+
       }
     })
   }

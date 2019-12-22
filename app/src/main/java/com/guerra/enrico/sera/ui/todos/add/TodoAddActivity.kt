@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseActivity
@@ -21,6 +22,8 @@ class TodoAddActivity : BaseActivity() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodoAddViewModel
 
+  private val navController by lazy { findNavController(R.id.containerHostFragment) }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_todo_add)
@@ -35,18 +38,18 @@ class TodoAddActivity : BaseActivity() {
   override fun initView() {
     viewModel.currentStep.observe(this, Observer { step ->
       when (step) {
-        StepEnum.SELECT -> attachFragment(SelectFragment::class.java)
-        StepEnum.ADD_CATEGORY -> attachFragment(AddCategoryFragment::class.java, StepEnum.SELECT)
-        StepEnum.SELECT_CATEGORY -> attachFragment(SelectCategoryFragment::class.java, StepEnum.SELECT)
-        StepEnum.ADD_TASK -> attachFragment(AddTaskFragment::class.java, StepEnum.SELECT)
-        StepEnum.SCHEDULE -> attachFragment(ScheduleFragment::class.java, StepEnum.ADD_TASK)
-        StepEnum.DONE -> attachFragment(DoneFragment::class.java, StepEnum.SCHEDULE)
-        else -> attachFragment(SelectFragment::class.java)
+        StepEnum.SELECT -> goTo(R.id.step_select)
+        StepEnum.ADD_CATEGORY -> goTo(R.id.step_add_category, StepEnum.SELECT)
+        StepEnum.SELECT_CATEGORY -> goTo(R.id.step_select_category, StepEnum.SELECT)
+        StepEnum.ADD_TASK -> goTo(R.id.step_add_task, StepEnum.SELECT)
+        StepEnum.SCHEDULE -> goTo(R.id.step_schedule, StepEnum.ADD_TASK)
+        StepEnum.DONE -> goTo(R.id.step_done, StepEnum.SCHEDULE)
+        else -> goTo(R.id.step_select)
       }
     })
   }
 
-  private fun attachFragment(fragmentClass: Class<out Fragment>, previousStep: StepEnum? = null) {
+  private fun goTo(navId: Int, previousStep: StepEnum? = null) {
     buttonPrevious.setOnClickListener {
       if (previousStep != null) {
         viewModel.goToNextStep(previousStep)
@@ -54,9 +57,6 @@ class TodoAddActivity : BaseActivity() {
         finish()
       }
     }
-    supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.containerFragment, fragmentClass.newInstance())
-            .commit()
+    navController.navigate(navId)
   }
 }

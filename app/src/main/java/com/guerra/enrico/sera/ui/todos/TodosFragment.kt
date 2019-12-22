@@ -79,14 +79,9 @@ class TodosFragment : BaseFragment() {
 
   private fun initView(view: View) {
     toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
-
     filtersBottomSheetBehavior = BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
-    filtersBottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback)
-    fabFilter.setOnClickListener {
-      filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-    filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
+    setupFiltersBottomSheet()
     setupRecyclerView()
     setupSearch()
 
@@ -189,6 +184,14 @@ class TodosFragment : BaseFragment() {
               closeKeyboard()
               viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
             }
+  }
+
+  private fun setupFiltersBottomSheet() {
+    filtersBottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback)
+    fabFilter.setOnClickListener {
+      filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+    filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
