@@ -28,7 +28,11 @@ class AddCategoryFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodoAddViewModel
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     val view = inflater.inflate(R.layout.fragment_todo_add_add_category, container, false)
     root = WeakReference(view)
     return view
@@ -40,7 +44,13 @@ class AddCategoryFragment : BaseFragment() {
     observeCreateCategory()
     buttonAdd.setOnClickListener {
       if (categoryName.text.isNullOrEmpty()) {
-        root.get()?.let { Snackbar.make(it, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show() }
+        root.get()?.let {
+          Snackbar.make(
+            it,
+            resources.getString(R.string.message_insert_task_title),
+            Snackbar.LENGTH_LONG
+          ).show()
+        }
       }
       viewModel.onAddCategory(categoryName.text.toString())
     }
@@ -54,8 +64,10 @@ class AddCategoryFragment : BaseFragment() {
       }
       if (result is Result.Error) {
         root.get()?.let {
-          Snackbar.make(it, result.exception.message
-                  ?: "An error occur while creating the category", Snackbar.LENGTH_LONG).show()
+          Snackbar.make(
+            it, result.exception.message
+              ?: "An error occur while creating the category", Snackbar.LENGTH_LONG
+          ).show()
         }
       }
     })

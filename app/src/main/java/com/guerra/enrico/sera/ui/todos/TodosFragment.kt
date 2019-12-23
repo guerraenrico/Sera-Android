@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.ui.todos
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo.*
@@ -27,8 +26,6 @@ import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
-
 
 /**
  * Created by enrico
@@ -68,7 +65,11 @@ class TodosFragment : BaseFragment() {
     }
   }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     return inflater.inflate(R.layout.fragment_todos, container, false)
   }
 
@@ -80,7 +81,8 @@ class TodosFragment : BaseFragment() {
 
   private fun initView(view: View) {
     toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
-    filtersBottomSheetBehavior = BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
+    filtersBottomSheetBehavior =
+      BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
 
     setupFiltersBottomSheet()
     setupRecyclerView()
@@ -147,11 +149,13 @@ class TodosFragment : BaseFragment() {
       recyclerViewTasks.apply {
         layoutManager = linearLayoutManager
         adapter = tasksAdapter
-        addItemDecoration(GridSpacingItemDecoration(
-                1,
-                resources.getDimensionPixelSize(R.dimen.item_list_spacing),
-                true
-        ))
+        addItemDecoration(
+          GridSpacingItemDecoration(
+            1,
+            resources.getDimensionPixelSize(R.dimen.item_list_spacing),
+            true
+          )
+        )
         itemAnimator as DefaultItemAnimator
       }
     }
@@ -171,7 +175,11 @@ class TodosFragment : BaseFragment() {
 
   private fun setupSearch() {
     toolbarEditTextSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-      override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+      override fun onEditorAction(
+        textView: TextView?,
+        actionId: Int,
+        event: KeyEvent?
+      ): Boolean {
         if (actionId == IME_ACTION_SEARCH) {
           closeKeyboard()
           viewModel.onSearch(textView?.text.toString())
@@ -181,10 +189,10 @@ class TodosFragment : BaseFragment() {
       }
     })
     toolbarEditTextSearch.onItemClickListener =
-            AdapterView.OnItemClickListener { adapter, _, position, _ ->
-              closeKeyboard()
-              viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
-            }
+      AdapterView.OnItemClickListener { adapter, _, position, _ ->
+        closeKeyboard()
+        viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
+      }
   }
 
   private fun setupFiltersBottomSheet() {
@@ -199,7 +207,6 @@ class TodosFragment : BaseFragment() {
     return when (item.itemId) {
       R.id.action_add_todo -> {
         context?.let {
-//          startActivity(Intent(context, TodoAddActivity::class.java))
           findNavController().navigate(R.id.todo_add)
         }
         true

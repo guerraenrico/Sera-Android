@@ -16,8 +16,8 @@ import javax.inject.Inject
  * on 12/10/2018.
  */
 class LoginViewModel @Inject constructor(
-        private val dispatchers: CoroutineContextProvider,
-        private val signIn: SignIn
+  private val dispatchers: CoroutineContextProvider,
+  private val signIn: SignIn
 ) : BaseViewModel() {
 
   private val _user: MediatorLiveData<Result<User>> = MediatorLiveData()

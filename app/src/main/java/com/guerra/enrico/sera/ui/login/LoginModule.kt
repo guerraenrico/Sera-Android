@@ -1,9 +1,11 @@
 package com.guerra.enrico.sera.ui.login
 
 import androidx.lifecycle.ViewModel
+import com.guerra.enrico.sera.di.PerFragment
 import com.guerra.enrico.sera.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 /**
@@ -12,6 +14,10 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class LoginModule {
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeLoginFragment(): LoginFragment
+
   @Binds
   @IntoMap
   @ViewModelKey(LoginViewModel::class)

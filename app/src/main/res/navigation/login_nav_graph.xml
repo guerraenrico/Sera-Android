@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_nav_graph"
+    app:startDestination="@id/google_login">
+
+    <fragment
+        android:id="@+id/google_login"
+        android:name="com.guerra.enrico.sera.ui.login.LoginFragment"
+        android:label="@string/title_results" />
+
+    <activity
+        android:id="@+id/main_activity"
+        android:name="com.guerra.enrico.sera.ui.main.MainActivity"
+        android:label="@string/title_main" />
+
+</navigation>

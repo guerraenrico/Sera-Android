@@ -14,8 +14,8 @@ import javax.inject.Inject
  * on 17/10/2018.
  */
 class SplashViewModel @Inject constructor(
-        dispatchers: CoroutineContextProvider,
-        validateToken: ValidateToken
+  dispatchers: CoroutineContextProvider,
+  validateToken: ValidateToken
 ) : BaseViewModel() {
   val validationAccessTokenResult: LiveData<Result<User>> = liveData(dispatchers.io()) {
     emit(Result.Loading)

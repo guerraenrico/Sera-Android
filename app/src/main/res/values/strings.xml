@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Sera</string>
 
+    <string name="title_main">Sera</string>
+    <string name="title_login">Login</string>
+    <string name="title_splash">Sera</string>
     <string name="title_goals">Goals</string>
     <string name="title_todos">Todos</string>
     <string name="title_results">Results</string>
