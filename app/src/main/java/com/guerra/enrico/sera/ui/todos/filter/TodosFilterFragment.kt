@@ -12,6 +12,7 @@ import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.CategoryFilterAdapter
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import kotlinx.android.synthetic.main.fragment_todos_filters.*
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -22,9 +23,9 @@ class TodosFilterFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodosViewModel
-  private lateinit var behavior: BottomSheetBehavior<*>
-
-  private lateinit var filterAdapter: CategoryFilterAdapter
+  private val behavior by lazy {
+    WeakReference(BottomSheetBehavior.from(filtersSheet))
+  }
 
   override fun onCreateView(
           inflater: LayoutInflater,
@@ -37,9 +38,10 @@ class TodosFilterFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    behavior = BottomSheetBehavior.from(filtersSheet)
     buttonCollapse.setOnClickListener {
-      behavior.state = BottomSheetBehavior.STATE_HIDDEN
+      behavior.get()?.apply {
+        state = BottomSheetBehavior.STATE_HIDDEN
+      }
     }
   }
 }

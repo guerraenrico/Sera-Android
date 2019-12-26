@@ -26,6 +26,7 @@ import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.base.BaseFragment
+import java.lang.ref.WeakReference
 
 /**
  * Created by enrico
@@ -36,18 +37,20 @@ class TodosFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodosViewModel
 
-  private lateinit var filtersBottomSheetBehavior: BottomSheetBehavior<*>
+  private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
 
   /**
    * Callback fired when the back button is pressed; the bottom sheet is closed if it's open
    */
   private val onBackPressedCallback by lazy {
     requireActivity().onBackPressedDispatcher.addCallback(this) {
-      if (::filtersBottomSheetBehavior.isInitialized && filtersBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-        if (filtersBottomSheetBehavior.isHideable && filtersBottomSheetBehavior.skipCollapsed) {
-          filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        } else {
-          filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+      filtersBottomSheetBehavior.get()?.let {
+        if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
+          if (it.isHideable && it.skipCollapsed) {
+            it.state = BottomSheetBehavior.STATE_HIDDEN
+          } else {
+            it.state = BottomSheetBehavior.STATE_COLLAPSED
+          }
         }
       }
     }
@@ -82,7 +85,7 @@ class TodosFragment : BaseFragment() {
   private fun initView(view: View) {
     toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
-      BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet))
+      WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet)))
 
     setupFiltersBottomSheet()
     setupRecyclerView()
@@ -196,11 +199,13 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupFiltersBottomSheet() {
-    filtersBottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback)
-    fabFilter.setOnClickListener {
-      filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    filtersBottomSheetBehavior.get()?.apply {
+      setBottomSheetCallback(bottomSheetCallback)
+      fabFilter.setOnClickListener {
+        state = BottomSheetBehavior.STATE_EXPANDED
+      }
+      state = BottomSheetBehavior.STATE_HIDDEN
     }
-    filtersBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
