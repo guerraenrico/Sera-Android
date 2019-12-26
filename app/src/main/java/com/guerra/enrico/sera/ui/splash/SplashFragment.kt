@@ -37,8 +37,7 @@ class SplashFragment : BaseFragment() {
 
   private fun initView() {
     viewModel.validationAccessTokenResult.observe(this, Observer { userResult ->
-      if (userResult == null) return@Observer
-      if (userResult is Result.Loading) return@Observer
+      if (userResult == null || userResult is Result.Loading) return@Observer
       if (userResult.succeeded) {
         gotoMainActivity()
       }
