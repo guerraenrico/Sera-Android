@@ -31,7 +31,11 @@ class SelectCategoryFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   lateinit var viewModel: TodoAddViewModel
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     val view = inflater.inflate(R.layout.fragment_todo_add_select_category, container, false)
     root = WeakReference(view)
     return view
@@ -49,11 +53,13 @@ class SelectCategoryFragment : BaseFragment() {
     recyclerViewCategories.apply {
       layoutManager = gridLayoutManager
       adapter = filterAdapter
-      addItemDecoration(GridSpacingItemDecoration(
-              2,
-              resources.getDimensionPixelOffset(R.dimen.padding_s),
-              true
-      ))
+      addItemDecoration(
+        GridSpacingItemDecoration(
+          2,
+          resources.getDimensionPixelOffset(R.dimen.padding_s),
+          true
+        )
+      )
     }
     viewModel.categoriesFilterResult.apply {
       this.observe(this@SelectCategoryFragment, Observer { processCategoryListResponse(it) })
@@ -65,8 +71,10 @@ class SelectCategoryFragment : BaseFragment() {
       return
     }
     if (categoriesFilterResult is Result.Loading) {
+      showOverlayLoader()
       return
     }
+    hideOverlayLoader()
     if (categoriesFilterResult is Result.Success) {
       (recyclerViewCategories.adapter as CategoryFilterAdapter).updateList(categoriesFilterResult.data)
       observeSelectedCategory()
@@ -74,32 +82,24 @@ class SelectCategoryFragment : BaseFragment() {
     }
     if (categoriesFilterResult is Error) {
       root.get()?.let {
-        Snackbar.make(it, categoriesFilterResult.message
-                ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(
+          it, categoriesFilterResult.message
+            ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG
+        ).show()
       }
     }
   }
 
   private fun observeSelectedCategory() {
-    buttonNext.setOnClickListener { showMessageSelectCategory() }
-    viewModel.selectedCategory.observe(this, Observer { selectedCategory ->
-      if (selectedCategory == null) {
-        buttonNext.setOnClickListener { showMessageSelectCategory() }
-        return@Observer
-      }
-      buttonNext.setOnClickListener {
+    buttonNext.setOnClickListener {
+      if (viewModel.selectedCategory == null) {
+        showSnackbar(
+          resources.getString(R.string.message_select_category),
+          it
+        )
+      } else {
         viewModel.goToNextStep(StepEnum.ADD_TASK)
       }
-    })
-  }
-
-  private fun showMessageSelectCategory() {
-    root.get()?.let {
-      Snackbar.make(it, resources.getString(R.string.message_select_category), Snackbar.LENGTH_LONG).show()
     }
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
   }
 }

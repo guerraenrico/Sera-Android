@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.widget
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -17,7 +16,8 @@ import kotlinx.android.synthetic.main.layout_message.view.*
  * Created by enrico
  * on 08/12/2018.
  */
-class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+class MessageLayout(context: Context, attributeSet: AttributeSet) :
+  FrameLayout(context, attributeSet) {
   private var backgroundRes: Drawable?
   private var _isShowing: Boolean = false
   val isShowing: Boolean
@@ -26,9 +26,9 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
   init {
     View.inflate(context, R.layout.layout_message, this)
     val attributes = context.theme.obtainStyledAttributes(
-            attributeSet,
-            R.styleable.MessageLayout,
-            0, 0
+      attributeSet,
+      R.styleable.MessageLayout,
+      0, 0
     )
     try {
       backgroundRes = attributes.getDrawable(R.styleable.MessageLayout_ml_background)
@@ -71,25 +71,29 @@ class MessageLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(
     _isShowing = true
     val animatorSet = AnimatorSet()
 
-    animatorSet.play(ObjectAnimator.ofFloat(imageMessage, View.ALPHA, 0.toFloat(), 1.toFloat()).setDuration(400))
-            .before(ObjectAnimator.ofFloat(textMessage, View.ALPHA, 0.toFloat(), 1.toFloat()).setDuration(400))
-            .before(ObjectAnimator.ofFloat(buttonMessage, View.ALPHA, 0.toFloat(), 1.toFloat()).setDuration(400))
+    animatorSet.play(
+      ObjectAnimator.ofFloat(
+        imageMessage,
+        View.ALPHA,
+        0.toFloat(),
+        1.toFloat()
+      ).setDuration(400)
+    )
+      .before(
+        ObjectAnimator.ofFloat(textMessage, View.ALPHA, 0.toFloat(), 1.toFloat()).setDuration(
+          400
+        )
+      )
+      .before(
+        ObjectAnimator.ofFloat(
+          buttonMessage,
+          View.ALPHA,
+          0.toFloat(),
+          1.toFloat()
+        ).setDuration(400)
+      )
 
     animatorSet.startDelay = 500
-
-    animatorSet.addListener(object : Animator.AnimatorListener {
-      override fun onAnimationRepeat(p0: Animator?) {
-      }
-
-      override fun onAnimationCancel(p0: Animator?) {
-      }
-
-      override fun onAnimationStart(p0: Animator?) {
-      }
-
-      override fun onAnimationEnd(p0: Animator?) {
-      }
-    })
     animatorSet.start()
   }
 

@@ -20,8 +20,5 @@ class SplashActivity : BaseActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_splash)
     viewModel = viewModelProvider(viewModelFactory)
-    initView()
   }
-
-  override fun initView() {}
 }

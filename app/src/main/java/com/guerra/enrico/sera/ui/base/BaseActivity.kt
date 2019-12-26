@@ -12,6 +12,7 @@ import dagger.android.support.DaggerAppCompatActivity
  * on 27/05/2018.
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
+  private var snackbar: Snackbar? = null
   private lateinit var overlayLoader: OverlayLoader
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,8 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
 
   fun showSnackbar(message: String) {
     if (isFinishing) return
-    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+    snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+    snackbar?.show()
   }
 
   fun showOverlayLoader() {
@@ -39,5 +41,13 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     overlayLoader.hide()
   }
 
-  abstract fun initView()
+  override fun onStop() {
+    snackbar?.let {
+      if (it.isShownOrQueued) {
+        it.dismiss()
+      }
+    }
+    snackbar = null
+    super.onStop()
+  }
 }

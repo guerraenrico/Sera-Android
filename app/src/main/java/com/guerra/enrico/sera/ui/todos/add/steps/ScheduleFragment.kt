@@ -20,7 +20,6 @@ import com.guerra.enrico.sera.data.Result
 import java.lang.ref.WeakReference
 import java.util.*
 
-
 /**
  * Created by enrico
  * on 21/10/2018.
@@ -34,7 +33,11 @@ class ScheduleFragment : BaseFragment() {
 
   private var selectedDate = Date()
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     val view = inflater.inflate(R.layout.fragment_todo_add_schedule, container, false)
     root = WeakReference(view)
     return view
@@ -55,13 +58,20 @@ class ScheduleFragment : BaseFragment() {
   private fun observeCreateTask() {
     viewModel.createdTaskResult.observe(this, androidx.lifecycle.Observer { result ->
       if (result == null) return@Observer
+      if (result is Result.Loading) {
+        showOverlayLoader()
+        return@Observer
+      }
+      hideOverlayLoader()
       if (result.succeeded) {
         viewModel.goToNextStep(StepEnum.DONE)
       }
       if (result is Result.Error) {
         root.get()?.let {
-          Snackbar.make(it, result.exception.message
-                  ?: "An error occur while creating the task", Snackbar.LENGTH_LONG).show()
+          showSnackbar(
+            result.exception.message
+              ?: "An error occur while creating the task", it
+          )
         }
 
       }
@@ -74,16 +84,17 @@ class ScheduleFragment : BaseFragment() {
     val month = today.get(Calendar.MONTH)
     val day = today.get(Calendar.DAY_OF_MONTH)
     val mContext = context ?: return
-    val datePickerDialog = DatePickerDialog(mContext, OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
-      val calendar = Calendar.getInstance()
-      calendar.set(Calendar.YEAR, selectedYear)
-      calendar.set(Calendar.MONTH, selectedMonth)
-      calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
-      val myFormat = "MM/dd/yyyy"
-      val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
-      scheduleDate.setText(sdf.format(calendar.time))
-      selectedDate = calendar.time
-    }, year, month, day)
+    val datePickerDialog =
+      DatePickerDialog(mContext, OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, selectedYear)
+        calendar.set(Calendar.MONTH, selectedMonth)
+        calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+        val myFormat = "MM/dd/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
+        scheduleDate.setText(sdf.format(calendar.time))
+        selectedDate = calendar.time
+      }, year, month, day)
     datePickerDialog.show()
   }
 }

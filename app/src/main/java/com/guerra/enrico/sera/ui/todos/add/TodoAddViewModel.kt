@@ -48,8 +48,8 @@ class TodoAddViewModel @Inject constructor(
     get() = _createTaskResult
 
   private val _selectedCategory = MediatorLiveData<Category>()
-  val selectedCategory: LiveData<Category>
-    get() = _selectedCategory
+  val selectedCategory: Category?
+    get() = _selectedCategory.value
 
   private var task = Task()
 
@@ -100,7 +100,7 @@ class TodoAddViewModel @Inject constructor(
   }
 
   fun onSetTaskInfo(title: String, description: String = ""): Boolean {
-    val category = selectedCategory.value ?: return false
+    val category = selectedCategory ?: return false
     task = task.copy(categories = listOf(category), title = title, description = description)
     return true
   }
@@ -115,10 +115,10 @@ class TodoAddViewModel @Inject constructor(
   }
 
   fun goToNextStep(stepEnum: StepEnum) {
-    _currentStep.postValue(stepEnum)
+    _currentStep.value = stepEnum
   }
 
   private fun toggleSelectedCategory(categoryFilter: CategoryFilter, checked: Boolean) {
-    _selectedCategory.postValue(if (checked) categoryFilter.category else null)
+    _selectedCategory.value = (if (checked) categoryFilter.category else null)
   }
 }

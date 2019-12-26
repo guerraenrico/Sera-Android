@@ -35,7 +35,7 @@ class TodoAddActivity : BaseActivity() {
     initView()
   }
 
-  override fun initView() {
+  private fun initView() {
     viewModel.currentStep.observe(this, Observer { step ->
       when (step) {
         StepEnum.SELECT -> goTo(R.id.step_select)

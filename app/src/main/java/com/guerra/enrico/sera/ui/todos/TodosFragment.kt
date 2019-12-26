@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.toolbar_search.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.util.closeKeyboard
@@ -37,24 +38,14 @@ class TodosFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodosViewModel
 
+  private lateinit var root: WeakReference<View>
+
   private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
 
   /**
    * Callback fired when the back button is pressed; the bottom sheet is closed if it's open
    */
-  private val onBackPressedCallback by lazy {
-    requireActivity().onBackPressedDispatcher.addCallback(this) {
-      filtersBottomSheetBehavior.get()?.let {
-        if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
-          if (it.isHideable && it.skipCollapsed) {
-            it.state = BottomSheetBehavior.STATE_HIDDEN
-          } else {
-            it.state = BottomSheetBehavior.STATE_COLLAPSED
-          }
-        }
-      }
-    }
-  }
+  private lateinit var onBackPressedCallback: OnBackPressedCallback
 
   /**
    * Callback fired when the state of the bottom sheet change; when the bottom sheet opens
@@ -73,7 +64,9 @@ class TodosFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return inflater.inflate(R.layout.fragment_todos, container, false)
+    val view = inflater.inflate(R.layout.fragment_todos, container, false)
+    root = WeakReference(view)
+    return view
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,6 +79,17 @@ class TodosFragment : BaseFragment() {
     toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
       WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet)))
+    onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+      filtersBottomSheetBehavior.get()?.let {
+        if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
+          if (it.isHideable && it.skipCollapsed) {
+            it.state = BottomSheetBehavior.STATE_HIDDEN
+          } else {
+            it.state = BottomSheetBehavior.STATE_COLLAPSED
+          }
+        }
+      }
+    }
 
     setupFiltersBottomSheet()
     setupRecyclerView()

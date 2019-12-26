@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.succeeded
@@ -44,30 +43,30 @@ class AddCategoryFragment : BaseFragment() {
     observeCreateCategory()
     buttonAdd.setOnClickListener {
       if (categoryName.text.isNullOrEmpty()) {
-        root.get()?.let {
-          Snackbar.make(
-            it,
-            resources.getString(R.string.message_insert_task_title),
-            Snackbar.LENGTH_LONG
-          ).show()
-        }
+        showSnackbar(resources.getString(R.string.message_insert_task_title), it)
+      } else {
+        viewModel.onAddCategory(categoryName.text.toString())
       }
-      viewModel.onAddCategory(categoryName.text.toString())
     }
   }
 
   private fun observeCreateCategory() {
     viewModel.createdCategoryResult.observe(this, Observer { result ->
       if (result == null) return@Observer
+      if (result is Result.Loading) {
+        showOverlayLoader()
+        return@Observer
+      }
+      hideOverlayLoader()
       if (result.succeeded) {
         viewModel.goToNextStep(StepEnum.ADD_TASK)
       }
       if (result is Result.Error) {
         root.get()?.let {
-          Snackbar.make(
-            it, result.exception.message
-              ?: "An error occur while creating the category", Snackbar.LENGTH_LONG
-          ).show()
+          showSnackbar(
+            result.exception.message
+              ?: "An error occur while creating the category", it
+          )
         }
       }
     })

@@ -20,34 +20,31 @@ import javax.inject.Inject
  * on 19/10/2018.
  */
 class AddTaskFragment : BaseFragment() {
-  private lateinit var root: WeakReference<View>
-
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   lateinit var viewModel: TodoAddViewModel
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    val view = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
-    root = WeakReference(view)
-    return view
-  }
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     viewModel = activityViewModelProvider(viewModelFactory)
 
-    viewModel.selectedCategory.observe(this, Observer { selectedCategory ->
-      if (selectedCategory == null) {
-        viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)
-        return@Observer
-      }
-      subTitleAddTask.text = String.format(resources.getString(R.string.subtitle_add_task), selectedCategory.name)
-    })
+    val selectedCategory = viewModel.selectedCategory
+    if (selectedCategory == null) {
+      viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)
+      return
+    }
+    subTitleAddTask.text =
+      String.format(resources.getString(R.string.subtitle_add_task), selectedCategory.name)
+
     buttonSchedule.setOnClickListener {
       if (taskTitle.text.isNullOrEmpty()) {
-        root.get()?.let {
-          Snackbar.make(it, resources.getString(R.string.message_insert_task_title), Snackbar.LENGTH_LONG).show()
-        }
+        showSnackbar(resources.getString(R.string.message_insert_task_title), it)
       }
       if (viewModel.onSetTaskInfo(taskTitle.text.toString(), taskDescription.text.toString())) {
         viewModel.goToNextStep(StepEnum.SCHEDULE)

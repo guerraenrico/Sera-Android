@@ -23,6 +23,4 @@ class LoginActivity : BaseActivity() {
 
     viewModel = viewModelProvider(viewModelFactory)
   }
-
-  override fun initView() {}
 }
