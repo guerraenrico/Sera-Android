@@ -21,5 +21,6 @@ class MainActivity : AppCompatActivity() {
   private fun setupBottomNavigationBar() {
     val navController = Navigation.findNavController(this, R.id.mainFragmentHost)
     bottomNavigation.setupWithNavController(navController = navController)
+    bottomNavigation.setOnNavigationItemReselectedListener { /*Disable default behavior */ }
   }
 }
