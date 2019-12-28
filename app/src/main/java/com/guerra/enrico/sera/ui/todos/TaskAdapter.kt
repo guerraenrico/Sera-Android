@@ -17,6 +17,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import kotlinx.android.synthetic.main.item_task.view.*
+import kotlin.math.exp
 
 /**
  * Created by enrico
@@ -48,9 +49,6 @@ class TaskAdapter(
 }
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  private val toggleExpandTransition: Transition = TransitionInflater.from(itemView.context)
-    .inflateTransition(R.transition.task_card_toogle_expand)
-
   @SuppressLint("RestrictedApi")
   fun bind(
     taskView: TaskView,
@@ -72,17 +70,11 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       setViewColors(resources, taskView.task.completed, taskTitle, taskDate, taskDescription)
       buttonComplete.isChecked = taskView.task.completed
 
-      toggleExpand(containerTaskItem, contentTaskDescription, taskView.expanded)
+      contentTaskDescription.visibility = if (taskView.expanded) View.VISIBLE else View.GONE
 
       buttonComplete.setOnClickListener { onCompleteClick(taskView.task, position) }
       contentTaskTitle.setOnClickListener { onExpandClick(taskView.task) }
     }
-
-  private fun toggleExpand(viewToExpand: ViewGroup, viewToShow: ViewGroup, expanded: Boolean) {
-    toggleExpandTransition.duration = if (expanded) 300L else 200L
-    TransitionManager.beginDelayedTransition(viewToExpand, toggleExpandTransition)
-    viewToShow.visibility = if (expanded) View.VISIBLE else View.GONE
-  }
 
   private fun setViewColors(
     resources: Resources,
