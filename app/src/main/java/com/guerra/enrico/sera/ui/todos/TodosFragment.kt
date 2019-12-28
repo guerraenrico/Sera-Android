@@ -27,6 +27,7 @@ import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import java.lang.ref.WeakReference
 
 /**
@@ -95,7 +96,7 @@ class TodosFragment : BaseFragment() {
     setupRecyclerView()
     setupSearch()
 
-    viewModel.tasksResult.observe(this@TodosFragment, Observer { processTaskList(it) })
+    viewModel.tasksViewResult.observe(this@TodosFragment, Observer { processTaskList(it) })
     viewModel.categories.observe(this@TodosFragment, Observer { categories ->
       if (categories == null) return@Observer
       context?.let { context ->
@@ -112,11 +113,8 @@ class TodosFragment : BaseFragment() {
   /**
    * Manage read task result
    */
-  private fun processTaskList(tasksResult: Result<List<Task>>?) {
-    if (tasksResult === null) {
-      return
-    }
-    if (tasksResult is Result.Loading) {
+  private fun processTaskList(tasksResult: Result<List<TaskView>>?) {
+    if (tasksResult == null || tasksResult is Result.Loading) {
       return
     }
     messageLayout.hide()
@@ -143,9 +141,9 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    val tasksAdapter = TaskAdapter { task, _ ->
+    val tasksAdapter = TaskAdapter({ task, _ ->
       viewModel.onToggleTaskComplete(task)
-    }
+    }, { task -> viewModel.onToggleTaskExpand(task) })
 
     refreshLayoutTasks.setOnRefreshListener {
       viewModel.onReloadTasks()
@@ -172,7 +170,7 @@ class TodosFragment : BaseFragment() {
    * Show tasks into the recycler view
    * @param tasks task's list to show
    */
-  private fun setRecyclerTaskList(tasks: List<Task>) {
+  private fun setRecyclerTaskList(tasks: List<TaskView>) {
     val filterAdapter: TaskAdapter
     if (recyclerViewTasks.adapter != null) {
       filterAdapter = recyclerViewTasks.adapter as TaskAdapter
