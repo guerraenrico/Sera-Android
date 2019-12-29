@@ -69,7 +69,7 @@ class TodosViewModelTests {
     val liveDataTasks = viewModel.tasksResult.testObserver()
     val liveDataCategories = viewModel.categories.testObserver()
     val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
-    viewModel.onReloadTasks()
+    viewModel.onRefreshData()
     Assert.assertEquals(
             listOf(tasksResultSuccess), liveDataTasks.observedValues
     )
@@ -84,7 +84,7 @@ class TodosViewModelTests {
     val liveDataTasks = viewModel.tasksResult.testObserver()
     val liveDataCategories = viewModel.categories.testObserver()
     val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
-    viewModel.onReloadTasks()
+    viewModel.onRefreshData()
     Assert.assertEquals(
             listOf(tasksResultSuccess), liveDataTasks.observedValues
     )

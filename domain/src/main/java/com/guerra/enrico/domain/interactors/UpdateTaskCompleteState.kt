@@ -12,10 +12,11 @@ import javax.inject.Inject
  * on 12/11/2019.
  */
 class UpdateTaskCompleteState @Inject constructor(
-        private val authRepository: AuthRepository,
-        private val taskRepository: TaskRepository
+  private val authRepository: AuthRepository,
+  private val taskRepository: TaskRepository
 ) : Interactor<Task, Result<Task>>() {
-  override suspend fun doWork(params: Task): Result<Task> = authRepository.refreshTokenIfNotAuthorized{
-    taskRepository.toggleCompleteTask(params)
-  }
+  override suspend fun doWork(params: Task): Result<Task> =
+    authRepository.refreshTokenIfNotAuthorized({
+      taskRepository.toggleCompleteTask(params)
+    }).first()
 }

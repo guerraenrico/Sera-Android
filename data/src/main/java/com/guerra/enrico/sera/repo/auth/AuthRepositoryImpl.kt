@@ -11,6 +11,9 @@ import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
 import com.guerra.enrico.sera.data.succeeded
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**
@@ -18,9 +21,9 @@ import javax.inject.Inject
  * on 14/10/2018.
  */
 class AuthRepositoryImpl @Inject constructor(
-        private val context: Context,
-        private val remoteDataManager: RemoteDataManager,
-        private val localDbManager: LocalDbManager
+  private val context: Context,
+  private val remoteDataManager: RemoteDataManager,
+  private val localDbManager: LocalDbManager
 ) : AuthRepository {
 
   // Sign in
@@ -30,7 +33,10 @@ class AuthRepositoryImpl @Inject constructor(
     return when (apiResult) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.saveSession(apiResult.apiResponse.data.user.id, apiResult.apiResponse.data.accessToken)
+          localDbManager.saveSession(
+            apiResult.apiResponse.data.user.id,
+            apiResult.apiResponse.data.accessToken
+          )
           localDbManager.saveUser(apiResult.apiResponse.data.user)
           Result.Success(apiResult.apiResponse.data.user)
         } else {
@@ -53,7 +59,10 @@ class AuthRepositoryImpl @Inject constructor(
     return when (apiResult) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.saveSession(apiResult.apiResponse.data.user.id, apiResult.apiResponse.data.accessToken)
+          localDbManager.saveSession(
+            apiResult.apiResponse.data.user.id,
+            apiResult.apiResponse.data.accessToken
+          )
           localDbManager.saveUser(apiResult.apiResponse.data.user)
           Result.Success(apiResult.apiResponse.data.user)
         } else {
@@ -75,7 +84,10 @@ class AuthRepositoryImpl @Inject constructor(
     return when (apiResult) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.saveSession(apiResult.apiResponse.data.userId, apiResult.apiResponse.data.accessToken)
+          localDbManager.saveSession(
+            apiResult.apiResponse.data.userId,
+            apiResult.apiResponse.data.accessToken
+          )
           Result.Success(Unit)
         } else {
           Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
@@ -87,7 +99,15 @@ class AuthRepositoryImpl @Inject constructor(
     }.exhaustive
   }
 
-  override suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {
+  override suspend fun <T> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>> =
+    coroutineScope {
+     val results = blocks.map { block ->
+        async { executeAndRefreshIfNeeded(block) }
+      }
+      return@coroutineScope results.map { it.await() }
+    }
+
+  private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>) : Result<T> {
     val result = block()
     if (result is Result.Error && result.exception is RemoteException) {
       if (result.exception.isExpiredSession()) {

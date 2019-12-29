@@ -11,17 +11,14 @@ import javax.inject.Inject
  * on 10/11/2019.
  */
 class SyncTasksAndCategories @Inject constructor(
-        private val authRepository: AuthRepository,
-        private val tasksRepository: TaskRepository,
-        private val categoryRepository: CategoryRepository
+  private val authRepository: AuthRepository,
+  private val tasksRepository: TaskRepository,
+  private val categoryRepository: CategoryRepository
 ) : Interactor<Unit, Unit>() {
   override suspend fun doWork(params: Unit) {
-    // TODO: find better solution
-    authRepository.refreshTokenIfNotAuthorized {
-      tasksRepository.fetchAndSaveAllTasks()
-    }
-    authRepository.refreshTokenIfNotAuthorized {
-      categoryRepository.fetchAndSaveAllCategories()
-    }
+    authRepository.refreshTokenIfNotAuthorized(
+      { tasksRepository.fetchAndSaveAllTasks() },
+      { categoryRepository.fetchAndSaveAllCategories() }
+    )
   }
 }

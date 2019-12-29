@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
-import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todos.*
@@ -133,7 +132,7 @@ class TodosFragment : BaseFragment() {
         setImage(messageResources.icon)
         setMessage(messageResources.message)
         setButton(resources.getString(R.string.message_layout_button_try_again)) {
-          viewModel.onReloadTasks()
+          viewModel.onRefreshData()
         }
         show()
       }
@@ -146,7 +145,7 @@ class TodosFragment : BaseFragment() {
     }, { task -> viewModel.onToggleTaskExpand(task) })
 
     refreshLayoutTasks.setOnRefreshListener {
-      viewModel.onReloadTasks()
+      viewModel.onRefreshData()
     }
 
     context?.let { context ->

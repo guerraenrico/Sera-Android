@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
+import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
@@ -27,7 +28,8 @@ class TodosViewModel @Inject constructor(
   private val dispatchers: CoroutineContextProvider,
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
-  private val updateTaskCompleteState: UpdateTaskCompleteState
+  private val updateTaskCompleteState: UpdateTaskCompleteState,
+  private val syncTasksAndCategories: SyncTasksAndCategories
 ) : BaseViewModel() {
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
@@ -37,7 +39,7 @@ class TodosViewModel @Inject constructor(
     .map { Result.Success(it) }
     .asLiveData(dispatchers.io())
 
-  private val tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
+  private var tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
     .onStart { Result.Loading }
     .map { Result.Success(it) }
     .asLiveData(dispatchers.io())
@@ -84,8 +86,10 @@ class TodosViewModel @Inject constructor(
   /**
    * Reload tasksResult
    */
-  fun onReloadTasks() {
-    observeTasks(ObserveTasks.Params(text = searchText, category = searchSelectedCategory))
+  fun onRefreshData() {
+    viewModelScope.launch(dispatchers.io()) {
+      syncTasksAndCategories.execute(Unit)
+    }
   }
 
   /**

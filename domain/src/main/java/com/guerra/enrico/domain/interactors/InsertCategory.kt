@@ -12,11 +12,11 @@ import javax.inject.Inject
  * on 12/11/2019.
  */
 class InsertCategory @Inject constructor(
-        private val authRepository: AuthRepository,
-        private val categoryRepository: CategoryRepository
+  private val authRepository: AuthRepository,
+  private val categoryRepository: CategoryRepository
 ) : Interactor<Category, Result<Category>>() {
-
-  override suspend fun doWork(params: Category): Result<Category> = authRepository.refreshTokenIfNotAuthorized {
-    categoryRepository.insertCategory(params)
-  }
+  override suspend fun doWork(params: Category): Result<Category> =
+    authRepository.refreshTokenIfNotAuthorized({
+      categoryRepository.insertCategory(params)
+    }).first()
 }

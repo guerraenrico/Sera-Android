@@ -11,13 +11,13 @@ import javax.inject.Inject
  * on 12/11/2019.
  */
 class ValidateToken @Inject constructor(
-        private val authRepository: AuthRepository,
-        private val syncTasksAndCategories: SyncTasksAndCategories
+  private val authRepository: AuthRepository,
+  private val syncTasksAndCategories: SyncTasksAndCategories
 ) : Interactor<Unit, Result<User>>() {
   override suspend fun doWork(params: Unit): Result<User> {
-    val result = authRepository.refreshTokenIfNotAuthorized {
+    val result = authRepository.refreshTokenIfNotAuthorized({
       authRepository.validateAccessToken()
-    }
+    }).first()
     if (result is Result.Success) {
       syncTasksAndCategories.execute(Unit)
     }
