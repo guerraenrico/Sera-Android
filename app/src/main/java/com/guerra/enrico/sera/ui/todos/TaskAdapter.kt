@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
@@ -26,25 +27,14 @@ import kotlin.math.exp
 class TaskAdapter(
   private val onCompleteClick: (Task, Int) -> Unit,
   private val onExpandClick: (Task) -> Unit
-) :
-  RecyclerView.Adapter<TaskViewHolder>() {
-  private var tasks = mutableListOf<TaskView>()
-
-  fun updateList(list: List<TaskView>) {
-    val diffRes = DiffUtil.calculateDiff(TasksDiffCallback(tasks, list))
-    tasks = list.toMutableList()
-    diffRes.dispatchUpdatesTo(this)
-  }
-
+) : ListAdapter<TaskView, TaskViewHolder>(TaskDiff) {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
     return TaskViewHolder(itemView)
   }
 
-  override fun getItemCount(): Int = tasks.size
-
   override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-    holder.bind(tasks[position], position, onCompleteClick, onExpandClick)
+    holder.bind(getItem(position), position, onCompleteClick, onExpandClick)
   }
 }
 
@@ -93,20 +83,10 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   }
 }
 
-class TasksDiffCallback(
-  private val oldList: List<TaskView>,
-  private val newList: List<TaskView>
-) : DiffUtil.Callback() {
-  override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-    oldList[oldItemPosition].task.id == newList[newItemPosition].task.id
+object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
+  override fun areItemsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
+    oldItem.task.id == newItem.task.id
 
-  override fun getOldListSize(): Int = oldList.size
-
-  override fun getNewListSize(): Int = newList.size
-
-  override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-    val oldTask = oldList[oldItemPosition]
-    val newTask = newList[newItemPosition]
-    return oldTask.task.completed == newTask.task.completed && oldTask.expanded == newTask.expanded
-  }
+  override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
+    oldItem.task.completed == newItem.task.completed && oldItem.expanded == newItem.expanded
 }

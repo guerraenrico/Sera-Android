@@ -173,7 +173,7 @@ class TodosFragment : BaseFragment() {
     val filterAdapter: TaskAdapter
     if (recyclerViewTasks.adapter != null) {
       filterAdapter = recyclerViewTasks.adapter as TaskAdapter
-      filterAdapter.updateList(tasks)
+      filterAdapter.submitList(tasks)
     }
   }
 
