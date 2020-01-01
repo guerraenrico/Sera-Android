@@ -140,11 +140,15 @@
         <item name="rippleColor">@color/color_text_third</item>
     </style>
 
-    <!-- Category -->
-    <style name="CategoryText">
+    <!-- Category Chip -->
+    <style name="CategoryChipText">
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textSize">@dimen/category_item_text_size</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="CategoryChipText.Small" parent="CategoryChipText">em>
+        <item name="android:textSize">@dimen/category_item_text_size_small</item>
     </style>
 
 </resources>

@@ -27,8 +27,8 @@
             android:layout_marginEnd="@dimen/margin_m"
             android:layout_marginBottom="@dimen/margin_s"
             android:textColor="@color/task_list_item_color_active"
-            app:layout_constraintBottom_toTopOf="@+id/taskDate"
-            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"
+            app:layout_constraintBottom_toTopOf="@id/taskDate"
+            app:layout_constraintEnd_toStartOf="@id/buttonComplete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,10 +42,10 @@
             android:layout_marginBottom="@dimen/margin_m"
             android:textColor="@color/task_list_item_color_active"
             android:textSize="@dimen/item_list_description_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonComplete"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewCategories"
+            app:layout_constraintEnd_toStartOf="@id/buttonComplete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskTitle" />
+            app:layout_constraintTop_toBottomOf="@id/taskTitle" />
 
         <com.google.android.material.internal.CheckableImageButton
             android:id="@+id/buttonComplete"
@@ -53,10 +53,23 @@
             android:layout_height="@dimen/complete_task_size"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/as_ic_task_complete"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewCategories"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/taskTitle"
+            app:layout_constraintStart_toEndOf="@id/taskTitle"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCategories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="false"
+            app:layout_constraintTop_toBottomOf="@id/taskDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

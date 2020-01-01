@@ -12,8 +12,8 @@ import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
-import com.guerra.enrico.sera.ui.todos.CategoryFilter
-import com.guerra.enrico.sera.ui.todos.CategoryFilterAdapter
+import com.guerra.enrico.sera.ui.todos.entities.CategoryView
+import com.guerra.enrico.sera.ui.todos.CategoryAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 import com.guerra.enrico.sera.data.Result
@@ -46,7 +46,7 @@ class SelectCategoryFragment : BaseFragment() {
     viewModel = activityViewModelProvider(viewModelFactory)
 
     val gridLayoutManager = GridLayoutManager(context, 2)
-    val filterAdapter = CategoryFilterAdapter { categoryFilter ->
+    val filterAdapter = CategoryAdapter { categoryFilter ->
       val checked = !categoryFilter.isChecked
       viewModel.toggleCategory(categoryFilter, checked)
     }
@@ -61,29 +61,29 @@ class SelectCategoryFragment : BaseFragment() {
         )
       )
     }
-    viewModel.categoriesFilterResult.apply {
+    viewModel.categoriesViewResult.apply {
       this.observe(this@SelectCategoryFragment, Observer { processCategoryListResponse(it) })
     }
   }
 
-  private fun processCategoryListResponse(categoriesFilterResult: Result<List<CategoryFilter>>?) {
-    if (categoriesFilterResult == null) {
+  private fun processCategoryListResponse(categoriesViewResult: Result<List<CategoryView>>?) {
+    if (categoriesViewResult == null) {
       return
     }
-    if (categoriesFilterResult is Result.Loading) {
+    if (categoriesViewResult is Result.Loading) {
       showOverlayLoader()
       return
     }
     hideOverlayLoader()
-    if (categoriesFilterResult is Result.Success) {
-      (recyclerViewCategories.adapter as CategoryFilterAdapter).updateList(categoriesFilterResult.data)
+    if (categoriesViewResult is Result.Success) {
+      (recyclerViewCategories.adapter as CategoryAdapter).submitList(categoriesViewResult.data)
       observeSelectedCategory()
       return
     }
-    if (categoriesFilterResult is Error) {
+    if (categoriesViewResult is Error) {
       root.get()?.let {
         Snackbar.make(
-          it, categoriesFilterResult.message
+          it, categoriesViewResult.message
             ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG
         ).show()
       }

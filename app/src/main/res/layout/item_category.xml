@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/labelCategoryName"
-        style="@style/CategoryText"
+        style="@style/CategoryChipText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/item_category_text" />

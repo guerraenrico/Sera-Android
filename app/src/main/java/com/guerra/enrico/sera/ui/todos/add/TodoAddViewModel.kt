@@ -12,7 +12,7 @@ import com.guerra.enrico.domain.interactors.InsertCategory
 import com.guerra.enrico.domain.interactors.InsertTask
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import com.guerra.enrico.sera.ui.todos.CategoryFilter
+import com.guerra.enrico.sera.ui.todos.entities.CategoryView
 import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -35,8 +35,8 @@ class TodoAddViewModel @Inject constructor(
           .map { Result.Success(it) }
           .asLiveData(dispatchers.io())
 
-  private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryFilter>>>()
-  val categoriesFilterResult: LiveData<Result<List<CategoryFilter>>>
+  private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryView>>>()
+  val categoriesViewResult: LiveData<Result<List<CategoryView>>>
     get() = _categoriesFilterResult
 
   private val _createCategoryResult: MediatorLiveData<Result<Category>> = MediatorLiveData()
@@ -63,7 +63,11 @@ class TodoAddViewModel @Inject constructor(
         _categoriesFilterResult.postValue(result)
       }
       if (result is Result.Success) {
-        _categoriesFilterResult.postValue(Result.Success(result.data.map { CategoryFilter(it) }))
+        _categoriesFilterResult.postValue(Result.Success(result.data.map {
+          CategoryView(
+            it
+          )
+        }))
       }
       if (result is Result.Error) {
         _categoriesFilterResult.postValue(result)
@@ -74,7 +78,10 @@ class TodoAddViewModel @Inject constructor(
       val categoriesResult = _categoriesFilterResult.value
       if (categoriesResult is Result.Success) {
         _categoriesFilterResult.postValue(Result.Success(categoriesResult.data.map { categoryFilter ->
-          return@map CategoryFilter(categoryFilter.category, categoryFilter.category.id == category.id)
+          return@map CategoryView(
+            categoryFilter.category,
+            categoryFilter.category.id == category.id
+          )
         }))
       }
     }
@@ -83,8 +90,8 @@ class TodoAddViewModel @Inject constructor(
     observeCategories(Unit)
   }
 
-  fun toggleCategory(categoryFilter: CategoryFilter, checked: Boolean) {
-    toggleSelectedCategory(categoryFilter, checked)
+  fun toggleCategory(categoryView: CategoryView, checked: Boolean) {
+    toggleSelectedCategory(categoryView, checked)
   }
 
   fun onAddCategory(name: String) {
@@ -118,7 +125,7 @@ class TodoAddViewModel @Inject constructor(
     _currentStep.value = stepEnum
   }
 
-  private fun toggleSelectedCategory(categoryFilter: CategoryFilter, checked: Boolean) {
-    _selectedCategory.value = (if (checked) categoryFilter.category else null)
+  private fun toggleSelectedCategory(categoryView: CategoryView, checked: Boolean) {
+    _selectedCategory.value = (if (checked) categoryView.category else null)
   }
 }

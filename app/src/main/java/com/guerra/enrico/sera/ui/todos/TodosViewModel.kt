@@ -15,6 +15,7 @@ import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.entities.tasksToModelForView
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -67,12 +68,7 @@ class TodosViewModel @Inject constructor(
 
     _tasksViewResult.addSource(tasksResult) { result ->
       _tasksViewResult.value = when (result) {
-        is Result.Success -> Result.Success(result.data.map {
-          TaskView(
-            task = it,
-            expanded = false
-          )
-        })
+        is Result.Success -> Result.Success(tasksToModelForView(result.data))
         is Result.Loading -> Result.Loading
         is Result.Error -> Result.Error(result.exception)
       }
@@ -120,7 +116,7 @@ class TodosViewModel @Inject constructor(
     val currentTasksResult = _tasksViewResult.value ?: return
     if (currentTasksResult is Result.Success) {
       _tasksViewResult.value =
-        Result.Success(currentTasksResult.data.map { it.copy(expanded = it.task.id == task.id && !it.expanded) })
+        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
     }
   }
 

@@ -8,17 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.transition.Transition
-import androidx.transition.TransitionInflater
-import androidx.transition.TransitionManager
 import com.guerra.enrico.base.util.toDateString
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.entities.categoriesToModelForView
+import com.guerra.enrico.sera.widget.HorizontalSpacingItemDecoration
 import kotlinx.android.synthetic.main.item_task.view.*
-import kotlin.math.exp
 
 /**
  * Created by enrico
@@ -60,10 +59,20 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       setViewColors(resources, taskView.task.completed, taskTitle, taskDate, taskDescription)
       buttonComplete.isChecked = taskView.task.completed
 
-      contentTaskDescription.visibility = if (taskView.expanded) View.VISIBLE else View.GONE
+      contentTaskDescription.visibility = if (taskView.isExpanded) View.VISIBLE else View.GONE
 
       buttonComplete.setOnClickListener { onCompleteClick(taskView.task, position) }
       contentTaskTitle.setOnClickListener { onExpandClick(taskView.task) }
+
+      val adapter = CategoryAdapter(ViewSize.SMALL) {}.apply {
+        submitList(categoriesToModelForView(taskView.task.categories))
+      }
+      recyclerViewCategories.apply {
+        recycledViewPool.putRecycledView(CategoryViewHolder(itemView))
+        if (itemDecorationCount == 0) addItemDecoration(HorizontalSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.item_list_spacing_small)))
+        this.adapter = adapter
+      }
+      ViewCompat.setImportantForAccessibility(recyclerViewCategories, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)
     }
 
   private fun setViewColors(
@@ -83,10 +92,10 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   }
 }
 
-object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
+internal object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
   override fun areItemsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
     oldItem.task.id == newItem.task.id
 
   override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
-    oldItem.task.completed == newItem.task.completed && oldItem.expanded == newItem.expanded
+    oldItem.task.completed == newItem.task.completed && oldItem.isExpanded == newItem.isExpanded
 }
