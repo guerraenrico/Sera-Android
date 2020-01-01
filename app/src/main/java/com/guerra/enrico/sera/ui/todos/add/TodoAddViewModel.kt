@@ -47,7 +47,7 @@ class TodoAddViewModel @Inject constructor(
   val createdTaskResult: LiveData<Result<Task>>
     get() = _createTaskResult
 
-  private val _selectedCategory = MediatorLiveData<Category>()
+  private val _selectedCategory = MediatorLiveData<Category?>()
   val selectedCategory: Category?
     get() = _selectedCategory.value
 
@@ -80,7 +80,7 @@ class TodoAddViewModel @Inject constructor(
         _categoriesFilterResult.postValue(Result.Success(categoriesResult.data.map { categoryFilter ->
           return@map CategoryView(
             categoryFilter.category,
-            categoryFilter.category.id == category.id
+            categoryFilter.category.id == category?.id
           )
         }))
       }
