@@ -1,0 +1,46 @@
+package com.guerra.enrico.sera.ui.todos.adapter
+
+import android.graphics.Paint
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.databinding.BindingAdapter
+import com.guerra.enrico.base.util.toDateString
+import com.guerra.enrico.sera.R
+import java.util.*
+
+/**
+ * Created by enrico
+ * on 04/01/2020.
+ */
+
+@BindingAdapter(
+  "date",
+  requireAll = true
+)
+fun setDate(
+  textView: AppCompatTextView,
+  previousDate: Date?,
+  newDate: Date
+) {
+  if (newDate != previousDate) {
+    with(textView) {
+      text = String.format(
+        resources.getString(R.string.label_todo_within),
+        newDate.toDateString()
+      )
+    }
+  }
+}
+
+//@BindingAdapter("completeTextStyle", requireAll = true)
+//fun applyCompleTextStyle(
+//  textView: AppCompatTextView,
+//  previousCompleted: Boolean?,
+//  newCompleted: Boolean
+//) {
+//  if (previousCompleted != newCompleted) {
+//    with(textView) {
+//      paintFlags =
+//        if (newCompleted) Paint.STRIKE_THRU_TEXT_FLAG else 0
+//    }
+//  }
+//}

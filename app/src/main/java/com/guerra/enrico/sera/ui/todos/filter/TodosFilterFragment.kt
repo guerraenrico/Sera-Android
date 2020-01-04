@@ -23,7 +23,7 @@ class TodosFilterFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: TodosViewModel
   private val behavior by lazy {
-    WeakReference(BottomSheetBehavior.from(filtersSheet))
+    WeakReference(BottomSheetBehavior.from(filters_bottom_sheet))
   }
 
   override fun onCreateView(

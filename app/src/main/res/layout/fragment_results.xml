@@ -23,7 +23,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.guerra.enrico.sera.widget.MessageLayout
-            android:id="@+id/messageLayout"
+            android:id="@+id/message_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

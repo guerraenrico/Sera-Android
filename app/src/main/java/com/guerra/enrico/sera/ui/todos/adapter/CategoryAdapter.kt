@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.todos
+package com.guerra.enrico.sera.ui.todos.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +21,9 @@ enum class ViewSize {
 class CategoryAdapter(
   private val viewSize: ViewSize = ViewSize.NORMAL,
   private val onCategoryClick: (CategoryView) -> Unit
-) : ListAdapter<CategoryView, CategoryViewHolder>(CategoryDiff) {
+) : ListAdapter<CategoryView, CategoryViewHolder>(
+  CategoryDiff
+) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
     val itemView =
@@ -35,7 +37,7 @@ class CategoryAdapter(
 
   private fun getLayout(viewSize: ViewSize): Int = when (viewSize) {
     ViewSize.NORMAL -> R.layout.item_category
-    ViewSize.SMALL -> R.layout.item_category_small
+    ViewSize.SMALL -> R.layout.item_simple_category
   }
 }
 
@@ -43,15 +45,14 @@ class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   fun bind(categoryView: CategoryView, onClick: (CategoryView) -> Unit) = with(itemView) {
     labelCategoryName.text = categoryView.category.name
     labelCategoryName.isSelected = categoryView.isChecked
-    contentCategory.isSelected = categoryView.isChecked
-    contentCategory.setOnClickListener { onClick.invoke(categoryView) }
+    labelCategoryName.setOnClickListener { onClick(categoryView) }
   }
 }
 
 object CategoryDiff : DiffUtil.ItemCallback<CategoryView>() {
   override fun areItemsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean =
-    oldItem.category.id == newItem.category.id
+    oldItem == newItem
 
   override fun areContentsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean =
-    oldItem.isChecked == newItem.isChecked
+    oldItem == newItem
 }

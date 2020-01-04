@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
-    style="@style/ToolbarSearch"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:minHeight="?attr/actionBarSize"
-    app:menu="@menu/todos">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <AutoCompleteTextView
-        android:id="@+id/toolbarEditTextSearch"
-        style="@style/SearchTextInput"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:completionThreshold="1"
-        android:hint="@string/label_search"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:maxLines="1" />
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/todos">
 
-</androidx.appcompat.widget.Toolbar>
+        <AutoCompleteTextView
+            android:id="@+id/toolbar_edit_text_search"
+            style="@style/SearchTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:completionThreshold="1"
+            android:hint="@string/label_search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>

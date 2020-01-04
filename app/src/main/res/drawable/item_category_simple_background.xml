@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="@dimen/category_item_border_radius" />
+            <padding android:bottom="@dimen/category_item_padding_vertical" android:left="@dimen/category_item_padding_horizontal" android:right="@dimen/category_item_padding_horizontal" android:top="@dimen/category_item_padding_vertical" />
+            <solid android:color="@color/category_item_background_color_not_selected" />
+        </shape>
+    </item>
+</selector>

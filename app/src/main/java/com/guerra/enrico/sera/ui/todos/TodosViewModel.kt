@@ -2,6 +2,7 @@ package com.guerra.enrico.sera.ui.todos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
@@ -31,7 +32,7 @@ class TodosViewModel @Inject constructor(
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
   private val syncTasksAndCategories: SyncTasksAndCategories
-) : BaseViewModel() {
+) : BaseViewModel(), EventActions {
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
 
@@ -56,6 +57,10 @@ class TodosViewModel @Inject constructor(
   private val _snackbarMessage = MediatorLiveData<Event<String>>()
   val snackbarMessage: LiveData<Event<String>>
     get() = _snackbarMessage
+
+  private val _swipeRefresh = MutableLiveData<Boolean>(false)
+  val swipeRefresh: LiveData<Boolean>
+    get() = _swipeRefresh
 
   init {
     _categories.addSource(_categoriesResult) { result ->
@@ -84,7 +89,9 @@ class TodosViewModel @Inject constructor(
    */
   fun onRefreshData() {
     viewModelScope.launch(dispatchers.io()) {
+      _swipeRefresh.postValue(true)
       syncTasksAndCategories.execute(Unit)
+      _swipeRefresh.postValue(false)
     }
   }
 
@@ -108,11 +115,7 @@ class TodosViewModel @Inject constructor(
     observeTasks(ObserveTasks.Params(category = category))
   }
 
-  /**
-   * Toggle task expand state
-   * @param task selected task
-   */
-  fun onToggleTaskExpand(task: Task) {
+  override fun onTaskClick(task: Task) {
     val currentTasksResult = _tasksViewResult.value ?: return
     if (currentTasksResult is Result.Success) {
       _tasksViewResult.value =
@@ -124,7 +127,7 @@ class TodosViewModel @Inject constructor(
    * Toggle task complete status
    * @param task selected task
    */
-  fun onToggleTaskComplete(task: Task) {
+  override fun onTaskToggleComplete(task: Task) {
     viewModelScope.launch(dispatchers.io()) {
       val completeTaskResult = updateTaskCompleteState.execute(task)
       if (completeTaskResult is Result.Error) {

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.todos
+package com.guerra.enrico.sera.ui.todos.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -19,7 +19,11 @@ class SearchTasksAutocompleteAdapter constructor(
         private var list: List<Category>
 ) : ArrayAdapter<Category>(context, R.layout.item_category) {
 
-  private val filter = CategoryAutocompleteFilter(list, this)
+  private val filter =
+    CategoryAutocompleteFilter(
+      list,
+      this
+    )
 
   fun updateList(newList: List<Category>) {
     list = newList

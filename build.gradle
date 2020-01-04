@@ -9,6 +9,7 @@ buildscript {
         appCompatVersion = '1.1.0'
         materialVersion = '1.0.0'
         constraintLayoutVersion = '2.0.0-beta4'
+        flexboxVersion = '2.0.0'
         lifecycleKtxVersion = "2.2.0-rc03"
         lifecycleVersion = "2.1.0"
         navigationVersion = "2.1.0"

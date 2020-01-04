@@ -12,20 +12,24 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todos.*
-import kotlinx.android.synthetic.main.toolbar_search.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
+import com.guerra.enrico.sera.ui.todos.adapter.SwipeToDeleteCallback
+import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import java.lang.ref.WeakReference
 
@@ -36,9 +40,7 @@ import java.lang.ref.WeakReference
 class TodosFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: TodosViewModel
-
-  private lateinit var root: WeakReference<View>
+  private lateinit var todosViewModel: TodosViewModel
 
   private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
 
@@ -59,26 +61,30 @@ class TodosFragment : BaseFragment() {
     }
   }
 
+  private lateinit var binding: FragmentTodosBinding
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    val view = inflater.inflate(R.layout.fragment_todos, container, false)
-    root = WeakReference(view)
-    return view
+    todosViewModel = viewModelProvider(viewModelFactory)
+    binding = FragmentTodosBinding.inflate(inflater, container, false).apply {
+      lifecycleOwner = viewLifecycleOwner
+      viewModel = todosViewModel
+    }
+    return binding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    viewModel = viewModelProvider(viewModelFactory)
     initView(view)
   }
 
   private fun initView(view: View) {
-    toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
+    binding.toolbarSearch.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
-      WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filtersSheet)))
+      WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filters_bottom_sheet)))
     onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
       filtersBottomSheetBehavior.get()?.let {
         if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -95,16 +101,20 @@ class TodosFragment : BaseFragment() {
     setupRecyclerView()
     setupSearch()
 
-    viewModel.tasksViewResult.observe(this@TodosFragment, Observer { processTaskList(it) })
-    viewModel.categories.observe(this@TodosFragment, Observer { categories ->
+    todosViewModel.tasksViewResult.observe(viewLifecycleOwner, Observer { processTaskList(it) })
+    todosViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
       if (categories == null) return@Observer
       context?.let { context ->
-        val adapter = SearchTasksAutocompleteAdapter(context, categories)
-        toolbarEditTextSearch.setAdapter(adapter)
+        val adapter =
+          SearchTasksAutocompleteAdapter(
+            context,
+            categories
+          )
+        binding.toolbarSearch.toolbarEditTextSearch.setAdapter(adapter)
       }
 
     })
-    viewModel.snackbarMessage.observe(this, EventObserver {
+    todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
       showSnackbar(it)
     })
   }
@@ -116,23 +126,21 @@ class TodosFragment : BaseFragment() {
     if (tasksResult == null || tasksResult is Result.Loading) {
       return
     }
-    messageLayout.hide()
-    if (refreshLayoutTasks.isRefreshing) {
-      refreshLayoutTasks.isRefreshing = false
-    }
+    message_layout.hide()
     if (tasksResult is Result.Success) {
-      recyclerViewTasks.visibility = View.VISIBLE
+      recycler_view_tasks.visibility = View.VISIBLE
       setRecyclerTaskList(tasksResult.data)
       return
     }
+
     if (tasksResult is Result.Error) {
       val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
-      recyclerViewTasks.visibility = View.GONE
-      messageLayout.apply {
+      recycler_view_tasks.visibility = View.GONE
+      message_layout.apply {
         setImage(messageResources.icon)
         setMessage(messageResources.message)
         setButton(resources.getString(R.string.message_layout_button_try_again)) {
-          viewModel.onRefreshData()
+          todosViewModel.onRefreshData()
         }
         show()
       }
@@ -140,27 +148,24 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    val tasksAdapter = TaskAdapter({ task, _ ->
-      viewModel.onToggleTaskComplete(task)
-    }, { task -> viewModel.onToggleTaskExpand(task) })
-
-    refreshLayoutTasks.setOnRefreshListener {
-      viewModel.onRefreshData()
-    }
+    val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback {
+      Toast.makeText(context, "position: $it", Toast.LENGTH_LONG).show()
+    })
+    itemTouchHelper.attachToRecyclerView(recycler_view_tasks)
+    val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
     context?.let { context ->
       val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-      recyclerViewTasks.apply {
+      recycler_view_tasks.apply {
         layoutManager = linearLayoutManager
         adapter = tasksAdapter
-        addItemDecoration(
-          GridSpacingItemDecoration(
-            1,
-            resources.getDimensionPixelSize(R.dimen.item_list_spacing),
-            true
-          )
-        )
-        itemAnimator as DefaultItemAnimator
+        (itemAnimator as DefaultItemAnimator).run {
+          supportsChangeAnimations = false
+          addDuration = 160L
+          moveDuration = 160L
+          changeDuration = 160L
+          removeDuration = 120L
+        }
       }
     }
   }
@@ -170,15 +175,14 @@ class TodosFragment : BaseFragment() {
    * @param tasks task's list to show
    */
   private fun setRecyclerTaskList(tasks: List<TaskView>) {
-    val filterAdapter: TaskAdapter
-    if (recyclerViewTasks.adapter != null) {
-      filterAdapter = recyclerViewTasks.adapter as TaskAdapter
-      filterAdapter.submitList(tasks)
+    (binding.recyclerViewTasks.adapter as? TaskAdapter)?.apply {
+      submitList(tasks)
     }
   }
 
   private fun setupSearch() {
-    toolbarEditTextSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+    binding.toolbarSearch.toolbarEditTextSearch.setOnEditorActionListener(object :
+      TextView.OnEditorActionListener {
       override fun onEditorAction(
         textView: TextView?,
         actionId: Int,
@@ -186,23 +190,23 @@ class TodosFragment : BaseFragment() {
       ): Boolean {
         if (actionId == IME_ACTION_SEARCH) {
           closeKeyboard()
-          viewModel.onSearch(textView?.text.toString())
+          todosViewModel.onSearch(textView?.text.toString())
           return true
         }
         return false
       }
     })
-    toolbarEditTextSearch.onItemClickListener =
+    binding.toolbarSearch.toolbarEditTextSearch.onItemClickListener =
       AdapterView.OnItemClickListener { adapter, _, position, _ ->
         closeKeyboard()
-        viewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
+        todosViewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
       }
   }
 
   private fun setupFiltersBottomSheet() {
     filtersBottomSheetBehavior.get()?.apply {
       setBottomSheetCallback(bottomSheetCallback)
-      fabFilter.setOnClickListener {
+      binding.fabFilter.setOnClickListener {
         state = BottomSheetBehavior.STATE_EXPANDED
       }
       state = BottomSheetBehavior.STATE_HIDDEN

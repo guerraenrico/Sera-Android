@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".ui.todos.TodosFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        style="@style/Widget.AppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <data>
+        <import type="com.guerra.enrico.sera.data.Result" />
+        <variable
+            name="viewModel"
+            type="com.guerra.enrico.sera.ui.todos.TodosViewModel" />
+    </data>
 
-        <include layout="@layout/toolbar_search" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@color/background_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.todos.TodosFragment">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refreshLayoutTasks"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            style="@style/Widget.AppBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <include
+                android:id="@+id/toolbar_search"
+                layout="@layout/toolbar_search" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refresh_layout-tasks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                app:refreshing="@{viewModel.swipeRefresh}"
+                app:onRefreshListener="@{() -> viewModel.onRefreshData()}"
+                >
 
-                <com.guerra.enrico.sera.widget.MessageLayout
-                    android:id="@+id/messageLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewTasks"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <com.guerra.enrico.sera.widget.MessageLayout
+                        android:id="@+id/message_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_tasks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:scrollbarStyle="outsideOverlay"
+                        android:scrollbars="vertical"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/margin_m"
-        app:fabSize="auto"
-        app:hoveredFocusedTranslationZ="0dp"
-        app:layout_behavior="com.guerra.enrico.sera.widget.FloatingActionButtonScrollBehavior"
-        app:pressedTranslationZ="0dp"
-        app:srcCompat="@drawable/ic_filter" />
+                </LinearLayout>
 
-    <fragment
-        android:id="@+id/filtersSheet"
-        android:name="com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="8dp"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-        app:behavior_skipCollapsed="true"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        tools:layout="@layout/fragment_todos_filters" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/margin_m"
+            app:fabSize="auto"
+            app:hoveredFocusedTranslationZ="0dp"
+            app:layout_behavior="com.guerra.enrico.sera.widget.FloatingActionButtonScrollBehavior"
+            app:pressedTranslationZ="0dp"
+            app:srcCompat="@drawable/ic_filter" />
+
+        <fragment
+            android:id="@+id/filters_bottom_sheet"
+            android:name="com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dp"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            tools:layout="@layout/fragment_todos_filters" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

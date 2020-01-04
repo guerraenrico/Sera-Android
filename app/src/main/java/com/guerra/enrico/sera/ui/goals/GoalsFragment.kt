@@ -37,7 +37,7 @@ class GoalsFragment : BaseFragment() {
 
   private fun initView() {
     val messageResources = MessageExceptionManager(Exception()).getResources()
-    messageLayout.apply {
+    message_layout.apply {
       setImage(messageResources.icon)
       setMessage(messageResources.message)
       setButton(resources.getString(R.string.message_layout_button_try_again)) {}

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/filtersSheet"
+    android:id="@+id/filters_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -49,7 +49,7 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCategories"
+        android:id="@+id/recycler_view_categories"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"

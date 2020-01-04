@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.appinitializers.AppInitializers
 import com.guerra.enrico.sera.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import leakcanary.LeakCanary
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,6 +30,8 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
     if (BuildConfig.DEBUG) {
       Timber.plant(Timber.DebugTree())
     }
+
+    LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)
   }
 
   override fun getWorkManagerConfiguration(): Configuration = workConfiguration

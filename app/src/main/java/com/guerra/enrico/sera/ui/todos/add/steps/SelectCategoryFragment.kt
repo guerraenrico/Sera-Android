@@ -13,7 +13,7 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import com.guerra.enrico.sera.ui.todos.entities.CategoryView
-import com.guerra.enrico.sera.ui.todos.CategoryAdapter
+import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 import com.guerra.enrico.sera.data.Result
@@ -46,11 +46,12 @@ class SelectCategoryFragment : BaseFragment() {
     viewModel = activityViewModelProvider(viewModelFactory)
 
     val gridLayoutManager = GridLayoutManager(context, 2)
-    val filterAdapter = CategoryAdapter { categoryFilter ->
-      val checked = !categoryFilter.isChecked
-      viewModel.toggleCategory(categoryFilter, checked)
-    }
-    recyclerViewCategories.apply {
+    val filterAdapter =
+      CategoryAdapter { categoryFilter ->
+        val checked = !categoryFilter.isChecked
+        viewModel.toggleCategory(categoryFilter, checked)
+      }
+    recycler_view_categories.apply {
       layoutManager = gridLayoutManager
       adapter = filterAdapter
       addItemDecoration(
@@ -76,7 +77,7 @@ class SelectCategoryFragment : BaseFragment() {
     }
     hideOverlayLoader()
     if (categoriesViewResult is Result.Success) {
-      (recyclerViewCategories.adapter as CategoryAdapter).submitList(categoriesViewResult.data)
+      (recycler_view_categories.adapter as CategoryAdapter).submitList(categoriesViewResult.data)
       observeSelectedCategory()
       return
     }

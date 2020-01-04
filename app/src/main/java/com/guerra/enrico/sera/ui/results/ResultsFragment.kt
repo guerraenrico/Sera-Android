@@ -9,7 +9,7 @@ import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_results.messageLayout
+import kotlinx.android.synthetic.main.fragment_results.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.lang.Exception
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class ResultsFragment : BaseFragment() {
 
   private fun initView() {
     val messageResources = MessageExceptionManager(Exception()).getResources()
-    messageLayout.apply {
+    message_layout.apply {
       setImage(messageResources.icon)
       setMessage(messageResources.message)
       setButton(resources.getString(R.string.message_layout_button_try_again)) {}

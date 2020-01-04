@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_add_task.*
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -43,10 +40,10 @@ class AddTaskFragment : BaseFragment() {
       String.format(resources.getString(R.string.subtitle_add_task), selectedCategory.name)
 
     buttonSchedule.setOnClickListener {
-      if (taskTitle.text.isNullOrEmpty()) {
+      if (task_title.text.isNullOrEmpty()) {
         showSnackbar(resources.getString(R.string.message_insert_task_title), it)
       }
-      if (viewModel.onSetTaskInfo(taskTitle.text.toString(), taskDescription.text.toString())) {
+      if (viewModel.onSetTaskInfo(task_title.text.toString(), taskDescription.text.toString())) {
         viewModel.goToNextStep(StepEnum.SCHEDULE)
       }
     }
