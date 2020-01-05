@@ -78,6 +78,7 @@ internal object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
 
   override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
     oldItem == newItem
+
 }
 
 class SwipeToDeleteCallback(private val deleteListener: (Int) -> Unit) :

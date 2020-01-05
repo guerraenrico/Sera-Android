@@ -96,12 +96,44 @@ class TodosFragment : BaseFragment() {
         }
       }
     }
+    onBackPressedCallback.isEnabled = false
 
     setupFiltersBottomSheet()
     setupRecyclerView()
     setupSearch()
 
-    todosViewModel.tasksViewResult.observe(viewLifecycleOwner, Observer { processTaskList(it) })
+    observeTaskList()
+    observeCategories()
+    observeSnackbarMessage()
+  }
+
+  private fun observeTaskList() {
+    todosViewModel.tasksViewResult.observe(viewLifecycleOwner, Observer { tasksResult ->
+      if (tasksResult == null || tasksResult is Result.Loading) {
+        return@Observer
+      }
+      message_layout.hide()
+      if (tasksResult is Result.Success) {
+        recycler_view_tasks.visibility = View.VISIBLE
+        setRecyclerTaskList(tasksResult.data)
+        return@Observer
+      }
+      if (tasksResult is Result.Error) {
+        val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
+        recycler_view_tasks.visibility = View.GONE
+        message_layout.apply {
+          setImage(messageResources.icon)
+          setMessage(messageResources.message)
+          setButton(resources.getString(R.string.message_layout_button_try_again)) {
+            todosViewModel.onRefreshData()
+          }
+          show()
+        }
+      }
+    })
+  }
+
+  private fun observeCategories() {
     todosViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
       if (categories == null) return@Observer
       context?.let { context ->
@@ -112,39 +144,13 @@ class TodosFragment : BaseFragment() {
           )
         binding.toolbarSearch.toolbarEditTextSearch.setAdapter(adapter)
       }
-
-    })
-    todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
-      showSnackbar(it)
     })
   }
 
-  /**
-   * Manage read task result
-   */
-  private fun processTaskList(tasksResult: Result<List<TaskView>>?) {
-    if (tasksResult == null || tasksResult is Result.Loading) {
-      return
-    }
-    message_layout.hide()
-    if (tasksResult is Result.Success) {
-      recycler_view_tasks.visibility = View.VISIBLE
-      setRecyclerTaskList(tasksResult.data)
-      return
-    }
-
-    if (tasksResult is Result.Error) {
-      val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
-      recycler_view_tasks.visibility = View.GONE
-      message_layout.apply {
-        setImage(messageResources.icon)
-        setMessage(messageResources.message)
-        setButton(resources.getString(R.string.message_layout_button_try_again)) {
-          todosViewModel.onRefreshData()
-        }
-        show()
-      }
-    }
+  private fun observeSnackbarMessage() {
+    todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
+      showSnackbar(it)
+    })
   }
 
   private fun setupRecyclerView() {
