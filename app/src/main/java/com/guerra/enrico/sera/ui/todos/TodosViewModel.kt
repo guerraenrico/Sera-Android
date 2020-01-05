@@ -54,7 +54,7 @@ class TodosViewModel @Inject constructor(
   val categories: LiveData<List<Category>>
     get() = _categories
 
-  private val _snackbarMessage = MediatorLiveData<Event<String>>()
+  private val _snackbarMessage = MutableLiveData<Event<String>>()
   val snackbarMessage: LiveData<Event<String>>
     get() = _snackbarMessage
 
@@ -115,6 +115,10 @@ class TodosViewModel @Inject constructor(
     observeTasks(ObserveTasks.Params(category = category))
   }
 
+  /**
+   * Handle when a task is clicked
+   * @param task selected task
+   */
   override fun onTaskClick(task: Task) {
     val currentTasksResult = _tasksViewResult.value ?: return
     if (currentTasksResult is Result.Success) {
@@ -124,19 +128,20 @@ class TodosViewModel @Inject constructor(
   }
 
   /**
-   * Toggle task complete status
-   * @param task selected task
+   * Set task as completed on swipe out
+   * @param taskPosition task position
    */
-  override fun onTaskToggleComplete(task: Task) {
-    viewModelScope.launch(dispatchers.io()) {
-      val completeTaskResult = updateTaskCompleteState.execute(task)
-      if (completeTaskResult is Result.Error) {
-        _snackbarMessage.postValue(
-          Event(
-            completeTaskResult.exception.message
-              ?: ""
-          )
-        )
+  fun onTaskSwipeToComplete(taskPosition: Int) {
+    val tasksViewValues = _tasksViewResult.value
+    if (tasksViewValues is Result.Success && taskPosition in tasksViewValues.data.indices) {
+      val taskView = tasksViewValues.data[taskPosition]
+      viewModelScope.launch(dispatchers.io()) {
+        val completeTaskResult = updateTaskCompleteState.execute(taskView.task)
+        _snackbarMessage.value = when(completeTaskResult) {
+          is Result.Error -> Event(completeTaskResult.exception.message ?: "")
+          is Result.Success -> Event( "")
+          else -> return@launch
+        }
       }
     }
   }

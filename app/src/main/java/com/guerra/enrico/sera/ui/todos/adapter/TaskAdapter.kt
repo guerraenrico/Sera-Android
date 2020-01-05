@@ -1,12 +1,9 @@
 package com.guerra.enrico.sera.ui.todos.adapter
 
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,13 +12,9 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.guerra.enrico.base.util.toDateString
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.databinding.ItemTaskBinding
 import com.guerra.enrico.sera.ui.todos.EventActions
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
-import kotlinx.android.synthetic.main.item_task.view.*
 
 /**
  * Created by enrico
@@ -47,7 +40,6 @@ class TaskAdapter(
           }
         }
       }
-
     return TaskViewHolder(binding, lifecycleOwner, eventActions)
   }
 
@@ -62,9 +54,7 @@ class TaskViewHolder(
   private val eventActions: EventActions
 ) : RecyclerView.ViewHolder(binding.root) {
 
-  fun bind(
-    taskView: TaskView
-  ) {
+  fun bind(taskView: TaskView) {
     binding.taskView = taskView
     binding.lifecycleOwner = lifecycleOwner
     binding.eventActions = eventActions
@@ -78,10 +68,9 @@ internal object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
 
   override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
     oldItem == newItem
-
 }
 
-class SwipeToDeleteCallback(private val deleteListener: (Int) -> Unit) :
+class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
   ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
   override fun onMove(
     recyclerView: RecyclerView,
@@ -92,7 +81,7 @@ class SwipeToDeleteCallback(private val deleteListener: (Int) -> Unit) :
   }
 
   override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-    deleteListener(viewHolder.adapterPosition)
+    completeListener(viewHolder.adapterPosition)
   }
 
   override fun onChildDraw(
@@ -104,7 +93,7 @@ class SwipeToDeleteCallback(private val deleteListener: (Int) -> Unit) :
     actionState: Int,
     isCurrentlyActive: Boolean
   ) {
-    super.onChildDraw(c, recyclerView, viewHolder, dX / 2, dY, actionState, isCurrentlyActive)
+    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
   }
 
   override fun onChildDrawOver(

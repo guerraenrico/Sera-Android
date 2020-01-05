@@ -8,5 +8,4 @@ import com.guerra.enrico.sera.data.models.Task
  */
 interface EventActions {
   fun onTaskClick(task: Task)
-  fun onTaskToggleComplete(task: Task)
 }

@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.ui.todos.adapter
 
-import android.graphics.Paint
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import com.guerra.enrico.base.util.toDateString
@@ -30,17 +29,3 @@ fun setDate(
     }
   }
 }
-
-//@BindingAdapter("completeTextStyle", requireAll = true)
-//fun applyCompleTextStyle(
-//  textView: AppCompatTextView,
-//  previousCompleted: Boolean?,
-//  newCompleted: Boolean
-//) {
-//  if (previousCompleted != newCompleted) {
-//    with(textView) {
-//      paintFlags =
-//        if (newCompleted) Paint.STRIKE_THRU_TEXT_FLAG else 0
-//    }
-//  }
-//}

@@ -16,10 +16,10 @@ import kotlinx.android.synthetic.main.fragment_todos.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
@@ -28,7 +28,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
-import com.guerra.enrico.sera.ui.todos.adapter.SwipeToDeleteCallback
+import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import java.lang.ref.WeakReference
@@ -154,8 +154,8 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback {
-      Toast.makeText(context, "position: $it", Toast.LENGTH_LONG).show()
+    val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
+      todosViewModel.onTaskSwipeToComplete(it)
     })
     itemTouchHelper.attachToRecyclerView(recycler_view_tasks)
     val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
@@ -172,6 +172,9 @@ class TodosFragment : BaseFragment() {
           changeDuration = 160L
           removeDuration = 120L
         }
+        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+          setDrawable(context.getDrawable(R.drawable.line_item_divider) ?: return)
+        })
       }
     }
   }
