@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <ripple android:color="?android:colorControlHighlight">
+            <item>
+                <shape>
+                    <solid android:color="@color/task_card_background_color" />
+                </shape>
+            </item>
+        </ripple>
+    </item>
+</selector>

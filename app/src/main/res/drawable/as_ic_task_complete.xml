@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/uncompleted"
-        android:drawable="@drawable/ic_task_uncompleted" />
+        android:drawable="@drawable/ic_task_mark_completed" />
 
     <transition
         android:drawable="@drawable/av_complete_task"

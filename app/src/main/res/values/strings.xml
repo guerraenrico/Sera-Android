@@ -53,6 +53,7 @@
     <string name="desc_collapse_filter_sheet">Collapse filter sheet</string>
     <string name="desc_icon_done_todo_add">Icon done</string>
     <string name="desc_image_message_layout">Message image</string>
+    <string name="desc_icon_mark_task_as_completed">Check off task</string>
 
     <!-- Tips -->
     <string name="learn_to_work_on_yourself">Learn to work harder on your self than you do on your job</string>

@@ -2,19 +2,22 @@ package com.guerra.enrico.sera.ui.todos.adapter
 
 import android.graphics.Canvas
 import android.view.LayoutInflater
-import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.ItemTaskBinding
 import com.guerra.enrico.sera.ui.todos.EventActions
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import kotlin.math.abs
 
 /**
  * Created by enrico
@@ -84,8 +87,18 @@ class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
     completeListener(viewHolder.adapterPosition)
   }
 
+  override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+    ItemTouchHelper.Callback.getDefaultUIUtil()
+      .onSelected(viewHolder?.itemView?.findViewById(R.id.container_task_item))
+  }
+
+  override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+    ItemTouchHelper.Callback.getDefaultUIUtil()
+      .clearView(viewHolder.itemView.findViewById(R.id.container_task_item))
+  }
+
   override fun onChildDraw(
-    c: Canvas,
+    canvas: Canvas,
     recyclerView: RecyclerView,
     viewHolder: RecyclerView.ViewHolder,
     dX: Float,
@@ -93,7 +106,18 @@ class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
     actionState: Int,
     isCurrentlyActive: Boolean
   ) {
-    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+    val backdrop = viewHolder.itemView.findViewById<MotionLayout>(R.id.backdrop)
+    backdrop.progress = abs(dX / canvas.width)
+
+    ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(
+      canvas,
+      recyclerView,
+      viewHolder.itemView.findViewById(R.id.container_task_item),
+      dX,
+      dY,
+      actionState,
+      isCurrentlyActive
+    )
   }
 
   override fun onChildDrawOver(
@@ -105,6 +129,15 @@ class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
     actionState: Int,
     isCurrentlyActive: Boolean
   ) {
-    super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+    ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(
+      c,
+      recyclerView,
+      viewHolder?.itemView?.findViewById(R.id.container_task_item),
+      dX,
+      dY,
+      actionState,
+      isCurrentlyActive
+    )
   }
 }
+

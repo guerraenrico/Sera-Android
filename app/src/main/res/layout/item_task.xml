@@ -17,52 +17,95 @@
             type="com.guerra.enrico.sera.ui.todos.EventActions" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/container_task_item"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:onClick="@{() -> eventActions.onTaskClick(taskView.task)}"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_m">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/task_title"
-            style="@style/ListItemTitle"
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/backdrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_m"
-            android:layout_marginBottom="@dimen/margin_s"
-            android:text="@{taskView.task.title}"
-            android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}" />
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/swipe_to_complete_scene">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/task_date"
-            style="@style/ListItemTitle"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.7" />
+
+            <FrameLayout
+                android:id="@+id/circle_view"
+                android:layout_width="@dimen/complete_task_circle_size"
+                android:layout_height="@dimen/complete_task_circle_size"
+                android:background="@drawable/background_task_complete_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon_check"
+                android:layout_width="@dimen/complete_task_circle_size"
+                android:layout_height="@dimen/complete_task_circle_size"
+                android:alpha="0"
+                android:contentDescription="@string/desc_icon_mark_task_as_completed"
+                android:src="@drawable/ic_task_mark_completed"
+                app:layout_constraintBottom_toBottomOf="@id/circle_view"
+                app:layout_constraintEnd_toEndOf="@id/circle_view"
+                app:layout_constraintStart_toStartOf="@id/circle_view"
+                app:layout_constraintTop_toTopOf="@id/circle_view" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        <LinearLayout
+            android:id="@+id/container_task_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_m"
-            android:layout_marginBottom="@dimen/margin_m"
-            android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}"
-            android:textSize="@dimen/item_list_description_text_size"
-            app:date="@{taskView.task.todoWithin}" />
+            android:layout_height="match_parent"
+            android:background="@drawable/item_task_background"
+            android:onClick="@{() -> eventActions.onTaskClick(taskView.task)}"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_m">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/task_description"
-            style="@style/ListItemDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_m"
-            android:text="@{taskView.task.description}"
-            app:goneUnless="@{!taskView.task.description.isEmpty}" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_title"
+                style="@style/ListItemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_m"
+                android:layout_marginBottom="@dimen/margin_s"
+                android:text="@{taskView.task.title}"
+                android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}" />
 
-        <com.guerra.enrico.sera.widget.NoTouchRecyclerView
-            android:id="@+id/recycler_view_categories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:taskCategories="@{taskView.task.categories}" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_date"
+                style="@style/ListItemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_m"
+                android:layout_marginBottom="@dimen/margin_m"
+                android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}"
+                android:textSize="@dimen/item_list_description_text_size"
+                app:date="@{taskView.task.todoWithin}" />
 
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_description"
+                style="@style/ListItemDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_m"
+                android:text="@{taskView.task.description}"
+                app:goneIf="@{taskView.task.description.isEmpty}" />
+
+            <com.guerra.enrico.sera.widget.NoTouchRecyclerView
+                android:id="@+id/recycler_view_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:taskCategories="@{taskView.task.categories}" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
 </layout>

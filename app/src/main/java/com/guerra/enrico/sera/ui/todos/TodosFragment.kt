@@ -21,6 +21,7 @@ import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
@@ -149,7 +150,7 @@ class TodosFragment : BaseFragment() {
 
   private fun observeSnackbarMessage() {
     todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
-      showSnackbar(it)
+      showSnackbar(it, requireActivity().findViewById(R.id.fab_filter))
     })
   }
 

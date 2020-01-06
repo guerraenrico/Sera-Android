@@ -11,3 +11,8 @@ import androidx.databinding.BindingAdapter
 fun goneUnless(view: View, visible: Boolean) {
   view.visibility = if (visible) View.VISIBLE else View.GONE
 }
+
+@BindingAdapter("goneIf")
+fun goneIf(view: View, gone: Boolean) {
+  view.visibility = if (gone) View.GONE else View.VISIBLE
+}

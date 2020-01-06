@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity.*
 
 /**
@@ -20,8 +19,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun setupBottomNavigationBar() {
-    val navController = Navigation.findNavController(this, R.id.mainFragmentHost)
-    bottomNavigation.setupWithNavController(navController = navController)
-    bottomNavigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
+    val navController = Navigation.findNavController(this, R.id.main_fragment_host)
+    bottom_navigation.setupWithNavController(navController = navController)
+    bottom_navigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
   }
 }

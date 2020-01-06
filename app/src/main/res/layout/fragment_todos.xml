@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="com.guerra.enrico.sera.data.Result" />
+
         <variable
             name="viewModel"
             type="com.guerra.enrico.sera.ui.todos.TodosViewModel" />
@@ -35,13 +37,12 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            <com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout
                 android:id="@+id/refresh_layout-tasks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:refreshing="@{viewModel.swipeRefresh}"
                 app:onRefreshListener="@{() -> viewModel.onRefreshData()}"
-                >
+                app:refreshing="@{viewModel.swipeRefresh}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,8 +52,7 @@
                     <com.guerra.enrico.sera.widget.MessageLayout
                         android:id="@+id/message_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
+                        android:layout_height="match_parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_tasks"
@@ -60,11 +60,11 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:scrollbarStyle="outsideOverlay"
-                        android:scrollbars="vertical"/>
+                        android:scrollbars="vertical" />
 
                 </LinearLayout>
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout>
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

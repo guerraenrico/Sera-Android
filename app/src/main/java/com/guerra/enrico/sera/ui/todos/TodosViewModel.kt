@@ -120,11 +120,11 @@ class TodosViewModel @Inject constructor(
    * @param task selected task
    */
   override fun onTaskClick(task: Task) {
-    val currentTasksResult = _tasksViewResult.value ?: return
-    if (currentTasksResult is Result.Success) {
-      _tasksViewResult.value =
-        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
-    }
+//    val currentTasksResult = _tasksViewResult.value ?: return
+//    if (currentTasksResult is Result.Success) {
+//      _tasksViewResult.value =
+//        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
+//    }
   }
 
   /**
@@ -137,11 +137,14 @@ class TodosViewModel @Inject constructor(
       val taskView = tasksViewValues.data[taskPosition]
       viewModelScope.launch(dispatchers.io()) {
         val completeTaskResult = updateTaskCompleteState.execute(taskView.task)
-        _snackbarMessage.value = when(completeTaskResult) {
-          is Result.Error -> Event(completeTaskResult.exception.message ?: "")
-          is Result.Success -> Event( "")
-          else -> return@launch
-        }
+        _snackbarMessage.postValue(
+          when (completeTaskResult) {
+            // TODO: Manage snackbar with action and different types of messages
+            is Result.Error -> Event(completeTaskResult.exception.message ?: "")
+            is Result.Success -> Event("")
+            else -> return@launch
+          }
+        )
       }
     }
   }

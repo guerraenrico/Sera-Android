@@ -36,6 +36,7 @@
     <color name="task_card_background_color">#25292E</color>
     <color name="task_list_item_color_active">#CAD2DC</color>
     <color name="task_list_item_color_completed">#475b75</color>
+    <color name="task_complete_icon_background_color">#fff</color>
 
     <!-- Category-->
     <color name="category_item_background_color_not_selected">@color/background_color_dark</color>
