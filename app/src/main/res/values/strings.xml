@@ -11,6 +11,10 @@
     <string name="title_add_todo">Add Todo</string>
     <string name="title_filter_sheet">Categories</string>
 
+    <!-- Snackbar Actions -->
+    <string name="snackbar_action_retry">Retry</string>
+    <string name="snackbar_action_abort">Abort</string>
+
     <!-- Buttons -->
     <string name="button_google_login">Log in with Google</string>
     <string name="button_category">Category</string>
@@ -37,11 +41,12 @@
     <!-- Message -->
     <string name="message_select_category">Select a category</string>
     <string name="message_insert_task_title">Insert your task\'s title</string>
+    <string name="message_task_completed">Task completed</string>
 
     <!-- Errors -->
     <string name="error_google_signin">An error occur while managing response</string>
     <string name="error_observe_categories">An error occur while fetching categories</string>
-    
+
     <!-- Exceptions -->
     <string name="exception_not_authenticated">Please login to continue</string>
     <string name="exception_internet_connection_unavailable">Internet connection not available</string>

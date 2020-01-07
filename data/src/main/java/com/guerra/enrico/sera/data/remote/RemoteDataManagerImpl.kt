@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.remote
 
 import com.google.gson.Gson
-import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
 import com.guerra.enrico.sera.data.models.Category
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class RemoteDataManagerImpl @Inject constructor(
         private val api: Api,
         private val gson: Gson,
-        private val coroutineContextProvider: CoroutineContextProvider,
+        private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
         private val logger: Logger
 ) : RemoteDataManager {
 
@@ -137,7 +137,7 @@ class RemoteDataManagerImpl @Inject constructor(
     return@getOrElse CallResult.Result(ApiResponse(false, null, ApiError.unknown()))
   }
 
-  private suspend fun convertJson(reader: Reader) = withContext(coroutineContextProvider.io()) {
+  private suspend fun convertJson(reader: Reader) = withContext(coroutineDispatcherProvider.io()) {
     gson.fromJson(reader, ApiResponse::class.java)
   }
 }

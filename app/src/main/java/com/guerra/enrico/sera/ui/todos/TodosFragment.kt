@@ -150,7 +150,12 @@ class TodosFragment : BaseFragment() {
 
   private fun observeSnackbarMessage() {
     todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
-      showSnackbar(it, requireActivity().findViewById(R.id.fab_filter))
+      showSnackbar(
+        message = it.getMessage(requireContext()),
+        view = requireActivity().findViewById(R.id.fab_filter),
+        actionText = it.getActionText(requireContext()),
+        action = it.action
+      )
     })
   }
 

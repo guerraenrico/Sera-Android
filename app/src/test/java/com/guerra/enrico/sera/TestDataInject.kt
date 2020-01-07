@@ -5,8 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
-import com.guerra.enrico.sera.utils.CoroutineContextProviderTest
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.sera.utils.CoroutineDispatcherProviderTest
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
@@ -82,8 +82,8 @@ class TestDataManagerModule {
 
   @Singleton
   @Provides
-  fun provideRemoteDataManager(api: Api, gson: Gson, coroutineContextProvider: CoroutineContextProvider): RemoteDataManager =
-          RemoteDataManagerImpl(api, gson, coroutineContextProvider)
+  fun provideRemoteDataManager(api: Api, gson: Gson, coroutineDispatcherProvider: CoroutineDispatcherProvider): RemoteDataManager =
+          RemoteDataManagerImpl(api, gson, coroutineDispatcherProvider)
 }
 
 @Module(includes = [TestInteractors::class])
@@ -92,11 +92,10 @@ class TestViewModelModule {
   @Singleton
   @Provides
   fun provideTodosViewModel(
-          dispatcher: CoroutineContextProvider,
           observeCategories: ObserveCategories,
           observeTasks: ObserveTasks,
           updateTaskCompleteState: UpdateTaskCompleteState
-  ) = TodosViewModel(dispatcher, observeCategories, observeTasks, updateTaskCompleteState)
+  ) = TodosViewModel(observeCategories, observeTasks, updateTaskCompleteState)
 }
 
 @Module
@@ -111,7 +110,7 @@ class TestRetrofitModule {
 
   @Singleton
   @Provides
-  fun provideCoroutineContextProvider(): CoroutineContextProvider = CoroutineContextProviderTest()
+  fun provideCoroutineContextProvider(): CoroutineDispatcherProvider = CoroutineDispatcherProviderTest()
 }
 
 @Module

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.base.util.isNotNullAndEmpty
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerFragment
@@ -22,18 +23,30 @@ open class BaseFragment : DaggerFragment() {
       OverlayLoader.make(requireActivity(), resources.getString(R.string.label_loading))
   }
 
-  fun showSnackbar(@StringRes messageId: Int, view: View? = null) {
+  fun showSnackbar(
+    @StringRes messageId: Int, view: View? = null, @StringRes actionId: Int? = null,
+    action: (() -> Unit)? = null
+  ) {
     if (!isAdded) return
-    showSnackbar(resources.getString(messageId), view)
+    val actionText = if (actionId != null) resources.getString(actionId) else null
+    showSnackbar(resources.getString(messageId), view, actionText, action)
   }
 
-  fun showSnackbar(message: String, view: View? = null) {
-    if (!isAdded) return
+  fun showSnackbar(
+    message: String,
+    view: View? = null,
+    actionText: String? = null,
+    action: (() -> Unit)? = null
+  ) {
+    if (!isAdded || message.isEmpty()) return
     snackbar = Snackbar.make(
       view ?: requireActivity().findViewById(android.R.id.content),
       message,
       Snackbar.LENGTH_LONG
     )
+    if (actionText.isNotNullAndEmpty() && action != null) {
+      snackbar?.setAction(actionText) { action() }
+    }
     snackbar?.show()
   }
 

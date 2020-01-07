@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event
 import com.guerra.enrico.sera.data.Result
@@ -14,7 +14,9 @@ import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseViewModel
+import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import com.guerra.enrico.sera.ui.todos.entities.tasksToModelForView
 import kotlinx.coroutines.flow.map
@@ -27,7 +29,6 @@ import javax.inject.Inject
  * on 30/05/2018.
  */
 class TodosViewModel @Inject constructor(
-  private val dispatchers: CoroutineContextProvider,
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
@@ -39,12 +40,12 @@ class TodosViewModel @Inject constructor(
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
     .onStart { Result.Loading }
     .map { Result.Success(it) }
-    .asLiveData(dispatchers.io())
+    .asLiveData()
 
   private var tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
     .onStart { Result.Loading }
     .map { Result.Success(it) }
-    .asLiveData(dispatchers.io())
+    .asLiveData()
 
   private val _tasksViewResult = MediatorLiveData<Result<List<TaskView>>>()
   val tasksViewResult: LiveData<Result<List<TaskView>>>
@@ -54,8 +55,8 @@ class TodosViewModel @Inject constructor(
   val categories: LiveData<List<Category>>
     get() = _categories
 
-  private val _snackbarMessage = MutableLiveData<Event<String>>()
-  val snackbarMessage: LiveData<Event<String>>
+  private val _snackbarMessage = MutableLiveData<Event<SnackbarMessage>>()
+  val snackbarMessage: LiveData<Event<SnackbarMessage>>
     get() = _snackbarMessage
 
   private val _swipeRefresh = MutableLiveData<Boolean>(false)
@@ -88,7 +89,7 @@ class TodosViewModel @Inject constructor(
    * Reload tasksResult
    */
   fun onRefreshData() {
-    viewModelScope.launch(dispatchers.io()) {
+    viewModelScope.launch {
       _swipeRefresh.postValue(true)
       syncTasksAndCategories.execute(Unit)
       _swipeRefresh.postValue(false)
@@ -135,13 +136,24 @@ class TodosViewModel @Inject constructor(
     val tasksViewValues = _tasksViewResult.value
     if (tasksViewValues is Result.Success && taskPosition in tasksViewValues.data.indices) {
       val taskView = tasksViewValues.data[taskPosition]
-      viewModelScope.launch(dispatchers.io()) {
+      viewModelScope.launch {
         val completeTaskResult = updateTaskCompleteState.execute(taskView.task)
         _snackbarMessage.postValue(
           when (completeTaskResult) {
-            // TODO: Manage snackbar with action and different types of messages
-            is Result.Error -> Event(completeTaskResult.exception.message ?: "")
-            is Result.Success -> Event("")
+            is Result.Error -> Event(
+              SnackbarMessage(
+                message = completeTaskResult.exception.message,
+                actionId = R.string.snackbar_action_retry,
+                action = { onTaskSwipeToComplete(taskPosition) })
+            )
+            is Result.Success -> Event(
+              SnackbarMessage(
+                messageId = R.string.message_task_completed,
+                actionId = R.string.snackbar_action_abort,
+                action = {}
+                // TODO: Abort action
+              )
+            )
             else -> return@launch
           }
         )

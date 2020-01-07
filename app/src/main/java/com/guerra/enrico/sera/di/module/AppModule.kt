@@ -2,8 +2,8 @@ package com.guerra.enrico.sera.di.module
 
 import android.app.Application
 import android.content.Context
-import com.guerra.enrico.base.dispatcher.CoroutineContextProvider
-import com.guerra.enrico.base.dispatcher.CoroutineContextProviderImpl
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProviderImpl
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.logger.SeraLogger
 import com.guerra.enrico.sera.SeraApplication
@@ -41,7 +41,7 @@ class AppModule {
   fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
 
   @Provides
-  fun provideAppDispatchers(appDispatchers: CoroutineContextProviderImpl): CoroutineContextProvider = appDispatchers
+  fun provideAppDispatchers(appDispatchers: CoroutineDispatcherProviderImpl): CoroutineDispatcherProvider = appDispatchers
 
   @Provides
   @Singleton

@@ -70,6 +70,8 @@ fun Date.toDateString(pattern: String = "EEEE dd MMM yyyy"): String {
   return simpleDateFormat.format(this)
 }
 
+fun String?.isNotNullAndEmpty(): Boolean = !this.isNullOrEmpty()
+
 /**
  * Force compiler to treat a when a block as an expression
  * so it force to specify all cases
