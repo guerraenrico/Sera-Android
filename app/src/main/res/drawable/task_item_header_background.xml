@@ -8,7 +8,7 @@
                 android:bottomRightRadius="10dp"
                 android:topLeftRadius="@dimen/task_item_border_radius"
                 android:topRightRadius="@dimen/task_item_border_radius" />
-            <solid android:color="@color/task_card_background_color" />
+            <solid android:color="@color/task_item_background_color" />
         </shape>
     </item>
 </ripple>

@@ -25,6 +25,7 @@
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/task_list_item_backdrop_background_color"
             app:layoutDescription="@xml/swipe_to_complete_scene">
 
             <androidx.constraintlayout.widget.Guideline

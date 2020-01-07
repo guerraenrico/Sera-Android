@@ -33,7 +33,8 @@
     <color name="bottom_sheet_background_color">#181A1E</color>
 
     <!-- Task -->
-    <color name="task_card_background_color">#25292E</color>
+    <color name="task_item_background_color">#1F2226</color>
+    <color name="task_list_item_backdrop_background_color">#181A1E</color>
     <color name="task_list_item_color_active">#CAD2DC</color>
     <color name="task_list_item_color_completed">#475b75</color>
     <color name="task_complete_icon_background_color">#fff</color>
