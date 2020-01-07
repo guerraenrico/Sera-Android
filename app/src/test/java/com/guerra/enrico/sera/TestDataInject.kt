@@ -6,6 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.logger.Logger
+import com.guerra.enrico.base.logger.SeraLogger
+import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.utils.CoroutineDispatcherProviderTest
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
@@ -35,16 +38,17 @@ import dagger.Provides
 import org.mockito.Mockito
 import javax.inject.Singleton
 
-
 /**
  * Created by enrico
  * on 08/12/2019.
  */
 @Singleton
-@Component(modules = [
-  TestDataManagerModule::class,
-  TestViewModelModule::class
-])
+@Component(
+  modules = [
+    TestDataManagerModule::class,
+    TestViewModelModule::class
+  ]
+)
 interface TestComponent {
   fun inject(test: AuthRepositoryTest)
   fun inject(test: CategoryDaoTest)
@@ -58,32 +62,51 @@ interface TestComponent {
 class TestDataManagerModule {
   @Singleton
   @Provides
+  fun providerLogger(): Logger = SeraLogger()
+
+  @Singleton
+  @Provides
   fun provideAuhRepositoryTest(): AuthRepositoryTest = AuthRepositoryTest()
 
   @Singleton
   @Provides
-  fun provideAuhRepository(context: Context, remoteDataManager: RemoteDataManager, localDbManager: LocalDbManager): AuthRepository =
-          AuthRepositoryImpl(context, remoteDataManager, localDbManager)
+  fun provideAuhRepository(
+    context: Context,
+    remoteDataManager: RemoteDataManager,
+    localDbManager: LocalDbManager
+  ): AuthRepository =
+    AuthRepositoryImpl(context, remoteDataManager, localDbManager)
 
   @Singleton
   @Provides
-  fun provideCategoryRepository(remoteDataManager: RemoteDataManager, localDbManager: LocalDbManager): CategoryRepository =
-          CategoryRepositoryImpl(localDbManager, remoteDataManager)
+  fun provideCategoryRepository(
+    remoteDataManager: RemoteDataManager,
+    localDbManager: LocalDbManager
+  ): CategoryRepository =
+    CategoryRepositoryImpl(localDbManager, remoteDataManager)
 
   @Singleton
   @Provides
-  fun provideTasksRepository(remoteDataManager: RemoteDataManager, localDbManager: LocalDbManager): TaskRepository =
-          TaskRepositoryImpl(localDbManager, remoteDataManager)
+  fun provideTasksRepository(
+    remoteDataManager: RemoteDataManager,
+    localDbManager: LocalDbManager
+  ): TaskRepository =
+    TaskRepositoryImpl(localDbManager, remoteDataManager)
 
   @Singleton
   @Provides
   fun provideLocalDbManager(database: SeraDatabase): LocalDbManager =
-          LocalDbManagerImpl(database)
+    LocalDbManagerImpl(database)
 
   @Singleton
   @Provides
-  fun provideRemoteDataManager(api: Api, gson: Gson, coroutineDispatcherProvider: CoroutineDispatcherProvider): RemoteDataManager =
-          RemoteDataManagerImpl(api, gson, coroutineDispatcherProvider)
+  fun provideRemoteDataManager(
+    api: Api,
+    gson: Gson,
+    coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    logger: Logger
+  ): RemoteDataManager =
+    RemoteDataManagerImpl(api, gson, coroutineDispatcherProvider, logger)
 }
 
 @Module(includes = [TestInteractors::class])
@@ -92,10 +115,12 @@ class TestViewModelModule {
   @Singleton
   @Provides
   fun provideTodosViewModel(
-          observeCategories: ObserveCategories,
-          observeTasks: ObserveTasks,
-          updateTaskCompleteState: UpdateTaskCompleteState
-  ) = TodosViewModel(observeCategories, observeTasks, updateTaskCompleteState)
+    observeCategories: ObserveCategories,
+    observeTasks: ObserveTasks,
+    updateTaskCompleteState: UpdateTaskCompleteState,
+    syncTasksAndCategories: SyncTasksAndCategories
+  ) =
+    TodosViewModel(observeCategories, observeTasks, updateTaskCompleteState, syncTasksAndCategories)
 }
 
 @Module
@@ -110,7 +135,8 @@ class TestRetrofitModule {
 
   @Singleton
   @Provides
-  fun provideCoroutineContextProvider(): CoroutineDispatcherProvider = CoroutineDispatcherProviderTest()
+  fun provideCoroutineDispatcherProvider(): CoroutineDispatcherProvider =
+    CoroutineDispatcherProviderTest()
 }
 
 @Module
@@ -121,16 +147,17 @@ class TestRoomDatabaseModule {
   @Singleton
   @Provides
   fun provideDatabase(context: Context): SeraDatabase =
-          Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
-                  .allowMainThreadQueries()
-                  .build()
+    Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
 }
 
 @Module
 class TestInteractors {
   @Singleton
   @Provides
-  fun provideObserveCategories(categoryRepository: CategoryRepository) = ObserveCategories(categoryRepository)
+  fun provideObserveCategories(categoryRepository: CategoryRepository) =
+    ObserveCategories(categoryRepository)
 
   @Singleton
   @Provides
@@ -138,7 +165,18 @@ class TestInteractors {
 
   @Singleton
   @Provides
-  fun provideUpdateTaskCompleteState(authRepository: AuthRepository, tasksRepository: TaskRepository) =
-          UpdateTaskCompleteState(authRepository, tasksRepository)
+  fun provideUpdateTaskCompleteState(
+    authRepository: AuthRepository,
+    tasksRepository: TaskRepository
+  ) =
+    UpdateTaskCompleteState(authRepository, tasksRepository)
 
+  @Singleton
+  @Provides
+  fun provideSyncTasksAndCategories(
+    authRepository: AuthRepository,
+    tasksRepository: TaskRepository,
+    categoryRepository: CategoryRepository
+  ) =
+    SyncTasksAndCategories(authRepository, tasksRepository, categoryRepository)
 }
