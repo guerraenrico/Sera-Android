@@ -1,8 +1,10 @@
 package com.guerra.enrico.domain.observers
 
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.repo.category.CategoryRepository
 import com.guerra.enrico.domain.SubjectInteractor
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -11,10 +13,11 @@ import javax.inject.Inject
  * on 12/11/2019.
  */
 class ObserveCategories @Inject constructor(
-//        dispatchers: AppDispatchers,
-        private val categoryRepository: CategoryRepository
+  private val categoryRepository: CategoryRepository,
+  coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : SubjectInteractor<Unit, List<Category>>() {
-//  override val dispatcher: CoroutineDispatcher = dispatchers.io()
+  override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override fun createObservable(params: Unit): Flow<List<Category>> = categoryRepository.observeCategories()
+  override fun createObservable(params: Unit): Flow<List<Category>> =
+    categoryRepository.observeCategories()
 }

@@ -1,9 +1,11 @@
 package com.guerra.enrico.domain.interactors
 
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.category.CategoryRepository
 import com.guerra.enrico.sera.repo.task.TaskRepository
 import com.guerra.enrico.domain.Interactor
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 /**
@@ -13,8 +15,11 @@ import javax.inject.Inject
 class SyncTasksAndCategories @Inject constructor(
   private val authRepository: AuthRepository,
   private val tasksRepository: TaskRepository,
-  private val categoryRepository: CategoryRepository
+  private val categoryRepository: CategoryRepository,
+  coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : Interactor<Unit, Unit>() {
+  override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
+
   override suspend fun doWork(params: Unit) {
     authRepository.refreshTokenIfNotAuthorized(
       { tasksRepository.fetchAndSaveAllTasks() },

@@ -5,13 +5,13 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
+import com.guerra.enrico.domain.launchObserve
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
@@ -42,7 +42,7 @@ class TodosViewModel @Inject constructor(
     .map { Result.Success(it) }
     .asLiveData()
 
-  private var tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
+  private var _tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
     .onStart { Result.Loading }
     .map { Result.Success(it) }
     .asLiveData()
@@ -72,7 +72,7 @@ class TodosViewModel @Inject constructor(
       }
     }
 
-    _tasksViewResult.addSource(tasksResult) { result ->
+    _tasksViewResult.addSource(_tasksResult) { result ->
       _tasksViewResult.value = when (result) {
         is Result.Success -> Result.Success(tasksToModelForView(result.data))
         is Result.Loading -> Result.Loading
@@ -90,9 +90,9 @@ class TodosViewModel @Inject constructor(
    */
   fun onRefreshData() {
     viewModelScope.launch {
-      _swipeRefresh.postValue(true)
+      _swipeRefresh.value = true
       syncTasksAndCategories.execute(Unit)
-      _swipeRefresh.postValue(false)
+      _swipeRefresh.value = false
     }
   }
 
