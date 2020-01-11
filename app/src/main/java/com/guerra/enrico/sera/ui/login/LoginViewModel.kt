@@ -16,7 +16,6 @@ import javax.inject.Inject
  * on 12/10/2018.
  */
 class LoginViewModel @Inject constructor(
-  private val dispatchers: CoroutineDispatcherProvider,
   private val signIn: SignIn
 ) : BaseViewModel() {
 
@@ -25,9 +24,9 @@ class LoginViewModel @Inject constructor(
     get() = _user
 
   fun onCodeReceived(code: String) {
-    viewModelScope.launch(dispatchers.io()) {
+    viewModelScope.launch {
       _user.postValue(Result.Loading)
-      _user.postValue(signIn.execute(code))
+      _user.postValue(signIn(code))
     }
   }
 }

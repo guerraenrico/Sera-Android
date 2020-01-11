@@ -25,15 +25,15 @@ import javax.inject.Inject
  * on 21/10/2018.
  */
 class TodoAddViewModel @Inject constructor(
-        private val dispatchers: CoroutineDispatcherProvider,
-        observeCategories: ObserveCategories,
-        private val insertCategory: InsertCategory,
-        private val insertTask: InsertTask
+  private val dispatchers: CoroutineDispatcherProvider,
+  observeCategories: ObserveCategories,
+  private val insertCategory: InsertCategory,
+  private val insertTask: InsertTask
 ) : BaseViewModel() {
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
-          .onStart { Result.Loading }
-          .map { Result.Success(it) }
-          .asLiveData(dispatchers.io())
+    .onStart { Result.Loading }
+    .map { Result.Success(it) }
+    .asLiveData(dispatchers.io())
 
   private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryView>>>()
   val categoriesViewResult: LiveData<Result<List<CategoryView>>>
@@ -98,7 +98,7 @@ class TodoAddViewModel @Inject constructor(
     val newCategory = Category(name = name)
     viewModelScope.launch(dispatchers.io()) {
       _createCategoryResult.postValue(Result.Loading)
-      val result = insertCategory.execute(newCategory)
+      val result = insertCategory(newCategory)
       _createCategoryResult.postValue(result)
       if (result is Result.Success) {
         _selectedCategory.postValue(result.data)
@@ -116,7 +116,7 @@ class TodoAddViewModel @Inject constructor(
     task = task.copy(todoWithin = todoWithin)
     viewModelScope.launch(dispatchers.io()) {
       _createTaskResult.postValue(Result.Loading)
-      val result = insertTask.execute(task)
+      val result = insertTask(task)
       _createTaskResult.postValue(result)
     }
   }

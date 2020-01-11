@@ -45,4 +45,10 @@ interface TaskDao {
 
   @Query("DELETE FROM Task")
   suspend fun clear()
+
+  @Transaction
+  suspend fun sync(tasks: List<Task>) {
+    clear()
+    insertAll(tasks)
+  }
 }

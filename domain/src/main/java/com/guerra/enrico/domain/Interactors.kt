@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 abstract class Interactor<in P, out R> {
   protected abstract val dispatcher: CoroutineDispatcher
 
-  suspend fun execute(params: P): R = withContext(dispatcher) { doWork(params) }
+  suspend operator fun invoke(params: P): R = withContext(dispatcher) { doWork(params) }
 
   protected abstract suspend fun doWork(params: P): R
 }
@@ -39,9 +39,12 @@ abstract class SubjectInteractor<in P, R> : ObservableInteractor<R> {
     channel.asFlow().distinctUntilChanged().flatMapLatest { createObservable(it) }
 }
 
+suspend operator fun <T> Interactor<Unit, T>.invoke() = invoke(Unit)
+operator fun <T> SubjectInteractor<Unit, T>.invoke() = invoke(Unit)
+
 fun <I : ObservableInteractor<T>, T> CoroutineScope.launchObserve(
-        interactor: I,
-        f: suspend (Flow<T>) -> Unit
+  interactor: I,
+  f: suspend (Flow<T>) -> Unit
 ) {
   launch(interactor.dispatcher) {
     f(interactor.observe())

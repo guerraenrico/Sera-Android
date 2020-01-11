@@ -9,4 +9,5 @@ interface Logger {
   fun e(throwable: Throwable)
   fun e(code: String, throwable: Throwable)
   fun e(code:String, message: String, throwable: Throwable)
+  fun i(tag:String, message: String)
 }

@@ -11,7 +11,7 @@ import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
-import com.guerra.enrico.domain.launchObserve
+import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
@@ -82,7 +82,7 @@ class TodosViewModel @Inject constructor(
 
     // Start load tasks
     observeTasks(ObserveTasks.Params())
-    observeCategories(Unit)
+    observeCategories()
   }
 
   /**
@@ -91,7 +91,7 @@ class TodosViewModel @Inject constructor(
   fun onRefreshData() {
     viewModelScope.launch {
       _swipeRefresh.value = true
-      syncTasksAndCategories.execute(Unit)
+      syncTasksAndCategories()
       _swipeRefresh.value = false
     }
   }
@@ -137,7 +137,7 @@ class TodosViewModel @Inject constructor(
     if (tasksViewValues is Result.Success && taskPosition in tasksViewValues.data.indices) {
       val taskView = tasksViewValues.data[taskPosition]
       viewModelScope.launch {
-        val completeTaskResult = updateTaskCompleteState.execute(taskView.task)
+        val completeTaskResult = updateTaskCompleteState(taskView.task)
         _snackbarMessage.postValue(
           when (completeTaskResult) {
             is Result.Error -> Event(

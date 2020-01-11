@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.guerra.enrico.sera.data.models.Category
 import kotlinx.coroutines.flow.Flow
 
@@ -33,4 +34,10 @@ interface CategoryDao {
 
   @Query("DELETE FROM Category")
   fun clear()
+
+  @Transaction
+  suspend fun sync(categories: List<Category>) {
+    clear()
+    insertAll(categories)
+  }
 }

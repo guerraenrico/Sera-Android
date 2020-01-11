@@ -16,8 +16,8 @@ import javax.inject.Inject
  * on 04/06/2018.
  */
 class CategoryRepositoryImpl @Inject constructor(
-        private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager
+  private val localDbManager: LocalDbManager,
+  private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
 
   override suspend fun getCategoriesRemote(): Result<List<Category>> {
@@ -95,8 +95,7 @@ class CategoryRepositoryImpl @Inject constructor(
   override suspend fun fetchAndSaveAllCategories(): Result<Unit> {
     val result = getCategoriesRemote()
     if (result is Result.Success) {
-      localDbManager.clearCategories()
-      localDbManager.saveCategories(result.data)
+      localDbManager.syncCategories(result.data)
     }
     if (result is Result.Error) {
       return Result.Error(result.exception)

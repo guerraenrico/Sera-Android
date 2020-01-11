@@ -67,7 +67,7 @@ class TaskViewHolder(
 
 internal object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
   override fun areItemsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
-    oldItem == newItem
+    oldItem.task.id == newItem.task.id
 
   override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
     oldItem == newItem

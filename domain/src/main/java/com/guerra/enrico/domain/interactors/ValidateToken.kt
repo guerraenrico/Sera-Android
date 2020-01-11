@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.domain.Interactor
+import com.guerra.enrico.domain.invoke
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class ValidateToken @Inject constructor(
       authRepository.validateAccessToken()
     }).first()
     if (result is Result.Success) {
-      syncTasksAndCategories.execute(Unit)
+      syncTasksAndCategories()
     }
     return result
   }

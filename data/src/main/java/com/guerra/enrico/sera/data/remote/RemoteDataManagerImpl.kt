@@ -34,7 +34,6 @@ class RemoteDataManagerImpl @Inject constructor(
   override suspend fun googleSignInCallback(code: String): CallResult<AuthData> =
           callAndCatch { api.googleSignInCallback(AuthRequestParams(code)) }
 
-
   override suspend fun validateAccessToken(accessToken: String): CallResult<AuthData> =
           callAndCatch { api.validateAccessToken(AccessTokenParams(accessToken)) }
 
@@ -52,7 +51,6 @@ class RemoteDataManagerImpl @Inject constructor(
 
   override suspend fun searchCategory(accessToken: String, text: String): CallResult<List<Category>> =
           callAndCatch { api.searchCategory(accessToken, text) }
-
 
   override suspend fun insertCategory(accessToken: String, category: Category): CallResult<Category> =
           callAndCatch {
@@ -86,7 +84,6 @@ class RemoteDataManagerImpl @Inject constructor(
 
   override suspend fun getAllTasks(accessToken: String): CallResult<List<Task>> =
           callAndCatch { api.getAllTasks(accessToken) }
-
 
   override suspend fun insertTask(accessToken: String, task: Task): CallResult<Task> =
           callAndCatch {

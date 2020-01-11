@@ -5,6 +5,7 @@ import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.domain.Interactor
+import com.guerra.enrico.domain.invoke
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class SignIn @Inject constructor(
 
   override suspend fun doWork(params: String): Result<User> {
     val user = authRepository.googleSignInCallback(params)
-    syncTasksAndCategories.execute(Unit)
+    syncTasksAndCategories()
     return user
   }
 }

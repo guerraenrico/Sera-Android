@@ -4,10 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
+import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.workers.di.ChildWorkerFactory
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import timber.log.Timber
 
 /**
  * Created by enrico
@@ -16,7 +19,8 @@ import com.squareup.inject.assisted.AssistedInject
 class SyncTodosWorker @AssistedInject constructor(
         @Assisted context: Context,
         @Assisted params: WorkerParameters,
-        private val syncTasksAndCategories: SyncTasksAndCategories
+        private val syncTasksAndCategories: SyncTasksAndCategories,
+  private val logger: Logger
 ) : CoroutineWorker(context, params) {
   companion object {
     const val SYNC_TAG = "sync_todos"
@@ -24,8 +28,8 @@ class SyncTodosWorker @AssistedInject constructor(
   }
 
   override suspend fun doWork(): Result {
-    Log.i(SYNC_TAG, "worker started")
-    syncTasksAndCategories.execute(Unit)
+    logger.i(SYNC_TAG, "worker started")
+    syncTasksAndCategories()
     return Result.success()
   }
 

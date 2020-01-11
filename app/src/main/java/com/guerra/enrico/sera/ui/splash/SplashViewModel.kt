@@ -6,6 +6,7 @@ import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.domain.interactors.ValidateToken
+import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import javax.inject.Inject
 
@@ -14,11 +15,10 @@ import javax.inject.Inject
  * on 17/10/2018.
  */
 class SplashViewModel @Inject constructor(
-  dispatchers: CoroutineDispatcherProvider,
   validateToken: ValidateToken
 ) : BaseViewModel() {
-  val validationAccessTokenResult: LiveData<Result<User>> = liveData(dispatchers.io()) {
+  val validationAccessTokenResult: LiveData<Result<User>> = liveData {
     emit(Result.Loading)
-    emit(validateToken.execute(Unit))
+    emit(validateToken())
   }
 }

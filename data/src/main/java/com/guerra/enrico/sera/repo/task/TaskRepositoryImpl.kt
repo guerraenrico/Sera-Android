@@ -149,8 +149,7 @@ class TaskRepositoryImpl @Inject constructor(
   override suspend fun fetchAndSaveAllTasks(): Result<Unit> {
     val result = getAllTasksRemote()
     if (result is Result.Success) {
-      localDbManager.clearTasks()
-      localDbManager.saveTasks(result.data)
+      localDbManager.syncTasks(result.data)
       return Result.Success(Unit)
     }
     if (result is Result.Error) {
