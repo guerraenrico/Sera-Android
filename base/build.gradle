@@ -30,4 +30,5 @@ dependencies {
 
     // Timber
     api "com.jakewharton.timber:timber:$timberVersion"
+    implementation 'com.google.android.material:material:1.0.0'
 }

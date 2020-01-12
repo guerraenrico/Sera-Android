@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.isNotNullAndEmpty
+import com.guerra.enrico.base.util.onDismiss
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerFragment
@@ -25,18 +26,19 @@ open class BaseFragment : DaggerFragment() {
 
   fun showSnackbar(
     @StringRes messageId: Int, view: View? = null, @StringRes actionId: Int? = null,
-    action: (() -> Unit)? = null
+    onAction: (() -> Unit)? = null, onDismiss: (() -> Unit)? = null
   ) {
     if (!isAdded) return
     val actionText = if (actionId != null) resources.getString(actionId) else null
-    showSnackbar(resources.getString(messageId), view, actionText, action)
+    showSnackbar(resources.getString(messageId), view, actionText, onAction, onDismiss)
   }
 
   fun showSnackbar(
     message: String,
     view: View? = null,
     actionText: String? = null,
-    action: (() -> Unit)? = null
+    onAction: (() -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null
   ) {
     if (!isAdded || message.isEmpty()) return
     snackbar = Snackbar.make(
@@ -44,8 +46,11 @@ open class BaseFragment : DaggerFragment() {
       message,
       Snackbar.LENGTH_LONG
     )
-    if (actionText.isNotNullAndEmpty() && action != null) {
-      snackbar?.setAction(actionText) { action() }
+    if (actionText.isNotNullAndEmpty() && onAction != null) {
+      snackbar?.setAction(actionText) { onAction() }
+    }
+    if (onDismiss != null) {
+      snackbar?.onDismiss(onDismiss)
     }
     snackbar?.show()
   }

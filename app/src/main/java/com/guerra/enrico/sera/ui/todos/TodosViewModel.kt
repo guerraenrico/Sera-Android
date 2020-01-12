@@ -5,6 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.guerra.enrico.base.util.addUnique
+import com.guerra.enrico.base.util.hasKey
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event
 import com.guerra.enrico.sera.data.Result
@@ -19,6 +21,10 @@ import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import com.guerra.enrico.sera.ui.todos.entities.tasksToModelForView
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -62,6 +68,8 @@ class TodosViewModel @Inject constructor(
   private val _swipeRefresh = MutableLiveData<Boolean>(false)
   val swipeRefresh: LiveData<Boolean>
     get() = _swipeRefresh
+
+  private val taskJobsQueue = mutableMapOf<Task, Job>()
 
   init {
     _categories.addSource(_categoriesResult) { result ->
@@ -130,34 +138,65 @@ class TodosViewModel @Inject constructor(
 
   /**
    * Set task as completed on swipe out
-   * @param taskPosition task position
+   * @param position task position
    */
-  fun onTaskSwipeToComplete(taskPosition: Int) {
+  fun onTaskSwipeToComplete(position: Int) {
     val tasksViewValues = _tasksViewResult.value
-    if (tasksViewValues is Result.Success && taskPosition in tasksViewValues.data.indices) {
-      val taskView = tasksViewValues.data[taskPosition]
-      viewModelScope.launch {
-        val completeTaskResult = updateTaskCompleteState(taskView.task)
-        _snackbarMessage.postValue(
-          when (completeTaskResult) {
-            is Result.Error -> Event(
-              SnackbarMessage(
-                message = completeTaskResult.exception.message,
-                actionId = R.string.snackbar_action_retry,
-                action = { onTaskSwipeToComplete(taskPosition) })
-            )
-            is Result.Success -> Event(
-              SnackbarMessage(
-                messageId = R.string.message_task_completed,
-                actionId = R.string.snackbar_action_abort,
-                action = {}
-                // TODO: Abort action
-              )
-            )
-            else -> return@launch
-          }
+    if (tasksViewValues is Result.Success && position in tasksViewValues.data.indices) {
+      val taskView = tasksViewValues.data[position]
+
+      if (taskJobsQueue.hasKey(taskView.task))
+        return
+
+      // TODO: update ui removing the completed task
+      val action = createCompleteTaskAction(taskView.task, position)
+      taskJobsQueue[taskView.task] = action
+      _snackbarMessage.value = Event(SnackbarMessage(
+        messageId = R.string.message_task_completed,
+        actionId = R.string.snackbar_action_abort,
+        onAction = {
+          abortCompleteTaskAction(taskView.task)
+        },
+        onDismiss = {
+          launchCompleteTaskAction(taskView.task)
+        }
+      ))
+    }
+  }
+
+  private fun createCompleteTaskAction(task: Task, position: Int): Job =
+    viewModelScope.launch(start = CoroutineStart.LAZY) {
+      _snackbarMessage.value = when (val completeTaskResult = updateTaskCompleteState(task)) {
+        is Result.Error -> {
+          onRefreshData()
+          Event(
+            SnackbarMessage(
+              message = completeTaskResult.exception.message,
+              actionId = R.string.snackbar_action_retry,
+              onAction = { onTaskSwipeToComplete(position) })
+          )
+        }
+        is Result.Success -> Event(
+          SnackbarMessage(
+            message = "Completed",
+            actionId = R.string.snackbar_action_retry,
+            onAction = { onTaskSwipeToComplete(position) })
         )
+        else -> return@launch
       }
     }
+
+  private fun abortCompleteTaskAction(task: Task) {
+    taskJobsQueue.remove(task)?.cancel()
+    onRefreshData()
+  }
+
+  private fun launchCompleteTaskAction(task: Task) {
+    taskJobsQueue.remove(task)?.start()
+  }
+
+  override fun onCleared() {
+    // Start all cleared jobs in queue, I assume the user confirm the action
+    taskJobsQueue.forEach { it.value.start() }
   }
 }

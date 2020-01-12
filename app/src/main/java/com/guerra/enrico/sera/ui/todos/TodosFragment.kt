@@ -152,7 +152,8 @@ class TodosFragment : BaseFragment() {
         message = it.getMessage(requireContext()),
         view = requireActivity().findViewById(R.id.fab_filter),
         actionText = it.getActionText(requireContext()),
-        action = it.action
+        onAction = it.onAction,
+        onDismiss = it.onDismiss
       )
     })
   }

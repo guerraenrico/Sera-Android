@@ -84,7 +84,9 @@ class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
   }
 
   override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-    completeListener(viewHolder.adapterPosition)
+    if (direction == ItemTouchHelper.LEFT) {
+      completeListener(viewHolder.adapterPosition)
+    }
   }
 
   override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

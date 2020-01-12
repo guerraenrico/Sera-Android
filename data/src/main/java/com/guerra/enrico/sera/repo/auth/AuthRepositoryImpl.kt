@@ -27,9 +27,8 @@ class AuthRepositoryImpl @Inject constructor(
 
   // Sign in
 
-  override suspend fun googleSignInCallback(code: String): Result<User> {
-    val apiResult = remoteDataManager.googleSignInCallback(code)
-    return when (apiResult) {
+  override suspend fun googleSignInCallback(code: String): Result<User> =
+    when (val apiResult = remoteDataManager.googleSignInCallback(code)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.saveSession(
@@ -45,8 +44,7 @@ class AuthRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
-  }
+    }
 
   override suspend fun validateAccessToken(): Result<User> {
     val session = localDbManager.getSession()
@@ -54,8 +52,7 @@ class AuthRepositoryImpl @Inject constructor(
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
-    val apiResult = remoteDataManager.validateAccessToken(session.accessToken)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.validateAccessToken(session.accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.saveSession(
@@ -71,7 +68,7 @@ class AuthRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun refreshToken(): Result<Unit> {
@@ -79,8 +76,7 @@ class AuthRepositoryImpl @Inject constructor(
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
-    val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.saveSession(
@@ -95,18 +91,18 @@ class AuthRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun <T> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>> =
     coroutineScope {
-     val results = blocks.map { block ->
+      val results = blocks.map { block ->
         async { executeAndRefreshIfNeeded(block) }
       }
       return@coroutineScope results.map { it.await() }
     }
 
-  private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>) : Result<T> {
+  private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>): Result<T> {
     val result = block()
     if (result is Result.Error && result.exception is RemoteException) {
       if (result.exception.isExpiredSession()) {

@@ -19,18 +19,18 @@ import javax.inject.Inject
  * on 21/08/2018.
  */
 class TaskRepositoryImpl @Inject constructor(
-        private val localDbManager: LocalDbManager,
-        private val remoteDataManager: RemoteDataManager
+  private val localDbManager: LocalDbManager,
+  private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {
   override suspend fun getTasksRemote(
-          categoriesId: List<String>,
-          completed: Boolean,
-          limit: Int,
-          skip: Int
+    categoriesId: List<String>,
+    completed: Boolean,
+    limit: Int,
+    skip: Int
   ): Result<List<Task>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)
-    return when (apiResult) {
+    return when (val apiResult =
+      remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           Result.Success(apiResult.apiResponse.data ?: emptyList())
@@ -41,13 +41,12 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun getAllTasksRemote(): Result<List<Task>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.getAllTasks(accessToken)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.getAllTasks(accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           Result.Success(apiResult.apiResponse.data ?: emptyList())
@@ -58,13 +57,12 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun insertTask(task: Task): Result<Task> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.insertTask(accessToken, task)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.insertTask(accessToken, task)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.saveTask(apiResult.apiResponse.data)
@@ -76,13 +74,12 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.deleteTask(accessToken, task.id)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.deleteTask(accessToken, task.id)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           val result = localDbManager.deleteTask(task)
@@ -94,13 +91,12 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.updateTask(accessToken, task)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.updateTask(accessToken, task)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.updateTask(apiResult.apiResponse.data)
@@ -112,14 +108,13 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun toggleCompleteTask(task: Task): Result<Task> {
     val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.updateTask(apiResult.apiResponse.data)
@@ -131,20 +126,24 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
-  override fun observeTasks(searchText: String, category: Category?, completed: Boolean): Flow<List<Task>> =
-          localDbManager.observeTasks(completed).map { list ->
-            val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
-            if (searchText.isNotEmpty()) {
-              return@map list.filter { c -> c.description.contains(regex) }
-            }
-            if (category !== null) {
-              return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
-            }
-            return@map list
-          }
+  override fun observeTasks(
+    searchText: String,
+    category: Category?,
+    completed: Boolean
+  ): Flow<List<Task>> =
+    localDbManager.observeTasks(completed).map { list ->
+      val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
+      if (searchText.isNotEmpty()) {
+        return@map list.filter { c -> c.description.contains(regex) }
+      }
+      if (category !== null) {
+        return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
+      }
+      return@map list
+    }
 
   override suspend fun fetchAndSaveAllTasks(): Result<Unit> {
     val result = getAllTasksRemote()

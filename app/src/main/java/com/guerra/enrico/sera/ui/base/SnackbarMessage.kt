@@ -11,15 +11,16 @@ data class SnackbarMessage(
   val message: String? = null,
   @StringRes val messageId: Int? = null,
   @StringRes val actionId: Int? = null,
-  val action: (() -> Unit)? = null
+  val onAction: (() -> Unit)? = null,
+  val onDismiss: (() -> Unit)? = null
 ) {
 
   var hasAction: Boolean = false
-    get() = action != null
+    get() = onAction != null
     private set
 
   val actionSafe: () -> Unit
-    get() = action ?: {}
+    get() = onAction ?: {}
 
   fun getMessage(context: Context): String {
     if (message != null) {

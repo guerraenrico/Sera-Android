@@ -21,8 +21,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
   override suspend fun getCategoriesRemote(): Result<List<Category>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.getCategories(accessToken)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.getCategories(accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           Result.Success(apiResult.apiResponse.data ?: emptyList())
@@ -33,13 +32,12 @@ class CategoryRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun searchCategory(text: String): Result<List<Category>> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.searchCategory(accessToken, text)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.searchCategory(accessToken, text)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           Result.Success(apiResult.apiResponse.data ?: emptyList())
@@ -50,13 +48,12 @@ class CategoryRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.insertCategory(accessToken, category)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.insertCategory(accessToken, category)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
           localDbManager.saveCategory(apiResult.apiResponse.data)
@@ -68,13 +65,12 @@ class CategoryRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
     val accessToken = localDbManager.getSessionAccessToken()
-    val apiResult = remoteDataManager.deleteCategory(accessToken, category.id)
-    return when (apiResult) {
+    return when (val apiResult = remoteDataManager.deleteCategory(accessToken, category.id)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
           val result = localDbManager.deleteCategory(category)
@@ -86,7 +82,7 @@ class CategoryRepositoryImpl @Inject constructor(
       is CallResult.Error -> {
         Result.Error(apiResult.exception)
       }
-    }.exhaustive
+    }
   }
 
   override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()

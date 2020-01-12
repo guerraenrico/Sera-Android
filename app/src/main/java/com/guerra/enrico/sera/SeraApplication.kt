@@ -31,7 +31,7 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
       Timber.plant(Timber.DebugTree())
     }
 
-    LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)
+    LeakCanary.config = LeakCanary.config.copy(dumpHeap = true)
   }
 
   override fun getWorkManagerConfiguration(): Configuration = workConfiguration
