@@ -35,6 +35,7 @@ interface LocalDbManager {
   // Tasks
 
   fun observeTasks(completed: Boolean = false): Flow<List<Task>>
+  suspend fun getTask(id: String): Task
   suspend fun saveTask(task: Task): Long
   suspend fun saveTasks(tasks: List<Task>): List<Long>
   suspend fun clearTasks()

@@ -5,8 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.util.addUnique
 import com.guerra.enrico.base.util.hasKey
+import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event
 import com.guerra.enrico.sera.data.Result
@@ -22,9 +22,7 @@ import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
 import com.guerra.enrico.sera.ui.todos.entities.tasksToModelForView
 import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -38,7 +36,8 @@ class TodosViewModel @Inject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
-  private val syncTasksAndCategories: SyncTasksAndCategories
+  private val syncTasksAndCategories: SyncTasksAndCategories,
+  private val applyTaskUpdateRemote: ApplyTaskUpdateRemote
 ) : BaseViewModel(), EventActions {
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
@@ -148,8 +147,11 @@ class TodosViewModel @Inject constructor(
       if (taskJobsQueue.hasKey(taskView.task))
         return
 
-      // TODO: update ui removing the completed task
-      val action = createCompleteTaskAction(taskView.task, position)
+      viewModelScope.launch {
+        updateTaskCompleteState(UpdateTaskCompleteState.Params(taskView.task, true))
+      }
+
+      val action = createApplyTaskCompleteStateAction(taskView.task, position)
       taskJobsQueue[taskView.task] = action
       _snackbarMessage.value = Event(SnackbarMessage(
         messageId = R.string.message_task_completed,
@@ -164,11 +166,11 @@ class TodosViewModel @Inject constructor(
     }
   }
 
-  private fun createCompleteTaskAction(task: Task, position: Int): Job =
+  private fun createApplyTaskCompleteStateAction(task: Task, position: Int): Job =
     viewModelScope.launch(start = CoroutineStart.LAZY) {
-      _snackbarMessage.value = when (val completeTaskResult = updateTaskCompleteState(task)) {
+      _snackbarMessage.value = when (val completeTaskResult = applyTaskUpdateRemote(task)) {
         is Result.Error -> {
-          onRefreshData()
+          restoreTask(task)
           Event(
             SnackbarMessage(
               message = completeTaskResult.exception.message,
@@ -176,23 +178,24 @@ class TodosViewModel @Inject constructor(
               onAction = { onTaskSwipeToComplete(position) })
           )
         }
-        is Result.Success -> Event(
-          SnackbarMessage(
-            message = "Completed",
-            actionId = R.string.snackbar_action_retry,
-            onAction = { onTaskSwipeToComplete(position) })
-        )
         else -> return@launch
       }
     }
 
   private fun abortCompleteTaskAction(task: Task) {
-    taskJobsQueue.remove(task)?.cancel()
-    onRefreshData()
+    taskJobsQueue.remove(task)?.cancel()?.also {
+      restoreTask(task)
+    }
   }
 
   private fun launchCompleteTaskAction(task: Task) {
     taskJobsQueue.remove(task)?.start()
+  }
+
+  private fun restoreTask(task: Task) {
+    viewModelScope.launch {
+      updateTaskCompleteState(UpdateTaskCompleteState.Params(task, false))
+    }
   }
 
   override fun onCleared() {

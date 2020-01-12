@@ -74,6 +74,9 @@ class LocalDbManagerImpl @Inject constructor(
   override fun observeTasks(completed: Boolean): Flow<List<Task>> =
     database.taskDao().observeAll(completed)
 
+  override suspend fun getTask(id: String): Task =
+    database.taskDao().get(id)
+
   override suspend fun saveTask(task: Task): Long =
     database.taskDao().insertOne(task)
 

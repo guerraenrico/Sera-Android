@@ -14,8 +14,11 @@ import java.util.*
 interface TaskDao {
   @Query("SELECT * FROM Task  WHERE completed = :completed")
   fun observeAll(
-          completed: Boolean
+    completed: Boolean
   ): Flow<List<Task>>
+
+  @Query("SELECT * FROM TASK WHERE id = :id")
+  suspend fun get(id: String): Task
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertOne(task: Task): Long
@@ -31,13 +34,13 @@ interface TaskDao {
 
   @Query("UPDATE Task SET title= :title, description= :description, completed= :completed, completedAt= :completedAt, todoWithin= :todoWithin, categories= :categories WHERE id =:id")
   suspend fun updateFields(
-          id: String,
-          title: String,
-          description: String,
-          completed: Boolean,
-          completedAt: Date?,
-          todoWithin: Date,
-          categories: List<Category>
+    id: String,
+    title: String,
+    description: String,
+    completed: Boolean,
+    completedAt: Date?,
+    todoWithin: Date,
+    categories: List<Category>
   ): Int
 
   @Query("DELETE FROM task WHERE id = :id")

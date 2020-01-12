@@ -94,12 +94,12 @@ class TaskRepositoryImpl @Inject constructor(
     }
   }
 
-  override suspend fun updateTask(task: Task): Result<Task> {
+  override suspend fun updateTaskRemote(task: Task): Result<Task> {
     val accessToken = localDbManager.getSessionAccessToken()
-    return when (val apiResult = remoteDataManager.updateTask(accessToken, task)) {
+    val savedTask = localDbManager.getTask(task.id)
+    return when (val apiResult = remoteDataManager.updateTask(accessToken, savedTask)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.updateTask(apiResult.apiResponse.data)
           Result.Success(apiResult.apiResponse.data)
         } else {
           Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
@@ -111,22 +111,10 @@ class TaskRepositoryImpl @Inject constructor(
     }
   }
 
-  override suspend fun toggleCompleteTask(task: Task): Result<Task> {
-    val updatedTask = task.copy(completed = !task.completed, completedAt = Date())
-    val accessToken = localDbManager.getSessionAccessToken()
-    return when (val apiResult = remoteDataManager.toggleCompleteTask(accessToken, updatedTask)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.updateTask(apiResult.apiResponse.data)
-          Result.Success(apiResult.apiResponse.data)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
+  override suspend fun toggleTaskCompleteStateLocal(task: Task, completed: Boolean): Result<Task> {
+    val updatedTask = task.copy(completed = completed, completedAt = Date())
+    localDbManager.updateTask(updatedTask)
+    return Result.Success(updatedTask)
   }
 
   override fun observeTasks(
