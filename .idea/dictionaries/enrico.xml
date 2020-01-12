@@ -2,6 +2,7 @@
   <dictionary name="enrico">
     <words>
       <w>coroutine</w>
+      <w>coroutines</w>
       <w>gson</w>
       <w>initializers</w>
       <w>interactor</w>
