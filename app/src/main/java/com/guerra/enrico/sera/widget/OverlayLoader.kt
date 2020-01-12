@@ -55,7 +55,7 @@ class OverlayLoader private constructor(
         layout,
         ViewGroup.LayoutParams(
           ViewGroup.LayoutParams.MATCH_PARENT,
-          ViewGroup.LayoutParams.WRAP_CONTENT
+          ViewGroup.LayoutParams.MATCH_PARENT
         )
       )
       return OverlayLoader(layout)

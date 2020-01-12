@@ -13,7 +13,6 @@ import com.guerra.enrico.sera.data.remote.response.CallResult
 import com.guerra.enrico.sera.data.succeeded
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 /**

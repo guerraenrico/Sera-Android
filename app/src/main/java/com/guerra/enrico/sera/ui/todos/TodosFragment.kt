@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.data.Result
-import kotlinx.android.synthetic.main.fragment_todos.*
 import javax.inject.Inject
 import android.widget.TextView
 import android.widget.AdapterView
@@ -21,7 +20,6 @@ import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.util.closeKeyboard
 import com.guerra.enrico.base.util.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
@@ -113,16 +111,16 @@ class TodosFragment : BaseFragment() {
       if (tasksResult == null || tasksResult is Result.Loading) {
         return@Observer
       }
-      message_layout.hide()
+      binding.messageLayout.hide()
       if (tasksResult is Result.Success) {
-        recycler_view_tasks.visibility = View.VISIBLE
+        binding.recyclerViewTasks.visibility = View.VISIBLE
         setRecyclerTaskList(tasksResult.data)
         return@Observer
       }
       if (tasksResult is Result.Error) {
         val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
-        recycler_view_tasks.visibility = View.GONE
-        message_layout.apply {
+        binding.recyclerViewTasks.visibility = View.GONE
+        binding.messageLayout.apply {
           setImage(messageResources.icon)
           setMessage(messageResources.message)
           setButton(resources.getString(R.string.message_layout_button_try_again)) {
@@ -163,12 +161,12 @@ class TodosFragment : BaseFragment() {
     val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
       todosViewModel.onTaskSwipeToComplete(it)
     })
-    itemTouchHelper.attachToRecyclerView(recycler_view_tasks)
+    itemTouchHelper.attachToRecyclerView(binding.recyclerViewTasks)
     val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
     context?.let { context ->
       val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-      recycler_view_tasks.apply {
+      binding.recyclerViewTasks.apply {
         layoutManager = linearLayoutManager
         adapter = tasksAdapter
         (itemAnimator as DefaultItemAnimator).run {
