@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.logger.SeraLogger
+import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.utils.CoroutineDispatcherProviderTest
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
@@ -23,6 +24,7 @@ import com.guerra.enrico.sera.data.dao.CategoryDaoTest
 import com.guerra.enrico.sera.data.dao.SessionDaoTest
 import com.guerra.enrico.sera.data.dao.TaskDaoTest
 import com.guerra.enrico.sera.data.dao.UserDaoTest
+import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.repo.AuthRepositoryTest
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
@@ -32,9 +34,11 @@ import com.guerra.enrico.sera.repo.task.TaskRepository
 import com.guerra.enrico.sera.repo.task.TaskRepositoryImpl
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.viewModel.todos.TodosViewModelTests
+import com.nhaarman.mockitokotlin2.mock
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import io.mockk.mockk
 import org.mockito.Mockito
 import javax.inject.Singleton
 
@@ -45,8 +49,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
   modules = [
-    TestDataManagerModule::class,
-    TestViewModelModule::class
+    TestDataManagerModule::class
   ]
 )
 interface TestComponent {
@@ -59,68 +62,36 @@ interface TestComponent {
 }
 
 @Module(includes = [TestRoomDatabaseModule::class, TestRetrofitModule::class])
-class TestDataManagerModule {
+class TestDataManagerModule(
+  private val authRepository: AuthRepository = mockk(),
+  private val categoryRepository: CategoryRepository = mockk(),
+  private val taskRepository: TaskRepository = mockk(),
+  private val localDbManager: LocalDbManager = mockk(),
+  private val remoteDataManager: RemoteDataManager = mockk()
+) {
   @Singleton
   @Provides
   fun providerLogger(): Logger = SeraLogger()
 
   @Singleton
   @Provides
-  fun provideAuhRepositoryTest(): AuthRepositoryTest = AuthRepositoryTest()
+  fun provideAuhRepository(): AuthRepository = authRepository
 
   @Singleton
   @Provides
-  fun provideAuhRepository(
-    context: Context,
-    remoteDataManager: RemoteDataManager,
-    localDbManager: LocalDbManager
-  ): AuthRepository =
-    AuthRepositoryImpl(context, remoteDataManager, localDbManager)
+  fun provideCategoryRepository(): CategoryRepository = categoryRepository
 
   @Singleton
   @Provides
-  fun provideCategoryRepository(
-    remoteDataManager: RemoteDataManager,
-    localDbManager: LocalDbManager
-  ): CategoryRepository =
-    CategoryRepositoryImpl(localDbManager, remoteDataManager)
+  fun provideTasksRepository(): TaskRepository = taskRepository
 
   @Singleton
   @Provides
-  fun provideTasksRepository(
-    remoteDataManager: RemoteDataManager,
-    localDbManager: LocalDbManager
-  ): TaskRepository =
-    TaskRepositoryImpl(localDbManager, remoteDataManager)
+  fun provideLocalDbManager(): LocalDbManager = localDbManager
 
   @Singleton
   @Provides
-  fun provideLocalDbManager(database: SeraDatabase): LocalDbManager =
-    LocalDbManagerImpl(database)
-
-  @Singleton
-  @Provides
-  fun provideRemoteDataManager(
-    api: Api,
-    gson: Gson,
-    coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    logger: Logger
-  ): RemoteDataManager =
-    RemoteDataManagerImpl(api, gson, coroutineDispatcherProvider, logger)
-}
-
-@Module(includes = [TestInteractors::class])
-class TestViewModelModule {
-
-  @Singleton
-  @Provides
-  fun provideTodosViewModel(
-    observeCategories: ObserveCategories,
-    observeTasks: ObserveTasks,
-    updateTaskCompleteState: UpdateTaskCompleteState,
-    syncTasksAndCategories: SyncTasksAndCategories
-  ) =
-    TodosViewModel(observeCategories, observeTasks, updateTaskCompleteState, syncTasksAndCategories)
+  fun provideRemoteDataManager(): RemoteDataManager = remoteDataManager
 }
 
 @Module
@@ -153,30 +124,31 @@ class TestRoomDatabaseModule {
 }
 
 @Module
-class TestInteractors {
+class TestInteractors(
+  private val observeCategories: ObserveCategories = mockk(),
+  private val observeTasks: ObserveTasks = mockk(),
+  private val updateTaskCompleteState: UpdateTaskCompleteState = mockk(),
+  private val syncTasksAndCategories: SyncTasksAndCategories = mockk(),
+  private val applyTaskUpdateRemote: ApplyTaskUpdateRemote = mock()
+
+) {
   @Singleton
   @Provides
-  fun provideObserveCategories(categoryRepository: CategoryRepository) =
-    ObserveCategories(categoryRepository)
+  fun provideObserveCategories() = observeCategories
 
   @Singleton
   @Provides
-  fun provideObserveTasks(tasksRepository: TaskRepository) = ObserveTasks(tasksRepository)
+  fun provideObserveTasks() = observeTasks
 
   @Singleton
   @Provides
-  fun provideUpdateTaskCompleteState(
-    authRepository: AuthRepository,
-    tasksRepository: TaskRepository
-  ) =
-    UpdateTaskCompleteState(authRepository, tasksRepository)
+  fun provideUpdateTaskCompleteState() = updateTaskCompleteState
 
   @Singleton
   @Provides
-  fun provideSyncTasksAndCategories(
-    authRepository: AuthRepository,
-    tasksRepository: TaskRepository,
-    categoryRepository: CategoryRepository
-  ) =
-    SyncTasksAndCategories(authRepository, tasksRepository, categoryRepository)
+  fun provideSyncTasksAndCategories() = syncTasksAndCategories
+
+  @Singleton
+  @Provides
+  fun provideApplyTaskUpdateRemote() = applyTaskUpdateRemote
 }

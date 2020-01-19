@@ -1,15 +1,21 @@
 package com.guerra.enrico.sera.viewModel.todos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.guerra.enrico.sera.data.local.db.SeraDatabase
+import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
+import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
+import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
+import com.guerra.enrico.domain.observers.ObserveCategories
+import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.DaggerTestComponent
 import com.guerra.enrico.sera.TestDataManagerModule
-import com.guerra.enrico.sera.TestViewModelModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import com.guerra.enrico.sera.utils.testEventObserver
 import com.guerra.enrico.sera.utils.testObserver
+import io.mockk.coEvery
+import io.mockk.spyk
+import kotlinx.coroutines.flow.flow
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -29,68 +35,77 @@ class TodosViewModelTests {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-  private val testCoroutineRule = TestCoroutineRule()
+  @get:Rule
+  val testCoroutineRule = TestCoroutineRule()
 
   @Inject
-  lateinit var database: SeraDatabase
+  lateinit var observeCategories: ObserveCategories
   @Inject
-  lateinit var viewModel: TodosViewModel
+  lateinit var observeTasks: ObserveTasks
+  @Inject
+  lateinit var updateTaskCompleteState: UpdateTaskCompleteState
+  @Inject
+  lateinit var syncTasksAndCategories: SyncTasksAndCategories
+  @Inject
+  lateinit var applyTaskUpdateRemote: ApplyTaskUpdateRemote
+
+  private lateinit var viewModel: TodosViewModel
 
   @Before
-  fun setup(){
+  fun setup() {
     DaggerTestComponent.builder()
-            .testDataManagerModule(TestDataManagerModule())
-            .testViewModelModule(TestViewModelModule())
-            .build()
-            .inject(this)
+      .testDataManagerModule(TestDataManagerModule())
+      .build()
+      .inject(this)
 
+    observeCategories = spyk(observeCategories, recordPrivateCalls = true)
+    observeTasks = spyk(observeTasks, recordPrivateCalls = true)
+    updateTaskCompleteState = spyk(updateTaskCompleteState, recordPrivateCalls = true)
+    syncTasksAndCategories = spyk(syncTasksAndCategories, recordPrivateCalls = true)
+    applyTaskUpdateRemote = spyk(applyTaskUpdateRemote, recordPrivateCalls = true)
+
+    viewModel = TodosViewModel(
+      observeCategories,
+      observeTasks,
+      updateTaskCompleteState,
+      syncTasksAndCategories,
+      applyTaskUpdateRemote
+    )
+  }
+
+  @Test
+  fun `test first load`() {
     testCoroutineRule.runBlockingTest {
-      insertTasks(database)
-      insertCategories(database)
+      // given
+      val params = ObserveTasks.Params()
+      coEvery { observeTasks["createObservable"] (params) } returns flow { emit(tasks) }
+      coEvery { observeCategories["createObservable"] (Unit) } returns flow { emit(categories) }
+
+      val liveDataTasksViews = viewModel.tasksViewResult.testObserver()
+      val liveDataCategories = viewModel.categories.testObserver()
+      val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
+
+      // when initial load
+
+      // than
+      Assert.assertEquals(listOf(tasksViewResultSuccess), liveDataTasksViews.observedValues)
+      Assert.assertEquals(listOf(categories), liveDataCategories.observedValues)
+      Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
     }
   }
 
   @Test
-  fun testFirstLoad() {
-    val liveDataTasks = viewModel.tasksResult.testObserver()
-    val liveDataCategories = viewModel.categories.testObserver()
-    val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
-    Assert.assertEquals(
-            listOf(tasksResultSuccess), liveDataTasks.observedValues
-    )
-    Assert.assertEquals(
-            listOf(categories), liveDataCategories.observedValues
-    )
-    Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
-  }
+  fun `test task reload`() {
+    testCoroutineRule.runBlockingTest {
+      // given
+      coEvery { syncTasksAndCategories["doWork"] (Unit) } returns Unit
+      val liveDataSwipeRefresh = viewModel.swipeRefresh.testObserver()
 
-  @Test
-  fun testReload() {
-    val liveDataTasks = viewModel.tasksResult.testObserver()
-    val liveDataCategories = viewModel.categories.testObserver()
-    val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
-    viewModel.onRefreshData()
-    Assert.assertEquals(
-            listOf(tasksResultSuccess), liveDataTasks.observedValues
-    )
-    Assert.assertEquals(
-            listOf(categories), liveDataCategories.observedValues
-    )
-    Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
-  }
+      // when
+      viewModel.onRefreshData()
 
-  @Test
-  fun testErrorLoad() {
-    val liveDataTasks = viewModel.tasksResult.testObserver()
-    val liveDataCategories = viewModel.categories.testObserver()
-    val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
-    viewModel.onRefreshData()
-    Assert.assertEquals(
-            listOf(tasksResultSuccess), liveDataTasks.observedValues
-    )
-    Assert.assertEquals(
-            listOf(categories), liveDataCategories.observedValues
-    )
-    Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
+      // than
+      Assert.assertEquals(listOf(false, true, false), liveDataSwipeRefresh.observedValues)
+    }
   }
 }

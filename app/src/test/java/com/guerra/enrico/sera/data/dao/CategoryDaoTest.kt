@@ -25,7 +25,10 @@ import javax.inject.Inject
 class CategoryDaoTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
-  private val testCoroutineRule = TestCoroutineRule()
+
+  @get:Rule
+  val testCoroutineRule = TestCoroutineRule()
+
   @Inject
   lateinit var database: SeraDatabase
 
