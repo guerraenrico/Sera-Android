@@ -12,9 +12,7 @@ import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
-import com.nhaarman.mockitokotlin2.whenever
 import io.mockk.coEvery
-import io.mockk.every
 import org.junit.*
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
