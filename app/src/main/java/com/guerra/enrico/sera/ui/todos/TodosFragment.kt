@@ -30,6 +30,7 @@ import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment
 import java.lang.ref.WeakReference
 
 /**
@@ -41,24 +42,7 @@ class TodosFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var todosViewModel: TodosViewModel
 
-  private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
-
-  /**
-   * Callback fired when the back button is pressed; the bottom sheet is closed if it's open
-   */
-  private lateinit var onBackPressedCallback: OnBackPressedCallback
-
-  /**
-   * Callback fired when the state of the bottom sheet change; when the bottom sheet opens
-   * enable the back button callback
-   */
-  private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-
-    override fun onStateChanged(bottomSheet: View, newState: Int) {
-      onBackPressedCallback.isEnabled = newState == BottomSheetBehavior.STATE_EXPANDED
-    }
-  }
+  private lateinit var todoFilterFragment: TodosFilterFragment
 
   private lateinit var binding: FragmentTodosBinding
 
@@ -82,20 +66,6 @@ class TodosFragment : BaseFragment() {
 
   private fun initView(view: View) {
     binding.toolbarSearch.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
-    filtersBottomSheetBehavior =
-      WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filters_bottom_sheet)))
-    onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-      filtersBottomSheetBehavior.get()?.let {
-        if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
-          if (it.isHideable && it.skipCollapsed) {
-            it.state = BottomSheetBehavior.STATE_HIDDEN
-          } else {
-            it.state = BottomSheetBehavior.STATE_COLLAPSED
-          }
-        }
-      }
-    }
-    onBackPressedCallback.isEnabled = false
 
     setupFiltersBottomSheet()
     setupRecyclerView()
@@ -218,12 +188,11 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupFiltersBottomSheet() {
-    filtersBottomSheetBehavior.get()?.apply {
-      setBottomSheetCallback(bottomSheetCallback)
-      binding.fabFilter.setOnClickListener {
-        state = BottomSheetBehavior.STATE_EXPANDED
+    todoFilterFragment = TodosFilterFragment()
+    binding.fabFilter.setOnClickListener {
+      fragmentManager?.let {
+        todoFilterFragment.show(it, TodosFilterFragment.TAG)
       }
-      state = BottomSheetBehavior.STATE_HIDDEN
     }
   }
 

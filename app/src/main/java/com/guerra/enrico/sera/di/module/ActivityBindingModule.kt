@@ -46,7 +46,7 @@ abstract class ActivityBindingModule {
             TodosModule::class
           ]
   )
-  abstract fun todosActivxity(): TodosFragment
+  abstract fun todosFragment(): TodosFragment
 
   @PerActivity
   @ContributesAndroidInjector(
@@ -62,7 +62,7 @@ abstract class ActivityBindingModule {
             GoalsModule::class
           ]
   )
-  abstract fun goalsActivity(): GoalsFragment
+  abstract fun goalsFragment(): GoalsFragment
 
   @PerFragment
   @ContributesAndroidInjector(

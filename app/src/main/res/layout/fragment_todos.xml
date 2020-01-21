@@ -86,19 +86,6 @@
             app:pressedTranslationZ="0dp"
             app:srcCompat="@drawable/ic_filter" />
 
-        <fragment
-            android:id="@+id/filters_bottom_sheet"
-            android:name="com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-            app:behavior_skipCollapsed="true"
-            app:layout_behavior="@string/bottom_sheet_behavior"
-            tools:layout="@layout/fragment_todos_filters" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
