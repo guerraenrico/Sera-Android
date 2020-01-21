@@ -42,7 +42,7 @@ val tasksResultSuccess = Result.Success(tasks)
 val tasksResultSuccess_task1Completed = Result.Success(listOf(task2))
 val tasksViewResultSuccess = Result.Success(taskViews)
 
-suspend fun insertTasks(db: SeraDatabase) = db.taskDao().insertAll(tasks)
+suspend fun insertTasks(db: SeraDatabase) = db.taskDao().insert(tasks)
 suspend fun deleteTasks(db: SeraDatabase) = db.taskDao().clear()
 suspend fun updateTask(db: SeraDatabase, task: Task) = db.taskDao().update(task)
 

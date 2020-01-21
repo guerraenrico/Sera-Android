@@ -47,30 +47,30 @@ class TaskDaoTest {
 
   @Test
   fun insertAll() = testCoroutineRule.runBlockingTest {
-    taskDao.insertAll(tasks)
-    Assert.assertThat(taskDao.observeAll(false).first(), `is`(tasks))
+    taskDao.insert(tasks)
+    Assert.assertThat(taskDao.observe(false).first(), `is`(tasks))
   }
 
   @Test
   fun insertOne() = testCoroutineRule.runBlockingTest {
-    taskDao.insertOne(task3)
-    Assert.assertTrue(taskDao.observeAll(false).first().contains(task3))
+    taskDao.insert(task3)
+    Assert.assertTrue(taskDao.observe(false).first().contains(task3))
   }
 
   @Test
   fun getAllForCategoryWithTask() = testCoroutineRule.runBlockingTest {
     insertTasks(database)
-    Assert.assertTrue(taskDao.observeAll(false).first().count() > 0)
+    Assert.assertTrue(taskDao.observe(false).first().count() > 0)
   }
 
   @Test
   fun getAllFroCategoryWithoutTask() = testCoroutineRule.runBlockingTest {
-    Assert.assertThat(taskDao.observeAll(false).first(), `is`(emptyList()))
+    Assert.assertThat(taskDao.observe(false).first(), `is`(emptyList()))
   }
 
   @Test
   fun clear() = testCoroutineRule.runBlockingTest {
     taskDao.clear()
-    Assert.assertThat(taskDao.observeAll(false).first(), `is`(emptyList()))
+    Assert.assertThat(taskDao.observe(false).first(), `is`(emptyList()))
   }
 }

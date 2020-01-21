@@ -72,16 +72,16 @@ class LocalDbManagerImpl @Inject constructor(
   // Tasks
 
   override fun observeTasks(completed: Boolean): Flow<List<Task>> =
-    database.taskDao().observeAll(completed)
+    database.taskDao().observe(completed)
 
   override suspend fun getTask(id: String): Task =
     database.taskDao().get(id)
 
   override suspend fun saveTask(task: Task): Long =
-    database.taskDao().insertOne(task)
+    database.taskDao().insert(task)
 
   override suspend fun saveTasks(tasks: List<Task>): List<Long> =
-    database.taskDao().insertAll(tasks)
+    database.taskDao().insert(tasks)
 
   override suspend fun clearTasks() {
     database.taskDao().clear()

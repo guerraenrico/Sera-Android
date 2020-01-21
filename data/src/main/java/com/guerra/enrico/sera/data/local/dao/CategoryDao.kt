@@ -33,7 +33,7 @@ interface CategoryDao {
   suspend fun removeOne(id: String): Int
 
   @Query("DELETE FROM Category")
-  fun clear()
+  suspend fun clear()
 
   @Transaction
   suspend fun sync(categories: List<Category>) {
