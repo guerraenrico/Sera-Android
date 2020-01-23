@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/color_accent</item>
 
         <item name="android:statusBarColor">@color/status_bar_color</item>
-        <item name="android:navigationBarColor">@color/color_primary_dark</item>
+<!--        <item name="android:navigationBarColor">@color/color_primary_dark</item>-->
         <item name="android:windowBackground">@color/background_color</item>
 
         <item name="fontFamily">@font/prompt</item>
@@ -21,10 +21,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents" />
+<!--    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents" />-->
 
     <style name="Widget.AppBar" parent="@style/Widget.Design.AppBarLayout">
-        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+<!--        <item name="popupTheme">@style/AppTheme.PopupTheme</item>-->
         <item name="android:background">@android:color/transparent</item>
         <item name="android:elevation">0dp</item>
         <item name="elevation">0dp</item>
@@ -149,6 +149,22 @@
 
     <style name="CategoryChipText.Small" parent="CategoryChipText">em>
         <item name="android:textSize">@dimen/category_item_text_size_small</item>
+    </style>
+
+    <!-- Bottom sheet dialog -->
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal"></style>
+
+<!--    Theme.MaterialComponents.BottomSheetDialog-->
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/white</item>
     </style>
 
 </resources>

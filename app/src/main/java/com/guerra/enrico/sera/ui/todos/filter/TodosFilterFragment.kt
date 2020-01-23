@@ -1,31 +1,25 @@
 package com.guerra.enrico.sera.ui.todos.filter
 
-import android.content.Context
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePaddingRelative
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.entities.CategoryView
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_todos_filters.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -36,6 +30,16 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
   companion object {
     const val TAG = "TodosFilterFragment"
   }
+
+  override fun getTheme(): Int {
+    return R.style.BottomSheetDialogTheme
+  }
+
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    return BottomSheetDialog(requireContext(), theme)
+  }
+
+  lateinit var behavior: BottomSheetBehavior<*>
 
   override fun onCreateView(
           inflater: LayoutInflater,
@@ -48,29 +52,24 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
-    val gridLayoutManager = GridLayoutManager(context, 2)
+    val bottomSheet = dialog?.findViewById(
+      com.google.android.material.R.id.design_bottom_sheet
+    ) as FrameLayout
+    behavior = BottomSheetBehavior.from(bottomSheet)
+
+    val gridLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     val filterAdapter = CategoryAdapter {}
     recycler_view_categories.apply {
       layoutManager = gridLayoutManager
       adapter = filterAdapter
-      addItemDecoration(
-        GridSpacingItemDecoration(
-          2,
-          resources.getDimensionPixelOffset(R.dimen.padding_s),
-          true
-        )
-      )
     }
 
-    recycler_view_categories.doOnApplyWindowInsets { v, insets, padding ->
-      v.updatePaddingRelative(bottom = padding.bottom + insets.systemWindowInsetBottom)
-    }
+//    recycler_view_categories.doOnApplyWindowInsets { v, insets, padding ->
+//      v.updatePaddingRelative(bottom = padding.bottom + insets.systemWindowInsetBottom)
+//    }
 
     filterAdapter.submitList(getList().map { CategoryView(category = it, isChecked = false) })
 
-    buttonCollapse.setOnClickListener {
-
-    }
   }
 
   fun View.doOnApplyWindowInsets(f: (View, WindowInsetsCompat, ViewPaddingState) -> Unit) {
