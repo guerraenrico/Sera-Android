@@ -4,10 +4,13 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,11 +38,12 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
   }
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-    return BottomSheetDialog(requireContext(), theme)
+    return BottomSheetDialogCustom(requireContext(), theme).apply {
+      initialState = BottomSheetBehavior.STATE_HALF_EXPANDED
+      skipCollapsed = true
+    }
   }
 
-  lateinit var behavior: BottomSheetBehavior<*>
-  private val handler = Handler()
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -49,49 +53,17 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
     return inflater.inflate(R.layout.fragment_todos_filters, container, false)
   }
 
-//  override fun onCancel(dialog: DialogInterface) {
-//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
-//  }
-//
-//  override fun onStart() {
-//    super.onStart()
-//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
-//    handler.postDelayed({ behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED }, 200)
-//
-//  }
-//
-//  override fun dismiss() {
-//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
-//    handler.postDelayed({  super.dismiss() }, 500)
-//  }
-
-
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
-    val bottomSheet = dialog?.findViewById(
-      com.google.android.material.R.id.design_bottom_sheet
-    ) as FrameLayout
-    behavior = BottomSheetBehavior.from(bottomSheet)
+    val dialogBottomSheet = dialog as BottomSheetDialogCustom
 
-    behavior.peekHeight = -1
-    behavior.skipCollapsed = true
-
-//    behavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
-//      override fun onSlide(p0: View, p1: Float) {
-//
-//      }
-//
-//      override fun onStateChanged(p0: View, newState: Int) {
-////        if (newState == BottomSheetBehavior.STATE_HIDDEN && dialog?.isShowing == true) {
-////          dialog?.dismiss()
-////        }
-//      }
-//
-//    })
+    dialogBottomSheet.onBottomSheetSlide = { bottomSheet, offset ->
+      Log.i("[AAAA]", offset.toString())
+    }
 
     sheetTitle.setOnClickListener {
-      behavior.state = BottomSheetBehavior.STATE_HIDDEN
+      dialogBottomSheet.setBehaviorState(BottomSheetBehavior.STATE_HIDDEN)
     }
 
     val gridLayoutManager =
@@ -102,12 +74,7 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
       adapter = filterAdapter
     }
 
-//    recycler_view_categories.doOnApplyWindowInsets { v, insets, padding ->
-//      v.updatePaddingRelative(bottom = padding.bottom + insets.systemWindowInsetBottom)
-//    }
-
     filterAdapter.submitList(getList().map { CategoryView(category = it, isChecked = false) })
-
   }
 
   fun View.doOnApplyWindowInsets(f: (View, WindowInsetsCompat, ViewPaddingState) -> Unit) {

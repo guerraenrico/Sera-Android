@@ -155,7 +155,10 @@
 
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal"></style>
 
-<!--    Theme.MaterialComponents.BottomSheetDialog-->
+    <style name="BottomSheetAnimation.Window" parent="@android:style/Animation.Activity">
+        <!--        <item name="android:windowEnterAnimation">@anim/slide_up</item>-->
+        <!--        <item name="android:windowExitAnimation">@anim/slide_down</item>-->
+    </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
@@ -165,15 +168,13 @@
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
 <!--        <item name="android:navigationBarColor">#fff</item>-->
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        <item name="android:fitsSystemWindows">true</item>-->
+        <item name="android:windowAnimationStyle">@style/BottomSheetAnimation.Window</item>
 
     </style>
 
-    <style name="MyAnimation.Window" parent="@android:style/Animation.Activity">
-        <item name="android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_down</item>
-    </style>
+
+    <style name="DefaultBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog" />
 
 </resources>
