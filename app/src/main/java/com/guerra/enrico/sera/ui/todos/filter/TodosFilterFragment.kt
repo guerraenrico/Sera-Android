@@ -1,15 +1,15 @@
 package com.guerra.enrico.sera.ui.todos.filter
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,7 +18,6 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.entities.CategoryView
-import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todos_filters.*
 
 /**
@@ -40,14 +39,32 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
   }
 
   lateinit var behavior: BottomSheetBehavior<*>
+  private val handler = Handler()
 
   override fun onCreateView(
-          inflater: LayoutInflater,
-          container: ViewGroup?,
-          savedInstanceState: Bundle?
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
   ): View? {
     return inflater.inflate(R.layout.fragment_todos_filters, container, false)
   }
+
+//  override fun onCancel(dialog: DialogInterface) {
+//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
+//  }
+//
+//  override fun onStart() {
+//    super.onStart()
+//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
+//    handler.postDelayed({ behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED }, 200)
+//
+//  }
+//
+//  override fun dismiss() {
+//    behavior.state = BottomSheetBehavior.STATE_HIDDEN
+//    handler.postDelayed({  super.dismiss() }, 500)
+//  }
+
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
@@ -57,7 +74,28 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
     ) as FrameLayout
     behavior = BottomSheetBehavior.from(bottomSheet)
 
-    val gridLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    behavior.peekHeight = -1
+    behavior.skipCollapsed = true
+
+//    behavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+//      override fun onSlide(p0: View, p1: Float) {
+//
+//      }
+//
+//      override fun onStateChanged(p0: View, newState: Int) {
+////        if (newState == BottomSheetBehavior.STATE_HIDDEN && dialog?.isShowing == true) {
+////          dialog?.dismiss()
+////        }
+//      }
+//
+//    })
+
+    sheetTitle.setOnClickListener {
+      behavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    val gridLayoutManager =
+      LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     val filterAdapter = CategoryAdapter {}
     recycler_view_categories.apply {
       layoutManager = gridLayoutManager
@@ -82,9 +120,10 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
     requestApplyInsetsWhenAttached()
   }
 
-
-  private fun createStateForView(view: View) = ViewPaddingState(view.paddingLeft,
-    view.paddingTop, view.paddingRight, view.paddingBottom, view.paddingStart, view.paddingEnd)
+  private fun createStateForView(view: View) = ViewPaddingState(
+    view.paddingLeft,
+    view.paddingTop, view.paddingRight, view.paddingBottom, view.paddingStart, view.paddingEnd
+  )
 
   data class ViewPaddingState(
     val left: Int,
@@ -113,7 +152,6 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
       })
     }
   }
-
 
   fun getList() = listOf(
     Category(id = "1", name = "cat1"),
