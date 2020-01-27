@@ -12,11 +12,9 @@ import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.utils.CoroutineDispatcherProviderTest
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
 import com.guerra.enrico.sera.data.remote.Api
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
@@ -24,17 +22,11 @@ import com.guerra.enrico.sera.data.dao.CategoryDaoTest
 import com.guerra.enrico.sera.data.dao.SessionDaoTest
 import com.guerra.enrico.sera.data.dao.TaskDaoTest
 import com.guerra.enrico.sera.data.dao.UserDaoTest
-import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.repo.AuthRepositoryTest
 import com.guerra.enrico.sera.repo.auth.AuthRepository
-import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
 import com.guerra.enrico.sera.repo.category.CategoryRepository
-import com.guerra.enrico.sera.repo.category.CategoryRepositoryImpl
 import com.guerra.enrico.sera.repo.task.TaskRepository
-import com.guerra.enrico.sera.repo.task.TaskRepositoryImpl
-import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.viewModel.todos.TodosViewModelTests
-import com.nhaarman.mockitokotlin2.mock
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -129,7 +121,7 @@ class TestInteractors(
   private val observeTasks: ObserveTasks = mockk(),
   private val updateTaskCompleteState: UpdateTaskCompleteState = mockk(),
   private val syncTasksAndCategories: SyncTasksAndCategories = mockk(),
-  private val applyTaskUpdateRemote: ApplyTaskUpdateRemote = mock()
+  private val applyTaskUpdateRemote: ApplyTaskUpdateRemote = mockk()
 
 ) {
   @Singleton
