@@ -15,14 +15,11 @@
     tools:ignore="Overdraw">
 
 
-    <TextView
-        android:id="@+id/sheetTitle"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="?android:textColorPrimary"
-        android:text="@string/title_filter_sheet"
-        />
+        android:layout_height="0dp"
+        android:background="#f00"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_categories"

@@ -53,6 +53,7 @@ class BottomSheetDialogCustom : AppCompatDialog {
   var onBottomSheetSlide: OnBottomSheetSlide? = null
   var peakHeight: Int = -1
   var skipCollapsed = false
+  var fitContent = true
 
   @BottomSheetBehaviorState
   var initialState = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -126,6 +127,7 @@ class BottomSheetDialogCustom : AppCompatDialog {
     behavior.state = BottomSheetBehavior.STATE_HIDDEN
     behavior.skipCollapsed = skipCollapsed
     behavior.peekHeight = peakHeight
+    behavior.isFitToContents = fitContent
   }
 
   override fun cancel() {
@@ -231,6 +233,10 @@ class BottomSheetDialogCustom : AppCompatDialog {
       canceledOnTouchOutsideSet = true
     }
     return canceledOnTouchOutside
+  }
+
+  fun updateHeight(height: Int) {
+
   }
 
   companion object {

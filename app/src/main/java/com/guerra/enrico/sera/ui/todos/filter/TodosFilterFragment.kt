@@ -1,13 +1,16 @@
 package com.guerra.enrico.sera.ui.todos.filter
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,6 +25,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.entities.CategoryView
 import kotlinx.android.synthetic.main.fragment_todos_filters.*
+import kotlin.math.min
 
 /**
  * Created by enrico
@@ -39,11 +43,10 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return BottomSheetDialogCustom(requireContext(), theme).apply {
-      initialState = BottomSheetBehavior.STATE_HALF_EXPANDED
-      skipCollapsed = true
+      initialState = BottomSheetBehavior.STATE_COLLAPSED
+      skipCollapsed = false
     }
   }
-
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -58,12 +61,26 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
 
     val dialogBottomSheet = dialog as BottomSheetDialogCustom
 
-    dialogBottomSheet.onBottomSheetSlide = { bottomSheet, offset ->
-      Log.i("[AAAA]", offset.toString())
-    }
+    val toolbarHeight = resources.getDimensionPixelSize(R.dimen.toolbar_height)
 
-    sheetTitle.setOnClickListener {
-      dialogBottomSheet.setBehaviorState(BottomSheetBehavior.STATE_HIDDEN)
+    val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+    dialogBottomSheet.peakHeight = displayMetrics.heightPixels / 2
+
+    dialogBottomSheet.fitContent = false
+
+    dialogBottomSheet.onBottomSheetSlide = { bottomSheet, offset ->
+      if (offset > 0) {
+        toolbar.layoutParams = toolbar.layoutParams.apply {
+          height = min(
+            toolbarHeight,
+            (toolbarHeight * offset).toInt()
+          )
+        }
+        bottomSheet.requestLayout()
+      }
     }
 
     val gridLayoutManager =
@@ -122,19 +139,19 @@ class TodosFilterFragment : BottomSheetDialogFragment() {
 
   fun getList() = listOf(
     Category(id = "1", name = "cat1"),
-    Category(id = "2", name = "cat1")
-//    Category(id = "3", name = "cat1"),
-//    Category(id = "4", name = "cat1"),
-//    Category(id = "5", name = "cat1"),
-//    Category(id = "6", name = "cat1"),
-//    Category(id = "7", name = "cat1"),
-//    Category(id = "8", name = "cat8"),
-//    Category(id = "9", name = "cat1"),
-//    Category(id = "10", name = "cat1"),
-//    Category(id = "11", name = "cat1"),
-//    Category(id = "12", name = "cat1"),
-//    Category(id = "13", name = "cat13"),
-//    Category(id = "14", name = "cat1"),
+    Category(id = "2", name = "cat1"),
+    Category(id = "3", name = "cat1"),
+    Category(id = "4", name = "cat1"),
+    Category(id = "5", name = "cat1"),
+    Category(id = "6", name = "cat1"),
+    Category(id = "7", name = "cat1"),
+    Category(id = "8", name = "cat8"),
+    Category(id = "9", name = "cat1"),
+    Category(id = "10", name = "cat1"),
+    Category(id = "11", name = "cat1"),
+    Category(id = "12", name = "cat1"),
+    Category(id = "13", name = "cat13"),
+    Category(id = "14", name = "cat1")
 //    Category(id = "15", name = "cat1"),
 //    Category(id = "16", name = "cat1"),
 //    Category(id = "17", name = "cat1"),
