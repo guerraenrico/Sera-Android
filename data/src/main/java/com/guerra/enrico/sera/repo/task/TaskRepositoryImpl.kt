@@ -111,10 +111,9 @@ class TaskRepositoryImpl @Inject constructor(
     }
   }
 
-  override suspend fun toggleTaskCompleteStateLocal(task: Task, completed: Boolean): Result<Task> {
-    val updatedTask = task.copy(completed = completed, completedAt = Date())
-    localDbManager.updateTask(updatedTask)
-    return Result.Success(updatedTask)
+  override suspend fun updateTaskLocal(task: Task): Result<Task> {
+    localDbManager.updateTask(task)
+    return Result.Success(task)
   }
 
   override fun observeTasks(

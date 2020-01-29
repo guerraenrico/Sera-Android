@@ -6,6 +6,7 @@ import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.repo.task.TaskRepository
 import com.guerra.enrico.domain.Interactor
 import kotlinx.coroutines.CoroutineDispatcher
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -20,7 +21,8 @@ class UpdateTaskCompleteState @Inject constructor(
 
   override suspend fun doWork(params: Params): Result<Task> {
     val (task, completed) = params
-    return taskRepository.toggleTaskCompleteStateLocal(task, completed)
+    val updatedTask = task.copy(completed = completed, completedAt = Date())
+    return taskRepository.updateTaskLocal(updatedTask)
   }
 
   data class Params(

@@ -25,7 +25,7 @@ interface TaskRepository {
 
   suspend fun updateTaskRemote(task: Task): Result<Task>
 
-  suspend fun toggleTaskCompleteStateLocal(task: Task, completed: Boolean): Result<Task>
+  suspend fun updateTaskLocal(task: Task): Result<Task>
 
   fun observeTasks(
           searchText: String = "",

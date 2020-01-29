@@ -39,6 +39,7 @@ class TodosViewModel @Inject constructor(
   private val syncTasksAndCategories: SyncTasksAndCategories,
   private val applyTaskUpdateRemote: ApplyTaskUpdateRemote
 ) : BaseViewModel(), EventActions {
+  
   private var searchText: String = ""
   private var searchSelectedCategory: Category? = null
 
