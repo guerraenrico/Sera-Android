@@ -48,7 +48,10 @@ class SplashFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    findNavController().navigate(R.id.main_activity)
+//    findNavController().navigate(R.id.main_activity)
+
+    findNavController().navigate(R.id.login_activity)
+
     requireActivity().finish()
   }
 
