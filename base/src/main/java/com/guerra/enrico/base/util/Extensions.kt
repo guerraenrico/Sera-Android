@@ -1,19 +1,23 @@
 package com.guerra.enrico.base.util
 
 import android.content.Context
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.resume
 
 /**
  * Created by enrico
@@ -118,3 +122,41 @@ fun <K, V> MutableMap<K, V>.hasKey(key: K): Boolean = keys.any { k -> key == k }
  */
 val <T> T.exhaustive: T
   get() = this
+
+/**
+ * Get display metrics
+ */
+fun Context.displayMetric(): DisplayMetrics {
+  val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+  val displayMetrics = DisplayMetrics()
+  windowManager.defaultDisplay.getMetrics(displayMetrics)
+  return displayMetrics
+}
+
+suspend fun FrameLayout.awaitOnNextLayout() {
+  suspendCancellableCoroutine<Unit> { continuation ->
+    val listener = object : View.OnLayoutChangeListener {
+      override fun onLayoutChange(
+        v: View?,
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int,
+        oldLeft: Int,
+        oldTop: Int,
+        oldRight: Int,
+        oldBottom: Int
+      ) {
+        removeOnLayoutChangeListener(this)
+        continuation.resume(Unit)
+      }
+
+    }
+
+    continuation.invokeOnCancellation {
+      removeOnLayoutChangeListener(listener)
+    }
+
+    addOnLayoutChangeListener(listener)
+  }
+}

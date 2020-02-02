@@ -151,4 +151,26 @@
         <item name="android:textSize">@dimen/category_item_text_size_small</item>
     </style>
 
+    <!-- Bottom sheet dialog -->
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal" />
+
+    <style name="BottomSheetAnimation.Window" parent="@android:style/Animation.Activity">
+        <!--        <item name="android:windowEnterAnimation">@anim/slide_up</item>-->
+        <!--        <item name="android:windowExitAnimation">@anim/slide_down</item>-->
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:navigationBarColor">#fff</item>-->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowAnimationStyle">@style/BottomSheetAnimation.Window</item>
+
+    </style>
+
 </resources>
