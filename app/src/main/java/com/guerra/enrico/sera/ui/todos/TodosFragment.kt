@@ -20,8 +20,8 @@ import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.guerra.enrico.base.util.closeKeyboard
-import com.guerra.enrico.base.util.viewModelProvider
+import com.guerra.enrico.base.extensions.closeKeyboard
+import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.util.activityViewModelProvider
+import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseFragment

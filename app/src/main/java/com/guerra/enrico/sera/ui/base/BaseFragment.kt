@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.base.util.isNotNullAndEmpty
-import com.guerra.enrico.base.util.onDismiss
+import com.guerra.enrico.base.extensions.isNotNullAndEmpty
+import com.guerra.enrico.base.extensions.onDismiss
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerFragment

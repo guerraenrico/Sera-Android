@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.util.hasKey
+import com.guerra.enrico.base.extensions.hasKey
 import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.sera.data.Event

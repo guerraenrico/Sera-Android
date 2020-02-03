@@ -1,14 +1,8 @@
 package com.guerra.enrico.sera.ui.todos.filter
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.guerra.enrico.base.util.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
@@ -44,7 +38,7 @@ class TodosFilterDialogFragment : BottomSheetDialogWithToolbarFragment() {
     }
 
 //    ViewCompat.setOnApplyWindowInsetsListener()
-    
+
     filterAdapter.submitList(getList().map { CategoryView(category = it, isChecked = false) })
   }
 

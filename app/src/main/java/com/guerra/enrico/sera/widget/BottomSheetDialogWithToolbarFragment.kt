@@ -1,18 +1,15 @@
 package com.guerra.enrico.sera.widget
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.core.view.doOnNextLayout
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.guerra.enrico.base.util.awaitOnNextLayout
-import com.guerra.enrico.base.util.displayMetric
+import com.guerra.enrico.base.extensions.awaitOnNextLayout
+import com.guerra.enrico.base.extensions.displayMetric
 import com.guerra.enrico.sera.R
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_dialog_with_toolbar.*
 import kotlinx.coroutines.launch

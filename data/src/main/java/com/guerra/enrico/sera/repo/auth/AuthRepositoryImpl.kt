@@ -2,7 +2,6 @@ package com.guerra.enrico.sera.repo.auth
 
 import android.content.Context
 import com.guerra.enrico.base.util.ConnectionHelper
-import com.guerra.enrico.base.util.exhaustive
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
 import com.guerra.enrico.sera.data.exceptions.RemoteException

@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.guerra.enrico.base.util.activityViewModelProvider
+import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
-import com.guerra.enrico.sera.widget.BottomSheetDialogWithToolbarFragment
 import kotlinx.android.synthetic.main.fragment_todos_filters.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject

@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.ui.todos.adapter
 
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
-import com.guerra.enrico.base.util.toDateString
+import com.guerra.enrico.base.extensions.toDateString
 import com.guerra.enrico.sera.R
 import java.util.*
 

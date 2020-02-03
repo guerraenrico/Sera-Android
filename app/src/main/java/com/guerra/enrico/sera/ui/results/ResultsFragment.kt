@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.util.viewModelProvider
+import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment

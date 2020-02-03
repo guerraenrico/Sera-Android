@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.base.util.activityViewModelProvider
+import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel

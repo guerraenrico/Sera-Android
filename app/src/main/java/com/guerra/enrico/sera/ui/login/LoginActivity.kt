@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.ui.login
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.util.viewModelProvider
+import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseActivity
 import javax.inject.Inject

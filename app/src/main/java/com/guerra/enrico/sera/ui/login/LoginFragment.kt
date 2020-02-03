@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.guerra.enrico.base.util.activityViewModelProvider
+import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.Result

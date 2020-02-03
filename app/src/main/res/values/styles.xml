@@ -166,9 +166,9 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
-<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!--        <item name="android:navigationBarColor">#fff</item>-->
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowAnimationStyle">@style/BottomSheetAnimation.Window</item>
 
     </style>

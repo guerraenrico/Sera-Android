@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.repo.category
 
-import com.guerra.enrico.base.util.exhaustive
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
