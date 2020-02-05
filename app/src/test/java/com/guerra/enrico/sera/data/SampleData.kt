@@ -8,7 +8,7 @@ import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.data.remote.response.AuthData
 import com.guerra.enrico.sera.data.remote.response.CallResult
-import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskView
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException

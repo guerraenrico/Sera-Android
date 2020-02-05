@@ -16,7 +16,7 @@ import com.google.android.flexbox.JustifyContent
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.ItemTaskBinding
 import com.guerra.enrico.sera.ui.todos.EventActions
-import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskView
 import kotlin.math.abs
 
 /**

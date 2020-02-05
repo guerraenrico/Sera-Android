@@ -6,7 +6,7 @@
 
         <variable
             name="taskView"
-            type="com.guerra.enrico.sera.ui.todos.entities.TaskView" />
+            type="com.guerra.enrico.sera.ui.todos.presentation.TaskView" />
 
         <variable
             name="position"

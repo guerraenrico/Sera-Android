@@ -12,7 +12,7 @@ import com.guerra.enrico.domain.interactors.InsertCategory
 import com.guerra.enrico.domain.interactors.InsertTask
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import com.guerra.enrico.sera.ui.todos.entities.CategoryView
+import com.guerra.enrico.sera.ui.todos.presentation.CategoryPresentation
 import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -35,8 +35,8 @@ class TodoAddViewModel @Inject constructor(
     .map { Result.Success(it) }
     .asLiveData(dispatchers.io())
 
-  private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryView>>>()
-  val categoriesViewResult: LiveData<Result<List<CategoryView>>>
+  private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryPresentation>>>()
+  val categoriesPresentationResult: LiveData<Result<List<CategoryPresentation>>>
     get() = _categoriesFilterResult
 
   private val _createCategoryResult: MediatorLiveData<Result<Category>> = MediatorLiveData()
@@ -64,7 +64,7 @@ class TodoAddViewModel @Inject constructor(
       }
       if (result is Result.Success) {
         _categoriesFilterResult.postValue(Result.Success(result.data.map {
-          CategoryView(
+          CategoryPresentation(
             it
           )
         }))
@@ -78,7 +78,7 @@ class TodoAddViewModel @Inject constructor(
       val categoriesResult = _categoriesFilterResult.value
       if (categoriesResult is Result.Success) {
         _categoriesFilterResult.postValue(Result.Success(categoriesResult.data.map { categoryFilter ->
-          return@map CategoryView(
+          return@map CategoryPresentation(
             categoryFilter.category,
             categoryFilter.category.id == category?.id
           )
@@ -90,8 +90,8 @@ class TodoAddViewModel @Inject constructor(
     observeCategories(Unit)
   }
 
-  fun toggleCategory(categoryView: CategoryView, checked: Boolean) {
-    toggleSelectedCategory(categoryView, checked)
+  fun toggleCategory(categoryPresentation: CategoryPresentation, checked: Boolean) {
+    toggleSelectedCategory(categoryPresentation, checked)
   }
 
   fun onAddCategory(name: String) {
@@ -125,7 +125,7 @@ class TodoAddViewModel @Inject constructor(
     _currentStep.value = stepEnum
   }
 
-  private fun toggleSelectedCategory(categoryView: CategoryView, checked: Boolean) {
-    _selectedCategory.value = (if (checked) categoryView.category else null)
+  private fun toggleSelectedCategory(categoryPresentation: CategoryPresentation, checked: Boolean) {
+    _selectedCategory.value = (if (checked) categoryPresentation.category else null)
   }
 }

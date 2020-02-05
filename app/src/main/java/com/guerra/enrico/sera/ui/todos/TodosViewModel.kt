@@ -19,8 +19,8 @@ import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
-import com.guerra.enrico.sera.ui.todos.entities.TaskView
-import com.guerra.enrico.sera.ui.todos.entities.tasksToModelForView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.tasksToModelForView
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.map

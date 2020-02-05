@@ -12,7 +12,7 @@ import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
-import com.guerra.enrico.sera.ui.todos.entities.CategoryView
+import com.guerra.enrico.sera.ui.todos.presentation.CategoryPresentation
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
@@ -62,29 +62,29 @@ class SelectCategoryFragment : BaseFragment() {
         )
       )
     }
-    viewModel.categoriesViewResult.apply {
+    viewModel.categoriesPresentationResult.apply {
       this.observe(this@SelectCategoryFragment, Observer { processCategoryListResponse(it) })
     }
   }
 
-  private fun processCategoryListResponse(categoriesViewResult: Result<List<CategoryView>>?) {
-    if (categoriesViewResult == null) {
+  private fun processCategoryListResponse(categoriesPresentationResult: Result<List<CategoryPresentation>>?) {
+    if (categoriesPresentationResult == null) {
       return
     }
-    if (categoriesViewResult is Result.Loading) {
+    if (categoriesPresentationResult is Result.Loading) {
       showOverlayLoader()
       return
     }
     hideOverlayLoader()
-    if (categoriesViewResult is Result.Success) {
-      (recycler_view_categories.adapter as CategoryAdapter).submitList(categoriesViewResult.data)
+    if (categoriesPresentationResult is Result.Success) {
+      (recycler_view_categories.adapter as CategoryAdapter).submitList(categoriesPresentationResult.data)
       observeSelectedCategory()
       return
     }
-    if (categoriesViewResult is Error) {
+    if (categoriesPresentationResult is Error) {
       root.get()?.let {
         Snackbar.make(
-          it, categoriesViewResult.message
+          it, categoriesPresentationResult.message
             ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG
         ).show()
       }

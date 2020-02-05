@@ -2,7 +2,6 @@ package com.guerra.enrico.sera.ui.todos
 
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.EditorInfo.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -13,7 +12,6 @@ import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.data.Result
 import javax.inject.Inject
-import android.widget.TextView
 import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -21,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.guerra.enrico.base.extensions.closeKeyboard
+import com.guerra.enrico.base.extensions.onSearch
 import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.data.EventObserver
 import com.guerra.enrico.sera.data.models.Category
@@ -29,7 +28,7 @@ import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
-import com.guerra.enrico.sera.ui.todos.entities.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskView
 import java.lang.ref.WeakReference
 
 /**
@@ -84,6 +83,7 @@ class TodosFragment : BaseFragment() {
     binding.toolbarSearch.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
       WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filters_bottom_sheet)))
+
     onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
       filtersBottomSheetBehavior.get()?.let {
         if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -163,24 +163,23 @@ class TodosFragment : BaseFragment() {
       todosViewModel.onTaskSwipeToComplete(it)
     })
     itemTouchHelper.attachToRecyclerView(binding.recyclerViewTasks)
+
     val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
-    context?.let { context ->
-      val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-      binding.recyclerViewTasks.apply {
-        layoutManager = linearLayoutManager
-        adapter = tasksAdapter
-        (itemAnimator as DefaultItemAnimator).run {
-          supportsChangeAnimations = false
-          addDuration = 160L
-          moveDuration = 160L
-          changeDuration = 160L
-          removeDuration = 120L
-        }
-        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
-          setDrawable(context.getDrawable(R.drawable.line_item_divider) ?: return)
-        })
+    val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    binding.recyclerViewTasks.apply {
+      layoutManager = linearLayoutManager
+      adapter = tasksAdapter
+      (itemAnimator as DefaultItemAnimator).run {
+        supportsChangeAnimations = false
+        addDuration = 160L
+        moveDuration = 160L
+        changeDuration = 160L
+        removeDuration = 120L
       }
+      addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
+        setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
+      })
     }
   }
 
@@ -195,21 +194,10 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupSearch() {
-    binding.toolbarSearch.toolbarEditTextSearch.setOnEditorActionListener(object :
-      TextView.OnEditorActionListener {
-      override fun onEditorAction(
-        textView: TextView?,
-        actionId: Int,
-        event: KeyEvent?
-      ): Boolean {
-        if (actionId == IME_ACTION_SEARCH) {
-          closeKeyboard()
-          todosViewModel.onSearch(textView?.text.toString())
-          return true
-        }
-        return false
-      }
-    })
+    binding.toolbarSearch.toolbarEditTextSearch.onSearch {
+      closeKeyboard()
+      todosViewModel.onSearch(it)
+    }
     binding.toolbarSearch.toolbarEditTextSearch.onItemClickListener =
       AdapterView.OnItemClickListener { adapter, _, position, _ ->
         closeKeyboard()

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.todos.entities.CategoryView
+import com.guerra.enrico.sera.ui.todos.presentation.CategoryPresentation
 import kotlinx.android.synthetic.main.item_category.view.*
 
 /**
@@ -20,8 +20,8 @@ enum class ViewSize {
 
 class CategoryAdapter(
   private val viewSize: ViewSize = ViewSize.NORMAL,
-  private val onCategoryClick: (CategoryView) -> Unit
-) : ListAdapter<CategoryView, CategoryViewHolder>(
+  private val onCategoryClick: (CategoryPresentation) -> Unit
+) : ListAdapter<CategoryPresentation, CategoryViewHolder>(
   CategoryDiff
 ) {
 
@@ -42,17 +42,17 @@ class CategoryAdapter(
 }
 
 class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  fun bind(categoryView: CategoryView, onClick: (CategoryView) -> Unit) = with(itemView) {
-    labelCategoryName.text = categoryView.category.name
-    labelCategoryName.isSelected = categoryView.isChecked
-    labelCategoryName.setOnClickListener { onClick(categoryView) }
+  fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) = with(itemView) {
+    labelCategoryName.text = categoryPresentation.category.name
+    labelCategoryName.isSelected = categoryPresentation.isChecked
+    labelCategoryName.setOnClickListener { onClick(categoryPresentation) }
   }
 }
 
-object CategoryDiff : DiffUtil.ItemCallback<CategoryView>() {
-  override fun areItemsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean =
+object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
+  override fun areItemsTheSame(oldItem: CategoryPresentation, newItem: CategoryPresentation): Boolean =
     oldItem == newItem
 
-  override fun areContentsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean =
+  override fun areContentsTheSame(oldItem: CategoryPresentation, newItem: CategoryPresentation): Boolean =
     oldItem == newItem
 }

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.todos.entities
+package com.guerra.enrico.sera.ui.todos.presentation
 
 import com.guerra.enrico.sera.data.models.Task
 
