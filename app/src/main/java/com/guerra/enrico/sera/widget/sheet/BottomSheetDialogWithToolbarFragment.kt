@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.widget
+package com.guerra.enrico.sera.widget.sheet
 
 import android.app.Dialog
 import android.os.Bundle
@@ -26,7 +26,10 @@ abstract class BottomSheetDialogWithToolbarFragment : BottomSheetDialogFragment(
   }
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-    return BottomSheetDialogCustom(requireContext(), theme).apply {
+    return BottomSheetDialogCustom(
+      requireContext(),
+      theme
+    ).apply {
       initialState = BottomSheetBehavior.STATE_COLLAPSED
       skipCollapsed = false
       fitContent = true

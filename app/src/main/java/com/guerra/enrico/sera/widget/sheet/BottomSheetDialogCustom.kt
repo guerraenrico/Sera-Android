@@ -1,9 +1,8 @@
-package com.guerra.enrico.sera.widget
+package com.guerra.enrico.sera.widget.sheet
 
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.StyleRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
