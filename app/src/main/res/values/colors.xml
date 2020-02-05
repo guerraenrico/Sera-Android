@@ -9,6 +9,7 @@
     <color name="color_text_third">#9CA8B8</color>
 
     <color name="status_bar_color">#1F2226</color>
+    <color name="navigation_bar_color">#80181A1E</color>
     <color name="toolbar_background_color">#1F2226</color>
     <color name="bottom_nav_background_color">#181A1E</color>
     <color name="bottom_nav_bar_icon_color_selected">#1EBCAD</color>
@@ -53,4 +54,5 @@
     <!-- Commons -->
     <color name="white">#ffffff</color>
     <color name="extra_light_grey">#f4f4f4</color>
+
 </resources>

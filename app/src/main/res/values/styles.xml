@@ -153,11 +153,14 @@
 
     <!-- Bottom sheet dialog -->
 
-    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal" />
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/filters_sheet_background</item>
+        <item name="android:elevation">@dimen/bottom_sheet_elevation</item>
+    </style>
 
-    <style name="BottomSheetAnimation.Window" parent="@android:style/Animation.Activity">
-        <!--        <item name="android:windowEnterAnimation">@anim/slide_up</item>-->
-        <!--        <item name="android:windowExitAnimation">@anim/slide_down</item>-->
+    <style name="BottomSheetAnimation.Window" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
     </style>
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
@@ -167,10 +170,9 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--        <item name="android:navigationBarColor">#fff</item>-->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">@color/navigation_bar_color</item>
+        <!--        <item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
         <item name="android:windowAnimationStyle">@style/BottomSheetAnimation.Window</item>
-
     </style>
 
 </resources>

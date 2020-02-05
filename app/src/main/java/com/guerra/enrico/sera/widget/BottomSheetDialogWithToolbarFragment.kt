@@ -39,6 +39,9 @@ abstract class BottomSheetDialogWithToolbarFragment : BottomSheetDialogFragment(
     savedInstanceState: Bundle?
   ): View? = inflater.inflate(R.layout.fragment_bottom_sheet_dialog_with_toolbar, container, false)
 
+  /**
+   * Override returning the layout to be inflated
+   */
   abstract fun getContentView(): Int
 
   private fun wrapContent(layoutResId: Int) {
@@ -56,7 +59,6 @@ abstract class BottomSheetDialogWithToolbarFragment : BottomSheetDialogFragment(
 
   private fun setupToolbarAnimation(bottomSheetDialog: BottomSheetDialogCustom) {
     viewLifecycleOwner.lifecycleScope.launch {
-
       val toolbarHeight = resources.getDimensionPixelSize(R.dimen.toolbar_height)
 
       bottom_sheet_container.awaitOnNextLayout()

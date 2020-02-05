@@ -30,7 +30,6 @@ import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.entities.TaskView
-import com.guerra.enrico.sera.ui.todos.filter.TodosFilterDialogFragment
 import java.lang.ref.WeakReference
 
 /**
@@ -219,17 +218,12 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupFiltersBottomSheet() {
-//    filtersBottomSheetBehavior.get()?.apply {
-//      setBottomSheetCallback(bottomSheetCallback)
-//      binding.fabFilter.setOnClickListener {
-//        state = BottomSheetBehavior.STATE_EXPANDED
-//      }
-//      state = BottomSheetBehavior.STATE_HIDDEN
-//    }
-
-    binding.fabFilter.setOnClickListener {
-      val frag = TodosFilterDialogFragment.newInstance()
-      frag.show(parentFragmentManager, TodosFilterDialogFragment.TAG)
+    filtersBottomSheetBehavior.get()?.apply {
+      setBottomSheetCallback(bottomSheetCallback)
+      binding.fabFilter.setOnClickListener {
+        state = BottomSheetBehavior.STATE_EXPANDED
+      }
+      state = BottomSheetBehavior.STATE_HIDDEN
     }
   }
 
