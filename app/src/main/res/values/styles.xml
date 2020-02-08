@@ -35,9 +35,10 @@
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:letterSpacing">0</item>
         <item name="cornerRadius">@dimen/button_corner_radius</item>
-        <item name="backgroundTint">@color/color_primary</item>
+        <item name="backgroundTint">@color/color_accent</item>
     </style>
 
     <style name="Widget.Sera.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
