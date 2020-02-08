@@ -76,6 +76,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.activity:activity-ktx:$activityVersion"
     implementation "com.google.android:flexbox:$flexboxVersion"
 
     // Coroutine

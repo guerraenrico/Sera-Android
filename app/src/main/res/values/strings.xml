@@ -27,7 +27,7 @@
     <!-- Labels -->
     <string name="label_loading">Loading…</string>
     <string name="label_no_task_description">No description to show :(</string>
-    <string name="label_todo_within">To complete within %1$s</string>
+    <string name="label_todo_within">To do %1$s</string>
     <string name="label_search">Type to search</string>
     <!-- TodoAdd -->
     <string name="title_select_add">What would you like to add?</string>
