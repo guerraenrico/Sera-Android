@@ -1,35 +1,38 @@
 package com.guerra.enrico.sera.ui.todos
 
 import android.os.Bundle
-import android.view.*
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.exceptions.MessageExceptionManager
-import com.guerra.enrico.sera.data.Result
-import javax.inject.Inject
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.guerra.enrico.base.extensions.closeKeyboard
 import com.guerra.enrico.base.extensions.onSearch
-import com.guerra.enrico.base.extensions.viewModelProvider
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.EventObserver
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
+import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.presentation.TaskView
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -38,7 +41,8 @@ import java.lang.ref.WeakReference
 class TodosFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var todosViewModel: TodosViewModel
+
+  private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
 
   private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
 
@@ -66,7 +70,6 @@ class TodosFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    todosViewModel = viewModelProvider(viewModelFactory)
     binding = FragmentTodosBinding.inflate(inflater, container, false).apply {
       lifecycleOwner = viewLifecycleOwner
       viewModel = todosViewModel
@@ -177,9 +180,13 @@ class TodosFragment : BaseFragment() {
         changeDuration = 160L
         removeDuration = 120L
       }
-      addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
-        setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
-      })
+      addItemDecoration(
+        DividerItemDecoration(
+          requireContext(),
+          DividerItemDecoration.VERTICAL
+        ).apply {
+          setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
+        })
     }
   }
 
@@ -207,7 +214,7 @@ class TodosFragment : BaseFragment() {
 
   private fun setupFiltersBottomSheet() {
     filtersBottomSheetBehavior.get()?.apply {
-      setBottomSheetCallback(bottomSheetCallback)
+      addBottomSheetCallback(bottomSheetCallback)
       binding.fabFilter.setOnClickListener {
         state = BottomSheetBehavior.STATE_EXPANDED
       }

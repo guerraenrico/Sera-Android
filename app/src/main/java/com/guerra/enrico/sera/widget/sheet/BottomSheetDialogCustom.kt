@@ -3,7 +3,6 @@ package com.guerra.enrico.sera.widget.sheet
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.StyleRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,7 +15,6 @@ typealias OnBottomSheetSlide = (bottomSheet: View, offset: Float) -> Unit
 
 class BottomSheetDialogCustom(context: Context, @StyleRes theme: Int) :
   BottomSheetDialog(context, theme) {
-  private lateinit var behavior: BottomSheetBehavior<FrameLayout>
 
   private val bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback =
     object : BottomSheetBehavior.BottomSheetCallback() {
@@ -36,32 +34,23 @@ class BottomSheetDialogCustom(context: Context, @StyleRes theme: Int) :
 
   var peakHeight: Int = -1
     set(value) {
-      if (::behavior.isInitialized) {
-        behavior.peekHeight = value
-      }
+      behavior.peekHeight = value
       field = value
     }
   var skipCollapsed = false
     set(value) {
-      if (::behavior.isInitialized) {
-        behavior.skipCollapsed = value
-      }
+      behavior.skipCollapsed = value
       field = value
     }
   var fitContent = true
     set(value) {
-      if (::behavior.isInitialized) {
-        behavior.isFitToContents = value
-      }
+      behavior.isFitToContents = value
       field = value
     }
 
   override fun setContentView(view: View) {
     super.setContentView(view)
-    val bottomSheet =
-      findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-    behavior = BottomSheetBehavior.from(bottomSheet)
-    behavior.setBottomSheetCallback(bottomSheetCallback)
+    behavior.addBottomSheetCallback(bottomSheetCallback)
     setOnShowListener(null)
   }
 
@@ -81,9 +70,7 @@ class BottomSheetDialogCustom(context: Context, @StyleRes theme: Int) :
   }
 
   fun setBehaviorState(state: Int) {
-    if (::behavior.isInitialized) {
-      behavior.state = state
-    }
+    behavior.state = state
   }
 
   override fun cancel() {

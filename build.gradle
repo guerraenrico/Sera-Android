@@ -10,8 +10,9 @@ buildscript {
         activityVersion = '1.1.0'
         appCompatVersion = '1.1.0'
         materialVersion = '1.1.0'
+        swipeRefreshLayoutVersion = '1.0.0'
         constraintLayoutVersion = '2.0.0-beta4'
-        flexboxVersion = '2.0.0'
+        flexboxVersion = '2.0.1'
         lifecycleKtxVersion = "2.2.0"
         lifecycleVersion = "2.2.0"
         navigationVersion = "2.2.1"

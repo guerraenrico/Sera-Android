@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.succeeded
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SplashFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: SplashViewModel
+  private val viewModel: SplashViewModel by activityViewModels { viewModelFactory }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -31,7 +31,6 @@ class SplashFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = activityViewModelProvider(viewModelFactory)
     initView()
   }
 

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ResultsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: ResultsViewModel
+  private val viewModel: ResultsViewModel by viewModels { viewModelFactory }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(R.layout.fragment_results, container, false)
@@ -29,8 +29,6 @@ class ResultsFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = viewModelProvider(viewModelFactory)
-
     toolbarTitle?.text = resources.getString(R.string.title_results)
     initView()
   }

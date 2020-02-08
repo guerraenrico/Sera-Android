@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
@@ -21,17 +21,16 @@ import javax.inject.Inject
 class TodosFilterFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: TodosViewModel
+  private val viewModel: TodosViewModel by viewModels { viewModelFactory }
   private val behavior by lazy {
     WeakReference(BottomSheetBehavior.from(filters_bottom_sheet))
   }
 
   override fun onCreateView(
-          inflater: LayoutInflater,
-          container: ViewGroup?,
-          savedInstanceState: Bundle?
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
   ): View? {
-    viewModel = activityViewModelProvider(viewModelFactory)
     return inflater.inflate(R.layout.fragment_todos_filters, container, false)
   }
 

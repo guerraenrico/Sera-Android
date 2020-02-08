@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.Result
@@ -31,7 +31,7 @@ const val REQUEST_CODE_SIGNIN = 9003
 class LoginFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: LoginViewModel
+  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -41,7 +41,6 @@ class LoginFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = activityViewModelProvider(viewModelFactory)
     initView()
   }
 

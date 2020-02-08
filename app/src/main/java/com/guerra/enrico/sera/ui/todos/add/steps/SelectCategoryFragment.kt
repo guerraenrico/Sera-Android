@@ -4,19 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import com.guerra.enrico.sera.ui.todos.presentation.CategoryPresentation
-import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
-import com.guerra.enrico.sera.data.Result
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class SelectCategoryFragment : BaseFragment() {
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  lateinit var viewModel: TodoAddViewModel
+  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -43,8 +43,6 @@ class SelectCategoryFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = activityViewModelProvider(viewModelFactory)
-
     val gridLayoutManager = GridLayoutManager(context, 2)
     val filterAdapter =
       CategoryAdapter { categoryFilter ->

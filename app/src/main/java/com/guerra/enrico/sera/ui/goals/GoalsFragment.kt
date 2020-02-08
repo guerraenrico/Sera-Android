@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_goals.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -21,16 +20,18 @@ import javax.inject.Inject
 class GoalsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: GoalsViewModel
+  private val viewModel: GoalsViewModel by viewModels { viewModelFactory }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     return inflater.inflate(R.layout.fragment_goals, container, false)
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = viewModelProvider(viewModelFactory)
-
     toolbarTitle?.text = resources.getString(R.string.title_goals)
     initView()
   }

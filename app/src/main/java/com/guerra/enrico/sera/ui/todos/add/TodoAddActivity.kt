@@ -1,13 +1,13 @@
 package com.guerra.enrico.sera.ui.todos.add
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.guerra.enrico.base.extensions.viewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseActivity
-import com.guerra.enrico.sera.ui.todos.add.steps.*
+import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum
 import kotlinx.android.synthetic.main.activity_todo_add.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -19,15 +19,13 @@ import javax.inject.Inject
 class TodoAddActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var viewModel: TodoAddViewModel
+  private val viewModel: TodoAddViewModel by viewModels { viewModelFactory }
 
   private val navController by lazy { findNavController(R.id.containerHostFragment) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_todo_add)
-    viewModel = viewModelProvider(viewModelFactory)
-
     toolbarTitle?.text = ""
     toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_close, theme)
     toolbar.setNavigationOnClickListener { finish() }

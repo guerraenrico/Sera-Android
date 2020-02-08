@@ -1,23 +1,23 @@
 package com.guerra.enrico.sera.ui.todos.add.steps
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_schedule.*
-import javax.inject.Inject
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.DatePickerDialog
-import com.guerra.enrico.base.extensions.activityViewModelProvider
-import com.guerra.enrico.sera.data.succeeded
-import java.text.SimpleDateFormat
-import com.guerra.enrico.sera.data.Result
 import java.lang.ref.WeakReference
+import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -28,7 +28,7 @@ class ScheduleFragment : BaseFragment() {
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  lateinit var viewModel: TodoAddViewModel
+  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
 
   private var selectedDate = Date()
 
@@ -44,7 +44,6 @@ class ScheduleFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = activityViewModelProvider(viewModelFactory)
     observeCreateTask()
     scheduleDate.setOnClickListener {
       showDatePicker()

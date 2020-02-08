@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.base.extensions.activityViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class AddTaskFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  lateinit var viewModel: TodoAddViewModel
+  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -29,7 +29,6 @@ class AddTaskFragment : BaseFragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    viewModel = activityViewModelProvider(viewModelFactory)
 
     val selectedCategory = viewModel.selectedCategory
     if (selectedCategory == null) {

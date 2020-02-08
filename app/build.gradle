@@ -31,6 +31,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     buildTypes {
         debug {
             buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
@@ -46,10 +50,6 @@ android {
     }
     dataBinding {
         enabled true
-    }
-
-    configurations.all {
-//        resolutionStrategy.force "com.android.tools.build.jetifier:jetifier-core:1.0.0-beta02"
     }
 
     testOptions {
@@ -72,13 +72,14 @@ dependencies {
     implementation project(":workers")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.google.android:flexbox:$flexboxVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "com.google.android:flexbox:$flexboxVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
