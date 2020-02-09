@@ -39,9 +39,6 @@ class TodosViewModel @Inject constructor(
   private val syncTasksAndCategories: SyncTasksAndCategories,
   private val applyTaskUpdateRemote: ApplyTaskUpdateRemote
 ) : BaseViewModel(), EventActions {
-  
-  private var searchText: String = ""
-  private var searchSelectedCategory: Category? = null
 
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
     .onStart { Result.Loading }
@@ -109,9 +106,7 @@ class TodosViewModel @Inject constructor(
    * @param text text to onSearch
    */
   fun onSearch(text: String) {
-    searchText = text
-    searchSelectedCategory = null
-    observeTasks(ObserveTasks.Params(text = searchText))
+    observeTasks(ObserveTasks.Params(text))
   }
 
   /**
@@ -119,8 +114,6 @@ class TodosViewModel @Inject constructor(
    * @param category selected category
    */
   fun onSearchCategory(category: Category?) {
-    searchText = ""
-    searchSelectedCategory = category
     observeTasks(ObserveTasks.Params(category = category))
   }
 
