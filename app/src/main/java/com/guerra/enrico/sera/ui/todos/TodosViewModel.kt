@@ -191,9 +191,4 @@ class TodosViewModel @Inject constructor(
       updateTaskCompleteState(UpdateTaskCompleteState.Params(task, false))
     }
   }
-
-  override fun onCleared() {
-    // Start all cleared jobs in queue, I assume the user confirm the action
-    taskJobsQueue.forEach { it.value.start() }
-  }
 }

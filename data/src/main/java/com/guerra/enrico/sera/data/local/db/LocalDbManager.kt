@@ -4,6 +4,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
+import com.guerra.enrico.sera.data.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -43,4 +44,10 @@ interface LocalDbManager {
   suspend fun updateTask(task: Task): Int
   suspend fun deleteTask(task: Task): Int
   suspend fun syncTasks(tasks: List<Task>)
+
+  // Sync
+
+  suspend fun getSyncActions(): List<SyncAction>
+  suspend fun saveSyncAction(syncAction: SyncAction): Long
+  suspend fun deleteSyncAction(syncAction: SyncAction): Int
 }

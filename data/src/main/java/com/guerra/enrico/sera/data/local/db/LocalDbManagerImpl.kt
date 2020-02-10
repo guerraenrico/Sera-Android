@@ -4,6 +4,7 @@ import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
+import com.guerra.enrico.sera.data.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
@@ -107,4 +108,15 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun syncTasks(tasks: List<Task>) {
     database.taskDao().sync(tasks)
   }
+
+  // Sync
+
+  override suspend fun getSyncActions(): List<SyncAction> =
+    database.syncAction().get()
+
+  override suspend fun saveSyncAction(syncAction: SyncAction): Long =
+    database.syncAction().insert(syncAction)
+
+  override suspend fun deleteSyncAction(syncAction: SyncAction): Int =
+    database.syncAction().delete(syncAction)
 }
