@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7cc9247b13cb3f5e1e6b1718cdf4b3ac",
+    "identityHash": "b51340338c6158e8137629a537635f51",
     "entities": [
       {
         "tableName": "Session",
@@ -203,12 +203,62 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "SyncAction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `entityName` TEXT NOT NULL, `entityLocalId` INTEGER NOT NULL, `entityId` TEXT NOT NULL, `operation` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityName",
+            "columnName": "entityName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityLocalId",
+            "columnName": "entityLocalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityId",
+            "columnName": "entityId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "operation",
+            "columnName": "operation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7cc9247b13cb3f5e1e6b1718cdf4b3ac')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b51340338c6158e8137629a537635f51')"
     ]
   }
 }

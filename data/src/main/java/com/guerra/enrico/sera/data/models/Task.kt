@@ -20,13 +20,14 @@ data class Task constructor(
   @ColumnInfo(name = "completedAt") val completedAt: Date? = null,
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date(),
   @ColumnInfo(name = "categories") val categories: List<Category> = emptyList()
-)
+) {
 
-internal fun Task.toSyncAction(operation: Operation): SyncAction = SyncAction(
-  id = 0,
-  entityName = "Task",
-  entityLocalId = localId,
-  entityId = id,
-  operation = operation,
-  createdAt = Date()
-)
+  fun toSyncAction(operation: Operation): SyncAction = SyncAction(
+    id = 0,
+    entityName = "Task",
+    entityLocalId = localId,
+    entityId = id,
+    operation = operation,
+    createdAt = Date()
+  )
+}

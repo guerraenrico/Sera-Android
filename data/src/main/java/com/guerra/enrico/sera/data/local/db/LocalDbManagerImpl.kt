@@ -19,11 +19,11 @@ class LocalDbManagerImpl @Inject constructor(
 
   // Session
 
-  override suspend fun getSession(): Session =
+  override suspend fun getSession(): Session? =
     database.sessionDao().getFirst()
 
-  override suspend fun getSessionAccessToken(): String =
-    getSession().accessToken
+  override suspend fun getSessionAccessToken(): String? =
+    getSession()?.accessToken
 
   override suspend fun saveSession(userId: String, accessToken: String) {
     database.sessionDao().insert(

@@ -13,7 +13,7 @@ import com.guerra.enrico.sera.data.models.sync.SyncAction
  */
 @Dao
 interface SyncActionDao {
-  @Query("SELECT * FROM TASK ORDER BY createdAt ASC")
+  @Query("SELECT * FROM SyncAction ORDER BY createdAt ASC")
   suspend fun get(): List<SyncAction>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)

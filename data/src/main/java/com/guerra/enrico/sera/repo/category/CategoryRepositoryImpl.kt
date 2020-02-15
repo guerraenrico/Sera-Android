@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera.repo.category
 
 import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
@@ -19,7 +20,8 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
 
   override suspend fun getCategoriesRemote(): Result<List<Category>> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.getCategories(accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
@@ -35,7 +37,8 @@ class CategoryRepositoryImpl @Inject constructor(
   }
 
   override suspend fun searchCategory(text: String): Result<List<Category>> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.searchCategory(accessToken, text)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
@@ -51,7 +54,8 @@ class CategoryRepositoryImpl @Inject constructor(
   }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.insertCategory(accessToken, category)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
@@ -68,7 +72,8 @@ class CategoryRepositoryImpl @Inject constructor(
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.deleteCategory(accessToken, category.id)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {

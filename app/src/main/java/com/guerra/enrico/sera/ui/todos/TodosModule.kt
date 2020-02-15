@@ -1,7 +1,6 @@
 package com.guerra.enrico.sera.ui.todos
 
 import androidx.lifecycle.ViewModel
-import com.guerra.enrico.sera.di.PerSubfragment
 import com.guerra.enrico.sera.di.ViewModelKey
 import com.guerra.enrico.sera.ui.todos.filter.TodosFilterFragment
 import dagger.Binds
@@ -15,7 +14,6 @@ import dagger.multibindings.IntoMap
  */
 @Module
 internal abstract class TodosModule {
-  @PerSubfragment
   @ContributesAndroidInjector
   abstract fun contributeTodosFilterFragment(): TodosFilterFragment
 

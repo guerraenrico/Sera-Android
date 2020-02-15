@@ -16,13 +16,14 @@ data class Category constructor(
   @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
   @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "name") val name: String = ""
-)
+) {
 
-internal fun Category.toSyncAction(operation: Operation): SyncAction = SyncAction(
-  id = 0,
-  entityName = "Category",
-  entityLocalId = localId,
-  entityId = id,
-  operation = operation,
-  createdAt = Date()
-)
+  fun toSyncAction(operation: Operation): SyncAction = SyncAction(
+    id = 0,
+    entityName = "Category",
+    entityLocalId = localId,
+    entityId = id,
+    operation = operation,
+    createdAt = Date()
+  )
+}

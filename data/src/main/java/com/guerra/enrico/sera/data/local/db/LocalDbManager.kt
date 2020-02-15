@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDbManager {
   // Session
 
-  suspend fun getSession(): Session
-  suspend fun getSessionAccessToken(): String
+  suspend fun getSession(): Session?
+  suspend fun getSessionAccessToken(): String?
   suspend fun saveSession(userId: String, accessToken: String)
 
   // User

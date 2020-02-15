@@ -12,6 +12,7 @@ import com.guerra.enrico.sera.data.local.dao.UserDao
 import com.guerra.enrico.sera.data.local.dao.sync.SyncActionDao
 import com.guerra.enrico.sera.data.local.db.converters.CategoryConverter
 import com.guerra.enrico.sera.data.local.db.converters.DateConverter
+import com.guerra.enrico.sera.data.local.db.converters.OperationConverter
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
@@ -26,7 +27,7 @@ import com.guerra.enrico.sera.data.models.sync.SyncAction
   entities = [Session::class, User::class, Category::class, Task::class, SyncAction::class],
   version = 1
 )
-@TypeConverters(DateConverter::class, CategoryConverter::class)
+@TypeConverters(DateConverter::class, CategoryConverter::class, OperationConverter::class)
 abstract class SeraDatabase : RoomDatabase() {
   abstract fun sessionDao(): SessionDao
 

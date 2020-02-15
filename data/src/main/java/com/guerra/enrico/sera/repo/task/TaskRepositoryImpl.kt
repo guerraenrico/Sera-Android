@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera.repo.task
 
 import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
@@ -26,7 +27,8 @@ class TaskRepositoryImpl @Inject constructor(
     limit: Int,
     skip: Int
   ): Result<List<Task>> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult =
       remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)) {
       is CallResult.Result -> {
@@ -43,7 +45,8 @@ class TaskRepositoryImpl @Inject constructor(
   }
 
   override suspend fun getAllTasksRemote(): Result<List<Task>> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.getAllTasks(accessToken)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
@@ -59,7 +62,8 @@ class TaskRepositoryImpl @Inject constructor(
   }
 
   override suspend fun insertTask(task: Task): Result<Task> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.insertTask(accessToken, task)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
@@ -76,7 +80,8 @@ class TaskRepositoryImpl @Inject constructor(
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     return when (val apiResult = remoteDataManager.deleteTask(accessToken, task.id)) {
       is CallResult.Result -> {
         if (apiResult.apiResponse.success) {
@@ -93,7 +98,8 @@ class TaskRepositoryImpl @Inject constructor(
   }
 
   override suspend fun updateTaskRemote(task: Task): Result<Task> {
-    val accessToken = localDbManager.getSessionAccessToken()
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
     val savedTask = localDbManager.getTask(task.id)
     return when (val apiResult = remoteDataManager.updateTask(accessToken, savedTask)) {
       is CallResult.Result -> {

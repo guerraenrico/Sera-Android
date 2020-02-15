@@ -4,6 +4,7 @@ import android.content.Context
 import com.guerra.enrico.base.util.ConnectionHelper
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
+import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
@@ -46,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
   override suspend fun validateAccessToken(): Result<User> {
-    val session = localDbManager.getSession()
+    val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
@@ -71,7 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
   }
 
   override suspend fun refreshToken(): Result<Unit> {
-    val session = localDbManager.getSession()
+    val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
     if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
