@@ -2,6 +2,9 @@ package com.guerra.enrico.sera.di.module
 
 import android.app.Application
 import android.content.Context
+import com.guerra.enrico.base.BaseModule
+import com.guerra.enrico.base.connection.ConnectionHelper
+import com.guerra.enrico.base.connection.ConnectionHelperImpl
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProviderImpl
 import com.guerra.enrico.base.logger.Logger
@@ -28,7 +31,7 @@ import javax.inject.Singleton
  * Created by enrico
  * on 30/05/2018.
  */
-@Module(includes = [ViewModelModule::class])
+@Module(includes = [ViewModelModule::class, BaseModule::class])
 class AppModule {
   @Provides
   fun provideContext(application: SeraApplication): Context = application.applicationContext
@@ -41,19 +44,13 @@ class AppModule {
   fun provideSeraDatabase(context: Context): SeraDatabase = SeraDatabase.getInstance(context)
 
   @Provides
-  fun provideAppDispatchers(appDispatchers: CoroutineDispatcherProviderImpl): CoroutineDispatcherProvider = appDispatchers
-
-  @Provides
-  @Singleton
-  fun provideLogger(logger: SeraLogger): Logger = logger
-
-  @Provides
   @Singleton
   fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository = authRepository
 
   @Provides
   @Singleton
-  fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository = categoryRepository
+  fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository =
+    categoryRepository
 
   @Provides
   @Singleton
@@ -65,9 +62,11 @@ class AppModule {
 
   @Provides
   @Singleton
-  fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager = preferencesManager
+  fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager =
+    preferencesManager
 
   @Provides
   @Singleton
-  fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager = remoteDataManager
+  fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager =
+    remoteDataManager
 }

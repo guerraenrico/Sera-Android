@@ -1,7 +1,6 @@
 package com.guerra.enrico.sera.repo.auth
 
-import android.content.Context
-import com.guerra.enrico.base.util.ConnectionHelper
+import com.guerra.enrico.base.connection.ConnectionHelper
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
 import com.guerra.enrico.sera.data.exceptions.LocalException
@@ -20,9 +19,9 @@ import javax.inject.Inject
  * on 14/10/2018.
  */
 class AuthRepositoryImpl @Inject constructor(
-  private val context: Context,
   private val remoteDataManager: RemoteDataManager,
-  private val localDbManager: LocalDbManager
+  private val localDbManager: LocalDbManager,
+  private val connectionHelper: ConnectionHelper
 ) : AuthRepository {
 
   // Sign in
@@ -48,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
 
   override suspend fun validateAccessToken(): Result<User> {
     val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
-    if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+    if (!connectionHelper.awaitAvailable()) {
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
@@ -73,7 +72,7 @@ class AuthRepositoryImpl @Inject constructor(
 
   override suspend fun refreshToken(): Result<Unit> {
     val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
-    if (!ConnectionHelper.isInternetConnectionAvailable(context)) {
+    if (!connectionHelper.awaitAvailable()) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
     return when (val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)) {

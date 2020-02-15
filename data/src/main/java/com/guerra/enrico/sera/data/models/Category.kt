@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.guerra.enrico.sera.data.models.sync.Operation
 import com.guerra.enrico.sera.data.models.sync.SyncAction
+import com.guerra.enrico.sera.data.models.sync.Syncable
 import java.util.*
 
 /**
@@ -16,9 +17,9 @@ data class Category constructor(
   @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
   @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "name") val name: String = ""
-) {
+) : Syncable {
 
-  fun toSyncAction(operation: Operation): SyncAction = SyncAction(
+  override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
     id = 0,
     entityName = "Category",
     entityLocalId = localId,

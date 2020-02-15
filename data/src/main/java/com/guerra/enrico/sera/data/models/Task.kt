@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.data.models
 import androidx.room.*
 import com.guerra.enrico.sera.data.models.sync.Operation
 import com.guerra.enrico.sera.data.models.sync.SyncAction
+import com.guerra.enrico.sera.data.models.sync.Syncable
 import java.util.*
 
 /**
@@ -20,9 +21,9 @@ data class Task constructor(
   @ColumnInfo(name = "completedAt") val completedAt: Date? = null,
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date(),
   @ColumnInfo(name = "categories") val categories: List<Category> = emptyList()
-) {
+) : Syncable {
 
-  fun toSyncAction(operation: Operation): SyncAction = SyncAction(
+  override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
     id = 0,
     entityName = "Task",
     entityLocalId = localId,
