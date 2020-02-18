@@ -21,9 +21,10 @@ class SyncTasksAndCategories @Inject constructor(
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: Unit) {
+    // TODO: read all syncAction and
     authRepository.refreshTokenIfNotAuthorized(
-      { tasksRepository.fetchAndSaveAllTasks() },
-      { categoryRepository.fetchAndSaveAllCategories() }
+      { tasksRepository.syncAction() },
+      { categoryRepository.syncAction() }
     )
   }
 }

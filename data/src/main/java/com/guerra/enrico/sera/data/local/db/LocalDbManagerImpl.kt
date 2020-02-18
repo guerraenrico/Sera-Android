@@ -47,6 +47,9 @@ class LocalDbManagerImpl @Inject constructor(
 
   override fun observeAllCategories(): Flow<List<Category>> = database.categoryDao().observeAll()
 
+  override suspend fun getCategory(id: String): Category =
+    database.categoryDao().get(id)
+
   override suspend fun saveCategory(category: Category): Long =
     database.categoryDao().insertOne(category)
 

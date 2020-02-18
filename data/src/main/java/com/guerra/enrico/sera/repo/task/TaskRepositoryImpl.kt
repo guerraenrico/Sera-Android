@@ -6,6 +6,8 @@ import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.sync.Operation
+import com.guerra.enrico.sera.data.models.sync.SyncAction
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
@@ -21,45 +23,6 @@ class TaskRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {
-  override suspend fun getTasksRemote(
-    categoriesId: List<String>,
-    completed: Boolean,
-    limit: Int,
-    skip: Int
-  ): Result<List<Task>> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult =
-      remoteDataManager.getTasks(accessToken, categoriesId, completed, limit, skip)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          Result.Success(apiResult.apiResponse.data ?: emptyList())
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
-  }
-
-  override suspend fun getAllTasksRemote(): Result<List<Task>> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.getAllTasks(accessToken)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          Result.Success(apiResult.apiResponse.data ?: emptyList())
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
-  }
 
   override suspend fun insertTask(task: Task): Result<Task> {
     val accessToken =
@@ -97,30 +60,12 @@ class TaskRepositoryImpl @Inject constructor(
     }
   }
 
-  override suspend fun updateTaskRemote(task: Task): Result<Task> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    val savedTask = localDbManager.getTask(task.id)
-    return when (val apiResult = remoteDataManager.updateTask(accessToken, savedTask)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          Result.Success(apiResult.apiResponse.data)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
-  }
-
-  override suspend fun updateTaskLocal(task: Task): Result<Task> {
+  override suspend fun updateTask(task: Task): Result<Task> {
     localDbManager.updateTask(task)
     return Result.Success(task)
   }
 
-  override fun observeTasks(
+  override fun getTasks(
     searchText: String,
     category: Category?,
     completed: Boolean
@@ -136,15 +81,23 @@ class TaskRepositoryImpl @Inject constructor(
       return@map list
     }
 
-  override suspend fun fetchAndSaveAllTasks(): Result<Unit> {
-    val result = getAllTasksRemote()
+  override suspend fun syncAction(syncAction: SyncAction): Result<Any> {
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
+    val task = localDbManager.getTask(syncAction.entityId)
+
+    return when (syncAction.operation) {
+      Operation.INSERT -> updateSyncedTask(remoteDataManager.insertTask(accessToken, task))
+      Operation.UPDATE -> updateSyncedTask(remoteDataManager.updateTask(accessToken, task))
+      Operation.DELETE -> remoteDataManager.deleteTask(accessToken, syncAction.entityId).toResult()
+    }
+  }
+
+  private suspend fun updateSyncedTask(callResult: CallResult<Task>): Result<Task> {
+    val result = callResult.toResult()
     if (result is Result.Success) {
-      localDbManager.syncTasks(result.data)
-      return Result.Success(Unit)
+      localDbManager.updateTask(result.data)
     }
-    if (result is Result.Error) {
-      return Result.Error(result.exception)
-    }
-    return Result.Success(Unit)
+    return result
   }
 }

@@ -22,7 +22,7 @@ class UpdateTaskCompleteState @Inject constructor(
   override suspend fun doWork(params: Params): Result<Task> {
     val (task, completed) = params
     val updatedTask = task.copy(completed = completed, completedAt = Date())
-    return taskRepository.updateTaskLocal(updatedTask)
+    return taskRepository.updateTask(updatedTask)
   }
 
   data class Params(

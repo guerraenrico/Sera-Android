@@ -19,5 +19,5 @@ class ObserveCategories @Inject constructor(
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override fun createObservable(params: Unit): Flow<List<Category>> =
-    categoryRepository.observeCategories()
+    categoryRepository.getCategories()
 }

@@ -26,6 +26,7 @@ interface LocalDbManager {
   // Categories
 
   fun observeAllCategories(): Flow<List<Category>>
+  suspend fun getCategory(id: String): Category
   suspend fun saveCategory(category: Category): Long
   suspend fun saveCategories(categories: List<Category>): List<Long>
   suspend fun clearCategories()

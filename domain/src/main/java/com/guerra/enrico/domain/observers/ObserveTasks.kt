@@ -21,7 +21,7 @@ class ObserveTasks @Inject constructor(
 
   override fun createObservable(params: Params): Flow<List<Task>> {
     val (text, category, completed) = params
-    return taskRepository.observeTasks(text, category, completed)
+    return taskRepository.getTasks(text, category, completed)
   }
 
   data class Params(

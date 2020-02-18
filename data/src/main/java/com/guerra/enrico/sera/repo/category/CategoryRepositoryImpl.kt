@@ -5,6 +5,8 @@ import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.sync.Operation
+import com.guerra.enrico.sera.data.models.sync.SyncAction
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
@@ -18,23 +20,6 @@ class CategoryRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
-
-  override suspend fun getCategoriesRemote(): Result<List<Category>> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.getCategories(accessToken)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          Result.Success(apiResult.apiResponse.data ?: emptyList())
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
-  }
 
   override suspend fun searchCategory(text: String): Result<List<Category>> {
     val accessToken =
@@ -89,16 +74,25 @@ class CategoryRepositoryImpl @Inject constructor(
     }
   }
 
-  override fun observeCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()
+  override fun getCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()
 
-  override suspend fun fetchAndSaveAllCategories(): Result<Unit> {
-    val result = getCategoriesRemote()
+  override suspend fun syncAction(syncAction: SyncAction): Result<Any> {
+    val accessToken =
+      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
+    val category = localDbManager.getCategory(syncAction.entityId)
+
+    return when (syncAction.operation) {
+      Operation.INSERT -> updateSyncedCategory(remoteDataManager.insertCategory(accessToken, category))
+      Operation.UPDATE -> throw NotImplementedError("Category cannot be updated yet")
+      Operation.DELETE -> remoteDataManager.deleteCategory(accessToken, syncAction.entityId).toResult()
+    }
+  }
+
+  private suspend fun updateSyncedCategory(callResult: CallResult<Category>): Result<Category> {
+    val result = callResult.toResult()
     if (result is Result.Success) {
-      localDbManager.syncCategories(result.data)
+      localDbManager.updateCategory(result.data)
     }
-    if (result is Result.Error) {
-      return Result.Error(result.exception)
-    }
-    return Result.Success(Unit)
+    return result
   }
 }
