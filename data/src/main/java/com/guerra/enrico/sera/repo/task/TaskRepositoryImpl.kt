@@ -25,43 +25,20 @@ class TaskRepositoryImpl @Inject constructor(
 ) : TaskRepository {
 
   override suspend fun insertTask(task: Task): Result<Task> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.insertTask(accessToken, task)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.saveTask(apiResult.apiResponse.data)
-          Result.Success(apiResult.apiResponse.data)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
+    localDbManager.saveTask(task)
+    localDbManager.saveSyncAction(task.toSyncAction(Operation.INSERT))
+    return Result.Success(task)
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.deleteTask(accessToken, task.id)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          val result = localDbManager.deleteTask(task)
-          Result.Success(result)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
+    val result = localDbManager.deleteTask(task)
+    localDbManager.saveSyncAction(task.toSyncAction(Operation.DELETE))
+    return Result.Success(result)
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
     localDbManager.updateTask(task)
+    localDbManager.saveSyncAction(task.toSyncAction(Operation.UPDATE))
     return Result.Success(task)
   }
 

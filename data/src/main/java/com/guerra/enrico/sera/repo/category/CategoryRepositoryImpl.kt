@@ -21,57 +21,16 @@ class CategoryRepositoryImpl @Inject constructor(
   private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
 
-  override suspend fun searchCategory(text: String): Result<List<Category>> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.searchCategory(accessToken, text)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          Result.Success(apiResult.apiResponse.data ?: emptyList())
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
-  }
-
   override suspend fun insertCategory(category: Category): Result<Category> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.insertCategory(accessToken, category)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success && apiResult.apiResponse.data != null) {
-          localDbManager.saveCategory(apiResult.apiResponse.data)
-          Result.Success(apiResult.apiResponse.data)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
+    localDbManager.saveCategory(category)
+    localDbManager.saveSyncAction(category.toSyncAction(Operation.INSERT))
+    return Result.Success(category)
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
-    val accessToken =
-      localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    return when (val apiResult = remoteDataManager.deleteCategory(accessToken, category.id)) {
-      is CallResult.Result -> {
-        if (apiResult.apiResponse.success) {
-          val result = localDbManager.deleteCategory(category)
-          Result.Success(result)
-        } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
-        }
-      }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
-    }
+    val result = localDbManager.deleteCategory(category)
+    localDbManager.saveSyncAction(category.toSyncAction(Operation.DELETE))
+    return Result.Success(result)
   }
 
   override fun getCategories(): Flow<List<Category>> = localDbManager.observeAllCategories()
