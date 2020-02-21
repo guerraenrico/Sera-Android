@@ -1,6 +1,8 @@
 package com.guerra.enrico.sera.data.models
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.guerra.enrico.sera.data.models.sync.Operation
 import com.guerra.enrico.sera.data.models.sync.SyncAction
 import com.guerra.enrico.sera.data.models.sync.Syncable
@@ -25,10 +27,14 @@ data class Task constructor(
 
   override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
     id = 0,
-    entityName = "Task",
+    entityName = ENTITY_NAME,
     entityLocalId = localId,
     entityId = id,
     operation = operation,
     createdAt = Date()
   )
+
+  companion object {
+    const val ENTITY_NAME = "Task"
+  }
 }

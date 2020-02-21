@@ -2,7 +2,6 @@ package com.guerra.enrico.sera.repo.category
 
 import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.exceptions.LocalException
-import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.sync.Operation

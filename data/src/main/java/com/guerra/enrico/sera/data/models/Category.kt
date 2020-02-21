@@ -21,10 +21,14 @@ data class Category constructor(
 
   override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
     id = 0,
-    entityName = "Category",
+    entityName = ENTITY_NAME,
     entityLocalId = localId,
     entityId = id,
     operation = operation,
     createdAt = Date()
   )
+
+  companion object {
+    const val ENTITY_NAME = "Category"
+  }
 }
