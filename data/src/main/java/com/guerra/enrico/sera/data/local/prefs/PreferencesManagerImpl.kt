@@ -2,6 +2,7 @@ package com.guerra.enrico.sera.data.local.prefs
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import com.guerra.enrico.base.PreferencesFile
 import javax.inject.Inject
 
 /**
@@ -9,13 +10,11 @@ import javax.inject.Inject
  * on 16/10/2018.
  */
 class PreferencesManagerImpl @Inject constructor(
-        private val context: Context
+  private val context: Context,
+  @PreferencesFile preferenceFile: String
 ) : PreferencesManager {
 
-  companion object {
-    const val PREFERENCE_FILE_NAME = "sera"
-  }
-
-  private val preferences = context.applicationContext.getSharedPreferences(PREFERENCE_FILE_NAME, MODE_PRIVATE)
+  private val preferences =
+    context.applicationContext.getSharedPreferences(preferenceFile, MODE_PRIVATE)
 
 }

@@ -3,12 +3,7 @@ package com.guerra.enrico.sera.di.module
 import android.app.Application
 import android.content.Context
 import com.guerra.enrico.base.BaseModule
-import com.guerra.enrico.base.connection.ConnectionHelper
-import com.guerra.enrico.base.connection.ConnectionHelperImpl
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProviderImpl
-import com.guerra.enrico.base.logger.Logger
-import com.guerra.enrico.base.logger.SeraLogger
+import com.guerra.enrico.base.PreferencesFile
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
@@ -69,4 +64,9 @@ class AppModule {
   @Singleton
   fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager =
     remoteDataManager
+
+  @Provides
+  @Singleton
+  @PreferencesFile
+  fun providePreferencesFile(): String = "com.guerra.enrico.sera.prefs"
 }

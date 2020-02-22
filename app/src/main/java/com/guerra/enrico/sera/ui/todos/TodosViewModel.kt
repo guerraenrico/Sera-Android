@@ -8,15 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.extensions.hasKey
 import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
-import com.guerra.enrico.sera.data.Event
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.data.Event
+import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.presentation.TaskView
@@ -188,7 +188,8 @@ class TodosViewModel @Inject constructor(
 
   private fun restoreTask(task: Task) {
     viewModelScope.launch {
-      updateTaskCompleteState(UpdateTaskCompleteState.Params(task, false))
+      // TODO Change only visibility to user
+//      updateTaskCompleteState(UpdateTaskCompleteState.Params(task, false))
     }
   }
 }
