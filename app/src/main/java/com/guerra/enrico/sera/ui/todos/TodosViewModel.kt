@@ -162,6 +162,7 @@ class TodosViewModel @Inject constructor(
 
   private fun createApplyTaskCompleteStateAction(task: Task, position: Int): Job =
     viewModelScope.launch(start = CoroutineStart.LAZY) {
+      // TODO: Keep this or apply only changes to viewmodel state?
       _snackbarMessage.value = when (val completeTaskResult = applyTaskUpdateRemote(task)) {
         is Result.Error -> {
           restoreTask(task)

@@ -1,4 +1,4 @@
-package com.guerra.enrico.base
+package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.base.connection.ConnectionHelper
 import com.guerra.enrico.base.connection.ConnectionHelperImpl

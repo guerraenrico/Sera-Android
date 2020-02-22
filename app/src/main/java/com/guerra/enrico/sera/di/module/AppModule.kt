@@ -2,7 +2,6 @@ package com.guerra.enrico.sera.di.module
 
 import android.app.Application
 import android.content.Context
-import com.guerra.enrico.base.BaseModule
 import com.guerra.enrico.base.PreferencesFile
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.data.local.db.LocalDbManager

@@ -20,8 +20,9 @@ class ApplyTaskUpdateRemote @Inject constructor(
 ) : Interactor<Task, Result<Task>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: Task): Result<Task> =
-    authRepository.refreshTokenIfNotAuthorized({
-      taskRepository.updateTaskRemote(params)
-    }).first()
+  // TODO: Keep this ?
+  override suspend fun doWork(params: Task): Result<Task> = Result.Loading
+//    authRepository.refreshTokenIfNotAuthorized({
+//      taskRepository.updateTask(params)
+//    }).first()
 }
