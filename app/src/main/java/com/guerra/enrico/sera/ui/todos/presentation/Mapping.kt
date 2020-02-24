@@ -7,8 +7,8 @@ import com.guerra.enrico.sera.data.models.Task
  * Created by enrico
  * on 29/12/2019.
  */
-fun categoriesToModelForView(categories: List<Category>): List<CategoryPresentation> =
+fun categoriesToPresentations(categories: List<Category>): List<CategoryPresentation> =
   categories.map { CategoryPresentation(category = it, isChecked = false) }
 
-fun tasksToModelForView(tasks: List<Task>): List<TaskView> =
-  tasks.map { TaskView(task = it, isExpanded = false) }
+fun tasksToPresentations(tasks: List<Task>): List<TaskPresentation> =
+  tasks.map { TaskPresentation(task = it, isExpanded = false) }

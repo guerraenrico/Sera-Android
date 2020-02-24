@@ -1,8 +1,7 @@
 package com.guerra.enrico.sera.repo.task
 
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.data.exceptions.LocalException
-import com.guerra.enrico.sera.data.exceptions.RemoteException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
@@ -12,7 +11,6 @@ import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.Collections.emptyList
 import javax.inject.Inject
 
 /**

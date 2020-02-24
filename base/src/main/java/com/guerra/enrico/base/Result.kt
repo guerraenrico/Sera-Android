@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data
+package com.guerra.enrico.base
 
 /**
  * Created by enrico

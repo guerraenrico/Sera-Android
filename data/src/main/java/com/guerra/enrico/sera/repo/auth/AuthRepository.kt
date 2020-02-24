@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.repo.auth
 
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.data.models.User
 
 /**

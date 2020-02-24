@@ -1,13 +1,12 @@
 package com.guerra.enrico.domain.interactors
 
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.category.CategoryRepository
-import com.guerra.enrico.domain.Interactor
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 /**

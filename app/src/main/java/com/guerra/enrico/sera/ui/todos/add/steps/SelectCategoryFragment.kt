@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel

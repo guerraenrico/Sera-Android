@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.data.remote.response
 
 import com.guerra.enrico.sera.data.exceptions.RemoteException
 import java.lang.Exception
-import com.guerra.enrico.sera.data.Result as Res
+import com.guerra.enrico.base.Result as Res
 
 /**
  * Created by enrico

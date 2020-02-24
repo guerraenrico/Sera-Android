@@ -16,7 +16,7 @@ import com.google.android.flexbox.JustifyContent
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.ItemTaskBinding
 import com.guerra.enrico.sera.ui.todos.EventActions
-import com.guerra.enrico.sera.ui.todos.presentation.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
 import kotlin.math.abs
 
 /**
@@ -26,7 +26,7 @@ import kotlin.math.abs
 class TaskAdapter(
   private val lifecycleOwner: LifecycleOwner,
   private val eventActions: EventActions
-) : ListAdapter<TaskView, TaskViewHolder>(TaskDiff) {
+) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
 
   private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
 
@@ -57,24 +57,25 @@ class TaskViewHolder(
   private val eventActions: EventActions
 ) : RecyclerView.ViewHolder(binding.root) {
 
-  fun bind(taskView: TaskView) {
-    binding.taskView = taskView
+  fun bind(taskPresentation: TaskPresentation) {
+    binding.taskPresentation = taskPresentation
     binding.lifecycleOwner = lifecycleOwner
     binding.eventActions = eventActions
     binding.executePendingBindings()
   }
 }
 
-internal object TaskDiff : DiffUtil.ItemCallback<TaskView>() {
-  override fun areItemsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
+internal object TaskDiff : DiffUtil.ItemCallback<TaskPresentation>() {
+  override fun areItemsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
     oldItem.task.id == newItem.task.id
 
-  override fun areContentsTheSame(oldItem: TaskView, newItem: TaskView): Boolean =
+  override fun areContentsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
     oldItem == newItem
 }
 
 class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
   ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
   override fun onMove(
     recyclerView: RecyclerView,
     viewHolder: RecyclerView.ViewHolder,

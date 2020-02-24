@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="taskView"
-            type="com.guerra.enrico.sera.ui.todos.presentation.TaskView" />
+            name="taskPresentation"
+            type="com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation" />
 
         <variable
             name="position"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/item_task_background"
-            android:onClick="@{() -> eventActions.onTaskClick(taskView.task)}"
+            android:onClick="@{() -> eventActions.onTaskClick(taskPresentation.task)}"
             android:orientation="vertical"
             android:padding="@dimen/margin_m">
 
@@ -74,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_m"
                 android:layout_marginBottom="@dimen/margin_s"
-                android:text="@{taskView.task.title}"
-                android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}" />
+                android:text="@{taskPresentation.task.title}"
+                android:textColor="@{taskPresentation.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/task_date"
@@ -84,9 +84,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_m"
                 android:layout_marginBottom="@dimen/margin_m"
-                android:textColor="@{taskView.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}"
+                android:textColor="@{taskPresentation.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}"
                 android:textSize="@dimen/item_list_description_text_size"
-                app:date="@{taskView.task.todoWithin}" />
+                app:date="@{taskPresentation.task.todoWithin}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/task_description"
@@ -94,15 +94,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_m"
-                android:text="@{taskView.task.description}"
-                app:goneIf="@{taskView.task.description.isEmpty}" />
+                android:text="@{taskPresentation.task.description}"
+                app:goneIf="@{taskPresentation.task.description.isEmpty}" />
 
             <com.guerra.enrico.sera.widget.NoTouchRecyclerView
                 android:id="@+id/recycler_view_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:taskCategories="@{taskView.task.categories}" />
+                app:taskCategories="@{taskPresentation.task.categories}" />
 
         </LinearLayout>
 

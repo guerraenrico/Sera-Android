@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.succeeded
+import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import javax.inject.Inject
 

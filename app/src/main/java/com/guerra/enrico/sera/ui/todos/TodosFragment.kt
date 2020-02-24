@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.guerra.enrico.base.EventObserver
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.closeKeyboard
 import com.guerra.enrico.base.extensions.onSearch
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.EventObserver
-import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
@@ -30,7 +30,7 @@ import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
-import com.guerra.enrico.sera.ui.todos.presentation.TaskView
+import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -110,7 +110,7 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun observeTaskList() {
-    todosViewModel.tasksViewResult.observe(viewLifecycleOwner, Observer { tasksResult ->
+    todosViewModel.tasks.observe(viewLifecycleOwner, Observer { tasksResult ->
       if (tasksResult == null || tasksResult is Result.Loading) {
         return@Observer
       }
@@ -150,15 +150,16 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun observeSnackbarMessage() {
-    todosViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
-      showSnackbar(
-        message = it.getMessage(requireContext()),
-        view = requireActivity().findViewById(R.id.fab_filter),
-        actionText = it.getActionText(requireContext()),
-        onAction = it.onAction,
-        onDismiss = it.onDismiss
-      )
-    })
+    todosViewModel.snackbarMessage.observe(viewLifecycleOwner,
+      EventObserver {
+        showSnackbar(
+          message = it.getMessage(requireContext()),
+          view = requireActivity().findViewById(R.id.fab_filter),
+          actionText = it.getActionText(requireContext()),
+          onAction = it.onAction,
+          onDismiss = it.onDismiss
+        )
+      })
   }
 
   private fun setupRecyclerView() {
@@ -194,7 +195,7 @@ class TodosFragment : BaseFragment() {
    * Show tasks into the recycler view
    * @param tasks task's list to show
    */
-  private fun setRecyclerTaskList(tasks: List<TaskView>) {
+  private fun setRecyclerTaskList(tasks: List<TaskPresentation>) {
     (binding.recyclerViewTasks.adapter as? TaskAdapter)?.apply {
       submitList(tasks)
     }

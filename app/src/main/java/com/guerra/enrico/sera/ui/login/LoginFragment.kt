@@ -14,10 +14,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.succeeded
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject

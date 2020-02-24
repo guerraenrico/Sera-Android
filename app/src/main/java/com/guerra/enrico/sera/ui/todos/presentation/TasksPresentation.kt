@@ -8,7 +8,7 @@ import com.guerra.enrico.sera.data.models.Task
  *
  * Class used only for ui necessity purposes
  */
-data class TaskView(
+data class TaskPresentation(
   val task: Task,
   val isExpanded: Boolean = false
 )

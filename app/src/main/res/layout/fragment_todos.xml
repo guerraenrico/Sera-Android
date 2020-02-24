@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.guerra.enrico.sera.data.Result" />
+        <import type="com.guerra.enrico.base.Result" />
 
         <variable
             name="viewModel"

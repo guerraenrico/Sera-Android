@@ -1,7 +1,5 @@
 package com.guerra.enrico.base.extensions
 
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -11,11 +9,6 @@ import java.util.*
  * Created by enrico
  * on 02/06/2018.
  */
-
-/** Uses `Transformations.map` on a LiveData */
-fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
-  return Transformations.map(this, body)
-}
 
 /**
  * Format date to string with a specific pattern

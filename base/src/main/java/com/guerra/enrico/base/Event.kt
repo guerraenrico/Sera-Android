@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data
+package com.guerra.enrico.base
 
 import androidx.lifecycle.Observer
 

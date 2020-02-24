@@ -5,27 +5,25 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.extensions.hasKey
-import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
+import com.guerra.enrico.base.Event
+import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.ifSucceeded
 import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Event
-import com.guerra.enrico.sera.data.Result
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
-import com.guerra.enrico.sera.ui.todos.presentation.TaskView
-import com.guerra.enrico.sera.ui.todos.presentation.tasksToModelForView
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Job
+import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
+import com.guerra.enrico.sera.ui.todos.presentation.tasksToPresentations
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -36,8 +34,7 @@ class TodosViewModel @Inject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
-  private val syncTasksAndCategories: SyncTasksAndCategories,
-  private val applyTaskUpdateRemote: ApplyTaskUpdateRemote
+  private val syncTasksAndCategories: SyncTasksAndCategories
 ) : BaseViewModel(), EventActions {
 
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
@@ -50,9 +47,9 @@ class TodosViewModel @Inject constructor(
     .map { Result.Success(it) }
     .asLiveData()
 
-  private val _tasksViewResult = MediatorLiveData<Result<List<TaskView>>>()
-  val tasksViewResult: LiveData<Result<List<TaskView>>>
-    get() = _tasksViewResult
+  private val _tasks = MediatorLiveData<Result<List<TaskPresentation>>>()
+  val tasks: LiveData<Result<List<TaskPresentation>>>
+    get() = _tasks
 
   private val _categories = MediatorLiveData<List<Category>>()
   val categories: LiveData<List<Category>>
@@ -66,8 +63,6 @@ class TodosViewModel @Inject constructor(
   val swipeRefresh: LiveData<Boolean>
     get() = _swipeRefresh
 
-  private val taskJobsQueue = mutableMapOf<Task, Job>()
-
   init {
     _categories.addSource(_categoriesResult) { result ->
       if (result is Result.Success) {
@@ -77,9 +72,9 @@ class TodosViewModel @Inject constructor(
       }
     }
 
-    _tasksViewResult.addSource(_tasksResult) { result ->
-      _tasksViewResult.value = when (result) {
-        is Result.Success -> Result.Success(tasksToModelForView(result.data))
+    _tasks.addSource(_tasksResult) { result ->
+      _tasks.value = when (result) {
+        is Result.Success -> Result.Success(tasksToPresentations(result.data))
         is Result.Loading -> Result.Loading
         is Result.Error -> Result.Error(result.exception)
       }
@@ -131,66 +126,57 @@ class TodosViewModel @Inject constructor(
 
   /**
    * Set task as completed on swipe out
-   * @param position task position
    */
-  fun onTaskSwipeToComplete(position: Int) {
-    val tasksViewValues = _tasksViewResult.value
-    if (tasksViewValues is Result.Success && position in tasksViewValues.data.indices) {
-      val taskView = tasksViewValues.data[position]
-
-      if (taskJobsQueue.hasKey(taskView.task))
-        return
-
-      viewModelScope.launch {
-        updateTaskCompleteState(UpdateTaskCompleteState.Params(taskView.task, true))
+  fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
+    val task = list[position].task
+    _tasks.value = Result.Success(setCompleteState(list, task, true))
+    _snackbarMessage.value = Event(SnackbarMessage(
+      messageId = R.string.message_task_completed,
+      actionId = R.string.snackbar_action_abort,
+      onAction = {
+        restoreCompleteTaskAction(task)
+      },
+      onDismiss = {
+        launchCompleteTaskAction(task, position)
       }
-
-      val action = createApplyTaskCompleteStateAction(taskView.task, position)
-      taskJobsQueue[taskView.task] = action
-      _snackbarMessage.value = Event(SnackbarMessage(
-        messageId = R.string.message_task_completed,
-        actionId = R.string.snackbar_action_abort,
-        onAction = {
-          abortCompleteTaskAction(taskView.task)
-        },
-        onDismiss = {
-          launchCompleteTaskAction(taskView.task)
-        }
-      ))
-    }
+    ))
   }
 
-  private fun createApplyTaskCompleteStateAction(task: Task, position: Int): Job =
-    viewModelScope.launch(start = CoroutineStart.LAZY) {
-      // TODO: Keep this or apply only changes to viewmodel state?
-      _snackbarMessage.value = when (val completeTaskResult = applyTaskUpdateRemote(task)) {
-        is Result.Error -> {
-          restoreTask(task)
-          Event(
-            SnackbarMessage(
-              message = completeTaskResult.exception.message,
-              actionId = R.string.snackbar_action_retry,
-              onAction = { onTaskSwipeToComplete(position) })
-          )
-        }
-        else -> return@launch
-      }
-    }
-
-  private fun abortCompleteTaskAction(task: Task) {
-    taskJobsQueue.remove(task)?.cancel()?.also {
-      restoreTask(task)
-    }
-  }
-
-  private fun launchCompleteTaskAction(task: Task) {
-    taskJobsQueue.remove(task)?.start()
-  }
-
-  private fun restoreTask(task: Task) {
+  private fun launchCompleteTaskAction(task: Task, position: Int) {
     viewModelScope.launch {
-      // TODO Change only visibility to user
-//      updateTaskCompleteState(UpdateTaskCompleteState.Params(task, false))
+      val result = updateTaskCompleteState(UpdateTaskCompleteState.Params(task, completed = true))
+      if (result is Result.Error) {
+        restoreCompleteTaskAction(task)
+        Event(
+          SnackbarMessage(
+            message = result.exception.message,
+            actionId = R.string.snackbar_action_retry,
+            onAction = { onTaskSwipeToComplete(position) })
+        )
+      }
     }
   }
+
+  private fun restoreCompleteTaskAction(task: Task) {
+    _tasks.ifSucceeded { list ->
+      _tasks.value = Result.Success(setCompleteState(list, task, false))
+    }
+  }
+
+  private fun setCompleteState(
+    list: List<TaskPresentation>,
+    task: Task,
+    completed: Boolean
+  ): List<TaskPresentation> =
+    list.map {
+      if (it.task.id == task.id) {
+        it.copy(
+          task = it.task.copy(
+            completed = completed,
+            completedAt = if (completed) Date() else null
+          )
+        )
+      } else it
+    }
+
 }

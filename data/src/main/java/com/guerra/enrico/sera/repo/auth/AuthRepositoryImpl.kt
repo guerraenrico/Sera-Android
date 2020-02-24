@@ -1,7 +1,8 @@
 package com.guerra.enrico.sera.repo.auth
 
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.connection.ConnectionHelper
-import com.guerra.enrico.sera.data.Result
+import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.data.exceptions.ConnectionException
 import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.exceptions.RemoteException
@@ -9,7 +10,6 @@ import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
-import com.guerra.enrico.sera.data.succeeded
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -103,11 +103,13 @@ class AuthRepositoryImpl @Inject constructor(
 
   private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>): Result<T> {
     val result = block()
-    if (result is Result.Error && result.exception is RemoteException) {
-      if (result.exception.isExpiredSession()) {
-        val refreshResult = refreshToken()
-        if (refreshResult.succeeded) {
-          return block()
+    if (result is Result.Error) {
+      (result.exception as? RemoteException)?.let {
+        if (it.isExpiredSession()) {
+          val refreshResult = refreshToken()
+          if (refreshResult.succeeded) {
+            return block()
+          }
         }
       }
     }

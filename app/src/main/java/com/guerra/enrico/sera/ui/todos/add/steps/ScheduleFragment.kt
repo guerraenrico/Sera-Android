@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.Result
-import com.guerra.enrico.sera.data.succeeded
+import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_schedule.*

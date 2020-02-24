@@ -81,7 +81,7 @@ class TodosViewModelTests {
       coEvery { observeTasks["createObservable"] (params) } returns flow { emit(tasks) }
       coEvery { observeCategories["createObservable"] (Unit) } returns flow { emit(categories) }
 
-      val liveDataTasksViews = viewModel.tasksViewResult.testObserver()
+      val liveDataTasksViews = viewModel.tasks.testObserver()
       val liveDataCategories = viewModel.categories.testObserver()
       val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
 
