@@ -11,4 +11,7 @@ fun categoriesToPresentations(categories: List<Category>): List<CategoryPresenta
   categories.map { CategoryPresentation(category = it, isChecked = false) }
 
 fun tasksToPresentations(tasks: List<Task>): List<TaskPresentation> =
-  tasks.map { TaskPresentation(task = it, isExpanded = false) }
+  tasks.map { taskToPresentations(it) }
+
+fun taskToPresentations(tasks: Task): TaskPresentation =
+  TaskPresentation(task = tasks, isExpanded = false)

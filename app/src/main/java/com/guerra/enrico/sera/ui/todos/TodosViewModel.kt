@@ -19,6 +19,7 @@ import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
+import com.guerra.enrico.sera.ui.todos.presentation.taskToPresentations
 import com.guerra.enrico.sera.ui.todos.presentation.tasksToPresentations
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -128,16 +129,16 @@ class TodosViewModel @Inject constructor(
    * Set task as completed on swipe out
    */
   fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
-    val task = list[position].task
-    _tasks.value = Result.Success(setCompleteState(list, task, true))
+    val taskPresentation = list[position]
+    _tasks.value = Result.Success(list - taskPresentation)
     _snackbarMessage.value = Event(SnackbarMessage(
       messageId = R.string.message_task_completed,
       actionId = R.string.snackbar_action_abort,
       onAction = {
-        restoreCompleteTaskAction(task)
+        restoreCompleteTaskAction(taskPresentation.task, position)
       },
       onDismiss = {
-        launchCompleteTaskAction(task, position)
+        launchCompleteTaskAction(taskPresentation.task, position)
       }
     ))
   }
@@ -146,7 +147,7 @@ class TodosViewModel @Inject constructor(
     viewModelScope.launch {
       val result = updateTaskCompleteState(UpdateTaskCompleteState.Params(task, completed = true))
       if (result is Result.Error) {
-        restoreCompleteTaskAction(task)
+        restoreCompleteTaskAction(task, position)
         Event(
           SnackbarMessage(
             message = result.exception.message,
@@ -157,9 +158,14 @@ class TodosViewModel @Inject constructor(
     }
   }
 
-  private fun restoreCompleteTaskAction(task: Task) {
+  private fun restoreCompleteTaskAction(task: Task, position: Int) {
     _tasks.ifSucceeded { list ->
-      _tasks.value = Result.Success(setCompleteState(list, task, false))
+      _tasks.value = Result.Success(
+        mutableListOf<TaskPresentation>().apply {
+          addAll(list)
+          add(position, taskToPresentations(task))
+        }.toList()
+      )
     }
   }
 
