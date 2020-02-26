@@ -12,6 +12,10 @@ class SeraLogger @Inject constructor() : Logger {
     Timber.e("code: $code")
   }
 
+  override fun e(tag: String, message: String) {
+    Timber.e("[$tag]: $message")
+  }
+
   override fun e(throwable: Throwable) {
     Timber.e(throwable)
   }

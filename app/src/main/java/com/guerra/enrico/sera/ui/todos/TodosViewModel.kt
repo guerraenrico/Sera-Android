@@ -24,7 +24,6 @@ import com.guerra.enrico.sera.ui.todos.presentation.tasksToPresentations
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -168,21 +167,4 @@ class TodosViewModel @Inject constructor(
       )
     }
   }
-
-  private fun setCompleteState(
-    list: List<TaskPresentation>,
-    task: Task,
-    completed: Boolean
-  ): List<TaskPresentation> =
-    list.map {
-      if (it.task.id == task.id) {
-        it.copy(
-          task = it.task.copy(
-            completed = completed,
-            completedAt = if (completed) Date() else null
-          )
-        )
-      } else it
-    }
-
 }
