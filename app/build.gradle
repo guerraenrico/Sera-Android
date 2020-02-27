@@ -139,4 +139,5 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    lintChecks project(":lint")
 }
