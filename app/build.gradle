@@ -64,6 +64,8 @@ kapt {
 }
 
 dependencies {
+    lintChecks project(":lint")
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(":data")
@@ -139,5 +141,4 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
-    lintChecks project(":lint")
 }
