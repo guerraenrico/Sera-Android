@@ -13,7 +13,6 @@ import org.w3c.dom.Element
  * Created by enrico
  * on 29/02/2020.
  */
-private const val COLOR = "color"
 
 class MissingNightColorDetector : ResourceXmlDetector() {
   private val nightColors = mutableListOf<String>()
@@ -24,7 +23,7 @@ class MissingNightColorDetector : ResourceXmlDetector() {
   }
 
   override fun getApplicableElements(): Collection<String>? {
-    return listOf(COLOR)
+    return listOf("color")
   }
 
   override fun visitElement(context: XmlContext, element: Element) {
