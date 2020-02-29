@@ -6,6 +6,7 @@ import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
 import com.guerra.enrico.lint.directColor.DirectColorUseIssue
+import com.guerra.enrico.lint.missingNightColor.MissingNightColorIssue
 
 /**
  * Created by enrico
@@ -13,7 +14,7 @@ import com.guerra.enrico.lint.directColor.DirectColorUseIssue
  */
 class SeraLintRegistry : IssueRegistry() {
   override val issues: List<Issue>
-    get() = listOf(DirectColorUseIssue.ISSUE)
+    get() = listOf(DirectColorUseIssue.ISSUE, MissingNightColorIssue.ISSUE)
 
   override val api: Int
     get() = CURRENT_API
