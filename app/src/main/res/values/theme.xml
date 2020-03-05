@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
 
-        <item name="android:statusBarColor">@color/status_bar_color</item>
-        <item name="android:navigationBarColor">@color/color_primary_dark</item>
-        <item name="android:windowBackground">@color/background_color</item>
-
+    <style name="Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="fontFamily">@font/prompt</item>
+
+        <item name="android:statusBarColor">#bec4ca</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="materialButtonStyle">@style/Widget.Sera.Button</item>
         <item name="android:datePickerDialogTheme">@style/Widget.Sera.Dialog</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents" />
+
+    <style name="AppTheme" parent="Base" />
+
+    <style name="AppTheme.Sera">
+        <item name="colorPrimary">@color/color_aquamarine_500</item>
+        <item name="colorOnPrimary">@color/color_white</item>
+        <item name="colorPrimaryDark">@color/color_aquamarine_600</item>
+        <item name="colorAccent">@color/color_yellow_500</item>
+        <item name="colorSurface">@color/color_white</item>
+        <item name="colorSecondarySurface">@color/color_light_grey_300</item>
+
+        <item name="colorControlNormal">@color/color_white</item>
+        <item name="colorControlActivated">@color/color_aquamarine_500</item>
+        <item name="colorOnControlNormal">@color/color_aquamarine_500</item>
+        <item name="colorOnControlActivated">@color/color_light_grey_200</item>
+        <item name="colorSecondaryControlNormal">@color/color_light_grey_300</item>
+
+        <item name="colorBottomControlNormal">@color/color_grey_800</item>
+
+        <item name="android:textColorPrimary">@color/color_grey_800</item>
+        <item name="android:textColorSecondary">@color/color_grey_700</item>
+        <item name="android:windowBackground">@color/color_light_grey_200</item>
+
+        <item name="inputBackgroundColor">@color/color_light_grey_500</item>
+        <item name="hintTextColor">@color/color_grey_500</item>
+
+        <item name="colorDivider">@color/color_light_grey_200</item>
+
+        <item name="colorIcon">@color/color_grey_800</item>
     </style>
 
-    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents" />
 </resources>

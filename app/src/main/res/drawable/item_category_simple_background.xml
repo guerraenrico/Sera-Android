@@ -4,7 +4,7 @@
         <shape>
             <corners android:radius="@dimen/category_item_border_radius" />
             <padding android:bottom="@dimen/category_item_padding_vertical" android:left="@dimen/category_item_padding_horizontal" android:right="@dimen/category_item_padding_horizontal" android:top="@dimen/category_item_padding_vertical" />
-            <solid android:color="@color/category_item_background_color_not_selected" />
+            <solid android:color="?attr/colorSecondaryControlNormal" />
         </shape>
     </item>
 </selector>

@@ -2,25 +2,36 @@ package com.guerra.enrico.sera.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.guerra.enrico.base.extensions.setLightTheme
+import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.sera.R
-import kotlinx.android.synthetic.main.main_activity.*
+import com.guerra.enrico.sera.databinding.MainActivityBinding
 
 /**
  * Created by enrico
  * on 15/12/2019.
  */
 class MainActivity : AppCompatActivity() {
+  private lateinit var binding: MainActivityBinding
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.main_activity)
+    setLightTheme()
+
+    binding = DataBindingUtil.setContentView(this, R.layout.main_activity)
+    binding.lifecycleOwner = this
+
+    binding.root.systemUiFullScreen()
+
     setupBottomNavigationBar()
   }
 
   private fun setupBottomNavigationBar() {
     val navController = Navigation.findNavController(this, R.id.main_fragment_host)
-    bottom_navigation.setupWithNavController(navController = navController)
-    bottom_navigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
+    binding.bottomNavigation.setupWithNavController(navController = navController)
+    binding.bottomNavigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
   }
 }

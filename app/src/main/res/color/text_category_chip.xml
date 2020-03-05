@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:color="@color/category_filter_chip_text_selected"
+        android:color="?attr/colorControlActivated"
         android:state_enabled="true"
         android:state_checked="true"/>
     <item
-        android:color="@color/category_filter_chip_text_unselected"/>
+        android:color="?attr/colorControlNormal"/>
 </selector>

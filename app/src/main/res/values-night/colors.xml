@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_dark_blue_500">#1F2226</color>
-    <color name="color_dark_blue_600">#181A1E</color>
-    <color name="color_dark_blue_700">#181A1E</color>
 
-    <color name="color_aquamarine_500">#1EBCAD</color>
-    <color name="color_aquamarine_600">#0EA596</color>
-    <color name="color_aquamarine_800">#025251</color>
-
-    <color name="color_yellow_500">#FFC107</color>
-
-    <color name="color_light_grey_200">#FAFAFC</color>
-    <color name="color_light_grey_300">#ECEDEF</color>
-    <color name="color_light_grey_500">#CAD2DC</color>
-    <color name="color_light_grey_600">#ADB8C7</color>
-    <color name="color_light_grey_700">#9CA8B8</color>
-    <color name="color_light_grey_800">#82878c</color>
-
-    <color name="color_grey_500">#475b75</color>
-    <color name="color_grey_700">#3C4148</color>
-    <color name="color_grey_800">#25292E</color>
-
-    <color name="color_white">#FFFFFF</color>
-    <color name="color_red">#c74747</color>
-    <color name="color_blue">#3596d3</color>
-
-    <color name="color_status_bar">#80FFFFFF</color>
-    <color name="color_navigation_bar">#80FFFFFF</color>
+    <color name="color_status_bar">#00000000</color>
+    <color name="color_navigation_bar">#00000000</color>
 
     <!-- Unique case -->
     <color name="color_check_mark_ic_completed">@color/color_aquamarine_800</color>

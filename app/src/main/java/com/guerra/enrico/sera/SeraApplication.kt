@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.Configuration
 import com.guerra.enrico.sera.appinitializers.AppInitializers
 import com.guerra.enrico.sera.di.component.DaggerAppComponent
@@ -26,6 +27,8 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
   override fun onCreate() {
     super.onCreate()
     initializers.init(this)
+
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
     if (BuildConfig.DEBUG) {
       Timber.plant(Timber.DebugTree())

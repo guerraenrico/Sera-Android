@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.Sera">
+        <item name="colorPrimary">@color/color_aquamarine_500</item>
+        <item name="colorOnPrimary">@color/color_white</item>
+        <item name="colorPrimaryDark">@color/color_aquamarine_600</item>
+        <item name="colorAccent">@color/color_yellow_500</item>
+        <item name="colorSurface">@color/color_dark_blue_500</item>
+        <item name="colorSecondarySurface">@color/color_dark_blue_600</item>
+
+        <item name="colorControlNormal">@color/color_dark_blue_500</item>
+        <item name="colorControlActivated">@color/color_aquamarine_500</item>
+        <item name="colorOnControlNormal">@color/color_aquamarine_500</item>
+        <item name="colorOnControlActivated">@color/color_dark_blue_600</item>
+        <item name="colorSecondaryControlNormal">@color/color_dark_blue_700</item>
+
+        <item name="colorBottomControlNormal">@color/color_grey_800</item>
+
+        <item name="android:textColorPrimary">@color/color_grey_800</item>
+        <item name="android:textColorSecondary">@color/color_grey_700</item>
+        <item name="android:windowBackground">@color/color_dark_blue_500</item>
+
+        <item name="inputBackgroundColor">@color/color_grey_800</item>
+        <item name="hintTextColor">@color/color_grey_500</item>
+
+        <item name="colorDivider">@color/color_grey_500</item>
+
+        <item name="colorIcon">@color/color_grey_500</item>
+    </style>
+</resources>

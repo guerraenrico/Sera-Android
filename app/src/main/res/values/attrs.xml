@@ -10,4 +10,13 @@
             <enum name="textStart" value="2" />
         </attr>
     </declare-styleable>
+
+    <attr name="inputBackgroundColor" format="color" />
+    <attr name="colorDivider" format="color" />
+    <attr name="colorSecondarySurface" format="color" />
+    <attr name="colorSecondaryControlNormal" format="color" />
+    <attr name="colorOnControlActivated" format="color" />
+    <attr name="colorOnControlNormal" format="color" />
+    <attr name="colorBottomControlNormal" format="color" />
+    <attr name="colorIcon" format="color" />
 </resources>

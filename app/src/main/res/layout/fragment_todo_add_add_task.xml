@@ -48,7 +48,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/layoutTaskDescription"
-        app:boxBackgroundColor="@color/text_input_background_color"
         style="@style/Widget.Sera.TextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +71,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonSchedule"
-        app:boxBackgroundColor="@color/text_input_background_color"
         style="@style/Widget.Sera.TextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText

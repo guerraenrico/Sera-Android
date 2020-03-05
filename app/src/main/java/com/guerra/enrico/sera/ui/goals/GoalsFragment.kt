@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.databinding.FragmentGoalsBinding
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_goals.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**
@@ -22,23 +21,28 @@ class GoalsFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: GoalsViewModel by viewModels { viewModelFactory }
 
+  private lateinit var binding: FragmentGoalsBinding
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return inflater.inflate(R.layout.fragment_goals, container, false)
+    binding = FragmentGoalsBinding.inflate(inflater, container, false).apply {
+      lifecycleOwner = viewLifecycleOwner
+    }
+    return binding.root
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    toolbarTitle?.text = resources.getString(R.string.title_goals)
+    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_goals)
     initView()
   }
 
   private fun initView() {
     val messageResources = MessageExceptionManager(Exception()).getResources()
-    message_layout.apply {
+    binding.messageLayout.apply {
       setImage(messageResources.icon)
       setMessage(messageResources.message)
       setButton(resources.getString(R.string.message_layout_button_try_again)) {}

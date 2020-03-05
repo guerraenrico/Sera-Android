@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.ui.base
 import android.os.Bundle
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.base.extensions.setLightTheme
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.widget.OverlayLoader
 import dagger.android.support.DaggerAppCompatActivity
@@ -17,6 +18,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    setLightTheme()
     overlayLoader = OverlayLoader.make(this, resources.getString(R.string.label_loading))
   }
 

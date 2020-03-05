@@ -4,7 +4,7 @@
         <ripple android:color="?android:colorControlHighlight">
             <item>
                 <shape>
-                    <solid android:color="@color/task_item_background_color" />
+                    <solid android:color="?attr/colorSurface" />
                 </shape>
             </item>
         </ripple>

@@ -45,6 +45,10 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun initView() {
+    root.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+      or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+      or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+
     val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
       .requestServerAuthCode(BuildConfig.OAUTH2_CLIENT_ID)
       .build()

@@ -7,9 +7,11 @@
         style="@style/ToolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="?attr/colorSurface"
         android:minHeight="?attr/actionBarSize"
-        app:menu="@menu/todos">
+        app:layout_scrollFlags="scroll|snap"
+        app:menu="@menu/todos"
+        app:topSystemWindowInsets="@{true}">
 
         <AutoCompleteTextView
             android:id="@+id/toolbar_edit_text_search"

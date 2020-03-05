@@ -1,6 +1,6 @@
 <resources>
     <style name="Widget.AppBar" parent="@style/Widget.Design.AppBarLayout">
-        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+<!--        <item name="popupTheme">@style/AppTheme.PopupTheme</item>-->
         <item name="android:background">@android:color/transparent</item>
         <item name="android:elevation">0dp</item>
         <item name="elevation">0dp</item>
@@ -11,10 +11,10 @@
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:letterSpacing">0</item>
         <item name="cornerRadius">@dimen/button_corner_radius</item>
-        <item name="backgroundTint">@color/color_accent</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
     </style>
 
     <style name="Widget.Sera.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
@@ -23,17 +23,17 @@
     </style>
 
     <style name="Widget.Sera.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">@color/text_input_background_color</item>
+        <item name="boxBackgroundColor">?attr/inputBackgroundColor</item>
         <item name="boxCornerRadiusTopStart">0dp</item>
         <item name="boxCornerRadiusTopEnd">0dp</item>
-        <item name="android:textColorHint">@color/color_text_third</item>
+        <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
     <style name="Widget.Sera.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="android:colorAccent">@color/color_primary</item>
+        <item name="android:colorAccent">?attr/colorPrimary</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/SecondaryTextButton</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/SecondaryTextButton</item>
-        <item name="android:colorControlActivated">@color/color_primary</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
     </style>
 
     <style name="ToolbarSearch">
@@ -46,7 +46,7 @@
     <style name="ToolbarTitle">
         <item name="fontFamily">@font/prompt</item>
         <item name="android:textSize">@dimen/toolbar_title_text_size</item>
-        <item name="android:textColor">@color/toolbar_title_text_color</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <!-- Text -->
@@ -54,19 +54,19 @@
     <style name="Title">
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textSize">@dimen/title_text_size</item>
-        <item name="android:textColor">@color/title_text_color</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="TitleSecondary">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:textSize">@dimen/title_text_size</item>
-        <item name="android:textColor">@color/title_secondary_text_color</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="TextInput">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:letterSpacing">0</item>
-        <item name="android:textColor">@color/color_text_primary</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
 
@@ -92,13 +92,13 @@
     <style name="TipPrimary">
         <item name="fontFamily">@font/prompt_light</item>
         <item name="android:textSize">@dimen/tip_primary_text_size</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="Tip">
         <item name="fontFamily">@font/prompt_bold</item>
         <item name="android:textSize">@dimen/tip_text_size</item>
-        <item name="android:textColor">@color/color_text_secondary</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
     <!-- Buttons -->
@@ -106,15 +106,15 @@
     <style name="PrimaryTextButton" parent="Widget.Sera.TextButton">
         <item name="android:textSize">@dimen/button_text_primary_text_size</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/color_text_secondary</item>
-        <item name="rippleColor">@color/color_text_secondary</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="rippleColor">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="SecondaryTextButton" parent="Widget.Sera.TextButton">
         <item name="android:textSize">@dimen/button_text_secondary_text_size</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/color_text_third</item>
-        <item name="rippleColor">@color/color_text_third</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="rippleColor">?android:attr/textColorSecondary</item>
     </style>
 
     <!-- Category Chip -->
@@ -147,7 +147,7 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/navigation_bar_color</item>
+<!--        <item name="android:navigationBarColor">@color/navigation_bar_color</item>-->
         <!--        <item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
         <item name="android:windowAnimationStyle">@style/BottomSheetAnimation.Window</item>
     </style>
