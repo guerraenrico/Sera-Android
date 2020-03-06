@@ -7,7 +7,6 @@
         style="@style/ToolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
         android:minHeight="?attr/actionBarSize"
         app:layout_scrollFlags="scroll|snap"
         app:menu="@menu/todos"

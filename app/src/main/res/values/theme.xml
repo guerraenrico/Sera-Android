@@ -4,7 +4,7 @@
     <style name="Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="fontFamily">@font/prompt</item>
 
-        <item name="android:statusBarColor">#bec4ca</item>
+        <item name="android:statusBarColor">@color/color_fallback_status_bar</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="materialButtonStyle">@style/Widget.Sera.Button</item>
@@ -21,15 +21,15 @@
         <item name="colorPrimaryDark">@color/color_aquamarine_600</item>
         <item name="colorAccent">@color/color_yellow_500</item>
         <item name="colorSurface">@color/color_white</item>
-        <item name="colorSecondarySurface">@color/color_light_grey_300</item>
+        <item name="colorOnSurface">@color/color_grey_500</item>
+        <item name="colorSecondarySurface">@color/color_light_grey_500</item>
+        <item name="colorOnSecondarySurface">@color/color_grey_500</item>
 
-        <item name="colorControlNormal">@color/color_white</item>
+        <item name="colorControlNormal">@color/color_light_grey_200</item>
         <item name="colorControlActivated">@color/color_aquamarine_500</item>
         <item name="colorOnControlNormal">@color/color_aquamarine_500</item>
         <item name="colorOnControlActivated">@color/color_light_grey_200</item>
         <item name="colorSecondaryControlNormal">@color/color_light_grey_300</item>
-
-        <item name="colorBottomControlNormal">@color/color_grey_800</item>
 
         <item name="android:textColorPrimary">@color/color_grey_800</item>
         <item name="android:textColorSecondary">@color/color_grey_700</item>

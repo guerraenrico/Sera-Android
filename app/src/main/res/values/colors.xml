@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_dark_blue_400">#2D3239</color>
     <color name="color_dark_blue_500">#1F2226</color>
     <color name="color_dark_blue_600">#181A1E</color>
-    <color name="color_dark_blue_700">#181A1E</color>
+    <color name="color_dark_blue_700">#17181B</color>
 
     <color name="color_aquamarine_500">#1EBCAD</color>
     <color name="color_aquamarine_600">#0EA596</color>
@@ -46,4 +47,6 @@
     <color name="google_logo_color_2">#EA4335</color>
     <color name="google_logo_color_3">#34A853</color>
     <color name="google_logo_color_4">#4285F4</color>
+
+    <color name="color_fallback_status_bar">#bec4ca</color>
 </resources>

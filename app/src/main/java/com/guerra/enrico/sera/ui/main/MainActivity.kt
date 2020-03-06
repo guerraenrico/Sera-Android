@@ -8,20 +8,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.guerra.enrico.base.extensions.setLightTheme
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.MainActivityBinding
+import com.guerra.enrico.sera.databinding.ActivityMainBinding
 
 /**
  * Created by enrico
  * on 15/12/2019.
  */
 class MainActivity : AppCompatActivity() {
-  private lateinit var binding: MainActivityBinding
+  private lateinit var binding: ActivityMainBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setLightTheme()
 
-    binding = DataBindingUtil.setContentView(this, R.layout.main_activity)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     binding.lifecycleOwner = this
 
     binding.root.systemUiFullScreen()
