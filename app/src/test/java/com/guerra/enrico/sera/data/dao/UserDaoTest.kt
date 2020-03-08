@@ -1,10 +1,11 @@
 package com.guerra.enrico.sera.data.dao
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.guerra.enrico.sera.data.local.dao.UserDao
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.user1
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import org.hamcrest.CoreMatchers.`is`
@@ -13,7 +14,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -24,19 +24,20 @@ import javax.inject.Inject
 class UserDaoTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
-  private val testCoroutineRule = TestCoroutineRule()
-  @Inject
-  lateinit var database: SeraDatabase
 
-  lateinit var userDao: UserDao
+  @get:Rule
+  val testCoroutineRule = TestCoroutineRule()
+
+  private lateinit var database: SeraDatabase
+  private lateinit var sut: UserDao
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-            .testDataManagerModule(TestDataManagerModule())
-            .build()
-            .inject(this)
-    userDao = database.userDao()
+    val context: Context = ApplicationProvider.getApplicationContext()
+    database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
+    sut = database.userDao()
   }
 
   @After
@@ -47,13 +48,13 @@ class UserDaoTest {
 
   @Test
   fun insert() = testCoroutineRule.runBlockingTest {
-    userDao.insert(user1)
-    Assert.assertThat(userDao.getFirst(userId = user1.id), `is`(user1))
+    sut.insert(user1)
+    Assert.assertThat(sut.getFirst(userId = user1.id), `is`(user1))
   }
 
   @Test
   fun clear() = testCoroutineRule.runBlockingTest {
-    userDao.clear()
-    Assert.assertNull(userDao.getFirst(userId = user1.id))
+    sut.clear()
+    Assert.assertNull(sut.getFirst(userId = user1.id))
   }
 }

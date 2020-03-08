@@ -1,10 +1,11 @@
 package com.guerra.enrico.sera.data.dao
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.guerra.enrico.sera.data.local.dao.CategoryDao
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import kotlinx.coroutines.flow.first
@@ -14,7 +15,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -29,18 +29,17 @@ class CategoryDaoTest {
   @get:Rule
   val testCoroutineRule = TestCoroutineRule()
 
-  @Inject
-  lateinit var database: SeraDatabase
-
-  private lateinit var categoryDao: CategoryDao
+  private lateinit var database: SeraDatabase
+  private lateinit var sut: CategoryDao
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-            .testDataManagerModule(TestDataManagerModule())
-            .build()
-            .inject(this)
-    categoryDao = database.categoryDao()
+    val context: Context = ApplicationProvider.getApplicationContext()
+    database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
+
+    sut = database.categoryDao()
   }
 
   @After
@@ -51,21 +50,21 @@ class CategoryDaoTest {
 
   @Test
   fun insertAll() = testCoroutineRule.runBlockingTest {
-    categoryDao.insertAll(categories)
-    Assert.assertThat(categoryDao.observeAll().first().first(), `is`(category1))
+    sut.insertAll(categories)
+    Assert.assertThat(sut.observeAll().first().first(), `is`(category1))
   }
 
-    @Test
-    fun insertOne() = testCoroutineRule.runBlockingTest {
-        categoryDao.insertOne(category3)
-        Assert.assertTrue(categoryDao.observeAll().first().contains(category3))
-    }
+  @Test
+  fun insertOne() = testCoroutineRule.runBlockingTest {
+    sut.insertOne(category3)
+    Assert.assertTrue(sut.observeAll().first().contains(category3))
+  }
 
-    @Test
-    fun clear() = testCoroutineRule.runBlockingTest {
-        categoryDao.clear()
-        Assert.assertThat(categoryDao.observeAll().first(), `is`(emptyList()))
-    }
-
+  @Test
+  fun clear() = testCoroutineRule.runBlockingTest {
+    sut.insertOne(category3)
+    sut.clear()
+    Assert.assertThat(sut.observeAll().first(), `is`(emptyList()))
+  }
 
 }

@@ -6,31 +6,24 @@ import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
 import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.ui.todos.TodosViewModel
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import com.guerra.enrico.sera.utils.testEventObserver
 import com.guerra.enrico.sera.utils.testObserver
 import io.mockk.coEvery
+import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flow
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 03/09/2019.
  */
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
 class TodosViewModelTests {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -38,74 +31,66 @@ class TodosViewModelTests {
   @get:Rule
   val testCoroutineRule = TestCoroutineRule()
 
-  @Inject
-  lateinit var observeCategories: ObserveCategories
-  @Inject
-  lateinit var observeTasks: ObserveTasks
-  @Inject
-  lateinit var updateTaskCompleteState: UpdateTaskCompleteState
-  @Inject
-  lateinit var syncTasksAndCategories: SyncTasksAndCategories
-  @Inject
-  lateinit var applyTaskUpdateRemote: ApplyTaskUpdateRemote
+  private var observeCategories: ObserveCategories = mockk()
+  private var observeTasks: ObserveTasks = mockk()
+  private var updateTaskCompleteState: UpdateTaskCompleteState = mockk()
+  private var syncTasksAndCategories: SyncTasksAndCategories = mockk()
+  private var applyTaskUpdateRemote: ApplyTaskUpdateRemote = mockk()
 
-  private lateinit var viewModel: TodosViewModel
+  private lateinit var sut: TodosViewModel
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-      .testDataManagerModule(TestDataManagerModule())
-      .build()
-      .inject(this)
+    coEvery { observeTasks(ObserveTasks.Params()) } returns Unit
+    coEvery { observeCategories(Unit) } returns Unit
+  }
 
-    observeCategories = spyk(observeCategories, recordPrivateCalls = true)
-    observeTasks = spyk(observeTasks, recordPrivateCalls = true)
-    updateTaskCompleteState = spyk(updateTaskCompleteState, recordPrivateCalls = true)
-    syncTasksAndCategories = spyk(syncTasksAndCategories, recordPrivateCalls = true)
-    applyTaskUpdateRemote = spyk(applyTaskUpdateRemote, recordPrivateCalls = true)
+  @Test
+  fun `test first load`() = testCoroutineRule.runBlockingTest {
+    // given
+    coEvery { observeTasks.observe() } returns flow { emit(tasks) }
+    coEvery { observeCategories.observe() } returns flow { emit(categories) }
 
-    viewModel = TodosViewModel(
+    sut = TodosViewModel(
       observeCategories,
       observeTasks,
       updateTaskCompleteState,
-      syncTasksAndCategories,
-      applyTaskUpdateRemote
+      syncTasksAndCategories
     )
+
+    val liveDataTasksViews = sut.tasks.testObserver()
+    val liveDataCategories = sut.categories.testObserver()
+    val liveDataSnackbar = sut.snackbarMessage.testEventObserver()
+
+    // when initial load
+
+    // than
+    Assert.assertEquals(listOf(tasksViewResultSuccess), liveDataTasksViews.observedValues)
+    Assert.assertEquals(listOf(categories), liveDataCategories.observedValues)
+    Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
   }
 
   @Test
-  fun `test first load`() {
-    testCoroutineRule.runBlockingTest {
-      // given
-      val params = ObserveTasks.Params()
-      coEvery { observeTasks["createObservable"] (params) } returns flow { emit(tasks) }
-      coEvery { observeCategories["createObservable"] (Unit) } returns flow { emit(categories) }
+  fun `test task reload`() = testCoroutineRule.runBlockingTest {
+    // given
+    coEvery { observeTasks.observe() } returns flow { emit(tasks) }
+    coEvery { observeCategories.observe() } returns flow { emit(categories) }
+    coEvery { syncTasksAndCategories(Unit) } returns Unit
 
-      val liveDataTasksViews = viewModel.tasks.testObserver()
-      val liveDataCategories = viewModel.categories.testObserver()
-      val liveDataSnackbar = viewModel.snackbarMessage.testEventObserver()
+    sut = TodosViewModel(
+      observeCategories,
+      observeTasks,
+      updateTaskCompleteState,
+      syncTasksAndCategories
+    )
 
-      // when initial load
+    val liveDataSwipeRefresh = sut.swipeRefresh.testObserver()
 
-      // than
-      Assert.assertEquals(listOf(tasksViewResultSuccess), liveDataTasksViews.observedValues)
-      Assert.assertEquals(listOf(categories), liveDataCategories.observedValues)
-      Assert.assertEquals(emptyList<String>(), liveDataSnackbar.observedValues)
-    }
+    // when
+    sut.onRefreshData()
+
+    // than
+    Assert.assertEquals(listOf(false, true, false), liveDataSwipeRefresh.observedValues)
   }
 
-  @Test
-  fun `test task reload`() {
-    testCoroutineRule.runBlockingTest {
-      // given
-      coEvery { syncTasksAndCategories["doWork"] (Unit) } returns Unit
-      val liveDataSwipeRefresh = viewModel.swipeRefresh.testObserver()
-
-      // when
-      viewModel.onRefreshData()
-
-      // than
-      Assert.assertEquals(listOf(false, true, false), liveDataSwipeRefresh.observedValues)
-    }
-  }
 }

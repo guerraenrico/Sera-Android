@@ -1,10 +1,11 @@
 package com.guerra.enrico.sera.data.dao
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.guerra.enrico.sera.data.local.dao.TaskDao
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import kotlinx.coroutines.flow.first
@@ -14,7 +15,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -25,18 +25,21 @@ import javax.inject.Inject
 class TaskDaoTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
-  private val testCoroutineRule = TestCoroutineRule()
-  @Inject
-  lateinit var database: SeraDatabase
-  private lateinit var taskDao: TaskDao
+
+  @get:Rule
+  val testCoroutineRule = TestCoroutineRule()
+
+  private lateinit var database: SeraDatabase
+  private lateinit var sut: TaskDao
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-            .testDataManagerModule(TestDataManagerModule())
-            .build()
-            .inject(this)
-    taskDao = database.taskDao()
+    val context: Context = ApplicationProvider.getApplicationContext()
+    database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
+
+    sut = database.taskDao()
   }
 
   @After
@@ -47,30 +50,30 @@ class TaskDaoTest {
 
   @Test
   fun insertAll() = testCoroutineRule.runBlockingTest {
-    taskDao.insert(tasks)
-    Assert.assertThat(taskDao.observe(false).first(), `is`(tasks))
+    sut.insert(tasks)
+    Assert.assertThat(sut.observe(false).first(), `is`(tasks))
   }
 
   @Test
   fun insertOne() = testCoroutineRule.runBlockingTest {
-    taskDao.insert(task3)
-    Assert.assertTrue(taskDao.observe(false).first().contains(task3))
+    sut.insert(task3)
+    Assert.assertTrue(sut.observe(false).first().contains(task3))
   }
 
   @Test
   fun getAllForCategoryWithTask() = testCoroutineRule.runBlockingTest {
     insertTasks(database)
-    Assert.assertTrue(taskDao.observe(false).first().count() > 0)
+    Assert.assertTrue(sut.observe(false).first().count() > 0)
   }
 
   @Test
   fun getAllFroCategoryWithoutTask() = testCoroutineRule.runBlockingTest {
-    Assert.assertThat(taskDao.observe(false).first(), `is`(emptyList()))
+    Assert.assertThat(sut.observe(false).first(), `is`(emptyList()))
   }
 
   @Test
   fun clear() = testCoroutineRule.runBlockingTest {
-    taskDao.clear()
-    Assert.assertThat(taskDao.observe(false).first(), `is`(emptyList()))
+    sut.clear()
+    Assert.assertThat(sut.observe(false).first(), `is`(emptyList()))
   }
 }

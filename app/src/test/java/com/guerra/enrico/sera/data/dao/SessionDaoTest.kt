@@ -1,10 +1,11 @@
 package com.guerra.enrico.sera.data.dao
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.guerra.enrico.sera.data.local.dao.SessionDao
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import org.hamcrest.CoreMatchers
@@ -13,7 +14,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -24,20 +24,20 @@ import javax.inject.Inject
 class SessionDaoTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
-  private val testCoroutineRule = TestCoroutineRule()
 
-  @Inject
-  lateinit var database: SeraDatabase
+  @get:Rule
+  val testCoroutineRule = TestCoroutineRule()
 
-  lateinit var sessionDao: SessionDao
+  private lateinit var database: SeraDatabase
+  private lateinit var sut: SessionDao
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-            .testDataManagerModule(TestDataManagerModule())
-            .build()
-            .inject(this)
-    sessionDao = database.sessionDao()
+    val context: Context = ApplicationProvider.getApplicationContext()
+    database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
+      .build()
+    sut = database.sessionDao()
   }
 
   @After
@@ -48,25 +48,25 @@ class SessionDaoTest {
 
   @Test
   fun insert() = testCoroutineRule.runBlockingTest {
-    sessionDao.insert(session1)
-    Assert.assertThat(sessionDao.getFirst(), CoreMatchers.`is`(session1))
+    sut.insert(session1)
+    Assert.assertThat(sut.getFirst(), CoreMatchers.`is`(session1))
   }
 
   @Test
   fun lastSession() = testCoroutineRule.runBlockingTest {
-    sessionDao.insert(session1)
-    sessionDao.insert(session2)
-    Assert.assertThat(sessionDao.getFirst(), CoreMatchers.`is`(session2))
+    sut.insert(session1)
+    sut.insert(session2)
+    Assert.assertThat(sut.getFirst(), CoreMatchers.`is`(session2))
   }
 
   @Test
   fun noSession() = testCoroutineRule.runBlockingTest {
-    Assert.assertNull(sessionDao.getFirst())
+    Assert.assertNull(sut.getFirst())
   }
 
   @Test
   fun clear() = testCoroutineRule.runBlockingTest {
-    sessionDao.clear()
-    Assert.assertNull(sessionDao.getFirst())
+    sut.clear()
+    Assert.assertNull(sut.getFirst())
   }
 }

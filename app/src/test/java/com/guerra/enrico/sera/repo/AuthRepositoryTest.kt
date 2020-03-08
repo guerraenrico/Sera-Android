@@ -2,24 +2,25 @@ package com.guerra.enrico.sera.repo
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.connection.ConnectionHelper
 import com.guerra.enrico.sera.utils.TestCoroutineRule
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
-import com.guerra.enrico.sera.DaggerTestComponent
-import com.guerra.enrico.sera.TestDataManagerModule
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.data.local.db.LocalDbManagerImpl
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
 import io.mockk.coEvery
+import io.mockk.mockk
 import org.junit.*
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -34,26 +35,23 @@ class AuthRepositoryTest {
   @get:Rule
   val testCoroutineRule = TestCoroutineRule()
 
-  @Inject
-  lateinit var context: Context
-  @Inject
-  lateinit var database: SeraDatabase
-  @Inject
-  lateinit var remoteDataManager: RemoteDataManager
+  private lateinit var database: SeraDatabase
+  private val remoteDataManager: RemoteDataManager = mockk()
+  private val connectionHelper: ConnectionHelper = mockk()
   private lateinit var localDbManager: LocalDbManager
 
-  private lateinit var authRepository: AuthRepository
+  private lateinit var sut: AuthRepository
 
   @Before
   fun setup() {
-    DaggerTestComponent.builder()
-      .testDataManagerModule(TestDataManagerModule())
+    val context: Context = ApplicationProvider.getApplicationContext()
+    database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
+      .allowMainThreadQueries()
       .build()
-      .inject(this)
 
     localDbManager = LocalDbManagerImpl(database)
 
-    authRepository = AuthRepositoryImpl(context, remoteDataManager, localDbManager)
+    sut = AuthRepositoryImpl(remoteDataManager, localDbManager, connectionHelper)
 
     testCoroutineRule.runBlockingTest {
       insertSession(database)
@@ -70,10 +68,11 @@ class AuthRepositoryTest {
   @Test
   fun `test access token validation`() = testCoroutineRule.runBlockingTest {
     // given
+    coEvery { connectionHelper.awaitAvailable() } returns true
     coEvery { remoteDataManager.validateAccessToken(session1.accessToken) } returns apiValidateAccessTokenResponse
 
     // when
-    val validateAccessTokenResult = authRepository.validateAccessToken()
+    val validateAccessTokenResult = sut.validateAccessToken()
 
     // than
     Assert.assertTrue(
@@ -83,7 +82,7 @@ class AuthRepositoryTest {
 
     // Verify that session is saved
     val getSessionResult = localDbManager.getSession()
-    Assert.assertEquals(session1.accessToken, getSessionResult.accessToken)
+    Assert.assertEquals(session1.accessToken, getSessionResult?.accessToken)
 
     // Verify that user is saved
     val getUserResult = localDbManager.getUser(userId = user1.id)
@@ -93,10 +92,11 @@ class AuthRepositoryTest {
   @Test
   fun `test refresh token`() = testCoroutineRule.runBlockingTest {
     // given
+    coEvery { connectionHelper.awaitAvailable() } returns true
     coEvery { remoteDataManager.refreshAccessToken(session1.accessToken) } returns apiRefreshAccessTokenResponse
 
     // when
-    val result = authRepository.refreshToken()
+    val result = sut.refreshToken()
 
     // than
     Assert.assertTrue(result is Result.Success)
