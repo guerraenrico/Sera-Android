@@ -9,3 +9,4 @@
 /captures
 .externalNativeBuild
 config.properties
+*.log
