@@ -19,7 +19,7 @@ class WorkersModule {
 
   @Provides
   fun provideWorkConfiguration(workerFactory: SeraWorkerFactory): Configuration =
-          Configuration.Builder()
-                  .setWorkerFactory(workerFactory)
-                  .build()
+    Configuration.Builder()
+      .setWorkerFactory(workerFactory)
+      .build()
 }

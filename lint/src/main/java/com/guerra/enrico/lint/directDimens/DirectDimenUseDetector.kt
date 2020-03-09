@@ -11,7 +11,7 @@ import org.w3c.dom.Attr
  * on 29/02/2020.
  */
 
-private val regexNumber = Regex("[0-9]")
+private val regexNumber = Regex("[1-9]")
 
 class DirectDimenUseDetector : ResourceXmlDetector() {
   override fun getApplicableAttributes(): Collection<String>? {

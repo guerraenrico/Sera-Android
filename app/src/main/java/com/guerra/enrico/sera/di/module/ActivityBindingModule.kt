@@ -8,6 +8,8 @@ import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.login.LoginModule
 import com.guerra.enrico.sera.ui.results.ResultsFragment
 import com.guerra.enrico.sera.ui.results.ResultsModule
+import com.guerra.enrico.sera.ui.settings.SettingsFragment
+import com.guerra.enrico.sera.ui.settings.SettingsModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
 import com.guerra.enrico.sera.ui.splash.SplashModule
 import com.guerra.enrico.sera.ui.todos.TodosFragment
@@ -26,49 +28,57 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBindingModule {
   @PerActivity
   @ContributesAndroidInjector(
-          modules = [
-            SplashModule::class
-          ]
+    modules = [
+      SplashModule::class
+    ]
   )
   abstract fun splashActivity(): SplashActivity
 
   @PerActivity
   @ContributesAndroidInjector(
-          modules = [
-            LoginModule::class
-          ]
+    modules = [
+      LoginModule::class
+    ]
   )
   abstract fun loginActivity(): LoginActivity
 
   @PerFragment
   @ContributesAndroidInjector(
-          modules = [
-            TodosModule::class
-          ]
+    modules = [
+      TodosModule::class
+    ]
   )
-  abstract fun todosActivxity(): TodosFragment
+  abstract fun todosFragment(): TodosFragment
 
   @PerActivity
   @ContributesAndroidInjector(
-          modules = [
-            TodoAddModel::class
-          ]
+    modules = [
+      TodoAddModel::class
+    ]
   )
   abstract fun todoAddActivity(): TodoAddActivity
 
   @PerFragment
   @ContributesAndroidInjector(
-          modules = [
-            GoalsModule::class
-          ]
+    modules = [
+      GoalsModule::class
+    ]
   )
   abstract fun goalsActivity(): GoalsFragment
 
   @PerFragment
   @ContributesAndroidInjector(
-          modules = [
-            ResultsModule::class
-          ]
+    modules = [
+      ResultsModule::class
+    ]
   )
   abstract fun resultsFragment(): ResultsFragment
+
+  @PerFragment
+  @ContributesAndroidInjector(
+    modules = [
+      SettingsModule::class
+    ]
+  )
+  abstract fun settingsFragment(): SettingsFragment
 }

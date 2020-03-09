@@ -75,6 +75,7 @@ allprojects {
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
         }
     }
 }

@@ -25,7 +25,7 @@ import javax.inject.Singleton
  * Created by enrico
  * on 30/05/2018.
  */
-@Module(includes = [ViewModelModule::class, BaseModule::class])
+@Module(includes = [ViewModelModule::class, BaseModule::class, AppInitializerModuleBinds::class])
 class AppModule {
   @Provides
   fun provideContext(application: SeraApplication): Context = application.applicationContext

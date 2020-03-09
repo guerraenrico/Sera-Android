@@ -11,9 +11,9 @@ import javax.inject.Inject
  * on 20/12/2018.
  */
 class TodosWorkerInitializer @Inject constructor(
-        private val todosJob: Lazy<TodosWorker>
-): AppInitializer {
-    override fun init(application: Application) {
-        todosJob.get().setUpNightTodoSync()
-    }
+  private val todosJob: Lazy<TodosWorker>
+) : AppInitializer {
+  override fun init(application: Application) {
+    todosJob.get().setUpNightTodoSync()
+  }
 }

@@ -34,6 +34,7 @@
         <item name="android:textColorPrimary">@color/color_grey_800</item>
         <item name="android:textColorSecondary">@color/color_grey_700</item>
         <item name="android:windowBackground">@color/color_light_grey_200</item>
+        <item name="android:colorBackground">@color/color_light_grey_200</item>
 
         <item name="inputBackgroundColor">@color/color_light_grey_500</item>
         <item name="hintTextColor">@color/color_grey_500</item>

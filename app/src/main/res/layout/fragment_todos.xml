@@ -57,9 +57,7 @@
                         android:id="@+id/recycler_view_tasks"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbars="vertical" />
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 

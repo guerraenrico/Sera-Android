@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
-import com.guerra.enrico.base.extensions.setLightTheme
+import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.ActivityMainBinding
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setLightTheme()
+    setLightStatusBarIfNeeded()
 
     binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     binding.lifecycleOwner = this

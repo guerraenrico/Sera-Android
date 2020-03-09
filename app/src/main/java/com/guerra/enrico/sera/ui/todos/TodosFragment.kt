@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -18,10 +17,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.guerra.enrico.base.EventObserver
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.closeKeyboard
 import com.guerra.enrico.base.extensions.onSearch
+import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
@@ -79,13 +79,13 @@ class TodosFragment : BaseFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    initView(view)
+    initView()
   }
 
-  private fun initView(view: View) {
+  private fun initView() {
     binding.toolbarSearch.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
-      WeakReference(BottomSheetBehavior.from(view.findViewById<View>(R.id.filters_bottom_sheet)))
+      WeakReference(BottomSheetBehavior.from(binding.root.findViewById<View>(R.id.filters_bottom_sheet)))
 
     onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
       filtersBottomSheetBehavior.get()?.let {
@@ -110,15 +110,15 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun observeTaskList() {
-    todosViewModel.tasks.observe(viewLifecycleOwner, Observer { tasksResult ->
-      if (tasksResult == null || tasksResult is Result.Loading) {
-        return@Observer
+    observe(todosViewModel.tasks) { tasksResult ->
+      if (tasksResult is Result.Loading) {
+        return@observe
       }
       binding.messageLayout.hide()
       if (tasksResult is Result.Success) {
         binding.recyclerViewTasks.visibility = View.VISIBLE
         setRecyclerTaskList(tasksResult.data)
-        return@Observer
+        return@observe
       }
       if (tasksResult is Result.Error) {
         val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
@@ -132,12 +132,11 @@ class TodosFragment : BaseFragment() {
           show()
         }
       }
-    })
+    }
   }
 
   private fun observeCategories() {
-    todosViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
-      if (categories == null) return@Observer
+    observe(todosViewModel.categories) { categories ->
       context?.let { context ->
         val adapter =
           SearchTasksAutocompleteAdapter(
@@ -146,20 +145,19 @@ class TodosFragment : BaseFragment() {
           )
         binding.toolbarSearch.toolbarEditTextSearch.setAdapter(adapter)
       }
-    })
+    }
   }
 
   private fun observeSnackbarMessage() {
-    todosViewModel.snackbarMessage.observe(viewLifecycleOwner,
-      EventObserver {
-        showSnackbar(
-          message = it.getMessage(requireContext()),
-          view = requireActivity().findViewById(R.id.fab_filter),
-          actionText = it.getActionText(requireContext()),
-          onAction = it.onAction,
-          onDismiss = it.onDismiss
-        )
-      })
+    observeEvent(todosViewModel.snackbarMessage) {
+      showSnackbar(
+        message = it.getMessage(requireContext()),
+        view = requireActivity().findViewById(R.id.fab_filter),
+        actionText = it.getActionText(requireContext()),
+        onAction = it.onAction,
+        onDismiss = it.onDismiss
+      )
+    }
   }
 
   private fun setupRecyclerView() {

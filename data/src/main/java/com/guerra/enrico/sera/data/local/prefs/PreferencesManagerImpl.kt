@@ -10,11 +10,18 @@ import javax.inject.Inject
  * on 16/10/2018.
  */
 class PreferencesManagerImpl @Inject constructor(
-  private val context: Context,
+  context: Context,
   @PreferencesFile preferenceFile: String
 ) : PreferencesManager {
 
   private val preferences =
     context.applicationContext.getSharedPreferences(preferenceFile, MODE_PRIVATE)
 
+  override fun saveBoolean(key: String, value: Boolean) {
+    preferences.edit().putBoolean(key, value).apply()
+  }
+
+  override fun readBoolean(key: String): Boolean {
+    return preferences.getBoolean(key, false)
+  }
 }

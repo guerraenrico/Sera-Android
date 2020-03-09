@@ -1,9 +1,11 @@
 package com.guerra.enrico.sera.ui.goals
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
@@ -34,13 +36,13 @@ class GoalsFragment : BaseFragment() {
     return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_goals)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     initView()
   }
 
   private fun initView() {
+    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_goals)
     val messageResources = MessageExceptionManager(Exception()).getResources()
     binding.messageLayout.apply {
       setImage(messageResources.icon)

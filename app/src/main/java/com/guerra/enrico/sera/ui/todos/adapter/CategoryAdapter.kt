@@ -42,17 +42,24 @@ class CategoryAdapter(
 }
 
 class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) = with(itemView) {
-    labelCategoryName.text = categoryPresentation.category.name
-    labelCategoryName.isSelected = categoryPresentation.isChecked
-    labelCategoryName.setOnClickListener { onClick(categoryPresentation) }
-  }
+  fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) =
+    with(itemView) {
+      labelCategoryName.text = categoryPresentation.category.name
+      labelCategoryName.isSelected = categoryPresentation.isChecked
+      labelCategoryName.setOnClickListener { onClick(categoryPresentation) }
+    }
 }
 
 object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
-  override fun areItemsTheSame(oldItem: CategoryPresentation, newItem: CategoryPresentation): Boolean =
-    oldItem == newItem
+  override fun areItemsTheSame(
+    oldItem: CategoryPresentation,
+    newItem: CategoryPresentation
+  ): Boolean =
+    oldItem.category.id == newItem.category.id
 
-  override fun areContentsTheSame(oldItem: CategoryPresentation, newItem: CategoryPresentation): Boolean =
+  override fun areContentsTheSame(
+    oldItem: CategoryPresentation,
+    newItem: CategoryPresentation
+  ): Boolean =
     oldItem == newItem
 }

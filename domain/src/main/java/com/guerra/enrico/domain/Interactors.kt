@@ -15,6 +15,8 @@ import kotlinx.coroutines.withContext
  * Created by enrico
  * on 10/11/2019.
  */
+abstract class MultiInteractor
+
 abstract class Interactor<in P, out R> {
   protected abstract val dispatcher: CoroutineDispatcher
 

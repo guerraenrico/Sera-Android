@@ -15,6 +15,10 @@
         android:id="@+id/navigation_results"
         android:name="com.guerra.enrico.sera.ui.results.ResultsFragment"
         android:label="@string/title_results" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.guerra.enrico.sera.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
 
     <activity
         android:id="@+id/todo_add"

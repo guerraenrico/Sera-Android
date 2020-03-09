@@ -34,13 +34,13 @@ class ResultsFragment : BaseFragment() {
     return binding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_results)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     initView()
   }
 
   private fun initView() {
+    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_results)
     val messageResources = MessageExceptionManager(Exception()).getResources()
     binding.messageLayout.apply {
       setImage(messageResources.icon)

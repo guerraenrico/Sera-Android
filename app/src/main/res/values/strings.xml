@@ -7,6 +7,7 @@
     <string name="title_goals">Goals</string>
     <string name="title_todos">Todos</string>
     <string name="title_results">Results</string>
+    <string name="title_settings">Settings</string>
 
     <string name="title_add_todo">Add Todo</string>
     <string name="title_filter_sheet">Categories</string>
@@ -72,4 +73,7 @@
 
     <!-- Message Layout -->
     <string name="message_layout_button_try_again">Try again</string>
+
+    <!-- Settings -->
+    <string name="setting_dark_theme">Enable Dark Theme</string>
 </resources>

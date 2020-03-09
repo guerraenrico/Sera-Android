@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
@@ -39,8 +40,8 @@ class LoginFragment : BaseFragment() {
     savedInstanceState: Bundle?
   ): View? = inflater.inflate(R.layout.fragment_login, container, false)
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     initView()
   }
 
@@ -56,10 +57,9 @@ class LoginFragment : BaseFragment() {
     signInButton.setOnClickListener {
       startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGNIN)
     }
-    viewModel.user.observe(this, Observer { userResult ->
-      if (userResult == null) return@Observer
+    observe(viewModel.user) { userResult ->
       if (userResult == Result.Loading) {
-        return@Observer
+        return@observe
       }
       if (userResult.succeeded) {
         gotoMainActivity()
@@ -70,7 +70,7 @@ class LoginFragment : BaseFragment() {
             ?: resources.getString(R.string.error_google_signin)
         )
       }
-    })
+    }
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -29,8 +29,8 @@ class SplashFragment : BaseFragment() {
     savedInstanceState: Bundle?
   ): View? = inflater.inflate(R.layout.fragment_splash, container, false)
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     initView()
   }
 
