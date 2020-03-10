@@ -13,6 +13,7 @@
 
     <color name="color_light_grey_200">#FAFAFC</color>
     <color name="color_light_grey_300">#ECEDEF</color>
+    <color name="color_light_grey_400">#E3E5E8</color>
     <color name="color_light_grey_500">#CAD2DC</color>
     <color name="color_light_grey_600">#ADB8C7</color>
     <color name="color_light_grey_700">#9CA8B8</color>
