@@ -2,6 +2,7 @@ package com.guerra.enrico.sera.appinitializers
 
 import android.app.Application
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate
 import com.guerra.enrico.base.appinitializers.AppInitializer
 import com.guerra.enrico.domain.interactors.settings.Settings
@@ -18,7 +19,7 @@ class ThemeInitializer @Inject constructor(
     val darkTheme = settings.getDarkTheme()
     val currentMode =
       application.applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-    if (darkTheme.active && currentMode == AppCompatDelegate.MODE_NIGHT_NO) {
+    if (darkTheme.active && currentMode == UI_MODE_NIGHT_NO ) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     } else {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

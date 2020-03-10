@@ -28,8 +28,6 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
     super.onCreate()
     initializers.init(this)
 
-    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
     if (BuildConfig.DEBUG) {
       Timber.plant(Timber.DebugTree())
     }

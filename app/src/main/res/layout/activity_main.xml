@@ -25,6 +25,7 @@
             android:background="?attr/colorSurface"
             app:itemIconTint="@color/icon_bottom_nav"
             app:itemTextColor="@color/title_bottom_nav"
+            app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_navigation" />
 
     </LinearLayout>

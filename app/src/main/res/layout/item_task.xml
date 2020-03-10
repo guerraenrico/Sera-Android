@@ -62,7 +62,7 @@
             android:id="@+id/container_task_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/item_task_background"
+            android:background="@drawable/item_list_background"
             android:onClick="@{() -> eventActions.onTaskClick(taskPresentation.task)}"
             android:orientation="vertical"
             android:padding="@dimen/margin_m">

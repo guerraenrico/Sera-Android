@@ -1,6 +1,5 @@
 package com.guerra.enrico.sera.ui.settings
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,8 +53,7 @@ class SettingsFragment : BaseFragment() {
       settingAdapter.submitList(it)
     }
     observeEvent(viewModel.enableDarkTheme) {
-      val currentMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-      if (it && currentMode == AppCompatDelegate.MODE_NIGHT_NO) {
+      if (it) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
       } else {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

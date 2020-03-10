@@ -58,9 +58,12 @@ class OptionToggleViewHolder(
   private val eventActions: EventActions
 ) : RecyclerView.ViewHolder(binding.root) {
   fun bind(optionToggle: Option.Toggle) {
-    binding.optionSwitch.text = context.getString(optionToggle.title)
+    binding.optionTitle.text = context.getString(optionToggle.title)
     binding.lifecycleOwner = lifecycleOwner
-    binding.eventActions = eventActions
+    binding.optionContainer.setOnClickListener {
+      eventActions.onSettingClick(optionToggle.setting)
+    }
+    binding.optionSwitch.isChecked = optionToggle.active
     binding.executePendingBindings()
   }
 }
