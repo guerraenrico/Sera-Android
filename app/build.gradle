@@ -139,5 +139,11 @@ dependencies {
     kaptTest "androidx.room:room-compiler:$roomVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+
+    // Flipper
+    debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
+    debugImplementation "com.facebook.soloader:soloader:$soloaderVersion"
+    releaseImplementation "com.facebook.flipper:flipper-noop:0.33.1$flipperVersion"
 }
