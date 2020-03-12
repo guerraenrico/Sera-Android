@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.closeKeyboard
 import com.guerra.enrico.base.extensions.onSearch
@@ -75,6 +76,11 @@ class TodosFragment : BaseFragment() {
       viewModel = todosViewModel
     }
     return binding.root
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enterTransition = MaterialFadeThrough.create(requireContext())
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

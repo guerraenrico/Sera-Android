@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentGoalsBinding
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
@@ -34,6 +35,11 @@ class GoalsFragment : BaseFragment() {
       lifecycleOwner = viewLifecycleOwner
     }
     return binding.root
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enterTransition = MaterialFadeThrough.create(requireContext())
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
