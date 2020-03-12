@@ -7,10 +7,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.EventObserver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
 /**
  * Created by enrico
@@ -63,4 +67,11 @@ fun Fragment.closeKeyboard() {
       focus.clearFocus()
     }
   }
+}
+
+/**
+ * Shortcut for viewLifecycleOwner.lifecycleScope.launchWhenResumed
+ */
+fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
+  return viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }

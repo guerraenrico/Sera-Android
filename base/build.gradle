@@ -19,6 +19,8 @@ android {
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+
     // Material Component
     api "com.google.android.material:material:$materialVersion"
 
