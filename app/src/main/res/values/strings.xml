@@ -8,6 +8,7 @@
     <string name="title_todos">Todos</string>
     <string name="title_results">Results</string>
     <string name="title_settings">Settings</string>
+    <string name="title_search">Search</string>
 
     <string name="title_add_todo">Add Todo</string>
     <string name="title_filter_sheet">Categories</string>

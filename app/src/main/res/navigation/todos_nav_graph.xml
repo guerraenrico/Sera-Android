@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todos_nav_graph"
+    app:startDestination="@id/fragment_todos">
+
+    <fragment
+        android:id="@+id/fragment_todos"
+        android:name="com.guerra.enrico.sera.ui.todos.TodosFragment"
+        android:label="@string/title_todos" />
+
+    <activity
+        android:id="@+id/todo_add"
+        android:name="com.guerra.enrico.sera.ui.todos.add.TodoAddActivity"
+        android:label="@string/title_add_todo" />
+
+    <include app:graph="@navigation/todo_add_nav_graph" />
+
+</navigation>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/goals_nav_graph"
+    app:startDestination="@id/fragment_goals">
+    <fragment
+        android:id="@+id/fragment_goals"
+        android:name="com.guerra.enrico.sera.ui.goals.GoalsFragment"
+        android:label="@string/title_goals" />
+</navigation>

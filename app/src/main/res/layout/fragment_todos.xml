@@ -25,9 +25,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/toolbar_search"
-                layout="@layout/toolbar_search" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/ToolbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|snap"
+                app:menu="@menu/todos"
+                app:topSystemWindowInsets="@{true}">
+
+                <AutoCompleteTextView
+                    android:id="@+id/toolbar_edit_text_search"
+                    style="@style/SearchTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:completionThreshold="1"
+                    android:hint="@string/label_search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -65,6 +85,16 @@
             </com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout>
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/container_search_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_text_background"
+            android:visibility="gone">
+
+
+        </FrameLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_filter"
             android:layout_width="wrap_content"
@@ -83,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_xs"
             app:behavior_hideable="true"
             app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
             app:behavior_skipCollapsed="true"

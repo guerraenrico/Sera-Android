@@ -1,10 +1,12 @@
 package com.guerra.enrico.sera.ui.main
 
 import android.os.Bundle
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.sera.R
@@ -18,6 +20,10 @@ class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
+
+    window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+    setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+
     super.onCreate(savedInstanceState)
     setLightStatusBarIfNeeded()
 

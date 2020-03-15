@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="todos_search_transition" translatable="false">todos_search_transitions</string>
+</resources>
