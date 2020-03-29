@@ -9,9 +9,17 @@
     <include app:graph="@navigation/results_nav_graph" />
     <include app:graph="@navigation/settings_nav_graph" />
 
-    <action android:id="@+id/navigation_todos" app:destination="@id/todos_nav_graph" />
-    <action android:id="@+id/navigation_goals" app:destination="@id/goals_nav_graph" />
-    <action android:id="@+id/navigation_results" app:destination="@id/results_nav_graph" />
-    <action android:id="@+id/navigation_settings" app:destination="@id/settings_nav_graph" />
+    <action
+        android:id="@+id/navigation_todos"
+        app:destination="@id/todos_nav_graph" />
+    <action
+        android:id="@+id/navigation_goals"
+        app:destination="@id/goals_nav_graph" />
+    <action
+        android:id="@+id/navigation_results"
+        app:destination="@id/results_nav_graph" />
+    <action
+        android:id="@+id/navigation_settings"
+        app:destination="@id/settings_nav_graph" />
 
 </navigation>

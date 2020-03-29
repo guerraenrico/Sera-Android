@@ -16,6 +16,8 @@ import com.guerra.enrico.sera.ui.todos.TodosFragment
 import com.guerra.enrico.sera.ui.todos.TodosModule
 import com.guerra.enrico.sera.ui.todos.add.TodoAddActivity
 import com.guerra.enrico.sera.ui.todos.add.TodoAddModel
+import com.guerra.enrico.sera.ui.todos.search.TodoSearchActivity
+import com.guerra.enrico.sera.ui.todos.search.TodoSearchModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -57,6 +59,14 @@ abstract class ActivityBindingModule {
     ]
   )
   abstract fun todoAddActivity(): TodoAddActivity
+
+  @PerActivity
+  @ContributesAndroidInjector(
+    modules = [
+      TodoSearchModule::class
+    ]
+  )
+  abstract fun todoSearchActivity(): TodoSearchActivity
 
   @PerFragment
   @ContributesAndroidInjector(

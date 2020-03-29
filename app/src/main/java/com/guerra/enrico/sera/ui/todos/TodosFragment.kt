@@ -1,17 +1,17 @@
 package com.guerra.enrico.sera.ui.todos
 
-import android.graphics.Color
 import android.os.Bundle
-import android.transition.TransitionManager
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,20 +19,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.transition.MaterialArcMotion
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.closeKeyboard
+import com.guerra.enrico.base.extensions.makeSceneTransitionAnimation
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
-import com.guerra.enrico.base.extensions.onSearch
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import com.guerra.enrico.sera.ui.todos.adapter.SearchTasksAutocompleteAdapter
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
@@ -93,6 +88,13 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun initView() {
+    with(requireActivity().window) {
+      exitTransition = TransitionInflater.from(requireContext())
+        .inflateTransition(R.transition.activity_main_todos_exit)
+      reenterTransition = TransitionInflater.from(requireContext())
+        .inflateTransition(R.transition.activity_main_todos_reenter)
+    }
+
     binding.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
     filtersBottomSheetBehavior =
       WeakReference(BottomSheetBehavior.from(binding.root.findViewById<View>(R.id.filters_bottom_sheet)))
@@ -115,7 +117,6 @@ class TodosFragment : BaseFragment() {
     setupSearch()
 
     observeTaskList()
-    observeCategories()
     observeSnackbarMessage()
   }
 
@@ -141,19 +142,6 @@ class TodosFragment : BaseFragment() {
           }
           show()
         }
-      }
-    }
-  }
-
-  private fun observeCategories() {
-    observe(todosViewModel.categories) { categories ->
-      context?.let { context ->
-        val adapter =
-          SearchTasksAutocompleteAdapter(
-            context,
-            categories
-          )
-        binding.toolbarEditTextSearch.setAdapter(adapter)
       }
     }
   }
@@ -210,15 +198,15 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupSearch() {
-    binding.toolbarEditTextSearch.onSearch {
-      closeKeyboard()
-      todosViewModel.onSearch(it)
+    binding.toolbarEditTextSearch.setOnClickListener {
+      val options = requireActivity().makeSceneTransitionAnimation(
+        Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
+        Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
+      )
+
+      val extra = ActivityNavigatorExtras(options)
+      findNavController().navigate(TodosFragmentDirections.actionTodosToTodoSearch(), extra)
     }
-    binding.toolbarEditTextSearch.onItemClickListener =
-      AdapterView.OnItemClickListener { adapter, _, position, _ ->
-        closeKeyboard()
-        todosViewModel.onSearchCategory(adapter?.getItemAtPosition(position) as Category)
-      }
   }
 
   private fun setupFiltersBottomSheet() {

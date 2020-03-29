@@ -20,10 +20,6 @@ class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
-
-    window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-    setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-
     super.onCreate(savedInstanceState)
     setLightStatusBarIfNeeded()
 

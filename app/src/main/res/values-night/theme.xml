@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme.Sera">
         <item name="colorPrimary">@color/color_aquamarine_500</item>
         <item name="colorOnPrimary">@color/color_white</item>
@@ -20,6 +21,7 @@
         <item name="android:textColorSecondary">@color/color_light_grey_700</item>
         <item name="android:windowBackground">@color/color_dark_blue_500</item>
         <item name="android:colorBackground">@color/color_dark_blue_500</item>
+        <item name="scrimBackground">@color/color_dark_blue_500</item>
 
         <item name="inputBackgroundColor">@color/color_grey_800</item>
         <item name="hintTextColor">@color/color_grey_500</item>

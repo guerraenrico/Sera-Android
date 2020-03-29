@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.view.View
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +32,20 @@ fun FragmentActivity.setLightStatusBarIfNeeded() {
     window.decorView.systemUiVisibility =
       View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
   }
+}
+
+fun FragmentActivity.makeSceneTransitionAnimation(
+  vararg sharedElements: Pair<View, String>
+): ActivityOptionsCompat {
+  val elements: List<Pair<View, String>> = buildList {
+    addAll(sharedElements)
+    val navBar = findViewById<View>(android.R.id.navigationBarBackground)
+    if (navBar != null) {
+      add(Pair.create(navBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
+    }
+  }
+
+  return ActivityOptionsCompat.makeSceneTransitionAnimation(this, *elements.toTypedArray())
 }
 
 /**

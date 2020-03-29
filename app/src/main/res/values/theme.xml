@@ -35,6 +35,7 @@
         <item name="android:textColorSecondary">@color/color_grey_700</item>
         <item name="android:windowBackground">@color/color_light_grey_200</item>
         <item name="android:colorBackground">@color/color_light_grey_200</item>
+        <item name="scrimBackground">@color/color_light_grey_200</item>
 
         <item name="inputBackgroundColor">@color/color_light_grey_500</item>
         <item name="hintTextColor">@color/color_grey_500</item>
@@ -42,6 +43,28 @@
         <item name="colorDivider">@color/color_light_grey_200</item>
 
         <item name="colorIcon">@color/color_grey_800</item>
+    </style>
+
+    <style name="AppTheme.Sera.MainActivity">
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+
+    <style name="AppTheme.Sera.SearchActivity">
+
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/todos_to_search_enter
+        </item>
+        <item name="android:windowSharedElementReturnTransition">
+            @transition/todos_to_search_return
+        </item>
+
+        <item name="android:windowEnterTransition">@transition/activity_search_enter</item>
+        <item name="android:windowReturnTransition">@transition/activity_search_return</item>
     </style>
 
 </resources>

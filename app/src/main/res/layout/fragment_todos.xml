@@ -13,54 +13,64 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+        android:id="@+id/root_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
         tools:context=".ui.todos.TodosFragment">
 
+        <!-- Use a separate view for the background, rather than on the root view because it is a shared element -->
+        <View
+            android:id="@+id/activity_todos_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:transitionName="@string/todos_container_transition" />
+
         <com.google.android.material.appbar.AppBarLayout
             style="@style/Widget.AppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/ToolbarSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|snap"
                 app:menu="@menu/todos"
-                app:topSystemWindowInsets="@{true}">
+                app:topSystemWindowInsets="@{true}"
+                >
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/toolbar_edit_text_search"
                     style="@style/SearchTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:completionThreshold="1"
-                    android:hint="@string/label_search"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1" />
+                    android:autofillHints="@null"
+                    android:focusable="false"
+                    android:hint="@string/hint_search"
+                    android:inputType="none"
+                    android:transitionName="@string/todos_search_transition" />
 
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
+            android:id="@+id/todos_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:transitionGroup="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout
-                android:id="@+id/refresh_layout-tasks"
+                android:id="@+id/refresh_layout_tasks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 app:onRefreshListener="@{() -> viewModel.onRefreshData()}"
                 app:refreshing="@{viewModel.swipeRefresh}">
 
@@ -84,16 +94,6 @@
 
             </com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout>
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/container_search_suggestions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/edit_text_background"
-            android:visibility="gone">
-
-
-        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_filter"

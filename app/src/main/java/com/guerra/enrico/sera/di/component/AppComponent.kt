@@ -4,6 +4,7 @@ import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
+import com.guerra.enrico.sera.di.module.SystemServiceModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
 import com.guerra.enrico.workers.di.WorkersModule
 import dagger.BindsInstance
@@ -17,17 +18,19 @@ import javax.inject.Singleton
  * on 30/05/2018.
  */
 @Singleton
-@Component(modules = [
+@Component(
+  modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
     ActivityBindingModule::class,
     ViewModelModule::class,
     RetrofitModule::class,
     WorkersModule::class
-])
-interface AppComponent: AndroidInjector<SeraApplication> {
-    @Component.Factory
-    interface Factory {
-        fun create(@BindsInstance application: SeraApplication): AppComponent
-    }
+  ]
+)
+interface AppComponent : AndroidInjector<SeraApplication> {
+  @Component.Factory
+  interface Factory {
+    fun create(@BindsInstance application: SeraApplication): AppComponent
+  }
 }

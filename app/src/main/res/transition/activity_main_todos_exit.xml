@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:duration="@integer/animation_duration_m">
+
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/todos_container" />
+        </targets>
+        <transition
+            class="com.guerra.enrico.sera.widget.animation.FadeTransition"
+            app:endAlpha="0.3"
+            app:startAlpha="1.0" />
+        <transition
+            class="com.guerra.enrico.sera.widget.animation.ScaleTransition"
+            app:endScale="0.95"
+            app:startScale="1.0" />
+    </transitionSet>
+
+</transitionSet>

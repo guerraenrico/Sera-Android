@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@integer/animation_duration_m"
+    android:interpolator="@android:interpolator/linear_out_slow_in"
+    android:transitionOrdering="together">
+
+    <transitionSet>
+        <targets>
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@android:id/statusBarBackground" />
+            <target android:excludeId="@id/todo_search_background" />
+            <target android:excludeId="@id/search_toolbar_edit_text_search" />
+        </targets>
+
+        <fade
+            android:fadingMode="fade_in"
+            android:startDelay="@integer/animation_duration_s" />
+
+    </transitionSet>
+
+
+</transitionSet>

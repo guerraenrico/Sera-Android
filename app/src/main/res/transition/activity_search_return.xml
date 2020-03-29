@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/fast_out_linear_in"
+    android:transitionOrdering="together">
+
+        <targets>
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@android:id/statusBarBackground" />
+            <target android:excludeId="@+id/todo_search_background" />
+            <target android:excludeId="@+id/search_toolbar_edit_text_search" />
+        </targets>
+
+        <fade android:duration="@integer/animation_duration_s" />
+
+</transitionSet>
