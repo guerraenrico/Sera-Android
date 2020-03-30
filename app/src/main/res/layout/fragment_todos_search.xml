@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="?attr/actionBarSize"
                     android:transitionGroup="false"
+                    app:menu="@menu/todos_search"
                     app:topSystemWindowInsets="@{true}">
 
                     <EditText
@@ -45,6 +46,7 @@
                         style="@style/SearchTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints="@null"
                         android:hint="@string/hint_search"
                         android:imeOptions="actionSearch"
                         android:inputType="text"

@@ -52,7 +52,6 @@
 
 
     <style name="AppTheme.Sera.SearchActivity">
-
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowContentTransitions">true</item>
 
