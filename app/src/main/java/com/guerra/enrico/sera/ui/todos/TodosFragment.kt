@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.makeSceneTransitionAnimation
@@ -31,7 +28,6 @@ import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
@@ -43,25 +39,6 @@ class TodosFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
 
   private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
-
-  private lateinit var filtersBottomSheetBehavior: WeakReference<BottomSheetBehavior<*>>
-
-  /**
-   * Callback fired when the back button is pressed; the bottom sheet is closed if it's open
-   */
-  private lateinit var onBackPressedCallback: OnBackPressedCallback
-
-  /**
-   * Callback fired when the state of the bottom sheet change; when the bottom sheet opens
-   * enable the back button callback
-   */
-  private val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-
-    override fun onStateChanged(bottomSheet: View, newState: Int) {
-      onBackPressedCallback.isEnabled = newState == BottomSheetBehavior.STATE_EXPANDED
-    }
-  }
 
   private lateinit var binding: FragmentTodosBinding
 
@@ -96,23 +73,7 @@ class TodosFragment : BaseFragment() {
     }
 
     binding.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
-    filtersBottomSheetBehavior =
-      WeakReference(BottomSheetBehavior.from(binding.root.findViewById<View>(R.id.filters_bottom_sheet)))
 
-    onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-      filtersBottomSheetBehavior.get()?.let {
-        if (it.state == BottomSheetBehavior.STATE_EXPANDED) {
-          if (it.isHideable && it.skipCollapsed) {
-            it.state = BottomSheetBehavior.STATE_HIDDEN
-          } else {
-            it.state = BottomSheetBehavior.STATE_COLLAPSED
-          }
-        }
-      }
-    }
-    onBackPressedCallback.isEnabled = false
-
-    setupFiltersBottomSheet()
     setupRecyclerView()
     setupSearch()
 
@@ -150,7 +111,6 @@ class TodosFragment : BaseFragment() {
     observeEvent(todosViewModel.snackbarMessage) {
       showSnackbar(
         message = it.getMessage(requireContext()),
-        view = requireActivity().findViewById(R.id.fab_filter),
         actionText = it.getActionText(requireContext()),
         onAction = it.onAction,
         onDismiss = it.onDismiss
@@ -206,16 +166,6 @@ class TodosFragment : BaseFragment() {
 
       val extra = ActivityNavigatorExtras(options)
       findNavController().navigate(TodosFragmentDirections.actionTodosToTodoSearch(), extra)
-    }
-  }
-
-  private fun setupFiltersBottomSheet() {
-    filtersBottomSheetBehavior.get()?.apply {
-      addBottomSheetCallback(bottomSheetCallback)
-      binding.fabFilter.setOnClickListener {
-        state = BottomSheetBehavior.STATE_EXPANDED
-      }
-      state = BottomSheetBehavior.STATE_HIDDEN
     }
   }
 
