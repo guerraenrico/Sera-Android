@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.local.db.converters
 
 import androidx.room.TypeConverter
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.Collections.emptyList

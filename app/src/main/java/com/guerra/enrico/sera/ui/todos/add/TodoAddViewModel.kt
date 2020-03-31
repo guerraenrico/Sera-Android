@@ -6,8 +6,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.domain.interactors.InsertCategory
 import com.guerra.enrico.domain.interactors.InsertTask
 import com.guerra.enrico.domain.observers.ObserveCategories
@@ -95,7 +95,8 @@ class TodoAddViewModel @Inject constructor(
   }
 
   fun onAddCategory(name: String) {
-    val newCategory = Category(name = name)
+    val newCategory =
+      Category(name = name)
     viewModelScope.launch(dispatchers.io()) {
       _createCategoryResult.postValue(Result.Loading)
       val result = insertCategory(newCategory)

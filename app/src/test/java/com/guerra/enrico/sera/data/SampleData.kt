@@ -2,9 +2,9 @@ package com.guerra.enrico.sera.data
 
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.data.models.Session
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.remote.response.ApiResponse
 import com.guerra.enrico.sera.data.remote.response.AuthData
@@ -20,18 +20,51 @@ import java.util.*
  * Created by enrico
  * on 05/01/2019.
  */
-val category1 = Category(1, "1", "Category 1")
-val category2 = Category(2, "2", "Category 2")
-val category3 = Category(3, "3", "Category 3")
+val category1 =
+  Category(1, "1", "Category 1")
+val category2 =
+  Category(2, "2", "Category 2")
+val category3 =
+  Category(3, "3", "Category 3")
 
 val categories = listOf(category1, category2)
 
 suspend fun insertCategories(db: SeraDatabase) = db.categoryDao().insertAll(categories)
 suspend fun deleteCategories(db: SeraDatabase) = db.categoryDao().clear()
 
-val task1 = Task(1, "1", "Task 1", "Description task 1", false, Date(), null, Date(), listOf(category1))
-val task2 = Task(2, "2", "Task 2", "Description task 2", false, Date(), null, Date(), listOf(category2))
-val task3 = Task(3, "3", "Task 3", "Description task 3", false, Date(), null, Date(), listOf(category2))
+val task1 = Task(
+  1,
+  "1",
+  "Task 1",
+  "Description task 1",
+  false,
+  Date(),
+  null,
+  Date(),
+  listOf(category1)
+)
+val task2 = Task(
+  2,
+  "2",
+  "Task 2",
+  "Description task 2",
+  false,
+  Date(),
+  null,
+  Date(),
+  listOf(category2)
+)
+val task3 = Task(
+  3,
+  "3",
+  "Task 3",
+  "Description task 3",
+  false,
+  Date(),
+  null,
+  Date(),
+  listOf(category2)
+)
 val task1Completed = task1.copy(completed = true)
 
 val tasks = listOf(task1, task2)

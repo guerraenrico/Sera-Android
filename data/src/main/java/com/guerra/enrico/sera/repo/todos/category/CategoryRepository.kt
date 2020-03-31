@@ -1,7 +1,7 @@
-package com.guerra.enrico.sera.repo.category
+package com.guerra.enrico.sera.repo.todos.category
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.data.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
 

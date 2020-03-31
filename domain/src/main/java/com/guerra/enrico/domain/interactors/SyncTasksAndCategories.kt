@@ -5,10 +5,10 @@ import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.repo.category.CategoryRepository
-import com.guerra.enrico.sera.repo.task.TaskRepository
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
+import com.guerra.enrico.sera.repo.todos.category.CategoryRepository
+import com.guerra.enrico.sera.repo.todos.task.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 

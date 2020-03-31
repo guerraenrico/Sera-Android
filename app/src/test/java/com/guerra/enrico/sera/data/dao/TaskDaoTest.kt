@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.guerra.enrico.sera.data.local.dao.TaskDao
+import com.guerra.enrico.sera.data.local.dao.todos.TaskDao
 import com.guerra.enrico.sera.data.local.db.SeraDatabase
 import com.guerra.enrico.sera.data.*
 import com.guerra.enrico.sera.utils.TestCoroutineRule

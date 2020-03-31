@@ -42,10 +42,12 @@ class TodoSearchFragment : Fragment() {
   }
 
   private fun initView() {
-    binding.toolbar.navigationIcon = getDrawable(requireContext(), R.drawable.ic_close)
-    binding.toolbar.setNavigationOnClickListener { finishAfterTransition(requireActivity()) }
+    binding.toolbar.apply {
+      navigationIcon = getDrawable(requireContext(), R.drawable.ic_close)
+      setNavigationOnClickListener { finishAfterTransition(requireActivity()) }
 
-    binding.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
+      setOnMenuItemClickListener { onMenuItemClick(it) }
+    }
 
     val messageResources = MessageExceptionManager(Exception()).getResources()
     binding.messageLayout.apply {

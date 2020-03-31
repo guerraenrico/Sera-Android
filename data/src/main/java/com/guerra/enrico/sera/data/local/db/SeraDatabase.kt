@@ -5,26 +5,28 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 import androidx.room.TypeConverters
-import com.guerra.enrico.sera.data.local.dao.TaskDao
-import com.guerra.enrico.sera.data.local.dao.CategoryDao
+import com.guerra.enrico.sera.data.local.dao.todos.TaskDao
+import com.guerra.enrico.sera.data.local.dao.todos.CategoryDao
 import com.guerra.enrico.sera.data.local.dao.SessionDao
 import com.guerra.enrico.sera.data.local.dao.UserDao
 import com.guerra.enrico.sera.data.local.dao.sync.SyncActionDao
+import com.guerra.enrico.sera.data.local.dao.todos.SuggestionDao
 import com.guerra.enrico.sera.data.local.db.converters.CategoryConverter
 import com.guerra.enrico.sera.data.local.db.converters.DateConverter
 import com.guerra.enrico.sera.data.local.db.converters.OperationConverter
-import com.guerra.enrico.sera.data.models.Task
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Task
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.data.models.Session
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.models.sync.SyncAction
+import com.guerra.enrico.sera.data.models.todos.Suggestion
 
 /**
  * Created by enrico
  * on 03/06/2018.
  */
 @Database(
-  entities = [Session::class, User::class, Category::class, Task::class, SyncAction::class],
+  entities = [Session::class, User::class, Category::class, Task::class, Suggestion::class, SyncAction::class],
   version = 1
 )
 @TypeConverters(DateConverter::class, CategoryConverter::class, OperationConverter::class)
@@ -36,6 +38,8 @@ abstract class SeraDatabase : RoomDatabase() {
   abstract fun categoryDao(): CategoryDao
 
   abstract fun taskDao(): TaskDao
+
+  abstract fun suggestionDao(): SuggestionDao
 
   abstract fun syncAction(): SyncActionDao
 

@@ -1,13 +1,14 @@
-package com.guerra.enrico.sera.repo.category
+package com.guerra.enrico.sera.repo.todos.category
 
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.data.models.sync.Operation
 import com.guerra.enrico.sera.data.models.sync.SyncAction
 import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.response.CallResult
+import com.guerra.enrico.sera.repo.todos.category.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

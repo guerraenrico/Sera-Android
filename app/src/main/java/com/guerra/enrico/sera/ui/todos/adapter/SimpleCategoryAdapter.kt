@@ -1,13 +1,10 @@
 package com.guerra.enrico.sera.ui.todos.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.databinding.ItemSimpleCategoryBinding
-import kotlinx.android.synthetic.main.item_category.view.*
 
 /**
  * Created by enrico

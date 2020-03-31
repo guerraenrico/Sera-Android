@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.remote.request
 
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
 import java.util.*
 
 /**

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.data.models
+package com.guerra.enrico.sera.data.models.todos
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

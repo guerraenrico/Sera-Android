@@ -1,10 +1,10 @@
-package com.guerra.enrico.sera.repo.task
+package com.guerra.enrico.sera.repo.todos.task
 
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.sera.data.exceptions.LocalException
 import com.guerra.enrico.sera.data.local.db.LocalDbManager
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.sera.data.models.sync.Operation
 import com.guerra.enrico.sera.data.models.sync.SyncAction
 import com.guerra.enrico.sera.data.remote.RemoteDataManager

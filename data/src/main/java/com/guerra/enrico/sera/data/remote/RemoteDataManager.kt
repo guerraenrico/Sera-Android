@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera.data.remote
 
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import com.guerra.enrico.sera.data.models.Session
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.sera.data.remote.response.CallResult
 import com.guerra.enrico.sera.data.remote.response.AuthData
 

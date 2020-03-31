@@ -1,8 +1,8 @@
-package com.guerra.enrico.sera.data.local.dao
+package com.guerra.enrico.sera.data.local.dao.todos
 
 import androidx.room.*
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 

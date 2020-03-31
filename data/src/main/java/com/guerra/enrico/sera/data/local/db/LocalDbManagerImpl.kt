@@ -1,10 +1,11 @@
 package com.guerra.enrico.sera.data.local.db
 
-import com.guerra.enrico.sera.data.models.Category
 import com.guerra.enrico.sera.data.models.Session
-import com.guerra.enrico.sera.data.models.Task
 import com.guerra.enrico.sera.data.models.User
 import com.guerra.enrico.sera.data.models.sync.SyncAction
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Suggestion
+import com.guerra.enrico.sera.data.models.todos.Task
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
@@ -111,6 +112,17 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun syncTasks(tasks: List<Task>) {
     database.taskDao().sync(tasks)
   }
+
+  // Suggestions
+
+  override fun observeSuggestion(text: String): Flow<List<Suggestion>> =
+    database.suggestionDao().observe(text)
+
+  override suspend fun insertSuggestion(suggestion: Suggestion): Long =
+    database.suggestionDao().insert(suggestion)
+
+  override suspend fun updateSuggestion(suggestion: Suggestion): Int =
+    database.suggestionDao().update(suggestion)
 
   // Sync
 

@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.data.remote.request
 
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Task
 import java.util.*
 
 /**

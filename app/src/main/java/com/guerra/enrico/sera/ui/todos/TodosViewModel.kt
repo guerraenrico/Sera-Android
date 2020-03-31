@@ -14,8 +14,8 @@ import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.ObserveCategories
 import com.guerra.enrico.domain.observers.ObserveTasks
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.models.Category
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation

@@ -13,10 +13,12 @@ import com.guerra.enrico.sera.data.remote.RemoteDataManager
 import com.guerra.enrico.sera.data.remote.RemoteDataManagerImpl
 import com.guerra.enrico.sera.repo.auth.AuthRepository
 import com.guerra.enrico.sera.repo.auth.AuthRepositoryImpl
-import com.guerra.enrico.sera.repo.category.CategoryRepository
-import com.guerra.enrico.sera.repo.category.CategoryRepositoryImpl
-import com.guerra.enrico.sera.repo.task.TaskRepository
-import com.guerra.enrico.sera.repo.task.TaskRepositoryImpl
+import com.guerra.enrico.sera.repo.todos.category.CategoryRepository
+import com.guerra.enrico.sera.repo.todos.category.CategoryRepositoryImpl
+import com.guerra.enrico.sera.repo.todos.suggestion.SuggestionRepository
+import com.guerra.enrico.sera.repo.todos.suggestion.SuggestionRepositoryImpl
+import com.guerra.enrico.sera.repo.todos.task.TaskRepository
+import com.guerra.enrico.sera.repo.todos.task.TaskRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -49,6 +51,11 @@ class AppModule {
   @Provides
   @Singleton
   fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository = taskRepository
+
+  @Provides
+  @Singleton
+  fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository =
+    suggestionRepository
 
   @Provides
   @Singleton

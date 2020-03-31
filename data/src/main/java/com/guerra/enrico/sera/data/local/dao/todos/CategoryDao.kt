@@ -1,11 +1,11 @@
-package com.guerra.enrico.sera.data.local.dao
+package com.guerra.enrico.sera.data.local.dao.todos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.guerra.enrico.sera.data.models.Category
+import com.guerra.enrico.sera.data.models.todos.Category
 import kotlinx.coroutines.flow.Flow
 
 /**

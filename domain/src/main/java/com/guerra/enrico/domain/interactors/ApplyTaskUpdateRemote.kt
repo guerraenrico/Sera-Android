@@ -3,9 +3,9 @@ package com.guerra.enrico.domain.interactors
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.models.Task
+import com.guerra.enrico.sera.data.models.todos.Task
 import com.guerra.enrico.sera.repo.auth.AuthRepository
-import com.guerra.enrico.sera.repo.task.TaskRepository
+import com.guerra.enrico.sera.repo.todos.task.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
