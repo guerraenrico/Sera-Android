@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.ui.settings.presentation
 
 import androidx.annotation.StringRes
-import com.guerra.enrico.sera.data.models.Setting
+import com.guerra.enrico.models.Setting
 
 /**
  * Created by enrico
@@ -11,6 +11,6 @@ sealed class Option(val key: String) {
   data class Toggle(
     @StringRes val title: Int,
     val active: Boolean,
-    val setting: Setting
+    val setting: com.guerra.enrico.models.Setting
   ) : Option(setting.key)
 }

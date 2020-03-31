@@ -50,6 +50,7 @@ buildscript {
         lintVersion = "26.4.1"
         flipperVersion = "0.33.1"
         soloaderVersion = "0.8.2"
+        kotlin_version = '1.3.71'
     }
 
     repositories {

@@ -23,7 +23,7 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
-import com.guerra.enrico.sera.exceptions.MessageExceptionManager
+import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter

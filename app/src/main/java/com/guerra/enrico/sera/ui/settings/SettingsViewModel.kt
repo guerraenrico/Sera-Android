@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.domain.interactors.settings.Settings
-import com.guerra.enrico.sera.data.models.Setting
+import com.guerra.enrico.models.Setting
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.settings.presentation.Option
-import com.guerra.enrico.sera.ui.settings.presentation.toOption
 import javax.inject.Inject
 
 /**
@@ -33,9 +32,9 @@ class SettingsViewModel @Inject constructor(private val settings: Settings) : Ba
     _list.value = settings.getSettings().map { it.toOption() }
   }
 
-  override fun onSettingClick(setting: Setting) {
+  override fun onSettingClick(setting: com.guerra.enrico.models.Setting) {
     when (setting) {
-      is Setting.DarkTheme -> {
+      is com.guerra.enrico.models.Setting.DarkTheme -> {
         _enableDarkTheme.value = Event(!setting.active)
         settings.updateDarkTheme(!setting.active)
       }

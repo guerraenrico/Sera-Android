@@ -1,14 +1,14 @@
 package com.guerra.enrico.sera.data
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.local.db.SeraDatabase
-import com.guerra.enrico.sera.data.models.todos.Category
-import com.guerra.enrico.sera.data.models.Session
-import com.guerra.enrico.sera.data.models.todos.Task
-import com.guerra.enrico.sera.data.models.User
-import com.guerra.enrico.sera.data.remote.response.ApiResponse
-import com.guerra.enrico.sera.data.remote.response.AuthData
-import com.guerra.enrico.sera.data.remote.response.CallResult
+import com.guerra.enrico.local.db.SeraDatabase
+import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.models.Session
+import com.guerra.enrico.models.todos.Task
+import com.guerra.enrico.models.User
+import com.guerra.enrico.remote.response.ApiResponse
+import com.guerra.enrico.remote.response.AuthData
+import com.guerra.enrico.remote.response.CallResult
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -80,12 +80,19 @@ suspend fun insertTasks(db: SeraDatabase) = db.taskDao().insert(tasks)
 suspend fun deleteTasks(db: SeraDatabase) = db.taskDao().clear()
 suspend fun updateTask(db: SeraDatabase, task: Task) = db.taskDao().update(task)
 
-val session1 = Session(1, "1", "1", "aaaaa", Date(Date().time - 24 * 60 * 60))
-val session2 = Session(2, "2", "1", "bbbbb", Date())
+val session1 = com.guerra.enrico.models.Session(
+  1,
+  "1",
+  "1",
+  "aaaaa",
+  Date(Date().time - 24 * 60 * 60)
+)
+val session2 = com.guerra.enrico.models.Session(2, "2", "1", "bbbbb", Date())
 
 suspend fun insertSession(db: SeraDatabase) = db.sessionDao().insert(session1)
 
-val user1 = User(1, "1", "google id", "a@b.it", "aa", "IT", "")
+val user1 =
+  com.guerra.enrico.models.User(1, "1", "google id", "a@b.it", "aa", "IT", "")
 
 suspend fun insertUser(db: SeraDatabase) = db.userDao().insert(user1)
 

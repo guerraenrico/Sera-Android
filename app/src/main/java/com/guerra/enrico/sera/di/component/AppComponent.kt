@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.di.component
 
+import com.guerra.enrico.domain.DomainModule
 import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.di.module.ActivityBindingModule

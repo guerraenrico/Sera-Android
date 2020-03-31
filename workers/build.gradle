@@ -16,8 +16,8 @@ dependencies {
     implementation project(":domain")
 
     // Dagger Android
-    api "com.google.dagger:dagger-android:$daggerVersion"
-    api "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
@@ -26,5 +26,5 @@ dependencies {
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
 
     // Work Manager
-    api "androidx.work:work-runtime-ktx:$workManagerVersion"
+    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
 }

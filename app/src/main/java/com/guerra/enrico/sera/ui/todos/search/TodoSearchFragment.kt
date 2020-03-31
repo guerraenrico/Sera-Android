@@ -12,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentTodosSearchBinding
-import com.guerra.enrico.sera.exceptions.MessageExceptionManager
+import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
 import javax.inject.Inject
 
 /**

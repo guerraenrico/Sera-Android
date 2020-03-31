@@ -1,9 +1,9 @@
 package com.guerra.enrico.domain.observers
 
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.sera.data.models.todos.Category
-import com.guerra.enrico.sera.data.models.todos.Task
-import com.guerra.enrico.sera.repo.todos.task.TaskRepository
+import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.models.todos.Task
+import com.guerra.enrico.sera.data.repo.todos.task.TaskRepository
 import com.guerra.enrico.domain.SubjectInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

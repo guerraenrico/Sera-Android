@@ -1,17 +1,15 @@
 package com.guerra.enrico.sera.ui.goals
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentGoalsBinding
-import com.guerra.enrico.sera.exceptions.MessageExceptionManager
+import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import javax.inject.Inject
 

@@ -39,23 +39,26 @@ android {
 }
 
 dependencies {
-    api project(":base")
+    implementation project(":base")
+    implementation project(":models")
+    implementation project(":remote")
+    implementation project(":local")
 
     // Gson
-    api "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
     // Retrofit
-    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     // Room
-    api "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
-    api "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
 
     // Dagger
-    api "com.google.dagger:dagger-android:$daggerVersion"
-    api "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

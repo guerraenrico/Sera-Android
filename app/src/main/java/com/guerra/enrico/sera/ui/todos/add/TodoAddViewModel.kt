@@ -6,8 +6,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.models.todos.Category
-import com.guerra.enrico.sera.data.models.todos.Task
+import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.domain.interactors.InsertCategory
 import com.guerra.enrico.domain.interactors.InsertTask
 import com.guerra.enrico.domain.observers.ObserveCategories

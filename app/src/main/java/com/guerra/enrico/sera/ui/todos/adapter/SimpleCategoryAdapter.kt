@@ -3,7 +3,7 @@ package com.guerra.enrico.sera.ui.todos.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.sera.databinding.ItemSimpleCategoryBinding
 
 /**

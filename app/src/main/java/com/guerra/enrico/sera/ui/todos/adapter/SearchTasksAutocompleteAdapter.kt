@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.models.todos.Category
+import com.guerra.enrico.models.todos.Category
 import kotlinx.android.synthetic.main.item_category.view.*
 
 /**

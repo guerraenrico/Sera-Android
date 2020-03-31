@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.models.User
+import com.guerra.enrico.models.User
 import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -18,8 +18,8 @@ class LoginViewModel @Inject constructor(
   private val signIn: SignIn
 ) : BaseViewModel() {
 
-  private val _user: MediatorLiveData<Result<User>> = MediatorLiveData()
-  val user: LiveData<Result<User>>
+  private val _user: MediatorLiveData<Result<com.guerra.enrico.models.User>> = MediatorLiveData()
+  val user: LiveData<Result<com.guerra.enrico.models.User>>
     get() = _user
 
   fun onCodeReceived(code: String) {

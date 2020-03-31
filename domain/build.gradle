@@ -17,11 +17,15 @@ android {
 }
 
 dependencies {
-    api project(":base")
+    implementation project(":base")
+    implementation project(":models")
     implementation project(":data")
 
+    // Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
     // Dagger
-    api "com.google.dagger:dagger-android:$daggerVersion"
-    api "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

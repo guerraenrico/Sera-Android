@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.ui.todos
 
-import com.guerra.enrico.sera.data.models.todos.Task
+import com.guerra.enrico.models.todos.Task
 
 /**
  * Created by enrico
