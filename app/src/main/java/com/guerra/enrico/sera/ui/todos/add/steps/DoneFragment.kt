@@ -27,8 +27,4 @@ class DoneFragment : BaseFragment() {
   ): View? {
     return inflater.inflate(R.layout.fragment_todo_add_done, container, false)
   }
-
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-  }
 }

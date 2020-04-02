@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.sera.R
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
@@ -60,9 +60,7 @@ class SelectCategoryFragment : BaseFragment() {
         )
       )
     }
-    viewModel.categoriesPresentationResult.apply {
-      this.observe(this@SelectCategoryFragment, Observer { processCategoryListResponse(it) })
-    }
+    observe(viewModel.categoriesPresentationResult) { processCategoryListResponse(it) }
   }
 
   private fun processCategoryListResponse(categoriesPresentationResult: Result<List<CategoryPresentation>>?) {

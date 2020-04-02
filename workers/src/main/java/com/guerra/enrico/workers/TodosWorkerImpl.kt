@@ -44,8 +44,4 @@ class TodosWorkerImpl @Inject constructor(
     )
     logger.i("SYNC_TODO", "work setup")
   }
-
-  companion object {
-    private const val TAG = "TodosWorker"
-  }
 }

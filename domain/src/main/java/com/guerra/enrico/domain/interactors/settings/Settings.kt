@@ -1,8 +1,8 @@
 package com.guerra.enrico.domain.interactors.settings
 
 import com.guerra.enrico.domain.MultiInteractor
-import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.models.Setting
+import com.guerra.enrico.sera.data.repo.settings.SettingsRepository
 import javax.inject.Inject
 
 /**
@@ -10,24 +10,18 @@ import javax.inject.Inject
  * on 08/03/2020.
  */
 class Settings @Inject constructor(
-  private val preferencesManager: PreferencesManager
+  private val settingsRepository: SettingsRepository
 ) : MultiInteractor() {
 
-  fun getSettings(): List<com.guerra.enrico.models.Setting> {
-    return buildList {
-      add(getDarkTheme())
-    }
+  fun getSettings(): List<Setting> {
+    return settingsRepository.getSettings()
   }
 
-  fun getDarkTheme(): com.guerra.enrico.models.Setting.DarkTheme {
-    return com.guerra.enrico.models.Setting.DarkTheme(DARK_THEME_KEY, preferencesManager.readBoolean(DARK_THEME_KEY))
+  fun getDarkTheme(): Setting.DarkTheme {
+    return settingsRepository.getDarkTheme()
   }
 
   fun updateDarkTheme(active: Boolean) {
-    preferencesManager.saveBoolean(DARK_THEME_KEY, active)
-  }
-
-  companion object {
-    private const val DARK_THEME_KEY = "dark_theme"
+    settingsRepository.updateDarkTheme(active)
   }
 }

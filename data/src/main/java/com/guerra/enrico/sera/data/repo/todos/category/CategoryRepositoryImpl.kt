@@ -1,7 +1,7 @@
 package com.guerra.enrico.sera.data.repo.todos.category
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.exceptions.LocalException
+import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction

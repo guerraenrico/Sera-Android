@@ -11,6 +11,6 @@ sealed class Option(val key: String) {
   data class Toggle(
     @StringRes val title: Int,
     val active: Boolean,
-    val setting: com.guerra.enrico.models.Setting
+    val setting: Setting
   ) : Option(setting.key)
 }

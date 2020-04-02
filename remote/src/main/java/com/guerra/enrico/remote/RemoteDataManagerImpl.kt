@@ -2,7 +2,7 @@ package com.guerra.enrico.remote
 
 import com.google.gson.Gson
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.base.exceptions.ConnectionException
+import com.guerra.enrico.models.exceptions.ConnectionException
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task

@@ -3,15 +3,17 @@ package com.guerra.enrico.sera.data.repo.auth
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.connection.ConnectionHelper
 import com.guerra.enrico.base.succeeded
-import com.guerra.enrico.base.exceptions.ConnectionException
-import com.guerra.enrico.base.exceptions.LocalException
-import com.guerra.enrico.base.exceptions.RemoteException
+import com.guerra.enrico.models.exceptions.ConnectionException
+import com.guerra.enrico.models.exceptions.LocalException
+import com.guerra.enrico.models.exceptions.RemoteException
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
 import com.guerra.enrico.remote.RemoteDataManager
+import com.guerra.enrico.remote.response.ApiError
 import com.guerra.enrico.remote.response.AuthData
 import com.guerra.enrico.remote.response.CallResult
+import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -32,12 +34,13 @@ internal class AuthRepositoryImpl @Inject constructor(
     when (val apiResult = remoteDataManager.googleSignInCallback(code)) {
       is CallResult.Result -> {
         val data: AuthData? = apiResult.apiResponse.data
+        val error: ApiError? = apiResult.apiResponse.error
         if (apiResult.apiResponse.success && data != null) {
           localDbManager.saveSession(data.user.id, data.accessToken)
           localDbManager.saveUser(data.user)
           Result.Success(data.user)
         } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+          Result.Error(error.toRemoteExceptionOrUnknown())
         }
       }
       is CallResult.Error -> {
@@ -54,12 +57,14 @@ internal class AuthRepositoryImpl @Inject constructor(
     return when (val apiResult = remoteDataManager.validateAccessToken(session.accessToken)) {
       is CallResult.Result -> {
         val data: AuthData? = apiResult.apiResponse.data
+        val error: ApiError? = apiResult.apiResponse.error
+
         if (apiResult.apiResponse.success && data != null) {
           localDbManager.saveSession(data.user.id, data.accessToken)
           localDbManager.saveUser(data.user)
           Result.Success(data.user)
         } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+          Result.Error(error.toRemoteExceptionOrUnknown())
         }
       }
       is CallResult.Error -> {
@@ -77,11 +82,12 @@ internal class AuthRepositoryImpl @Inject constructor(
     return when (val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)) {
       is CallResult.Result -> {
         val data: Session? = apiResult.apiResponse.data
+        val error: ApiError? = apiResult.apiResponse.error
         if (apiResult.apiResponse.success && data != null) {
           localDbManager.saveSession(data.userId, data.accessToken)
           Result.Success(Unit)
         } else {
-          Result.Error(RemoteException.fromApiError(apiResult.apiResponse.error))
+          Result.Error(error.toRemoteExceptionOrUnknown())
         }
       }
       is CallResult.Error -> {

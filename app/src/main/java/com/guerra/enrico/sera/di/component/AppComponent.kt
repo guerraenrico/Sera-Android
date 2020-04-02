@@ -5,7 +5,6 @@ import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
-import com.guerra.enrico.sera.di.module.SystemServiceModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
 import com.guerra.enrico.workers.di.WorkersModule
 import dagger.BindsInstance
@@ -26,6 +25,7 @@ import javax.inject.Singleton
     ActivityBindingModule::class,
     ViewModelModule::class,
     RetrofitModule::class,
+    DomainModule::class,
     WorkersModule::class
   ]
 )

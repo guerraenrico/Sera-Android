@@ -5,7 +5,7 @@
 
         <variable
             name="category"
-            type="com.guerra.enrico.sera.data.models.todos.Category" />
+            type="com.guerra.enrico.models.todos.Category" />
     </data>
 
     <TextView

@@ -1,7 +1,6 @@
 package com.guerra.enrico.workers
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.guerra.enrico.base.logger.Logger
@@ -10,16 +9,15 @@ import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.workers.di.ChildWorkerFactory
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import timber.log.Timber
 
 /**
  * Created by enrico
  * on 17/12/2018.
  */
 class SyncTodosWorker @AssistedInject constructor(
-        @Assisted context: Context,
-        @Assisted params: WorkerParameters,
-        private val syncTasksAndCategories: SyncTasksAndCategories,
+  @Assisted context: Context,
+  @Assisted params: WorkerParameters,
+  private val syncTasksAndCategories: SyncTasksAndCategories,
   private val logger: Logger
 ) : CoroutineWorker(context, params) {
   companion object {

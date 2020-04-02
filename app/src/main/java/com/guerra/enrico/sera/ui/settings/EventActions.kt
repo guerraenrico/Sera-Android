@@ -7,5 +7,5 @@ import com.guerra.enrico.models.Setting
  * on 09/03/2020.
  */
 interface EventActions {
-  fun onSettingClick(setting: com.guerra.enrico.models.Setting)
+  fun onSettingClick(setting: Setting)
 }

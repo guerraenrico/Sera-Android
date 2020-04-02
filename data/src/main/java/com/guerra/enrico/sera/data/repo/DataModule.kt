@@ -4,6 +4,8 @@ import com.guerra.enrico.local.LocalModule
 import com.guerra.enrico.remote.RemoteModule
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.auth.AuthRepositoryImpl
+import com.guerra.enrico.sera.data.repo.settings.SettingsRepository
+import com.guerra.enrico.sera.data.repo.settings.SettingsRepositoryImpl
 import com.guerra.enrico.sera.data.repo.sync.SyncRepository
 import com.guerra.enrico.sera.data.repo.sync.SyncRepositoryImpl
 import com.guerra.enrico.sera.data.repo.todos.category.CategoryRepository
@@ -46,4 +48,9 @@ class DataModule {
   @Singleton
   internal fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository =
     suggestionRepository
+
+  @Provides
+  @Singleton
+  internal fun provideSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository =
+    settingsRepository
 }

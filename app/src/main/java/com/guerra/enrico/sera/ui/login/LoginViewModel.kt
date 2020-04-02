@@ -18,8 +18,8 @@ class LoginViewModel @Inject constructor(
   private val signIn: SignIn
 ) : BaseViewModel() {
 
-  private val _user: MediatorLiveData<Result<com.guerra.enrico.models.User>> = MediatorLiveData()
-  val user: LiveData<Result<com.guerra.enrico.models.User>>
+  private val _user: MediatorLiveData<Result<User>> = MediatorLiveData()
+  val user: LiveData<Result<User>>
     get() = _user
 
   fun onCodeReceived(code: String) {

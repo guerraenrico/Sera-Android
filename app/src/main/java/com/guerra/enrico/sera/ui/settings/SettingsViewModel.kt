@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.domain.interactors.settings.Settings
-import com.guerra.enrico.models.Setting
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.settings.presentation.Option
+import com.guerra.enrico.sera.ui.settings.presentation.toOption
 import javax.inject.Inject
 
 /**

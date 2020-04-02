@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.guerra.enrico.sera.R
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.succeeded
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.add.TodoAddViewModel
 import kotlinx.android.synthetic.main.fragment_todo_add_schedule.*
@@ -54,11 +55,10 @@ class ScheduleFragment : BaseFragment() {
   }
 
   private fun observeCreateTask() {
-    viewModel.createdTaskResult.observe(this, androidx.lifecycle.Observer { result ->
-      if (result == null) return@Observer
+    observe(viewModel.createdTaskResult) { result ->
       if (result is Result.Loading) {
         showOverlayLoader()
-        return@Observer
+        return@observe
       }
       hideOverlayLoader()
       if (result.succeeded) {
@@ -71,9 +71,9 @@ class ScheduleFragment : BaseFragment() {
               ?: "An error occur while creating the task", it
           )
         }
-
       }
-    })
+
+    }
   }
 
   private fun showDatePicker() {

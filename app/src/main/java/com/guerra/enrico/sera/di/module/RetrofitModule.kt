@@ -3,7 +3,6 @@ package com.guerra.enrico.sera.di.module
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.guerra.enrico.sera.BuildConfig
-import com.guerra.enrico.remote.Api
 import dagger.Module
 import dagger.Provides
 import okhttp3.*
@@ -17,10 +16,6 @@ import java.util.concurrent.TimeUnit
  */
 @Module(includes = [AppModule::class])
 class RetrofitModule {
-  @Provides
-  fun provideApi(retrofit: Retrofit): com.guerra.enrico.remote.Api = retrofit.create(
-    com.guerra.enrico.remote.Api::class.java)
-
   @Provides
   fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit = Retrofit.Builder()
           .baseUrl(BuildConfig.ApiBaseUri)

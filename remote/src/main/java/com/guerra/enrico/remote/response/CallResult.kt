@@ -1,7 +1,5 @@
 package com.guerra.enrico.remote.response
 
-import com.guerra.enrico.base.exceptions.RemoteException
-import java.lang.Exception
 import com.guerra.enrico.base.Result as Res
 
 /**
@@ -29,7 +27,7 @@ sealed class CallResult<out R> {
         if (data != null) {
           Res.Success(data)
         } else {
-          Res.Error(RemoteException.fromApiError(apiResponse.error))
+          Res.Error(apiResponse.error.toRemoteExceptionOrUnknown())
         }
       }
       is Error -> Res.Error(exception)
