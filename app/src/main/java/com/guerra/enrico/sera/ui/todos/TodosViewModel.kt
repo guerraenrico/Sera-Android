@@ -91,7 +91,7 @@ class TodosViewModel @Inject constructor(
   fun onRefreshData() {
     viewModelScope.launch {
       _swipeRefresh.value = true
-      syncTodos()
+      syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
       _swipeRefresh.value = false
     }
   }

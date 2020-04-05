@@ -24,8 +24,8 @@ class LoginViewModel @Inject constructor(
 
   fun onCodeReceived(code: String) {
     viewModelScope.launch {
-      _user.postValue(Result.Loading)
-      _user.postValue(signIn(code))
+      _user.value = Result.Loading
+      _user.value = signIn(code)
     }
   }
 }

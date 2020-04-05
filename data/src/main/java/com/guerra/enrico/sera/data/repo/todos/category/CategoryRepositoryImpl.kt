@@ -1,13 +1,15 @@
 package com.guerra.enrico.sera.data.repo.todos.category
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.local.db.LocalDbManager
+import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.CallResult
+import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
+import com.guerra.enrico.sera.data.repo.withAccessToken
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -19,6 +21,26 @@ class CategoryRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
+
+  override suspend fun pullCategories(): Result<Unit> = localDbManager.withAccessToken {
+    // TODO: should check if clean is necessary; for now since is use only after login is safe to do it
+    localDbManager.clearCategories()
+
+    return@withAccessToken when (val apiResult = remoteDataManager.getCategories(it)) {
+      is CallResult.Result -> {
+        val data = apiResult.apiResponse.data
+        if (apiResult.apiResponse.success && data != null) {
+          localDbManager.saveCategories(data)
+          Result.Success(Unit)
+        } else {
+          Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
+        }
+      }
+      is CallResult.Error -> {
+        Result.Error(apiResult.exception)
+      }
+    }
+  }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
     localDbManager.saveCategory(category)

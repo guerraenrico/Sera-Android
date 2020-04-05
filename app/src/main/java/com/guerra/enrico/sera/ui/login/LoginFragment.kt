@@ -26,12 +26,17 @@ import javax.inject.Inject
  * Created by enrico
  * on 23/12/2019.
  */
-const val REQUEST_CODE_SIGNIN = 9003
 
 class LoginFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+
+  companion object {
+    private const val REQUEST_CODE_SIGN_IN = 9003
+
+    fun newInstance() = LoginFragment()
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -45,21 +50,19 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun initView() {
-    root.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-      or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-      or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
-
     val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
       .requestServerAuthCode(BuildConfig.OAUTH2_CLIENT_ID)
       .build()
     val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
     signInButton.setOnClickListener {
-      startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGNIN)
+      startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGN_IN)
     }
     observe(viewModel.user) { userResult ->
       if (userResult == Result.Loading) {
+        showOverlayLoader()
         return@observe
       }
+      hideOverlayLoader()
       if (userResult.succeeded) {
         gotoMainActivity()
       }
@@ -74,7 +77,7 @@ class LoginFragment : BaseFragment() {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == REQUEST_CODE_SIGNIN) {
+    if (requestCode == REQUEST_CODE_SIGN_IN) {
       handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
     }
   }

@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface TaskRepository {
 
+  suspend fun pullTasks(): Result<Unit>
+
   suspend fun insertTask(task: Task): Result<Task>
 
   suspend fun deleteTask(task: Task): Result<Int>

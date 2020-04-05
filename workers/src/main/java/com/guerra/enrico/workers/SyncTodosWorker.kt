@@ -27,7 +27,7 @@ class SyncTodosWorker @AssistedInject constructor(
 
   override suspend fun doWork(): Result {
     logger.i(SYNC_TAG, "worker started")
-    syncTodos()
+    syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
     return Result.success()
   }
 

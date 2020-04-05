@@ -20,10 +20,10 @@ class SyncTodos @Inject constructor(
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
-) : Interactor<Unit, Unit>() {
+) : Interactor<SyncTodos.SyncTodosParams, Unit>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: Unit) {
+  override suspend fun doWork(params: SyncTodosParams) {
     val syncActions = syncRepository.getSyncActions()
     for (action in syncActions) {
       val result = when (action.entityName) {
@@ -39,5 +39,13 @@ class SyncTodos @Inject constructor(
         syncRepository.deleteSyncAction(action)
       }
     }
+    if (params.forcePullData) {
+      categoryRepository.pullCategories()
+      tasksRepository.pullTasks()
+    }
   }
+
+  data class SyncTodosParams(
+    val forcePullData: Boolean
+  )
 }

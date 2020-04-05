@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CategoryRepository {
 
+  suspend fun pullCategories(): Result<Unit>
+
   suspend fun insertCategory(category: Category): Result<Category>
 
   suspend fun deleteCategory(category: Category): Result<Int>
