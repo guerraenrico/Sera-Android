@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
  * Created by enrico
  * on 26/12/2018.
  */
-@Module(includes = [AppModule::class])
+@Module
 class RetrofitModule {
   @Provides
   fun provideRetrofit(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit = Retrofit.Builder()

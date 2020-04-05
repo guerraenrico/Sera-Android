@@ -6,9 +6,7 @@ import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.soloader.SoLoader
-import com.guerra.enrico.base.PreferencesFile
 import com.guerra.enrico.sera.appinitializers.AppInitializers
 import com.guerra.enrico.sera.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
@@ -28,10 +26,6 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
   @Inject
   lateinit var workConfiguration: Configuration
 
-  @Inject
-  @PreferencesFile
-  lateinit var preferenceFile: String
-
   override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
     return DaggerAppComponent.factory().create(this)
   }
@@ -48,7 +42,7 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
     if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
       val client = AndroidFlipperClient.getInstance(this)
       client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-      client.addPlugin(SharedPreferencesFlipperPlugin(this, preferenceFile))
+//      client.addPlugin(SharedPreferencesFlipperPlugin(this, preferenceFile))
       client.addPlugin(DatabasesFlipperPlugin(this));
       client.start()
     }

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.utils
+package com.guerra.enrico.base.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

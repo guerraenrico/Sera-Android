@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.utils
+package com.guerra.enrico.base.utils
 
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher

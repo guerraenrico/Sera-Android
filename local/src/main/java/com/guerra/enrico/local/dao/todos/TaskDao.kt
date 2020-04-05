@@ -11,7 +11,7 @@ import java.util.*
  * on 02/06/2018.
  */
 @Dao
-internal interface TaskDao {
+interface TaskDao {
   @Query("SELECT * FROM Task  WHERE completed = :completed")
   fun observe(
     completed: Boolean

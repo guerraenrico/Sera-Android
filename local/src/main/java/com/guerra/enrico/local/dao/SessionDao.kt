@@ -11,7 +11,7 @@ import com.guerra.enrico.models.Session
  * on 16/10/2018.
  */
 @Dao
-internal interface SessionDao {
+interface SessionDao {
   @Query("SELECT * FROM Session ORDER BY createdAt DESC LIMIT 1")
   suspend fun getFirst(): Session
 

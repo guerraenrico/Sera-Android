@@ -3,7 +3,6 @@ package com.guerra.enrico.workers.di
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.guerra.enrico.domain.DomainModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,7 +11,7 @@ import javax.inject.Singleton
  * Created by enrico
  * on 04/12/2019.
  */
-@Module(includes = [WorkersModuleBinds::class, WorkersAssistedModule::class, DomainModule::class])
+@Module(includes = [WorkersModuleBinds::class, WorkersAssistedModule::class])
 class WorkersModule {
   @Provides
   @Singleton

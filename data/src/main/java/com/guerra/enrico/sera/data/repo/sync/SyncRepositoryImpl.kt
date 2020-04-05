@@ -8,7 +8,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 01/04/2020.
  */
-internal class SyncRepositoryImpl @Inject constructor(
+class SyncRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager
 ) : SyncRepository {
   override suspend fun getSyncActions(): List<SyncAction> {

@@ -20,8 +20,7 @@ class SyncTasksAndCategories @Inject constructor(
   private val syncRepository: SyncRepository,
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
-  coroutineDispatcherProvider: CoroutineDispatcherProvider,
-  private val logger: Logger
+  coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : Interactor<Unit, Unit>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
@@ -40,7 +39,7 @@ class SyncTasksAndCategories @Inject constructor(
       if (result.succeeded) {
         syncRepository.deleteSyncAction(action)
       } else {
-        logger.e("SyncTasksAndCategories", "fail to sync action: $action")
+//        logger.e("SyncTasksAndCategories", "fail to sync action: $action")
       }
     }
   }

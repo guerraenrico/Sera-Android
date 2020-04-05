@@ -26,31 +26,31 @@ import javax.inject.Singleton
 class DataModule {
   @Provides
   @Singleton
-  internal fun provideSyncRepository(syncRepository: SyncRepositoryImpl): SyncRepository =
+  fun provideSyncRepository(syncRepository: SyncRepositoryImpl): SyncRepository =
     syncRepository
 
   @Provides
   @Singleton
-  internal fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository =
+  fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository =
     authRepository
 
   @Provides
   @Singleton
-  internal fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository =
+  fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository =
     categoryRepository
 
   @Provides
   @Singleton
-  internal fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository =
+  fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository =
     taskRepository
 
   @Provides
   @Singleton
-  internal fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository =
+  fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository =
     suggestionRepository
 
   @Provides
   @Singleton
-  internal fun provideSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository =
+  fun provideSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository =
     settingsRepository
 }

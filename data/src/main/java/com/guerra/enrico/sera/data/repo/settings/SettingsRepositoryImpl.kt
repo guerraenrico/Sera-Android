@@ -8,7 +8,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 01/04/2020.
  */
-internal class SettingsRepositoryImpl @Inject constructor(
+class SettingsRepositoryImpl @Inject constructor(
   private val preferencesManager: PreferencesManager
 ) : SettingsRepository {
   override fun getSettings(): List<Setting> {

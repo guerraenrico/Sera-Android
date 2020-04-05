@@ -22,7 +22,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 14/10/2018.
  */
-internal class AuthRepositoryImpl @Inject constructor(
+class AuthRepositoryImpl @Inject constructor(
   private val remoteDataManager: RemoteDataManager,
   private val localDbManager: LocalDbManager,
   private val connectionHelper: ConnectionHelper

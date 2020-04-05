@@ -6,6 +6,7 @@ import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.CallResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -14,9 +15,9 @@ import javax.inject.Inject
  * Created by enrico
  * on 04/06/2018.
  */
-internal class CategoryRepositoryImpl @Inject constructor(
+class CategoryRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
-  private val remoteDataManager: com.guerra.enrico.remote.RemoteDataManager
+  private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
 
   override suspend fun insertCategory(category: Category): Result<Category> {

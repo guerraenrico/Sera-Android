@@ -1,14 +1,11 @@
-package com.guerra.enrico.sera.data.dao
+package com.guerra.enrico.local.dao
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.guerra.enrico.local.dao.todos.CategoryDao
+import com.guerra.enrico.base.utils.TestCoroutineRule
 import com.guerra.enrico.local.db.SeraDatabase
-import com.guerra.enrico.sera.data.*
-import com.guerra.enrico.sera.utils.TestCoroutineRule
-import kotlinx.coroutines.flow.first
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.*
 import org.junit.runner.RunWith
@@ -22,7 +19,7 @@ import java.io.IOException
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
-class CategoryDaoTest {
+class UserDaoTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -30,7 +27,7 @@ class CategoryDaoTest {
   val testCoroutineRule = TestCoroutineRule()
 
   private lateinit var database: SeraDatabase
-  private lateinit var sut: CategoryDao
+  private lateinit var sut: UserDao
 
   @Before
   fun setup() {
@@ -38,8 +35,7 @@ class CategoryDaoTest {
     database = Room.inMemoryDatabaseBuilder(context, SeraDatabase::class.java)
       .allowMainThreadQueries()
       .build()
-
-    sut = database.categoryDao()
+    sut = database.userDao()
   }
 
   @After
@@ -48,23 +44,15 @@ class CategoryDaoTest {
     database.close()
   }
 
-  @Test
-  fun insertAll() = testCoroutineRule.runBlockingTest {
-    sut.insertAll(categories)
-    Assert.assertThat(sut.observeAll().first().first(), `is`(category1))
-  }
-
-  @Test
-  fun insertOne() = testCoroutineRule.runBlockingTest {
-    sut.insertOne(category3)
-    Assert.assertTrue(sut.observeAll().first().contains(category3))
-  }
-
-  @Test
-  fun clear() = testCoroutineRule.runBlockingTest {
-    sut.insertOne(category3)
-    sut.clear()
-    Assert.assertThat(sut.observeAll().first(), `is`(emptyList()))
-  }
-
+//  @Test
+//  fun insert() = testCoroutineRule.runBlockingTest {
+//    sut.insert(user1)
+//    Assert.assertThat(sut.getFirst(userId = user1.id), `is`(user1))
+//  }
+//
+//  @Test
+//  fun clear() = testCoroutineRule.runBlockingTest {
+//    sut.clear()
+//    Assert.assertNull(sut.getFirst(userId = user1.id))
+//  }
 }

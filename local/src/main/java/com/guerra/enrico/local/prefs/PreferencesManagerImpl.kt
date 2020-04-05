@@ -2,14 +2,14 @@ package com.guerra.enrico.local.prefs
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.guerra.enrico.base.PreferencesFile
+import com.guerra.enrico.local.PreferencesFile
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 16/10/2018.
  */
-internal class PreferencesManagerImpl @Inject constructor(
+class PreferencesManagerImpl @Inject constructor(
   context: Context,
   @PreferencesFile preferenceFile: String
 ) : PreferencesManager {

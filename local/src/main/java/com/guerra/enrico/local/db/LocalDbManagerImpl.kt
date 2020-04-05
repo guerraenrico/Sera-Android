@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 31/05/2018.
  */
-internal class LocalDbManagerImpl @Inject constructor(
+class LocalDbManagerImpl @Inject constructor(
   private val database: SeraDatabase
 ) : LocalDbManager {
 

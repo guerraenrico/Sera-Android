@@ -9,7 +9,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 31/03/2020.
  */
-internal class SuggestionRepositoryImpl @Inject constructor(
+class SuggestionRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager
 ) : SuggestionRepository {
   override fun getSuggestions(text: String): Flow<List<Suggestion>> {

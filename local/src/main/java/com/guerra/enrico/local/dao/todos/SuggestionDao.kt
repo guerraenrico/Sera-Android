@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  * on 30/03/2020.
  */
 @Dao
-internal interface SuggestionDao {
+interface SuggestionDao {
   @Query("SELECT * FROM Suggestion  WHERE text LIKE :text  ORDER BY rating DESC")
   fun observe(text: String): Flow<List<Suggestion>>
 

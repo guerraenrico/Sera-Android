@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  * on 02/06/2018.
  */
 @Dao
-internal interface CategoryDao {
+interface CategoryDao {
   @Query("SELECT * FROM Category")
   fun observeAll(): Flow<List<Category>>
 

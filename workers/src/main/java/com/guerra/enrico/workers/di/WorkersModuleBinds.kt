@@ -1,6 +1,7 @@
 package com.guerra.enrico.workers.di
 
 import com.guerra.enrico.base.appinitializers.AppInitializer
+import com.guerra.enrico.domain.DomainModule
 import com.guerra.enrico.workers.SyncTodosWorker
 import com.guerra.enrico.workers.TodosWorker
 import com.guerra.enrico.workers.TodosWorkerImpl

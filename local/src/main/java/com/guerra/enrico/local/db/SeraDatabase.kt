@@ -30,7 +30,7 @@ import com.guerra.enrico.models.todos.Task
   version = 1
 )
 @TypeConverters(DateConverter::class, CategoryConverter::class, OperationConverter::class)
-internal abstract class SeraDatabase : RoomDatabase() {
+abstract class SeraDatabase : RoomDatabase() {
   abstract fun sessionDao(): SessionDao
 
   abstract fun userDao(): UserDao

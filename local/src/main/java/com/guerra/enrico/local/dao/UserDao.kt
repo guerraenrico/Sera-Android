@@ -11,7 +11,7 @@ import com.guerra.enrico.models.User
  * on 16/10/2018.
  */
 @Dao
-internal interface UserDao {
+interface UserDao {
   @Query("SELECT * FROM User WHERE id = :userId LIMIT 1")
   suspend fun getFirst(userId: String): User
 

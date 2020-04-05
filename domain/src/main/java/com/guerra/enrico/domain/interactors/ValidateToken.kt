@@ -1,10 +1,9 @@
 package com.guerra.enrico.domain.interactors
 
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.sera.data.repo.auth.AuthRepository
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
-import com.guerra.enrico.domain.invoke
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -14,7 +13,6 @@ import javax.inject.Inject
  */
 class ValidateToken @Inject constructor(
   private val authRepository: AuthRepository,
-  private val syncTasksAndCategories: SyncTasksAndCategories,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : Interactor<Unit, Result<com.guerra.enrico.models.User>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
@@ -24,7 +22,7 @@ class ValidateToken @Inject constructor(
       authRepository.validateAccessToken()
     }).first()
     if (result is Result.Success) {
-      syncTasksAndCategories()
+//      syncTasksAndCategories() TODO: Replace with fetch all data or maybe sync is fine
     }
     return result
   }

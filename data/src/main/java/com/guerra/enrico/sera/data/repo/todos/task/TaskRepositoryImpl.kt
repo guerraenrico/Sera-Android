@@ -17,7 +17,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 21/08/2018.
  */
-internal class TaskRepositoryImpl @Inject constructor(
+class TaskRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {

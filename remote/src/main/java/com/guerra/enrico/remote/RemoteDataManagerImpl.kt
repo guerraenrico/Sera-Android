@@ -26,7 +26,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 02/06/2018.
  */
-internal class RemoteDataManagerImpl @Inject constructor(
+class RemoteDataManagerImpl @Inject constructor(
   private val api: Api,
   private val gson: Gson,
   private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

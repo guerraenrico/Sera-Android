@@ -1,7 +1,6 @@
 package com.guerra.enrico.local
 
 import android.content.Context
-import com.guerra.enrico.base.PreferencesFile
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.local.db.LocalDbManagerImpl
 import com.guerra.enrico.local.db.SeraDatabase
@@ -19,21 +18,21 @@ import javax.inject.Singleton
 class LocalModule {
   @Provides
   @Singleton
-  internal fun provideSeraDatabase(context: Context): SeraDatabase =
+  fun provideSeraDatabase(context: Context): SeraDatabase =
     SeraDatabase.getInstance(context)
 
   @Provides
   @Singleton
-  internal fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager =
+  fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager =
     localDbManager
 
   @Provides
   @Singleton
-  internal fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager =
+  fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager =
     preferencesManager
 
   @Provides
   @Singleton
   @PreferencesFile
-  internal fun providePreferencesFile(): String = "com.guerra.enrico.sera.prefs"
+  fun providePreferencesFile(): String = "com.guerra.enrico.sera.prefs"
 }

@@ -8,5 +8,4 @@ import dagger.Module
  * on 01/04/2020.
  */
 @Module(includes = [DataModule::class])
-class DomainModule {
-}
+class DomainModule

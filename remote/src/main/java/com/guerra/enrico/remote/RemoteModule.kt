@@ -12,10 +12,10 @@ import javax.inject.Singleton
 @Module
 class RemoteModule {
   @Provides
-  internal fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+  fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
   @Provides
   @Singleton
-  internal fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager =
+  fun provideRemoteDataManager(remoteDataManager: RemoteDataManagerImpl): RemoteDataManager =
     remoteDataManager
 }

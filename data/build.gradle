@@ -52,4 +52,16 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+
+    testImplementation "androidx.test:core:$testCoreVersion"
+    testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 }
