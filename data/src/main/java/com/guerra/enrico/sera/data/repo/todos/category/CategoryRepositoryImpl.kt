@@ -11,6 +11,7 @@ import com.guerra.enrico.remote.response.CallResult
 import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -22,11 +23,8 @@ class CategoryRepositoryImpl @Inject constructor(
   private val remoteDataManager: RemoteDataManager
 ) : CategoryRepository {
 
-  override suspend fun pullCategories(): Result<Unit> = localDbManager.withAccessToken {
-    // TODO: should check if clean is necessary; for now since is use only after login is safe to do it
-    localDbManager.clearCategories()
-
-    return@withAccessToken when (val apiResult = remoteDataManager.getCategories(it)) {
+  override suspend fun pullCategories(from: Date?): Result<Unit> = localDbManager.withAccessToken {
+    return@withAccessToken when (val apiResult = remoteDataManager.getCategories(it, from)) {
       is CallResult.Result -> {
         val data = apiResult.apiResponse.data
         if (apiResult.apiResponse.success && data != null) {

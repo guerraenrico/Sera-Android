@@ -9,6 +9,7 @@
     <string name="title_results">Results</string>
     <string name="title_settings">Settings</string>
     <string name="title_search">Search</string>
+    <string name="title_sync">Sync</string>
 
     <string name="title_add_todo">Add Todo</string>
     <string name="title_search_todo">Search Todo</string>
@@ -64,8 +65,9 @@
     <string name="desc_icon_mark_task_as_completed">Check off task</string>
 
     <!-- Tips -->
-    <string name="learn_to_work_on_yourself">Learn to work harder on your self than you do on your job</string>
-    <string name="wish_your_were_better">Don\'t wish it was easer, wish you were better</string>
+    <string name="tip_learn_to_work_on_yourself">Learn to work harder on your self than you do on your job</string>
+    <string name="tip_wish_your_were_better">Don\'t wish it was easier, wish you were better</string>
+    <string name="tip_dont_work_for_money">Don\'t work for money, learn to make money work for you</string>
 
     <!-- Hints -->
     <string name="hint_search">Search</string>

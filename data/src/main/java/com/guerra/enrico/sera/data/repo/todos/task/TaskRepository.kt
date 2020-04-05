@@ -5,6 +5,7 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 /**
  * Created by enrico
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface TaskRepository {
 
-  suspend fun pullTasks(): Result<Unit>
+  suspend fun pullTasks(from: Date?): Result<Unit>
 
   suspend fun insertTask(task: Task): Result<Task>
 

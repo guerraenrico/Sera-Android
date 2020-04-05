@@ -15,11 +15,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.databinding.FragmentLoginBinding
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 /**
@@ -32,6 +31,8 @@ class LoginFragment : BaseFragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
 
+  private lateinit var binding: FragmentLoginBinding
+
   companion object {
     private const val REQUEST_CODE_SIGN_IN = 9003
 
@@ -42,7 +43,12 @@ class LoginFragment : BaseFragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? = inflater.inflate(R.layout.fragment_login, container, false)
+  ): View? {
+    binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
+      lifecycleOwner = viewLifecycleOwner
+    }
+    return binding.root
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -54,24 +60,22 @@ class LoginFragment : BaseFragment() {
       .requestServerAuthCode(BuildConfig.OAUTH2_CLIENT_ID)
       .build()
     val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
-    signInButton.setOnClickListener {
+    binding.signInButton.setOnClickListener {
       startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGN_IN)
     }
-    observe(viewModel.user) { userResult ->
-      if (userResult == Result.Loading) {
-        showOverlayLoader()
-        return@observe
+    observe(viewModel.user) {
+      when (it) {
+        is Result.Loading -> showOverlayLoader()
+        is Result.Success -> {
+          hideOverlayLoader()
+          gotoMainActivity()
+        }
+        is Result.Error -> {
+          hideOverlayLoader()
+          showSnackbar(it.exception.message ?: resources.getString(R.string.error_google_signin))
+        }
       }
-      hideOverlayLoader()
-      if (userResult.succeeded) {
-        gotoMainActivity()
-      }
-      if (userResult is Result.Error) {
-        showSnackbar(
-          userResult.exception.message
-            ?: resources.getString(R.string.error_google_signin)
-        )
-      }
+
     }
   }
 
@@ -92,7 +96,6 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    findNavController().navigate(R.id.main_activity)
-    requireActivity().finish()
+    findNavController().navigate(LoginFragmentDirections.actionLoginToSync())
   }
 }

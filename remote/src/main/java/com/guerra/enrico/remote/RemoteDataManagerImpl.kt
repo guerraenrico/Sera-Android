@@ -20,6 +20,7 @@ import retrofit2.HttpException
 import java.io.Reader
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -45,12 +46,8 @@ class RemoteDataManagerImpl @Inject constructor(
 
   /* Categories */
 
-  override suspend fun getCategories(
-    accessToken: String,
-    limit: Int,
-    skip: Int
-  ): CallResult<List<Category>> =
-    callAndCatch { api.getCategories(accessToken, limit, skip) }
+  override suspend fun getCategories(accessToken: String, from: Date?): CallResult<List<Category>> =
+    callAndCatch { api.getCategories(accessToken, from?.time) }
 
   override suspend fun searchCategory(
     accessToken: String,
@@ -62,65 +59,27 @@ class RemoteDataManagerImpl @Inject constructor(
     accessToken: String,
     category: Category
   ): CallResult<Category> =
-    callAndCatch {
-      api.insertCategory(
-        accessToken,
-        CategoryParams(category)
-      )
-    }
+    callAndCatch { api.insertCategory(accessToken, CategoryParams(category)) }
 
   override suspend fun deleteCategory(accessToken: String, id: String): CallResult<Any> =
     callAndCatch { api.deleteCategory(accessToken, id) }
 
   /* Tasks */
 
-  override suspend fun getTasks(
-    accessToken: String,
-    categoriesId: List<String>,
-    completed: Boolean,
-    limit: Int,
-    skip: Int
-  ): CallResult<List<Task>> =
-    callAndCatch {
-      api.getTasks(
-        accessToken,
-        (if (categoriesId.isNotEmpty()) categoriesId else listOf("")).joinToString()
-          .replace("\\s".toRegex(), ""),
-        completed,
-        limit,
-        skip
-      )
-    }
-
-  override suspend fun getAllTasks(accessToken: String): CallResult<List<Task>> =
-    callAndCatch { api.getAllTasks(accessToken) }
+  override suspend fun getTasks(accessToken: String, from: Date?): CallResult<List<Task>> =
+    callAndCatch { api.getTasks(accessToken, from?.time) }
 
   override suspend fun insertTask(accessToken: String, task: Task): CallResult<Task> =
-    callAndCatch {
-      api.insertTask(
-        accessToken,
-        TaskParams(task)
-      )
-    }
+    callAndCatch { api.insertTask(accessToken, TaskParams(task)) }
 
   override suspend fun deleteTask(accessToken: String, id: String): CallResult<Any> =
     callAndCatch { api.deleteTask(accessToken, id) }
 
   override suspend fun updateTask(accessToken: String, task: Task): CallResult<Task> =
-    callAndCatch {
-      api.updateTask(
-        accessToken,
-        TaskParams(task)
-      )
-    }
+    callAndCatch { api.updateTask(accessToken, TaskParams(task)) }
 
   override suspend fun toggleCompleteTask(accessToken: String, task: Task): CallResult<Task> =
-    callAndCatch {
-      api.toggleCompleteTask(
-        accessToken,
-        TaskToggleCompleteParams(task)
-      )
-    }
+    callAndCatch { api.toggleCompleteTask(accessToken, TaskToggleCompleteParams(task)) }
 
   private suspend fun <R> callAndCatch(block: suspend () -> ApiResponse<R>): CallResult<R> =
     runCatching {

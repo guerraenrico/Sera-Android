@@ -1,5 +1,6 @@
 package com.guerra.enrico.domain.interactors.todos
 
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.domain.Interactor
@@ -20,10 +21,25 @@ class SyncTodos @Inject constructor(
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
-) : Interactor<SyncTodos.SyncTodosParams, Unit>() {
+) : Interactor<SyncTodos.SyncTodosParams, Result<Unit>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: SyncTodosParams) {
+  override suspend fun doWork(params: SyncTodosParams): Result<Unit> {
+    syncActions()
+    val lastSync = syncRepository.getLastSyncDate()
+    val categoryResult = categoryRepository.pullCategories(lastSync)
+    if (!categoryResult.succeeded) {
+      return categoryResult
+    }
+    val taskResult = tasksRepository.pullTasks(lastSync)
+    if (!taskResult.succeeded) {
+      return taskResult
+    }
+    syncRepository.saveLastSyncDate()
+    return Result.Success(Unit)
+  }
+
+  private suspend fun syncActions() {
     val syncActions = syncRepository.getSyncActions()
     for (action in syncActions) {
       val result = when (action.entityName) {
@@ -33,15 +49,14 @@ class SyncTodos @Inject constructor(
         Category.ENTITY_NAME -> {
           categoryRepository.syncAction(action)
         }
-        else -> throw IllegalArgumentException("Unsupported sync Entity_NAME: ${action.entityName}")
+        // ignore other entities
+        else -> return
       }
       if (result.succeeded) {
         syncRepository.deleteSyncAction(action)
+      } else {
+        break
       }
-    }
-    if (params.forcePullData) {
-      categoryRepository.pullCategories()
-      tasksRepository.pullTasks()
     }
   }
 

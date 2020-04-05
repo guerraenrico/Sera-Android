@@ -7,7 +7,20 @@
     <fragment
         android:id="@+id/google_login"
         android:name="com.guerra.enrico.sera.ui.login.LoginFragment"
-        android:label="@string/title_results" />
+        android:label="@string/title_login">
+        <action
+            android:id="@+id/action_login_to_sync"
+            app:destination="@id/login_sync" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/login_sync"
+        android:name="com.guerra.enrico.sera.ui.login.SyncFragment"
+        android:label="@string/title_sync">
+        <action
+            android:id="@+id/action_sync_to_login"
+            app:destination="@id/google_login" />
+    </fragment>
 
     <activity
         android:id="@+id/main_activity"

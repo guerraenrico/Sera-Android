@@ -3,7 +3,7 @@ package com.guerra.enrico.domain.interactors
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
-import com.guerra.enrico.domain.interactors.todos.SyncTodos
+import com.guerra.enrico.models.User
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
@@ -14,14 +14,11 @@ import javax.inject.Inject
  */
 class SignIn @Inject constructor(
   private val authRepository: AuthRepository,
-  private val syncTodos: SyncTodos,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
-) : Interactor<String, Result<com.guerra.enrico.models.User>>() {
+) : Interactor<String, Result<User>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: String): Result<com.guerra.enrico.models.User> {
-    val user = authRepository.googleSignInCallback(params)
-    syncTodos(SyncTodos.SyncTodosParams(forcePullData = true))
-    return user
+  override suspend fun doWork(params: String): Result<User> {
+    return authRepository.googleSignInCallback(params)
   }
 }

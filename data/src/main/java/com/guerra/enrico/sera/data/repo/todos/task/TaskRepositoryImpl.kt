@@ -12,6 +12,7 @@ import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -23,11 +24,8 @@ class TaskRepositoryImpl @Inject constructor(
   private val remoteDataManager: RemoteDataManager
 ) : TaskRepository {
 
-  override suspend fun pullTasks(): Result<Unit> = localDbManager.withAccessToken {
-    // TODO: should check if clean is necessary; for now since is use only after login is safe to do it
-    localDbManager.clearTasks()
-
-    return@withAccessToken when (val apiResult = remoteDataManager.getAllTasks(it)) {
+  override suspend fun pullTasks(from: Date?): Result<Unit> = localDbManager.withAccessToken {
+    return@withAccessToken when (val apiResult = remoteDataManager.getTasks(it, from)) {
       is CallResult.Result -> {
         val data = apiResult.apiResponse.data
         if (apiResult.apiResponse.success && data != null) {

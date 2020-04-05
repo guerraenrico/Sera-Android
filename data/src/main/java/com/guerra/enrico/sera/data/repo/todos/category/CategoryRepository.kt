@@ -4,6 +4,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 /**
  * Created by enrico
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CategoryRepository {
 
-  suspend fun pullCategories(): Result<Unit>
+  suspend fun pullCategories(from: Date?): Result<Unit>
 
   suspend fun insertCategory(category: Category): Result<Category>
 

@@ -18,6 +18,10 @@ internal abstract class LoginModule {
   @ContributesAndroidInjector
   abstract fun contributeLoginFragment(): LoginFragment
 
+  @PerFragment
+  @ContributesAndroidInjector
+  abstract fun contributeSyncFragment(): SyncFragment
+
   @Binds
   @IntoMap
   @ViewModelKey(LoginViewModel::class)

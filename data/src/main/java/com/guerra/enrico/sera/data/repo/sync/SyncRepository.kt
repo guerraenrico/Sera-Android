@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera.data.repo.sync
 
 import com.guerra.enrico.models.sync.SyncAction
+import java.util.*
 
 /**
  * Created by enrico
@@ -10,4 +11,7 @@ interface SyncRepository {
   suspend fun getSyncActions(): List<SyncAction>
   suspend fun saveSyncAction(syncAction: SyncAction): Long
   suspend fun deleteSyncAction(syncAction: SyncAction): Int
+
+  fun getLastSyncDate(): Date?
+  fun saveLastSyncDate()
 }

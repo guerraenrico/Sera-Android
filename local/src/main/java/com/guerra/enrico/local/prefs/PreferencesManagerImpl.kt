@@ -3,6 +3,7 @@ package com.guerra.enrico.local.prefs
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.guerra.enrico.local.PreferencesFile
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -24,4 +25,17 @@ class PreferencesManagerImpl @Inject constructor(
   override fun readBoolean(key: String): Boolean {
     return preferences.getBoolean(key, false)
   }
+
+  override fun saveDate(key: String, value: Date) {
+    preferences.edit().putLong(key, value.time).apply()
+  }
+
+  override fun readDate(key: String): Date? {
+    return if (preferences.contains(key)) {
+      Date(preferences.getLong(key, 0))
+    } else {
+      null
+    }
+  }
+
 }

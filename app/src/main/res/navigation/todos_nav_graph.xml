@@ -8,9 +8,9 @@
         android:id="@+id/fragment_todos"
         android:name="com.guerra.enrico.sera.ui.todos.TodosFragment"
         android:label="@string/title_todos">
-        <action android:id="@+id/action_todos_to_todo_search"
-            app:destination="@id/todo_search">
-        </action>
+        <action
+            android:id="@+id/action_todos_to_todo_search"
+            app:destination="@id/todo_search" />
     </fragment>
 
     <activity
