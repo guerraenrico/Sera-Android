@@ -1,4 +1,4 @@
-package com.guerra.enrico.domain.interactors
+package com.guerra.enrico.domain.interactors.todos
 
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result

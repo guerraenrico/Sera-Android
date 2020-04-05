@@ -1,4 +1,4 @@
-package com.guerra.enrico.domain.observers
+package com.guerra.enrico.domain.observers.todos
 
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.models.todos.Category

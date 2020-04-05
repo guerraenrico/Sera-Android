@@ -8,11 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.ifSucceeded
-import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
-import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
+import com.guerra.enrico.domain.interactors.todos.SyncTodos
+import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
-import com.guerra.enrico.domain.observers.ObserveCategories
-import com.guerra.enrico.domain.observers.ObserveTasks
+import com.guerra.enrico.domain.observers.todos.ObserveCategories
+import com.guerra.enrico.domain.observers.todos.ObserveTasks
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
@@ -34,7 +34,7 @@ class TodosViewModel @Inject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
-  private val syncTasksAndCategories: SyncTasksAndCategories
+  private val syncTodos: SyncTodos
 ) : BaseViewModel(), EventActions {
 
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
@@ -91,7 +91,7 @@ class TodosViewModel @Inject constructor(
   fun onRefreshData() {
     viewModelScope.launch {
       _swipeRefresh.value = true
-      syncTasksAndCategories()
+      syncTodos()
       _swipeRefresh.value = false
     }
   }

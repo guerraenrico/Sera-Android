@@ -8,9 +8,9 @@ import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
-import com.guerra.enrico.domain.interactors.InsertCategory
-import com.guerra.enrico.domain.interactors.InsertTask
-import com.guerra.enrico.domain.observers.ObserveCategories
+import com.guerra.enrico.domain.interactors.todos.InsertCategory
+import com.guerra.enrico.domain.interactors.todos.InsertTask
+import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.todos.presentation.CategoryPresentation
 import com.guerra.enrico.sera.ui.todos.add.steps.StepEnum

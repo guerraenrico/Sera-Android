@@ -1,11 +1,9 @@
-package com.guerra.enrico.domain.interactors
+package com.guerra.enrico.domain.interactors.todos
 
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
-import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
-import com.guerra.enrico.sera.data.repo.todos.category.CategoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -13,15 +11,20 @@ import javax.inject.Inject
  * Created by enrico
  * on 12/11/2019.
  */
-class InsertCategory @Inject constructor(
+class ValidateToken @Inject constructor(
   private val authRepository: AuthRepository,
-  private val categoryRepository: CategoryRepository,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
-) : Interactor<Category, Result<Category>>() {
+) : Interactor<Unit, Result<com.guerra.enrico.models.User>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: Category): Result<Category> =
-    authRepository.refreshTokenIfNotAuthorized({
-      categoryRepository.insertCategory(params)
+  override suspend fun doWork(params: Unit): Result<com.guerra.enrico.models.User> {
+    val result = authRepository.refreshTokenIfNotAuthorized({
+      authRepository.validateAccessToken()
     }).first()
+    if (result is Result.Success) {
+//      syncTasksAndCategories() TODO: Replace with fetch all data or maybe sync is fine
+    }
+    return result
+  }
+
 }

@@ -1,19 +1,5 @@
 package com.guerra.enrico.sera.viewModel.todos
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.guerra.enrico.domain.interactors.ApplyTaskUpdateRemote
-import com.guerra.enrico.domain.interactors.SyncTasksAndCategories
-import com.guerra.enrico.domain.interactors.UpdateTaskCompleteState
-import com.guerra.enrico.domain.observers.ObserveCategories
-import com.guerra.enrico.domain.observers.ObserveTasks
-import com.guerra.enrico.sera.ui.todos.TodosViewModel
-import com.guerra.enrico.base.utils.TestCoroutineRule
-import io.mockk.coEvery
-import io.mockk.mockk
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-
 /**
  * Created by enrico
  * on 03/09/2019.

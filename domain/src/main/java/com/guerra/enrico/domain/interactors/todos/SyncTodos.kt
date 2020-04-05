@@ -1,7 +1,6 @@
-package com.guerra.enrico.domain.interactors
+package com.guerra.enrico.domain.interactors.todos
 
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.todos.Category
@@ -16,7 +15,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 10/11/2019.
  */
-class SyncTasksAndCategories @Inject constructor(
+class SyncTodos @Inject constructor(
   private val syncRepository: SyncRepository,
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
@@ -38,14 +37,7 @@ class SyncTasksAndCategories @Inject constructor(
       }
       if (result.succeeded) {
         syncRepository.deleteSyncAction(action)
-      } else {
-//        logger.e("SyncTasksAndCategories", "fail to sync action: $action")
       }
     }
   }
-
-  companion object {
-    private const val TAG = "SyncTasksAndCategories"
-  }
-
 }
