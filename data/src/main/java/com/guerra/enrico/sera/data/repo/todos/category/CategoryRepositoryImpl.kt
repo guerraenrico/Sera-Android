@@ -28,7 +28,7 @@ class CategoryRepositoryImpl @Inject constructor(
       is CallResult.Result -> {
         val data = apiResult.apiResponse.data
         if (apiResult.apiResponse.success && data != null) {
-          localDbManager.saveCategories(data)
+          localDbManager.insertCategories(data)
           Result.Success(Unit)
         } else {
           Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
@@ -41,14 +41,14 @@ class CategoryRepositoryImpl @Inject constructor(
   }
 
   override suspend fun insertCategory(category: Category): Result<Category> {
-    localDbManager.saveCategory(category)
-    localDbManager.saveSyncAction(category.toSyncAction(Operation.INSERT))
+    localDbManager.insertCategory(category)
+    localDbManager.insertSyncAction(category.toSyncAction(Operation.INSERT))
     return Result.Success(category)
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
     val result = localDbManager.deleteCategory(category)
-    localDbManager.saveSyncAction(category.toSyncAction(Operation.DELETE))
+    localDbManager.insertSyncAction(category.toSyncAction(Operation.DELETE))
     return Result.Success(result)
   }
 

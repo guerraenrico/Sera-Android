@@ -11,7 +11,7 @@ import java.util.*
  */
 @Entity(tableName = "Suggestion")
 data class Suggestion(
-  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val id: Long = 0,
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "text") val text: String = "",
   @ColumnInfo(name = "rating") val rating: Double = 0.0,
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date()

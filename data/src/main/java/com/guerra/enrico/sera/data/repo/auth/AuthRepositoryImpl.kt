@@ -36,8 +36,8 @@ class AuthRepositoryImpl @Inject constructor(
         val data: AuthData? = apiResult.apiResponse.data
         val error: ApiError? = apiResult.apiResponse.error
         if (apiResult.apiResponse.success && data != null) {
-          localDbManager.saveSession(data.user.id, data.accessToken)
-          localDbManager.saveUser(data.user)
+          localDbManager.insertSession(data.user.id, data.accessToken)
+          localDbManager.insertUser(data.user)
           Result.Success(data.user)
         } else {
           Result.Error(error.toRemoteExceptionOrUnknown())
@@ -60,8 +60,8 @@ class AuthRepositoryImpl @Inject constructor(
         val error: ApiError? = apiResult.apiResponse.error
 
         if (apiResult.apiResponse.success && data != null) {
-          localDbManager.saveSession(data.user.id, data.accessToken)
-          localDbManager.saveUser(data.user)
+          localDbManager.insertSession(data.user.id, data.accessToken)
+          localDbManager.insertUser(data.user)
           Result.Success(data.user)
         } else {
           Result.Error(error.toRemoteExceptionOrUnknown())
@@ -84,7 +84,7 @@ class AuthRepositoryImpl @Inject constructor(
         val data: Session? = apiResult.apiResponse.data
         val error: ApiError? = apiResult.apiResponse.error
         if (apiResult.apiResponse.success && data != null) {
-          localDbManager.saveSession(data.userId, data.accessToken)
+          localDbManager.insertSession(data.userId, data.accessToken)
           Result.Success(Unit)
         } else {
           Result.Error(error.toRemoteExceptionOrUnknown())

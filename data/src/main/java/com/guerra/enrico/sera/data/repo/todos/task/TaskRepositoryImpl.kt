@@ -29,7 +29,7 @@ class TaskRepositoryImpl @Inject constructor(
       is CallResult.Result -> {
         val data = apiResult.apiResponse.data
         if (apiResult.apiResponse.success && data != null) {
-          localDbManager.saveTasks(data)
+          localDbManager.insertTasks(data)
           Result.Success(Unit)
         } else {
           Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
@@ -42,20 +42,20 @@ class TaskRepositoryImpl @Inject constructor(
   }
 
   override suspend fun insertTask(task: Task): Result<Task> {
-    localDbManager.saveTask(task)
-    localDbManager.saveSyncAction(task.toSyncAction(Operation.INSERT))
+    localDbManager.insertTask(task)
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.INSERT))
     return Result.Success(task)
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
     val result = localDbManager.deleteTask(task)
-    localDbManager.saveSyncAction(task.toSyncAction(Operation.DELETE))
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.DELETE))
     return Result.Success(result)
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
     localDbManager.updateTask(task)
-    localDbManager.saveSyncAction(task.toSyncAction(Operation.UPDATE))
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.UPDATE))
     return Result.Success(task)
   }
 

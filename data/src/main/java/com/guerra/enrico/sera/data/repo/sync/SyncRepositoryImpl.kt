@@ -19,7 +19,7 @@ class SyncRepositoryImpl @Inject constructor(
   }
 
   override suspend fun saveSyncAction(syncAction: SyncAction): Long {
-    return localDbManager.saveSyncAction(syncAction)
+    return localDbManager.insertSyncAction(syncAction)
   }
 
   override suspend fun deleteSyncAction(syncAction: SyncAction): Int {

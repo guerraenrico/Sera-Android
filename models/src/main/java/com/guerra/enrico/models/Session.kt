@@ -11,8 +11,7 @@ import java.util.*
  */
 @Entity(tableName = "Session")
 data class Session constructor(
-  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
-  @ColumnInfo(name = "id") val id: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "userId") val userId: String,
   @ColumnInfo(name = "accessToken") val accessToken: String,
   @ColumnInfo(name = "createdAt") val createdAt: Date

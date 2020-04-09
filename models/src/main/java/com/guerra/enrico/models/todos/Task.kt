@@ -14,8 +14,7 @@ import java.util.*
  */
 @Entity(tableName = "Task")
 data class Task constructor(
-  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
-  @ColumnInfo(name = "id") val id: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "title") val title: String = "",
   @ColumnInfo(name = "description") val description: String = "",
   @ColumnInfo(name = "completed") val completed: Boolean = false,
@@ -26,9 +25,7 @@ data class Task constructor(
 ) : Syncable {
 
   override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
-    id = 0,
     entityName = ENTITY_NAME,
-    entityLocalId = localId,
     entityId = id,
     operation = operation,
     createdAt = Date()

@@ -14,15 +14,12 @@ import java.util.*
  */
 @Entity(tableName = "Category")
 data class Category constructor(
-  @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "localId") val localId: Long = 0,
-  @ColumnInfo(name = "id") val id: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "name") val name: String = ""
 ) : Syncable {
 
   override fun toSyncAction(operation: Operation): SyncAction = SyncAction(
-    id = 0,
     entityName = ENTITY_NAME,
-    entityLocalId = localId,
     entityId = id,
     operation = operation,
     createdAt = Date()

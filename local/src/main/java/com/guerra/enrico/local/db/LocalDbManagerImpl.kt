@@ -2,6 +2,7 @@ package com.guerra.enrico.local.db
 
 import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
+import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
@@ -26,7 +27,10 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun getSessionAccessToken(): String? =
     getSession()?.accessToken
 
-  override suspend fun saveSession(userId: String, accessToken: String) {
+  override suspend fun getSessionUserId(): String? =
+    getSession()?.userId
+
+  override suspend fun insertSession(userId: String, accessToken: String) {
     database.sessionDao().insert(
       Session(
         userId = userId,
@@ -41,7 +45,7 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun getUser(userId: String): User =
     database.userDao().getFirst(userId)
 
-  override suspend fun saveUser(user: User) =
+  override suspend fun insertUser(user: User) =
     database.userDao().insert(user)
 
   // Categories
@@ -51,11 +55,11 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun getCategory(id: String): Category =
     database.categoryDao().get(id)
 
-  override suspend fun saveCategory(category: Category): Long =
-    database.categoryDao().insertOne(category)
+  override suspend fun insertCategory(category: Category): Long =
+    database.categoryDao().insertOne(category.applyIdIfNeeded())
 
-  override suspend fun saveCategories(categories: List<Category>): List<Long> =
-    database.categoryDao().insertAll(categories)
+  override suspend fun insertCategories(categories: List<Category>): List<Long> =
+    database.categoryDao().insertAll(categories.map { it.applyIdIfNeeded() })
 
   override suspend fun clearCategories() {
     database.categoryDao().clear()
@@ -82,11 +86,11 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun getTask(id: String): Task =
     database.taskDao().get(id)
 
-  override suspend fun saveTask(task: Task): Long =
-    database.taskDao().insert(task)
+  override suspend fun insertTask(task: Task): Long =
+    database.taskDao().insert(task.applyIdIfNeeded())
 
-  override suspend fun saveTasks(tasks: List<Task>): List<Long> =
-    database.taskDao().insert(tasks)
+  override suspend fun insertTasks(tasks: List<Task>): List<Long> =
+    database.taskDao().insert(tasks.map { it.applyIdIfNeeded() })
 
   override suspend fun clearTasks() {
     database.taskDao().clear()
@@ -119,7 +123,7 @@ class LocalDbManagerImpl @Inject constructor(
     database.suggestionDao().observe(text)
 
   override suspend fun insertSuggestion(suggestion: Suggestion): Long =
-    database.suggestionDao().insert(suggestion)
+    database.suggestionDao().insert(suggestion.applyIdIfNeeded())
 
   override suspend fun updateSuggestion(suggestion: Suggestion): Int =
     database.suggestionDao().update(suggestion)
@@ -129,9 +133,42 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun getSyncActions(): List<SyncAction> =
     database.syncAction().get()
 
-  override suspend fun saveSyncAction(syncAction: SyncAction): Long =
-    database.syncAction().insert(syncAction)
+  override suspend fun insertSyncAction(syncAction: SyncAction): Long =
+    database.syncAction().insert(syncAction.applyIdIfNeeded())
 
   override suspend fun deleteSyncAction(syncAction: SyncAction): Int =
     database.syncAction().delete(syncAction)
+
+  private suspend fun SyncAction.applyIdIfNeeded(): SyncAction {
+    if (id.isBlank()) {
+      return copy(id = generateId())
+    }
+    return this
+  }
+
+  private suspend fun Suggestion.applyIdIfNeeded(): Suggestion {
+    if (id.isBlank()) {
+      return copy(id = generateId())
+    }
+    return this
+  }
+
+  private suspend fun Category.applyIdIfNeeded(): Category {
+    if (id.isBlank()) {
+      return copy(id = generateId())
+    }
+    return this
+  }
+
+  private suspend fun Task.applyIdIfNeeded(): Task {
+    if (id.isBlank()) {
+      return copy(id = generateId())
+    }
+    return this
+  }
+
+  private suspend fun generateId(): String {
+    val userId = getSessionUserId() ?: throw LocalException.notAuthorized()
+    return "$userId-${UUID.randomUUID()}"
+  }
 }

@@ -17,19 +17,20 @@ interface LocalDbManager {
 
   suspend fun getSession(): Session?
   suspend fun getSessionAccessToken(): String?
-  suspend fun saveSession(userId: String, accessToken: String)
+  suspend fun getSessionUserId(): String?
+  suspend fun insertSession(userId: String, accessToken: String)
 
   // User
 
   suspend fun getUser(userId: String): User
-  suspend fun saveUser(user: User)
+  suspend fun insertUser(user: User)
 
   // Categories
 
   fun observeAllCategories(): Flow<List<Category>>
   suspend fun getCategory(id: String): Category
-  suspend fun saveCategory(category: Category): Long
-  suspend fun saveCategories(categories: List<Category>): List<Long>
+  suspend fun insertCategory(category: Category): Long
+  suspend fun insertCategories(categories: List<Category>): List<Long>
   suspend fun clearCategories()
   suspend fun updateCategory(category: Category): Int
   suspend fun deleteCategory(category: Category): Int
@@ -39,8 +40,8 @@ interface LocalDbManager {
 
   fun observeTasks(completed: Boolean = false): Flow<List<Task>>
   suspend fun getTask(id: String): Task
-  suspend fun saveTask(task: Task): Long
-  suspend fun saveTasks(tasks: List<Task>): List<Long>
+  suspend fun insertTask(task: Task): Long
+  suspend fun insertTasks(tasks: List<Task>): List<Long>
   suspend fun clearTasks()
   suspend fun searchTask(searchText: String): List<Task>
   suspend fun updateTask(task: Task): Int
@@ -55,6 +56,6 @@ interface LocalDbManager {
   // Sync
 
   suspend fun getSyncActions(): List<SyncAction>
-  suspend fun saveSyncAction(syncAction: SyncAction): Long
+  suspend fun insertSyncAction(syncAction: SyncAction): Long
   suspend fun deleteSyncAction(syncAction: SyncAction): Int
 }
