@@ -3,6 +3,7 @@ package com.guerra.enrico.models.sync
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.guerra.enrico.models.generateId
 import java.util.*
 
 /**
@@ -11,7 +12,7 @@ import java.util.*
  */
 @Entity(tableName = "SyncAction")
 data class SyncAction(
-  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),
   @ColumnInfo(name = "entityName") val entityName: String = "",
   @ColumnInfo(name = "entityId") val entityId: String = "",
   @ColumnInfo(name = "operation") val operation: Operation = Operation.INSERT,

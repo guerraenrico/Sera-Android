@@ -2,7 +2,6 @@ package com.guerra.enrico.local.db
 
 import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
-import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
@@ -56,10 +55,10 @@ class LocalDbManagerImpl @Inject constructor(
     database.categoryDao().get(id)
 
   override suspend fun insertCategory(category: Category): Long =
-    database.categoryDao().insertOne(category.applyIdIfNeeded())
+    database.categoryDao().insertOne(category)
 
   override suspend fun insertCategories(categories: List<Category>): List<Long> =
-    database.categoryDao().insertAll(categories.map { it.applyIdIfNeeded() })
+    database.categoryDao().insertAll(categories)
 
   override suspend fun clearCategories() {
     database.categoryDao().clear()
@@ -87,10 +86,10 @@ class LocalDbManagerImpl @Inject constructor(
     database.taskDao().get(id)
 
   override suspend fun insertTask(task: Task): Long =
-    database.taskDao().insert(task.applyIdIfNeeded())
+    database.taskDao().insert(task)
 
   override suspend fun insertTasks(tasks: List<Task>): List<Long> =
-    database.taskDao().insert(tasks.map { it.applyIdIfNeeded() })
+    database.taskDao().insert(tasks)
 
   override suspend fun clearTasks() {
     database.taskDao().clear()
@@ -123,7 +122,7 @@ class LocalDbManagerImpl @Inject constructor(
     database.suggestionDao().observe(text)
 
   override suspend fun insertSuggestion(suggestion: Suggestion): Long =
-    database.suggestionDao().insert(suggestion.applyIdIfNeeded())
+    database.suggestionDao().insert(suggestion)
 
   override suspend fun updateSuggestion(suggestion: Suggestion): Int =
     database.suggestionDao().update(suggestion)
@@ -134,41 +133,8 @@ class LocalDbManagerImpl @Inject constructor(
     database.syncAction().get()
 
   override suspend fun insertSyncAction(syncAction: SyncAction): Long =
-    database.syncAction().insert(syncAction.applyIdIfNeeded())
+    database.syncAction().insert(syncAction)
 
   override suspend fun deleteSyncAction(syncAction: SyncAction): Int =
     database.syncAction().delete(syncAction)
-
-  private suspend fun SyncAction.applyIdIfNeeded(): SyncAction {
-    if (id.isBlank()) {
-      return copy(id = generateId())
-    }
-    return this
-  }
-
-  private suspend fun Suggestion.applyIdIfNeeded(): Suggestion {
-    if (id.isBlank()) {
-      return copy(id = generateId())
-    }
-    return this
-  }
-
-  private suspend fun Category.applyIdIfNeeded(): Category {
-    if (id.isBlank()) {
-      return copy(id = generateId())
-    }
-    return this
-  }
-
-  private suspend fun Task.applyIdIfNeeded(): Task {
-    if (id.isBlank()) {
-      return copy(id = generateId())
-    }
-    return this
-  }
-
-  private suspend fun generateId(): String {
-    val userId = getSessionUserId() ?: throw LocalException.notAuthorized()
-    return "$userId-${UUID.randomUUID()}"
-  }
 }

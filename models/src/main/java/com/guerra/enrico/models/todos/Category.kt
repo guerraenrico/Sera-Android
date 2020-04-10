@@ -3,6 +3,7 @@ package com.guerra.enrico.models.todos
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.guerra.enrico.models.generateId
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.sync.Syncable
@@ -14,7 +15,7 @@ import java.util.*
  */
 @Entity(tableName = "Category")
 data class Category constructor(
-  @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
+  @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),
   @ColumnInfo(name = "name") val name: String = ""
 ) : Syncable {
 
