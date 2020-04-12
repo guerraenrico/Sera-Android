@@ -15,6 +15,7 @@ data class SyncAction(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),
   @ColumnInfo(name = "entityName") val entityName: String = "",
   @ColumnInfo(name = "entityId") val entityId: String = "",
+  @ColumnInfo(name = "entitySnapshot") val entitySnapshot: String = "",
   @ColumnInfo(name = "operation") val operation: Operation = Operation.INSERT,
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date()
 )

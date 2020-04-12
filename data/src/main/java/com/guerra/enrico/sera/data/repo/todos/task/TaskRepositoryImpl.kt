@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.repo.todos.task
 
+import com.google.gson.Gson
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.sync.Operation
@@ -21,7 +22,8 @@ import javax.inject.Inject
  */
 class TaskRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
-  private val remoteDataManager: RemoteDataManager
+  private val remoteDataManager: RemoteDataManager,
+  private val gson: Gson
 ) : TaskRepository {
 
   override suspend fun pullTasks(from: Date?): Result<Unit> = localDbManager.withAccessToken {
@@ -43,19 +45,19 @@ class TaskRepositoryImpl @Inject constructor(
 
   override suspend fun insertTask(task: Task): Result<Task> {
     localDbManager.insertTask(task)
-    localDbManager.insertSyncAction(task.toSyncAction(Operation.INSERT))
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.INSERT, gson))
     return Result.Success(task)
   }
 
   override suspend fun deleteTask(task: Task): Result<Int> {
     val result = localDbManager.deleteTask(task)
-    localDbManager.insertSyncAction(task.toSyncAction(Operation.DELETE))
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.DELETE, gson))
     return Result.Success(result)
   }
 
   override suspend fun updateTask(task: Task): Result<Task> {
     localDbManager.updateTask(task)
-    localDbManager.insertSyncAction(task.toSyncAction(Operation.UPDATE))
+    localDbManager.insertSyncAction(task.toSyncAction(Operation.UPDATE, gson))
     return Result.Success(task)
   }
 

@@ -1,5 +1,6 @@
 package com.guerra.enrico.sera.data.repo.todos.category
 
+import com.google.gson.Gson
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.exceptions.LocalException
@@ -20,7 +21,8 @@ import javax.inject.Inject
  */
 class CategoryRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
-  private val remoteDataManager: RemoteDataManager
+  private val remoteDataManager: RemoteDataManager,
+  private val gson: Gson
 ) : CategoryRepository {
 
   override suspend fun pullCategories(from: Date?): Result<Unit> = localDbManager.withAccessToken {
@@ -42,13 +44,13 @@ class CategoryRepositoryImpl @Inject constructor(
 
   override suspend fun insertCategory(category: Category): Result<Category> {
     localDbManager.insertCategory(category)
-    localDbManager.insertSyncAction(category.toSyncAction(Operation.INSERT))
+    localDbManager.insertSyncAction(category.toSyncAction(Operation.INSERT, gson))
     return Result.Success(category)
   }
 
   override suspend fun deleteCategory(category: Category): Result<Int> {
     val result = localDbManager.deleteCategory(category)
-    localDbManager.insertSyncAction(category.toSyncAction(Operation.DELETE))
+    localDbManager.insertSyncAction(category.toSyncAction(Operation.DELETE, gson))
     return Result.Success(result)
   }
 
