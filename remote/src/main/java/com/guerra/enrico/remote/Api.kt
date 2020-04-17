@@ -1,5 +1,6 @@
 package com.guerra.enrico.remote
 
+import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.remote.request.*
@@ -84,4 +85,12 @@ interface Api {
     @Header("x-token") accessToken: String,
     @Body params: TaskToggleCompleteParams
   ): ApiResponse<Task>
+
+  // Sync
+
+  @POST("sync")
+  suspend fun sync(
+    @Header("x-token") accessToken: String,
+    @Body params: SyncParams
+  ): ApiResponse<List<SyncedEntity>>
 }

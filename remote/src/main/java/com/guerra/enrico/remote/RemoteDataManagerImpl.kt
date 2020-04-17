@@ -2,13 +2,16 @@ package com.guerra.enrico.remote
 
 import com.google.gson.Gson
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.models.exceptions.ConnectionException
 import com.guerra.enrico.base.logger.Logger
+import com.guerra.enrico.models.exceptions.ConnectionException
+import com.guerra.enrico.models.sync.SyncAction
+import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.remote.request.AccessTokenParams
 import com.guerra.enrico.remote.request.AuthRequestParams
 import com.guerra.enrico.remote.request.CategoryParams
+import com.guerra.enrico.remote.request.SyncParams
 import com.guerra.enrico.remote.request.TaskParams
 import com.guerra.enrico.remote.request.TaskToggleCompleteParams
 import com.guerra.enrico.remote.response.ApiError
@@ -80,6 +83,14 @@ class RemoteDataManagerImpl @Inject constructor(
 
   override suspend fun toggleCompleteTask(accessToken: String, task: Task): CallResult<Task> =
     callAndCatch { api.toggleCompleteTask(accessToken, TaskToggleCompleteParams(task)) }
+
+  override suspend fun sync(
+    accessToken: String,
+    lastSync: Date?,
+    syncActions: List<SyncAction>
+  ): CallResult<List<SyncedEntity>> = callAndCatch {
+    api.sync(accessToken, SyncParams(lastSync, syncActions))
+  }
 
   private suspend fun <R> callAndCatch(block: suspend () -> ApiResponse<R>): CallResult<R> =
     runCatching {

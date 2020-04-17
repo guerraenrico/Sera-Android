@@ -25,39 +25,21 @@ class SyncTodos @Inject constructor(
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: SyncTodosParams): Result<Unit> {
-    syncActions()
-    val lastSync = syncRepository.getLastSyncDate()
-    val categoryResult = categoryRepository.pullCategories(lastSync)
-    if (!categoryResult.succeeded) {
-      return categoryResult
-    }
-    val taskResult = tasksRepository.pullTasks(lastSync)
-    if (!taskResult.succeeded) {
-      return taskResult
-    }
-    syncRepository.saveLastSyncDate()
-    return Result.Success(Unit)
-  }
+    // TODO: find way to sync todo on login; can this params be userd?
 
-  private suspend fun syncActions() {
-    val syncActions = syncRepository.getSyncActions()
-    for (action in syncActions) {
-      val result = when (action.entityName) {
-        Task.ENTITY_NAME -> {
-          tasksRepository.syncAction(action)
-        }
-        Category.ENTITY_NAME -> {
-          categoryRepository.syncAction(action)
-        }
-        // ignore other entities
-        else -> return
-      }
-      if (result.succeeded) {
-        syncRepository.deleteSyncAction(action)
-      } else {
-        break
-      }
-    }
+
+
+//    val lastSync = syncRepository.getLastSyncDate()
+//    val categoryResult = categoryRepository.pullCategories(lastSync)
+//    if (!categoryResult.succeeded) {
+//      return categoryResult
+//    }
+//    val taskResult = tasksRepository.pullTasks(lastSync)
+//    if (!taskResult.succeeded) {
+//      return taskResult
+//    }
+//    syncRepository.saveLastSyncDate()
+    return Result.Success(Unit)
   }
 
   data class SyncTodosParams(
