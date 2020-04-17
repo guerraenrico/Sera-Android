@@ -1,8 +1,9 @@
 package com.guerra.enrico.domain.interactors.todos
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
-import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
@@ -17,6 +18,7 @@ import javax.inject.Inject
  * on 10/11/2019.
  */
 class SyncTodos @Inject constructor(
+  private val gson: Gson,
   private val syncRepository: SyncRepository,
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
@@ -25,21 +27,43 @@ class SyncTodos @Inject constructor(
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: SyncTodosParams): Result<Unit> {
-    // TODO: find way to sync todo on login; can this params be userd?
+    val result = syncRepository.sendSyncActions()
 
+    if (result is Result.Error) {
+      return Result.Error(result.exception)
+    }
+    if (result is Result.Loading) {
+      return Result.Error(IllegalStateException("Result loading result state is not supported for sync action"))
+    }
 
+    if (result is Result.Success) {
+      val tasks: List<Task> = result.data
+        .asSequence()
+        .filter { it.entityName == Task.ENTITY_NAME }
+        .map { jsonToEntity<Task>(it.entitySnapshot) }
+        .toList()
 
-//    val lastSync = syncRepository.getLastSyncDate()
-//    val categoryResult = categoryRepository.pullCategories(lastSync)
-//    if (!categoryResult.succeeded) {
-//      return categoryResult
-//    }
-//    val taskResult = tasksRepository.pullTasks(lastSync)
-//    if (!taskResult.succeeded) {
-//      return taskResult
-//    }
-//    syncRepository.saveLastSyncDate()
-    return Result.Success(Unit)
+      val categories: List<Category> = result.data
+        .asSequence()
+        .filter { it.entityName == Category.ENTITY_NAME }
+        .map { jsonToEntity<Category>(it.entitySnapshot) }
+        .toList()
+
+      syncRepository.saveLastSyncDate()
+
+      tasksRepository.insertTasks(tasks)
+      categoryRepository.insertCategories(categories)
+
+      return Result.Success(Unit)
+    }
+
+    throw IllegalStateException("Something when wrong should not have reached this point")
+  }
+
+  @Suppress("NOTHING_TO_INLINE")
+  private inline fun <T> jsonToEntity(value: String): T {
+    val listType = object : TypeToken<ArrayList<T>>() {}.type
+    return gson.fromJson(value, listType)
   }
 
   data class SyncTodosParams(

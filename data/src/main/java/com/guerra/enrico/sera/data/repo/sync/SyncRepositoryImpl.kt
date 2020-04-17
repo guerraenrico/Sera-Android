@@ -6,6 +6,8 @@ import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.remote.RemoteDataManager
+import com.guerra.enrico.remote.response.CallResult
+import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import java.util.*
 import javax.inject.Inject
@@ -30,20 +32,24 @@ class SyncRepositoryImpl @Inject constructor(
 
   override suspend fun sendSyncActions(): Result<List<SyncedEntity>> =
     localDbManager.withAccessToken { accessToken ->
-      // TODO read all sync action and send them to the server
-      // the server do the elaboration and return the result
-      // witch contain the snapshot of the new entity that need to be
-      // updated in room. If this request doesn't return any error
-      // I can assume that the sync succeeded therefore syncActions can be safely deleted
-      // actually in the server response I can insert even other entities that need to be updated
-      // that are not effected from the syncActions
       val syncActions = localDbManager.getSyncActions()
       val lastSync = getLastSyncDate()
 
-      val result = remoteDataManager.sync(accessToken, lastSync, syncActions)
-
-      saveLastSyncDate()
-      return result
+      return@withAccessToken when (val apiResult =
+        remoteDataManager.sync(accessToken, lastSync, syncActions)) {
+        is CallResult.Result -> {
+          val data = apiResult.apiResponse.data
+          if (apiResult.apiResponse.success && data != null) {
+            localDbManager.deleteSyncActions(syncActions)
+            Result.Success(data)
+          } else {
+            Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
+          }
+        }
+        is CallResult.Error -> {
+          Result.Error(apiResult.exception)
+        }
+      }
     }
 
   override fun getLastSyncDate(): Date? {

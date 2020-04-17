@@ -14,6 +14,8 @@ interface CategoryRepository {
 
   suspend fun pullCategories(from: Date?): Result<Unit>
 
+  suspend fun insertCategories(categories: List<Category>): Result<Unit>
+
   suspend fun insertCategory(category: Category): Result<Category>
 
   suspend fun deleteCategory(category: Category): Result<Int>

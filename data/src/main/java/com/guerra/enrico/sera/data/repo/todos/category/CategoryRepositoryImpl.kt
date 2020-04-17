@@ -42,6 +42,11 @@ class CategoryRepositoryImpl @Inject constructor(
     }
   }
 
+  override suspend fun insertCategories(categories: List<Category>): Result<Unit> {
+    localDbManager.insertCategories(categories)
+    return Result.Success(Unit)
+  }
+
   override suspend fun insertCategory(category: Category): Result<Category> {
     localDbManager.insertCategory(category)
     localDbManager.insertSyncAction(category.toSyncAction(Operation.INSERT, gson))

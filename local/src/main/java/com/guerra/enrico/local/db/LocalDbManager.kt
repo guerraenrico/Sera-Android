@@ -58,4 +58,5 @@ interface LocalDbManager {
   suspend fun getSyncActions(): List<SyncAction>
   suspend fun insertSyncAction(syncAction: SyncAction): Long
   suspend fun deleteSyncAction(syncAction: SyncAction): Int
+  suspend fun deleteSyncActions(syncActions: List<SyncAction>): Int
 }

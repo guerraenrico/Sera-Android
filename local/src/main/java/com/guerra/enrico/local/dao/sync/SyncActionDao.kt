@@ -21,4 +21,7 @@ interface SyncActionDao {
 
   @Delete
   suspend fun delete(action: SyncAction): Int
+
+  @Delete
+  suspend fun deleteAll(actions: List<SyncAction>): Int
 }

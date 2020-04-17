@@ -43,6 +43,11 @@ class TaskRepositoryImpl @Inject constructor(
     }
   }
 
+  override suspend fun insertTasks(tasks: List<Task>): Result<Unit> {
+    localDbManager.insertTasks(tasks)
+    return Result.Success(Unit)
+  }
+
   override suspend fun insertTask(task: Task): Result<Task> {
     localDbManager.insertTask(task)
     localDbManager.insertSyncAction(task.toSyncAction(Operation.INSERT, gson))

@@ -137,4 +137,7 @@ class LocalDbManagerImpl @Inject constructor(
 
   override suspend fun deleteSyncAction(syncAction: SyncAction): Int =
     database.syncAction().delete(syncAction)
+
+  override suspend fun deleteSyncActions(syncActions: List<SyncAction>): Int =
+    database.syncAction().deleteAll(syncActions)
 }

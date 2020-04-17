@@ -15,6 +15,8 @@ interface TaskRepository {
 
   suspend fun pullTasks(from: Date?): Result<Unit>
 
+  suspend fun insertTasks(tasks: List<Task>): Result<Unit>
+
   suspend fun insertTask(task: Task): Result<Task>
 
   suspend fun deleteTask(task: Task): Result<Int>
