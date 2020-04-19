@@ -32,7 +32,7 @@ class RetrofitModule {
 
   @Provides
   fun provideGson(): Gson = GsonBuilder()
-    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
     .setLenient()
     .create()
 
@@ -43,10 +43,10 @@ class RetrofitModule {
     .writeTimeout(15, TimeUnit.SECONDS)
     .build()
 
-  @Provides
-  fun provideAccessTokenInterceptor() {
-    // TODO
-  }
+//  @Provides
+//  fun provideAccessTokenInterceptor() {
+//    // TODO
+//  }
 
 //  @Provides
 //  fun provideInterceptor(): Interceptor = Interceptor { chain ->

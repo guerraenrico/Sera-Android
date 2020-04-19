@@ -91,6 +91,7 @@ class TodosViewModel @Inject constructor(
   fun onRefreshData() {
     viewModelScope.launch {
       _swipeRefresh.value = true
+      // FIXME should use worker and maybe start listening for some result; what result?
       syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
       _swipeRefresh.value = false
     }

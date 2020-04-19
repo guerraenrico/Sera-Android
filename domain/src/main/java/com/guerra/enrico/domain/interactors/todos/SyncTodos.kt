@@ -61,8 +61,8 @@ class SyncTodos @Inject constructor(
   }
 
   @Suppress("NOTHING_TO_INLINE")
-  private inline fun <T> jsonToEntity(value: String): T {
-    val listType = object : TypeToken<ArrayList<T>>() {}.type
+  private inline fun <reified T> jsonToEntity(value: String): T {
+    val listType = object : TypeToken<T>() {}.type
     return gson.fromJson(value, listType)
   }
 
