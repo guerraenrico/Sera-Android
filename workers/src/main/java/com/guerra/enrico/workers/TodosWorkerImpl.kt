@@ -20,28 +20,29 @@ class TodosWorkerImpl @Inject constructor(
 ) : TodosWorker {
   override fun syncTodos() {
     val request = OneTimeWorkRequest.Builder(SyncTodosWorker::class.java)
+      .addTag(SyncTodosWorker.SYNC_TAG)
       .build()
     workManager.enqueue(request)
   }
 
   override fun setUpNightTodoSync() {
-    val request = PeriodicWorkRequest.Builder(
-      SyncTodosWorker::class.java,
-      2, TimeUnit.HOURS, 1, TimeUnit.HOURS
-    )
-      .setConstraints(
+    val request =
+      PeriodicWorkRequest.Builder(
+        SyncTodosWorker::class.java,
+        24,
+        TimeUnit.HOURS,
+        12,
+        TimeUnit.HOURS
+      ).setConstraints(
         Constraints.Builder()
           .setRequiredNetworkType(NetworkType.CONNECTED)
-          .setRequiresBatteryNotLow(true)
-          .setRequiresDeviceIdle(true)
           .build()
-      )
-      .build()
+      ).build()
     workManager.enqueueUniquePeriodicWork(
       SyncTodosWorker.NIGHTLY_SYNC_TAG,
       ExistingPeriodicWorkPolicy.REPLACE,
       request
     )
-    logger.i("SYNC_TODO", "work setup")
+    logger.i(SyncTodosWorker.NIGHTLY_SYNC_TAG, "work setup")
   }
 }

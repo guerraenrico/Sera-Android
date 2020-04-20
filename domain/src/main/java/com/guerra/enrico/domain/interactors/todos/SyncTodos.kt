@@ -49,10 +49,10 @@ class SyncTodos @Inject constructor(
         .map { jsonToEntity<Category>(it.entitySnapshot) }
         .toList()
 
-      syncRepository.saveLastSyncDate()
-
       tasksRepository.insertTasks(tasks)
       categoryRepository.insertCategories(categories)
+
+      syncRepository.saveLastSyncDate()
 
       return Result.Success(Unit)
     }
