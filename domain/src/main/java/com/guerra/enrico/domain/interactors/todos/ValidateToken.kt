@@ -18,13 +18,9 @@ class ValidateToken @Inject constructor(
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: Unit): Result<com.guerra.enrico.models.User> {
-    val result = authRepository.refreshTokenIfNotAuthorized({
+    return authRepository.refreshTokenIfNotAuthorized({
       authRepository.validateAccessToken()
     }).first()
-    if (result is Result.Success) {
-//      syncTasksAndCategories() TODO: Replace with fetch all data or maybe sync is fine
-    }
-    return result
   }
 
 }

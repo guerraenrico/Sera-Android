@@ -50,7 +50,7 @@ class AuthRepositoryImpl @Inject constructor(
 
   override suspend fun validateAccessToken(): Result<User> {
     val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
-    if (!connectionHelper.awaitAvailable()) {
+    if (!connectionHelper.isInternetConnectionAvailable()) {
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
@@ -76,7 +76,7 @@ class AuthRepositoryImpl @Inject constructor(
   override suspend fun refreshToken(): Result<Unit> {
     val session: Session =
       localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
-    if (!connectionHelper.awaitAvailable()) {
+    if (!connectionHelper.isInternetConnectionAvailable()) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
     return when (val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)) {
