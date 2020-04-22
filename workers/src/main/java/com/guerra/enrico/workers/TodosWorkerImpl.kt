@@ -29,9 +29,7 @@ class TodosWorkerImpl @Inject constructor(
     val request =
       PeriodicWorkRequest.Builder(
         SyncTodosWorker::class.java,
-        24,
-        TimeUnit.HOURS,
-        12,
+        1,
         TimeUnit.HOURS
       ).setConstraints(
         Constraints.Builder()
