@@ -22,3 +22,13 @@ fun <T> LiveData<Result<T>>.ifSucceeded(block: (T) -> Unit) {
     }
   }
 }
+
+fun <T> LiveData<Result<T>>.applyIfSucceeded(block: (T) -> T) {
+  value.let {
+    return@let if (it is Result.Success<T>) {
+      Result.Success(block(it.data))
+    } else {
+      it
+    }
+  }
+}

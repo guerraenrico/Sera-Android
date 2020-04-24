@@ -119,11 +119,6 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
-      todosViewModel.onTaskSwipeToComplete(it)
-    })
-    itemTouchHelper.attachToRecyclerView(binding.recyclerViewTasks)
-
     val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)

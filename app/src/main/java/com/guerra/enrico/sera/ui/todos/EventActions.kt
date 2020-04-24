@@ -8,4 +8,5 @@ import com.guerra.enrico.models.todos.Task
  */
 interface EventActions {
   fun onTaskClick(task: Task)
+  fun onTaskSwipeToComplete(position: Int)
 }

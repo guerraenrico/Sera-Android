@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.applyIfSucceeded
 import com.guerra.enrico.base.extensions.ifSucceeded
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
 import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
@@ -100,7 +101,7 @@ class TodosViewModel @Inject constructor(
    * Search tasks by text
    * @param text text to onSearch
    */
-  fun onSearch(text: String) {
+  fun onSearchByTest(text: String) {
     observeTasks(ObserveTasks.Params(text))
   }
 
@@ -108,7 +109,7 @@ class TodosViewModel @Inject constructor(
    * Search task by category
    * @param category selected category
    */
-  fun onSearchCategory(category: Category?) {
+  fun onSearchCategory(category: Category) {
     observeTasks(ObserveTasks.Params(category = category))
   }
 
@@ -122,12 +123,15 @@ class TodosViewModel @Inject constructor(
 //      _tasksViewResult.value =
 //        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
 //    }
+    _tasks.applyIfSucceeded { list ->
+      list.filter { it.task != task }
+    }
   }
 
   /**
    * Set task as completed on swipe out
    */
-  fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
+   override fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
     val taskPresentation = list[position]
     _tasks.value = Result.Success(list - taskPresentation)
     _snackbarMessage.value = Event(SnackbarMessage(
@@ -158,13 +162,11 @@ class TodosViewModel @Inject constructor(
   }
 
   private fun restoreCompleteTaskAction(task: Task, position: Int) {
-    _tasks.ifSucceeded { list ->
-      _tasks.value = Result.Success(
-        mutableListOf<TaskPresentation>().apply {
-          addAll(list)
-          add(position, taskToPresentations(task))
-        }.toList()
-      )
+    _tasks.applyIfSucceeded { list ->
+      mutableListOf<TaskPresentation>().apply {
+        addAll(list)
+        add(position, taskToPresentations(task))
+      }.toList()
     }
   }
 }

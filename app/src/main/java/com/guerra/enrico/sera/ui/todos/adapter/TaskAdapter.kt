@@ -29,6 +29,14 @@ class TaskAdapter(
 ) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
 
   private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
+  private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
+    eventActions.onTaskSwipeToComplete(it)
+  })
+
+  override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+    super.onAttachedToRecyclerView(recyclerView)
+    itemTouchHelper.attachToRecyclerView(recyclerView)
+  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
     val binding =
