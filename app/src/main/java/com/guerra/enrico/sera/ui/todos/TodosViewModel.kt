@@ -123,7 +123,7 @@ class TodosViewModel @Inject constructor(
 //      _tasksViewResult.value =
 //        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
 //    }
-    _tasks.applyIfSucceeded { list ->
+    _tasks.value = _tasks.applyIfSucceeded { list ->
       list.filter { it.task != task }
     }
   }
@@ -131,7 +131,7 @@ class TodosViewModel @Inject constructor(
   /**
    * Set task as completed on swipe out
    */
-   override fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
+  override fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
     val taskPresentation = list[position]
     _tasks.value = Result.Success(list - taskPresentation)
     _snackbarMessage.value = Event(SnackbarMessage(
@@ -162,7 +162,7 @@ class TodosViewModel @Inject constructor(
   }
 
   private fun restoreCompleteTaskAction(task: Task, position: Int) {
-    _tasks.applyIfSucceeded { list ->
+    _tasks.value = _tasks.applyIfSucceeded { list ->
       mutableListOf<TaskPresentation>().apply {
         addAll(list)
         add(position, taskToPresentations(task))
