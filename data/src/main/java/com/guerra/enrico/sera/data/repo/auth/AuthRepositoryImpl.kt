@@ -104,6 +104,10 @@ class AuthRepositoryImpl @Inject constructor(
       return@coroutineScope results.map { it.await() }
     }
 
+  override suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {
+    return executeAndRefreshIfNeeded(block)
+  }
+
   private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>): Result<T> {
     val result = block()
     if (result is Result.Error) {

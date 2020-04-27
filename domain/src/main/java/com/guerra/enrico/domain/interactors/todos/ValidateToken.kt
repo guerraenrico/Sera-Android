@@ -17,10 +17,9 @@ class ValidateToken @Inject constructor(
 ) : Interactor<Unit, Result<com.guerra.enrico.models.User>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: Unit): Result<com.guerra.enrico.models.User> {
-    return authRepository.refreshTokenIfNotAuthorized({
+  override suspend fun doWork(params: Unit): Result<com.guerra.enrico.models.User> =
+    authRepository.refreshTokenIfNotAuthorized {
       authRepository.validateAccessToken()
-    }).first()
-  }
+    }
 
 }

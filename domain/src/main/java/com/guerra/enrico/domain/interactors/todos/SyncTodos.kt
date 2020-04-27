@@ -7,6 +7,7 @@ import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
+import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.sync.SyncRepository
 import com.guerra.enrico.sera.data.repo.todos.category.CategoryRepository
 import com.guerra.enrico.sera.data.repo.todos.task.TaskRepository
@@ -22,43 +23,46 @@ class SyncTodos @Inject constructor(
   private val syncRepository: SyncRepository,
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
+  private val authRepository: AuthRepository,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : Interactor<SyncTodos.SyncTodosParams, Result<Unit>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: SyncTodosParams): Result<Unit> {
-    val result = syncRepository.sendSyncActions()
+  override suspend fun doWork(params: SyncTodosParams): Result<Unit> =
+    authRepository.refreshTokenIfNotAuthorized {
 
-    if (result is Result.Error) {
-      return Result.Error(result.exception)
+      val result = syncRepository.sendSyncActions()
+
+      if (result is Result.Error) {
+        return@refreshTokenIfNotAuthorized Result.Error(result.exception)
+      }
+      if (result is Result.Loading) {
+        return@refreshTokenIfNotAuthorized Result.Error(IllegalStateException("Result loading result state is not supported for sync action"))
+      }
+
+      if (result is Result.Success) {
+        val tasks: List<Task> = result.data
+          .asSequence()
+          .filter { it.entityName == Task.ENTITY_NAME }
+          .map { jsonToEntity<Task>(it.entitySnapshot) }
+          .toList()
+
+        val categories: List<Category> = result.data
+          .asSequence()
+          .filter { it.entityName == Category.ENTITY_NAME }
+          .map { jsonToEntity<Category>(it.entitySnapshot) }
+          .toList()
+
+        tasksRepository.insertTasks(tasks)
+        categoryRepository.insertCategories(categories)
+
+        syncRepository.saveLastSyncDate()
+
+        return@refreshTokenIfNotAuthorized Result.Success(Unit)
+      }
+
+      throw IllegalStateException("Something when wrong should not have reached this point")
     }
-    if (result is Result.Loading) {
-      return Result.Error(IllegalStateException("Result loading result state is not supported for sync action"))
-    }
-
-    if (result is Result.Success) {
-      val tasks: List<Task> = result.data
-        .asSequence()
-        .filter { it.entityName == Task.ENTITY_NAME }
-        .map { jsonToEntity<Task>(it.entitySnapshot) }
-        .toList()
-
-      val categories: List<Category> = result.data
-        .asSequence()
-        .filter { it.entityName == Category.ENTITY_NAME }
-        .map { jsonToEntity<Category>(it.entitySnapshot) }
-        .toList()
-
-      tasksRepository.insertTasks(tasks)
-      categoryRepository.insertCategories(categories)
-
-      syncRepository.saveLastSyncDate()
-
-      return Result.Success(Unit)
-    }
-
-    throw IllegalStateException("Something when wrong should not have reached this point")
-  }
 
   @Suppress("NOTHING_TO_INLINE")
   private inline fun <reified T> jsonToEntity(value: String): T {

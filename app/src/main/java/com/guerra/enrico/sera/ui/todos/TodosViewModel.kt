@@ -123,9 +123,6 @@ class TodosViewModel @Inject constructor(
 //      _tasksViewResult.value =
 //        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
 //    }
-    _tasks.value = _tasks.applyIfSucceeded { list ->
-      list.filter { it.task != task }
-    }
   }
 
   /**
