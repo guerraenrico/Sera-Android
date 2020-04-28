@@ -20,8 +20,9 @@ class ConnectionHelperImpl @Inject constructor(val context: Context) : Connectio
   override fun isInternetConnectionAvailable(): Boolean {
     val connectivityManager =
       context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetworkInfo = connectivityManager.getNetworkCapabilities(null)
-    return activeNetworkInfo != null && activeNetworkInfo.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    val networks = connectivityManager.allNetworks
+    val networksInfo = networks.mapNotNull { connectivityManager.getNetworkCapabilities(it) }
+    return networksInfo.any { it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) }
   }
 
   @SuppressLint("MissingPermission")
