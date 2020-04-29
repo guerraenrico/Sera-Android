@@ -10,5 +10,13 @@ sealed class Result<out R> {
   object Loading : Result<Nothing>()
 }
 
-val Result<*>.succeeded
+val Result<Any?>.succeeded
   get() = this is Result.Success && data != null
+
+//@ExperimentalContracts
+//inline fun <reified T> Result<T>.succeeded(): Boolean {
+//  contract {
+//    returns(true) implies (this@succeeded is Result.Success<T>)
+//  }
+//  return this is Result.Success<T> && data != null
+//}

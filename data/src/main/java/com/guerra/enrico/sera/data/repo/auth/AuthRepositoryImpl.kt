@@ -3,12 +3,12 @@ package com.guerra.enrico.sera.data.repo.auth
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.connection.ConnectionHelper
 import com.guerra.enrico.base.succeeded
-import com.guerra.enrico.models.exceptions.ConnectionException
-import com.guerra.enrico.models.exceptions.LocalException
-import com.guerra.enrico.models.exceptions.RemoteException
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
+import com.guerra.enrico.models.exceptions.ConnectionException
+import com.guerra.enrico.models.exceptions.LocalException
+import com.guerra.enrico.models.exceptions.RemoteException
 import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.ApiError
 import com.guerra.enrico.remote.response.AuthData
@@ -16,6 +16,7 @@ import com.guerra.enrico.remote.response.CallResult
 import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.io.InvalidClassException
 import javax.inject.Inject
 
 /**
@@ -30,23 +31,18 @@ class AuthRepositoryImpl @Inject constructor(
 
   // Sign in
 
-  override suspend fun googleSignInCallback(code: String): Result<User> =
-    when (val apiResult = remoteDataManager.googleSignInCallback(code)) {
-      is CallResult.Result -> {
-        val data: AuthData? = apiResult.apiResponse.data
-        val error: ApiError? = apiResult.apiResponse.error
-        if (apiResult.apiResponse.success && data != null) {
-          localDbManager.insertSession(data.user.id, data.accessToken)
-          localDbManager.insertUser(data.user)
-          Result.Success(data.user)
-        } else {
-          Result.Error(error.toRemoteExceptionOrUnknown())
-        }
+  override suspend fun googleSignInCallback(code: String): Result<User> {
+    return when (val apiResult = remoteDataManager.googleSignInCallback(code).toResult()) {
+      is Result.Success -> {
+        val data = apiResult.data
+        localDbManager.insertSession(data.user.id, data.accessToken)
+        localDbManager.insertUser(data.user)
+        Result.Success(data.user)
       }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
+      is Result.Error -> Result.Error(apiResult.exception)
+      else -> throw InvalidClassException("Result class not supported")
     }
+  }
 
   override suspend fun validateAccessToken(): Result<User> {
     val session = localDbManager.getSession() ?: return Result.Error(LocalException.notAuthorized())
