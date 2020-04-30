@@ -40,7 +40,7 @@ class AuthRepositoryImpl @Inject constructor(
         Result.Success(data.user)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      else -> throw InvalidClassException("Result class not supported")
+      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
@@ -50,22 +50,16 @@ class AuthRepositoryImpl @Inject constructor(
       val user = localDbManager.getUser(session.userId)
       return Result.Success(user)
     }
-    return when (val apiResult = remoteDataManager.validateAccessToken(session.accessToken)) {
-      is CallResult.Result -> {
-        val data: AuthData? = apiResult.apiResponse.data
-        val error: ApiError? = apiResult.apiResponse.error
-
-        if (apiResult.apiResponse.success && data != null) {
-          localDbManager.insertSession(data.user.id, data.accessToken)
-          localDbManager.insertUser(data.user)
-          Result.Success(data.user)
-        } else {
-          Result.Error(error.toRemoteExceptionOrUnknown())
-        }
+    return when (val apiResult =
+      remoteDataManager.validateAccessToken(session.accessToken).toResult()) {
+      is Result.Success -> {
+        val data: AuthData = apiResult.data
+        localDbManager.insertSession(data.user.id, data.accessToken)
+        localDbManager.insertUser(data.user)
+        Result.Success(data.user)
       }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
+      is Result.Error -> Result.Error(apiResult.exception)
+      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
@@ -75,24 +69,19 @@ class AuthRepositoryImpl @Inject constructor(
     if (!connectionHelper.isInternetConnectionAvailable()) {
       return Result.Error(ConnectionException.internetConnectionNotAvailable())
     }
-    return when (val apiResult = remoteDataManager.refreshAccessToken(session.accessToken)) {
-      is CallResult.Result -> {
-        val data: Session? = apiResult.apiResponse.data
-        val error: ApiError? = apiResult.apiResponse.error
-        if (apiResult.apiResponse.success && data != null) {
-          localDbManager.insertSession(data.userId, data.accessToken)
-          Result.Success(Unit)
-        } else {
-          Result.Error(error.toRemoteExceptionOrUnknown())
-        }
+    return when (val apiResult =
+      remoteDataManager.refreshAccessToken(session.accessToken).toResult()) {
+      is Result.Success -> {
+        val data: Session = apiResult.data
+        localDbManager.insertSession(data.userId, data.accessToken)
+        Result.Success(Unit)
       }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
+      is Result.Error -> Result.Error(apiResult.exception)
+      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
-  override suspend fun <T> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>> =
+  override suspend fun <T : Any> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>> =
     coroutineScope {
       val results = blocks.map { block ->
         async { executeAndRefreshIfNeeded(block) }
@@ -100,11 +89,11 @@ class AuthRepositoryImpl @Inject constructor(
       return@coroutineScope results.map { it.await() }
     }
 
-  override suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {
+  override suspend fun <T : Any> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T> {
     return executeAndRefreshIfNeeded(block)
   }
 
-  private suspend fun <T> executeAndRefreshIfNeeded(block: suspend () -> Result<T>): Result<T> {
+  private suspend fun <T : Any> executeAndRefreshIfNeeded(block: suspend () -> Result<T>): Result<T> {
     val result = block()
     if (result is Result.Error) {
       (result.exception as? RemoteException)?.let {
