@@ -15,7 +15,7 @@ fun <X, Y> LiveData<X>.map(body: (X) -> Y): LiveData<Y> {
 }
 
 /** Run block if type is Result Instance */
-fun <T> LiveData<Result<T>>.ifSucceeded(block: (T) -> Unit) {
+fun <T: Any> LiveData<Result<T>>.ifSucceeded(block: (T) -> Unit) {
   value.let {
     if (it is Result.Success<T>) {
       block(it.data)
@@ -23,7 +23,7 @@ fun <T> LiveData<Result<T>>.ifSucceeded(block: (T) -> Unit) {
   }
 }
 
-fun <T> LiveData<Result<T>>.applyIfSucceeded(block: (T) -> T): Result<T>? {
+fun <T: Any> LiveData<Result<T>>.applyIfSucceeded(block: (T) -> T): Result<T>? {
   return value.let {
     return@let if (it is Result.Success<T>) {
       Result.Success(block(it.data))

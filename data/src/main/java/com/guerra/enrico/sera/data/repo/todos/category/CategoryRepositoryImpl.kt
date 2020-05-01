@@ -9,9 +9,9 @@ import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.CallResult
-import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import kotlinx.coroutines.flow.Flow
+import java.io.InvalidClassException
 import java.util.*
 import javax.inject.Inject
 
@@ -26,19 +26,14 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
 
   override suspend fun pullCategories(from: Date?): Result<Unit> = localDbManager.withAccessToken {
-    return@withAccessToken when (val apiResult = remoteDataManager.getCategories(it, from)) {
-      is CallResult.Result -> {
-        val data = apiResult.apiResponse.data
-        if (apiResult.apiResponse.success && data != null) {
-          localDbManager.insertCategories(data)
-          Result.Success(Unit)
-        } else {
-          Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
-        }
+    return@withAccessToken when (val apiResult =
+      remoteDataManager.getCategories(it, from).toResult()) {
+      is Result.Success -> {
+        localDbManager.insertCategories(apiResult.data)
+        Result.Success(Unit)
       }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
+      is Result.Error -> Result.Error(apiResult.exception)
+      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 

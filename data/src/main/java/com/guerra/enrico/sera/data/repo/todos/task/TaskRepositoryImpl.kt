@@ -9,10 +9,10 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.CallResult
-import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.InvalidClassException
 import java.util.*
 import javax.inject.Inject
 
@@ -27,19 +27,13 @@ class TaskRepositoryImpl @Inject constructor(
 ) : TaskRepository {
 
   override suspend fun pullTasks(from: Date?): Result<Unit> = localDbManager.withAccessToken {
-    return@withAccessToken when (val apiResult = remoteDataManager.getTasks(it, from)) {
-      is CallResult.Result -> {
-        val data = apiResult.apiResponse.data
-        if (apiResult.apiResponse.success && data != null) {
-          localDbManager.insertTasks(data)
-          Result.Success(Unit)
-        } else {
-          Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
-        }
+    return@withAccessToken when (val apiResult = remoteDataManager.getTasks(it, from).toResult()) {
+      is Result.Success -> {
+        localDbManager.insertTasks(apiResult.data)
+        Result.Success(Unit)
       }
-      is CallResult.Error -> {
-        Result.Error(apiResult.exception)
-      }
+      is Result.Error -> Result.Error(apiResult.exception)
+      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
