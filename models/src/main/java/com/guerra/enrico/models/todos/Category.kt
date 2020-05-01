@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
+import com.guerra.enrico.models.EntityData
 import com.guerra.enrico.models.generateId
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction
@@ -19,13 +20,11 @@ data class Category constructor(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),
   @ColumnInfo(name = "name") val name: String = "",
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date(),
-  @ColumnInfo(name = "updatedAt") val updatedAt: Date= Date()
+  @ColumnInfo(name = "updatedAt") val updatedAt: Date = Date()
 ) : Syncable {
 
   override fun toSyncAction(operation: Operation, gson: Gson): SyncAction = SyncAction(
-    entityName = ENTITY_NAME,
-    entityId = id,
-    entitySnapshot = gson.toJson(this),
+    entityData = EntityData(id, ENTITY_NAME, gson.toJson(this)),
     operation = operation,
     createdAt = Date()
   )

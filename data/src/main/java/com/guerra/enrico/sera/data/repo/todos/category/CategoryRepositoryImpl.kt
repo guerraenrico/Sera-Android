@@ -59,7 +59,7 @@ class CategoryRepositoryImpl @Inject constructor(
   override suspend fun syncAction(syncAction: SyncAction): Result<Any> {
     val accessToken =
       localDbManager.getSessionAccessToken() ?: return Result.Error(LocalException.notAuthorized())
-    val category = localDbManager.getCategory(syncAction.entityId)
+    val category = localDbManager.getCategory(syncAction.entityData.id)
 
     return when (syncAction.operation) {
       Operation.INSERT -> updateSyncedCategory(
@@ -69,7 +69,7 @@ class CategoryRepositoryImpl @Inject constructor(
         )
       )
       Operation.UPDATE -> throw NotImplementedError("Category cannot be updated yet")
-      Operation.DELETE -> remoteDataManager.deleteCategory(accessToken, syncAction.entityId)
+      Operation.DELETE -> remoteDataManager.deleteCategory(accessToken, syncAction.entityData.id)
         .toResult()
     }
   }

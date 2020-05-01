@@ -7,8 +7,6 @@ import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.remote.RemoteDataManager
-import com.guerra.enrico.remote.response.CallResult
-import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import java.util.*
 import javax.inject.Inject

@@ -43,14 +43,14 @@ class SyncTodos @Inject constructor(
       if (result is Result.Success) {
         val tasks: List<Task> = result.data
           .asSequence()
-          .filter { it.entityName == Task.ENTITY_NAME }
-          .map { jsonToEntity<Task>(it.entitySnapshot) }
+          .filter { it.entityData.name == Task.ENTITY_NAME }
+          .map { jsonToEntity<Task>(it.entityData.snapshot) }
           .toList()
 
         val categories: List<Category> = result.data
           .asSequence()
-          .filter { it.entityName == Category.ENTITY_NAME }
-          .map { jsonToEntity<Category>(it.entitySnapshot) }
+          .filter { it.entityData.name == Category.ENTITY_NAME }
+          .map { jsonToEntity<Category>(it.entityData.snapshot) }
           .toList()
 
         tasksRepository.insertTasks(tasks)

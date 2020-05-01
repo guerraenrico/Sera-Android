@@ -78,12 +78,12 @@ class TaskRepositoryImpl @Inject constructor(
 
   override suspend fun syncAction(syncAction: SyncAction): Result<Any> =
     localDbManager.withAccessToken {
-      val task = localDbManager.getTask(syncAction.entityId)
+      val task = localDbManager.getTask(syncAction.entityData.id)
 
       return@withAccessToken when (syncAction.operation) {
         Operation.INSERT -> updateSyncedTask(remoteDataManager.insertTask(it, task))
         Operation.UPDATE -> updateSyncedTask(remoteDataManager.updateTask(it, task))
-        Operation.DELETE -> remoteDataManager.deleteTask(it, syncAction.entityId).toResult()
+        Operation.DELETE -> remoteDataManager.deleteTask(it, syncAction.entityData.id).toResult()
       }
     }
 
