@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentTodosSearchBinding
 import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
+import com.guerra.enrico.sera.databinding.FragmentTodosSearchBinding
+import com.guerra.enrico.sera.ui.todos.adapter.SuggestionAdapter
 import javax.inject.Inject
 
 /**
@@ -25,6 +29,7 @@ class TodoSearchFragment : Fragment() {
   private val viewModel: TodoSearchViewModel by activityViewModels { viewModelFactory }
 
   private lateinit var binding: FragmentTodosSearchBinding
+  private lateinit var suggestionAdapter: SuggestionAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -32,7 +37,6 @@ class TodoSearchFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     binding = FragmentTodosSearchBinding.inflate(inflater, container, false)
-    binding.lifecycleOwner = viewLifecycleOwner
     return binding.root
   }
 
@@ -47,14 +51,41 @@ class TodoSearchFragment : Fragment() {
       setNavigationOnClickListener { finishAfterTransition(requireActivity()) }
 
       setOnMenuItemClickListener { onMenuItemClick(it) }
+      setupRecyclerView()
+      observeSuggestionList()
     }
 
-    val messageResources = MessageExceptionManager(Exception()).getResources()
-    binding.messageLayout.apply {
-      setImage(messageResources.icon)
-      setMessage(messageResources.message)
-      setButton(resources.getString(R.string.message_layout_button_try_again)) {}
-      show()
+  }
+
+  private fun observeSuggestionList() {
+    observe(viewModel.suggestionsResult) { suggestionsResult ->
+      when (suggestionsResult) {
+        is Result.Loading -> {
+        }
+        is Result.Success -> {
+          binding.messageLayout.hide()
+          binding.recyclerViewSuggestions.isVisible = true
+          // TODO Show custom message if no item found
+          suggestionAdapter.submitList(suggestionsResult.data)
+        }
+        is Result.Error -> {
+          val messageResources = MessageExceptionManager(Exception()).getResources()
+          binding.recyclerViewSuggestions.isVisible = false
+          binding.messageLayout.apply {
+            setImage(messageResources.icon)
+            setMessage(messageResources.message)
+            setButton(resources.getString(R.string.message_layout_button_try_again)) {}
+            show()
+          }
+        }
+      }
+    }
+  }
+
+  private fun setupRecyclerView() {
+    suggestionAdapter = SuggestionAdapter()
+    binding.recyclerViewSuggestions.apply {
+      adapter = suggestionAdapter
     }
   }
 

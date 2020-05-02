@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface SuggestionDao {
-  @Query("SELECT * FROM Suggestion  WHERE text LIKE :text  ORDER BY rating DESC")
+  @Query("SELECT * FROM Suggestion WHERE text LIKE :text ORDER BY rating DESC")
   fun observe(text: String): Flow<List<Suggestion>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
