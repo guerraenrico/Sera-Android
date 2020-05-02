@@ -13,7 +13,6 @@ import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
@@ -22,12 +21,10 @@ import com.guerra.enrico.base.extensions.makeSceneTransitionAnimation
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
+import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.ui.base.BaseFragment
-import com.guerra.enrico.sera.ui.todos.adapter.SwipeToCompleteCallback
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
-import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
 import javax.inject.Inject
 
 /**
@@ -41,6 +38,7 @@ class TodosFragment : BaseFragment() {
   private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
 
   private lateinit var binding: FragmentTodosBinding
+  private lateinit var taskAdapter: TaskAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -89,7 +87,7 @@ class TodosFragment : BaseFragment() {
       binding.messageLayout.hide()
       if (tasksResult is Result.Success) {
         binding.recyclerViewTasks.visibility = View.VISIBLE
-        setRecyclerTaskList(tasksResult.data)
+        taskAdapter.submitList(tasksResult.data)
         return@observe
       }
       if (tasksResult is Result.Error) {
@@ -119,12 +117,12 @@ class TodosFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    val tasksAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
+    taskAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     binding.recyclerViewTasks.apply {
       layoutManager = linearLayoutManager
-      adapter = tasksAdapter
+      adapter = taskAdapter
       (itemAnimator as DefaultItemAnimator).run {
         supportsChangeAnimations = false
         addDuration = 160L
@@ -139,16 +137,6 @@ class TodosFragment : BaseFragment() {
         ).apply {
           setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
         })
-    }
-  }
-
-  /**
-   * Show tasks into the recycler view
-   * @param tasks task's list to show
-   */
-  private fun setRecyclerTaskList(tasks: List<TaskPresentation>) {
-    (binding.recyclerViewTasks.adapter as? TaskAdapter)?.apply {
-      submitList(tasks)
     }
   }
 
