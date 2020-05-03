@@ -1,10 +1,10 @@
 package com.guerra.enrico.sera.data.repo.todos.suggestion
 
+import com.guerra.enrico.base.Result
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.EntityData
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
-import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
 
@@ -15,8 +15,13 @@ import javax.inject.Inject
 class SuggestionRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager
 ) : SuggestionRepository {
-  override fun getSuggestions(text: String): Flow<List<Suggestion>> {
-    return localDbManager.observeSuggestion(text)
+
+  override suspend fun searchSuggestions(text: String): Result<List<Suggestion>> {
+    return Result.Success(localDbManager.searchSuggestions(text))
+  }
+
+  override suspend fun getSuggestions(): Result<List<Suggestion>> {
+    return Result.Success(localDbManager.getSuggestions())
   }
 
   override suspend fun createSuggestionFromText(text: String) {

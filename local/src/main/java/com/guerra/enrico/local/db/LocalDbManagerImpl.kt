@@ -116,10 +116,13 @@ class LocalDbManagerImpl @Inject constructor(
     database.taskDao().sync(tasks)
   }
 
-  // Suggestions
+  override suspend fun searchSuggestions(text: String): List<Suggestion> =
+    database.suggestionDao().search("%$text%")
 
-  override fun observeSuggestion(text: String): Flow<List<Suggestion>> =
-    database.suggestionDao().observe(text)
+  override suspend fun getSuggestions(): List<Suggestion> =
+    database.suggestionDao().get()
+
+  // Suggestions
 
   override suspend fun insertSuggestion(suggestion: Suggestion): Long =
     database.suggestionDao().insert(suggestion)

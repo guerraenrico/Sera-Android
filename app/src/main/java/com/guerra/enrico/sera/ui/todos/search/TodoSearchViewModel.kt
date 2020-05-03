@@ -1,16 +1,15 @@
 package com.guerra.enrico.sera.ui.todos.search
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.coroutine.AutoDisposableJob
 import com.guerra.enrico.domain.interactors.todos.CreateSuggestion
-import com.guerra.enrico.domain.observers.todos.ObserveSuggestions
+import com.guerra.enrico.domain.interactors.todos.GetSuggestions
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.sera.ui.base.BaseViewModel
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,14 +18,27 @@ import javax.inject.Inject
  * on 16/03/2020.
  */
 class TodoSearchViewModel @Inject constructor(
-  private val observeSuggestions: ObserveSuggestions,
+  private val getSuggestions: GetSuggestions,
   private val createSuggestion: CreateSuggestion
 ) : BaseViewModel() {
 
-  val suggestionsResult: LiveData<Result<List<Suggestion>>> = observeSuggestions.observe()
-    .onStart { Result.Loading }
-    .map { Result.Success(it) }
-    .asLiveData()
+  private val _suggestionsResult = MutableLiveData<Result<List<Suggestion>>>(Result.Loading)
+  val suggestionsResult: LiveData<Result<List<Suggestion>>>
+    get() = _suggestionsResult
+
+  var job by AutoDisposableJob()
+
+  fun load() {
+    job = viewModelScope.launch {
+      _suggestionsResult.value = getSuggestions(GetSuggestions.Params())
+    }
+  }
+
+  fun loadWhileTyping(text: String) {
+    job = viewModelScope.launch {
+      _suggestionsResult.value = getSuggestions(GetSuggestions.Params(text))
+    }
+  }
 
   fun onSearch(text: String) {
     viewModelScope.launch {

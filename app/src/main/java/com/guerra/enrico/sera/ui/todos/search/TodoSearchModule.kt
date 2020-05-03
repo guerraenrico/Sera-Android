@@ -21,5 +21,5 @@ internal abstract class TodoSearchModule {
   @Binds
   @IntoMap
   @ViewModelKey(TodoSearchViewModel::class)
-  abstract fun bindLoginViewModel(viewModel: TodoSearchViewModel): ViewModel
+  abstract fun bindTodoSearchViewModel(viewModel: TodoSearchViewModel): ViewModel
 }

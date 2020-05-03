@@ -16,6 +16,7 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.databinding.FragmentTodosSearchBinding
+import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.SuggestionAdapter
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 23/03/2020.
  */
-class TodoSearchFragment : Fragment() {
+class TodoSearchFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoSearchViewModel by activityViewModels { viewModelFactory }
@@ -53,30 +54,42 @@ class TodoSearchFragment : Fragment() {
       setOnMenuItemClickListener { onMenuItemClick(it) }
       setupRecyclerView()
       observeSuggestionList()
+
+      viewModel.load()
     }
 
   }
 
-  private fun observeSuggestionList() {
-    observe(viewModel.suggestionsResult) { suggestionsResult ->
-      when (suggestionsResult) {
-        is Result.Loading -> {
-        }
-        is Result.Success -> {
-          binding.messageLayout.hide()
-          binding.recyclerViewSuggestions.isVisible = true
-          // TODO Show custom message if no item found
-          suggestionAdapter.submitList(suggestionsResult.data)
-        }
-        is Result.Error -> {
-          val messageResources = MessageExceptionManager(Exception()).getResources()
+  private fun observeSuggestionList() = observe(viewModel.suggestionsResult) { suggestionsResult ->
+    when (suggestionsResult) {
+      is Result.Loading -> {
+      }
+      is Result.Success -> {
+        binding.messageLayout.hide()
+        binding.recyclerViewSuggestions.isVisible = true
+        if (suggestionsResult.data.isEmpty()) {
           binding.recyclerViewSuggestions.isVisible = false
           binding.messageLayout.apply {
-            setImage(messageResources.icon)
-            setMessage(messageResources.message)
-            setButton(resources.getString(R.string.message_layout_button_try_again)) {}
+            setMessage("No suggestions")
+            setButton(resources.getString(R.string.message_layout_button_try_again)) {
+              viewModel.loadWhileTyping("")
+            }
             show()
           }
+        } else {
+          suggestionAdapter.submitList(suggestionsResult.data)
+        }
+      }
+      is Result.Error -> {
+        val messageResources = MessageExceptionManager(Exception()).getResources()
+        binding.recyclerViewSuggestions.isVisible = false
+        binding.messageLayout.apply {
+          setImage(messageResources.icon)
+          setMessage(messageResources.message)
+          setButton(resources.getString(R.string.message_layout_button_try_again)) {
+            viewModel.loadWhileTyping("")
+          }
+          show()
         }
       }
     }
