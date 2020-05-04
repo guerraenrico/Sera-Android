@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
@@ -104,9 +103,16 @@ class TodoSearchFragment : BaseFragment() {
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
-      R.id.action_search_todo -> true
+      R.id.action_search_todo -> {
+        val text = binding.searchToolbarEditTextSearch.text.toString()
+        viewModel.onSearch(text)
+        true
+      }
       else -> false
     }
   }
 
+  companion object {
+    fun newInstance() = TodoSearchFragment()
+  }
 }

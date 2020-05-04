@@ -1,5 +1,7 @@
 package com.guerra.enrico.sera.ui.todos
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
@@ -25,6 +27,9 @@ import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
 import com.guerra.enrico.sera.databinding.FragmentTodosBinding
 import com.guerra.enrico.sera.ui.base.BaseFragment
 import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
+import com.guerra.enrico.sera.ui.todos.models.SearchData
+import com.guerra.enrico.sera.ui.todos.navigation.TODO_SEARCH_REQUEST_CODE
+import com.guerra.enrico.sera.ui.todos.navigation.TODO_SEARCH_RESULT_KEY
 import javax.inject.Inject
 
 /**
@@ -155,12 +160,21 @@ class TodosFragment : BaseFragment() {
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.action_add_todo -> {
-        context?.let {
-          findNavController().navigate(R.id.todo_add)
-        }
+        findNavController().navigate(R.id.todo_add)
         true
       }
       else -> false
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == TODO_SEARCH_REQUEST_CODE) {
+      if (resultCode == Activity.RESULT_OK && data != null) {
+        val searchData = data.getParcelableExtra<SearchData>(TODO_SEARCH_RESULT_KEY) ?: return
+        todosViewModel.onSearchResult(searchData)
+      }
+    } else {
+      super.onActivityResult(requestCode, resultCode, data)
     }
   }
 }

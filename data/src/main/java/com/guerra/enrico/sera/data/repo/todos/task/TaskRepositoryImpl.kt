@@ -70,7 +70,7 @@ class TaskRepositoryImpl @Inject constructor(
       if (searchText.isNotEmpty()) {
         return@map list.filter { c -> c.description.contains(regex) }
       }
-      if (category !== null) {
+      if (category != null) {
         return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
       }
       return@map list

@@ -49,6 +49,17 @@ fun FragmentActivity.makeSceneTransitionAnimation(
 }
 
 /**
+ * Start observe liveData that emits events
+ */
+fun <T> FragmentActivity.observeEvent(liveData: LiveData<Event<T>>, block: (T) -> Unit) {
+  liveData.observe(this, EventObserver {
+    if (it != null) {
+      block(it)
+    }
+  })
+}
+
+/**
  * Start observe liveData
  */
 fun <T> Fragment.observe(liveData: LiveData<T>, block: (T) -> Unit) {

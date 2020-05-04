@@ -12,24 +12,29 @@ import com.guerra.enrico.sera.databinding.ItemTodosSuggestionBinding
  * Created by enrico
  * on 02/05/2020.
  */
-class SuggestionAdapter : ListAdapter<Suggestion, SuggestionViewHolder>(SuggestionDiff) {
+class SuggestionAdapter(
+  private val onSuggestionClick: (Suggestion) -> Unit
+) : ListAdapter<Suggestion, SuggestionViewHolder>(SuggestionDiff) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
     val binding =
       ItemTodosSuggestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    return SuggestionViewHolder(binding)
+    return SuggestionViewHolder(binding, onSuggestionClick)
   }
 
   override fun onBindViewHolder(holder: SuggestionViewHolder, position: Int) {
     holder.bind(getItem(position))
   }
-
 }
 
 class SuggestionViewHolder(
-  private val binding: ItemTodosSuggestionBinding
+  private val binding: ItemTodosSuggestionBinding,
+  private val onClick: (Suggestion) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
   fun bind(suggestion: Suggestion) {
+    binding.container.setOnClickListener {
+      onClick(suggestion)
+    }
     binding.text.text = suggestion.text
   }
 }

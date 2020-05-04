@@ -20,4 +20,8 @@ data class Suggestion(
   @Embedded(prefix = "entityData") val entityData: EntityData = EntityData(),
   @ColumnInfo(name = "updatedAt") val updatedAt: Date = Date(),
   @ColumnInfo(name = "createdAt") val createdAt: Date = Date()
-)
+) {
+  fun isCategory(): Boolean {
+    return entityData.name == Category.ENTITY_NAME
+  }
+}

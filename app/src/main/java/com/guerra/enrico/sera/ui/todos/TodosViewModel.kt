@@ -19,6 +19,7 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
+import com.guerra.enrico.sera.ui.todos.models.SearchData
 import com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation
 import com.guerra.enrico.sera.ui.todos.presentation.taskToPresentations
 import com.guerra.enrico.sera.ui.todos.presentation.tasksToPresentations
@@ -97,20 +98,11 @@ class TodosViewModel @Inject constructor(
     }
   }
 
-  /**
-   * Search tasks by text
-   * @param text text to onSearch
-   */
-  fun onSearchByTest(text: String) {
-    observeTasks(ObserveTasks.Params(text))
-  }
-
-  /**
-   * Search task by category
-   * @param category selected category
-   */
-  fun onSearchCategory(category: Category) {
-    observeTasks(ObserveTasks.Params(category = category))
+  fun onSearchResult(searchData: SearchData) {
+    when {
+      searchData.category != null -> observeTasks(ObserveTasks.Params(category =  searchData.category))
+      searchData.text != null && searchData.text.isNotBlank() -> observeTasks(ObserveTasks.Params(text = searchData.text))
+    }
   }
 
   /**

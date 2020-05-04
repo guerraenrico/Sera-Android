@@ -3,6 +3,7 @@ package com.guerra.enrico.sera.ui.todos.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.coroutine.AutoDisposableJob
 import com.guerra.enrico.domain.interactors.todos.CreateSuggestion
@@ -10,6 +11,7 @@ import com.guerra.enrico.domain.interactors.todos.GetSuggestions
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.sera.ui.base.BaseViewModel
+import com.guerra.enrico.sera.ui.todos.models.SearchData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +27,10 @@ class TodoSearchViewModel @Inject constructor(
   private val _suggestionsResult = MutableLiveData<Result<List<Suggestion>>>(Result.Loading)
   val suggestionsResult: LiveData<Result<List<Suggestion>>>
     get() = _suggestionsResult
+
+  private val _searchData = MutableLiveData<Event<SearchData>>()
+  val searchData: LiveData<Event<SearchData>>
+    get() = _searchData
 
   var job by AutoDisposableJob()
 
@@ -43,14 +49,14 @@ class TodoSearchViewModel @Inject constructor(
   fun onSearch(text: String) {
     viewModelScope.launch {
       createSuggestion(CreateSuggestion.Params.WithText(text))
-      // TODO return query to todos activity
+      _searchData.value = Event(SearchData(text = text))
     }
   }
 
-  fun onCategorySelected(category: Category) {
-    viewModelScope.launch {
-      createSuggestion(CreateSuggestion.Params.WithCategory(category))
-      // TODO return query to todos activity
-    }
-  }
+//  fun onSuggestionClick(suggestion: Suggestion) {
+//    viewModelScope.launch {
+//      createSuggestion(CreateSuggestion.Params.WithCategory(category))
+//      _searchData.value = Event(SearchData(category = category))
+//    }
+//  }
 }

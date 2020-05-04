@@ -50,17 +50,12 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-
     <style name="AppTheme.Sera.SearchActivity">
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowContentTransitions">true</item>
 
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/todos_to_search_enter
-        </item>
-        <item name="android:windowSharedElementReturnTransition">
-            @transition/todos_to_search_return
-        </item>
+        <item name="android:windowSharedElementEnterTransition">@transition/todos_to_search_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/todos_to_search_return</item>
 
         <item name="android:windowEnterTransition">@transition/activity_search_enter</item>
         <item name="android:windowReturnTransition">@transition/activity_search_return</item>
