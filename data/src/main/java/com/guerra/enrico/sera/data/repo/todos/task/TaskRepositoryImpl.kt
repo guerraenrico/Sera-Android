@@ -6,6 +6,7 @@ import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.models.sync.Operation
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.remote.RemoteDataManager
 import com.guerra.enrico.remote.response.CallResult
@@ -75,6 +76,18 @@ class TaskRepositoryImpl @Inject constructor(
       }
       return@map list
     }
+
+  override fun getTasks(searchText: String, completed: Boolean): Flow<List<Task>> {
+    TODO("Not yet implemented")
+  }
+
+  override fun getTasks(category: Category, completed: Boolean): Flow<List<Task>> {
+    TODO("Not yet implemented")
+  }
+
+  override fun getTasks(suggestion: Suggestion, completed: Boolean): Flow<List<Task>> {
+    TODO("Not yet implemented")
+  }
 
   override suspend fun syncAction(syncAction: SyncAction): Result<Any> =
     localDbManager.withAccessToken {

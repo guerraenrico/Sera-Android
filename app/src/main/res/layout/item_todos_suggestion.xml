@@ -4,13 +4,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_m"
-    android:background="@drawable/item_list_background">
+    android:background="@drawable/item_list_background"
+    android:padding="@dimen/padding_xl">
 
     <TextView
         android:id="@+id/text"
+        style="@style/ListItemTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

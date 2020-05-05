@@ -8,6 +8,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.coroutine.AutoDisposableJob
 import com.guerra.enrico.domain.interactors.todos.CreateSuggestion
 import com.guerra.enrico.domain.interactors.todos.GetSuggestions
+import com.guerra.enrico.domain.interactors.todos.RankUpSuggestion
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.sera.ui.base.BaseViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
  */
 class TodoSearchViewModel @Inject constructor(
   private val getSuggestions: GetSuggestions,
-  private val createSuggestion: CreateSuggestion
+  private val createSuggestion: CreateSuggestion,
+  private val rankUpSuggestion: RankUpSuggestion
 ) : BaseViewModel() {
 
   private val _suggestionsResult = MutableLiveData<Result<List<Suggestion>>>(Result.Loading)
@@ -53,10 +55,17 @@ class TodoSearchViewModel @Inject constructor(
     }
   }
 
-//  fun onSuggestionClick(suggestion: Suggestion) {
-//    viewModelScope.launch {
-//      createSuggestion(CreateSuggestion.Params.WithCategory(category))
-//      _searchData.value = Event(SearchData(category = category))
-//    }
-//  }
+  fun onCategoryClick(category: Category) {
+    viewModelScope.launch {
+      createSuggestion(CreateSuggestion.Params.WithCategory(category))
+      _searchData.value = Event(SearchData(category = category))
+    }
+  }
+
+  fun onSuggestionClick(suggestion: Suggestion) {
+    viewModelScope.launch {
+      rankUpSuggestion(RankUpSuggestion.Params(suggestion))
+      _searchData.value = Event(SearchData(suggestion = suggestion))
+    }
+  }
 }

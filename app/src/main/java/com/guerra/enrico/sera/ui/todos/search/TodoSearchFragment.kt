@@ -95,7 +95,9 @@ class TodoSearchFragment : BaseFragment() {
   }
 
   private fun setupRecyclerView() {
-    suggestionAdapter = SuggestionAdapter()
+    suggestionAdapter = SuggestionAdapter {
+      viewModel.onSuggestionClick(it)
+    }
     binding.recyclerViewSuggestions.apply {
       adapter = suggestionAdapter
     }

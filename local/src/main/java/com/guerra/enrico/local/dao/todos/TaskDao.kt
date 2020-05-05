@@ -13,9 +13,10 @@ import java.util.*
 @Dao
 interface TaskDao {
   @Query("SELECT * FROM Task  WHERE completed = :completed")
-  fun observe(
-    completed: Boolean
-  ): Flow<List<Task>>
+  fun observe(completed: Boolean): Flow<List<Task>>
+
+  @Query("SELECT * FROM Task  WHERE title LIKE :text OR description LIKE :text AND completed = :completed")
+  fun observe(text: String, completed: Boolean): Flow<List<Task>>
 
   @Query("SELECT * FROM TASK WHERE id = :id")
   suspend fun get(id: String): Task
@@ -26,7 +27,7 @@ interface TaskDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(tasks: List<Task>): List<Long>
 
-  @Query("SELECT * FROM Task WHERE title LIKE :text OR description LIKE :text ")
+  @Query("SELECT * FROM Task WHERE title LIKE :text OR description LIKE :text")
   suspend fun search(text: String): List<Task>
 
   @Update

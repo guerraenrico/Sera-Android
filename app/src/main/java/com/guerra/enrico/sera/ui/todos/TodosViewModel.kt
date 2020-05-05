@@ -14,9 +14,9 @@ import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.domain.observers.todos.ObserveTasks
-import com.guerra.enrico.sera.R
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
+import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.ui.base.BaseViewModel
 import com.guerra.enrico.sera.ui.base.SnackbarMessage
 import com.guerra.enrico.sera.ui.todos.models.SearchData
@@ -100,8 +100,12 @@ class TodosViewModel @Inject constructor(
 
   fun onSearchResult(searchData: SearchData) {
     when {
-      searchData.category != null -> observeTasks(ObserveTasks.Params(category =  searchData.category))
-      searchData.text != null && searchData.text.isNotBlank() -> observeTasks(ObserveTasks.Params(text = searchData.text))
+      searchData.category != null ->
+        observeTasks(ObserveTasks.Params(category = searchData.category))
+      searchData.text != null && searchData.text.isNotBlank() ->
+        observeTasks(ObserveTasks.Params(text = searchData.text))
+      searchData.suggestion != null ->
+        observeTasks(ObserveTasks.Params(suggestion = searchData.suggestion))
     }
   }
 
