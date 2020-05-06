@@ -12,6 +12,7 @@ import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ActivityNavigatorExtras
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,6 +31,7 @@ import com.guerra.enrico.sera.ui.todos.adapter.TaskAdapter
 import com.guerra.enrico.sera.ui.todos.models.SearchData
 import com.guerra.enrico.sera.ui.todos.navigation.TODO_SEARCH_REQUEST_CODE
 import com.guerra.enrico.sera.ui.todos.navigation.TODO_SEARCH_RESULT_KEY
+import com.guerra.enrico.sera.ui.todos.search.TodoSearchActivity
 import javax.inject.Inject
 
 /**
@@ -152,8 +154,8 @@ class TodosFragment : BaseFragment() {
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
 
-      val extra = ActivityNavigatorExtras(options)
-      findNavController().navigate(TodosFragmentDirections.actionTodosToTodoSearch(), extra)
+      val intent = Intent(context, TodoSearchActivity::class.java)
+      startActivityForResult(intent, TODO_SEARCH_REQUEST_CODE, options.toBundle())
     }
   }
 

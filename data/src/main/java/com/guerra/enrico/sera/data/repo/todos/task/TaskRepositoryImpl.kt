@@ -69,7 +69,7 @@ class TaskRepositoryImpl @Inject constructor(
     localDbManager.observeTasks(completed).map { list ->
       val regex = """(?=.*$searchText)""".toRegex(RegexOption.IGNORE_CASE)
       if (searchText.isNotEmpty()) {
-        return@map list.filter { c -> c.description.contains(regex) }
+        return@map list.filter { t -> t.title.contains(regex) || t.description.contains(regex)}
       }
       if (category != null) {
         return@map list.filter { t -> t.categories.any { c -> category.id == c.id } }
