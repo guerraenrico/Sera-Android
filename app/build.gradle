@@ -78,6 +78,8 @@ dependencies {
     implementation project(":local")
     implementation project(":remote")
 
+    implementation project(":common:resources")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.android:flexbox:$flexboxVersion"
