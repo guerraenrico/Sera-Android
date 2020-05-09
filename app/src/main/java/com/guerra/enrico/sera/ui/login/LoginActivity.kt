@@ -6,7 +6,7 @@ import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.ActivityLoginBinding
-import com.guerra.enrico.sera.ui.base.BaseActivity
+import com.guerra.enrico.base_android.arch.BaseActivity
 
 /**
  * Created by enrico

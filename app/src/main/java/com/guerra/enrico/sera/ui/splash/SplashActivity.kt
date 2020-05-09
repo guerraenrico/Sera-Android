@@ -2,7 +2,7 @@ package com.guerra.enrico.sera.ui.splash
 
 import android.os.Bundle
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.base.BaseActivity
+import com.guerra.enrico.base_android.arch.BaseActivity
 
 /**
  * Created by enrico

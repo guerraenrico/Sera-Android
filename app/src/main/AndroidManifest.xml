@@ -35,11 +35,11 @@
             android:theme="@style/AppTheme.Sera" />
 
         <activity
-            android:name=".ui.todos.add.TodoAddActivity"
+            android:name="com.guerra.enrico.todos.add.TodoAddActivity"
             android:theme="@style/AppTheme.Sera" />
 
         <activity
-            android:name=".ui.todos.search.TodoSearchActivity"
+            android:name="com.guerra.enrico.todos.search.TodoSearchActivity"
             android:theme="@style/AppTheme.Sera.SearchActivity" />
 
         <activity

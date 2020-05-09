@@ -7,8 +7,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.User
 import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
-import com.guerra.enrico.sera.ui.base.BaseViewModel
-import kotlinx.coroutines.launch
+import com.guerra.enrico.base_android.arch.BaseViewModel
 import javax.inject.Inject
 
 /**

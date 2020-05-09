@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.guerra.enrico.sera.ui.todos.TodosViewModel" />
+            type="com.guerra.enrico.todos.TodosViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -66,7 +66,7 @@
             android:transitionGroup="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout
+            <com.guerra.enrico.base_android.widget.CustomSwipeRefreshLayout
                 android:id="@+id/refresh_layout_tasks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <com.guerra.enrico.sera.widget.MessageLayout
+                    <com.guerra.enrico.components.MessageLayout
                         android:id="@+id/message_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
@@ -92,7 +92,7 @@
 
                 </LinearLayout>
 
-            </com.guerra.enrico.sera.widget.CustomSwipeRefreshLayout>
+            </com.guerra.enrico.base_android.widget.CustomSwipeRefreshLayout>
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

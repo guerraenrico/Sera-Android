@@ -7,16 +7,35 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 android {
     compileSdkVersion compileSdk
 
+    defaultConfig {
+        minSdkVersion minSdk
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dataBinding {
+        enabled true
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":base")
+    implementation project(":base_android")
+    implementation project(":components")
     implementation project(":models")
     implementation project(":domain")
 

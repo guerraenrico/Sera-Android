@@ -18,7 +18,7 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.sera.BuildConfig
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentLoginBinding
-import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.base_android.arch.BaseFragment
 import javax.inject.Inject
 
 /**

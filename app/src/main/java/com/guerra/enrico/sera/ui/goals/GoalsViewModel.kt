@@ -1,6 +1,6 @@
 package com.guerra.enrico.sera.ui.goals
 
-import com.guerra.enrico.sera.ui.base.BaseViewModel
+import com.guerra.enrico.base_android.arch.BaseViewModel
 import javax.inject.Inject
 
 /**

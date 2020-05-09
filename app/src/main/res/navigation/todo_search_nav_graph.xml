@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_todos_search"
-        android:name="com.guerra.enrico.sera.ui.todos.search.TodoSearchFragment"
+        android:name="com.guerra.enrico.todos.search.TodoSearchFragment"
         android:label="@string/title_search" />
 
 </navigation>

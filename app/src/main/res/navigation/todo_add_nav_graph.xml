@@ -6,32 +6,32 @@
 
     <fragment
         android:id="@+id/step_select"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.SelectFragment"
+        android:name="com.guerra.enrico.todos.add.steps.SelectFragment"
         android:label="@string/title_select_add" />
 
     <fragment
         android:id="@+id/step_add_category"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.AddCategoryFragment"
+        android:name="com.guerra.enrico.todos.add.steps.AddCategoryFragment"
         android:label="@string/title_add_category" />
 
     <fragment
         android:id="@+id/step_select_category"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.SelectCategoryFragment"
+        android:name="com.guerra.enrico.todos.add.steps.SelectCategoryFragment"
         android:label="@string/title_select_category" />
 
     <fragment
         android:id="@+id/step_add_task"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.AddTaskFragment"
+        android:name="com.guerra.enrico.todos.add.steps.AddTaskFragment"
         android:label="@string/title_add_task" />
 
     <fragment
         android:id="@+id/step_schedule"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.ScheduleFragment"
+        android:name="com.guerra.enrico.todos.add.steps.ScheduleFragment"
         android:label="@string/title_schedule" />
 
     <fragment
         android:id="@+id/step_done"
-        android:name="com.guerra.enrico.sera.ui.todos.add.steps.DoneFragment"
+        android:name="com.guerra.enrico.todos.add.steps.DoneFragment"
         android:label="@string/title_done" />
 
 </navigation>

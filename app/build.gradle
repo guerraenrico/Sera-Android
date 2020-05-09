@@ -72,13 +72,13 @@ dependencies {
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
+    implementation project(":common:resources")
 
     // FIXME: Workaround waiting for https://github.com/google/dagger/issues/970
     implementation project(":data")
     implementation project(":local")
     implementation project(":remote")
 
-    implementation project(":common:resources")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
@@ -88,7 +88,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"

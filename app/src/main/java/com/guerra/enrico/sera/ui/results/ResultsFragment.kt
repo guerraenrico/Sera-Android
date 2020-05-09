@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.databinding.FragmentResultsBinding
-import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
-import com.guerra.enrico.sera.ui.base.BaseFragment
+import com.guerra.enrico.base_android.exception.MessageExceptionManager
+import com.guerra.enrico.base_android.arch.BaseFragment
 import javax.inject.Inject
 
 /**
@@ -47,7 +47,9 @@ class ResultsFragment : BaseFragment() {
 
   private fun initView() {
     binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_results)
-    val messageResources = MessageExceptionManager(Exception()).getResources()
+    val messageResources = com.guerra.enrico.base_android.exception.MessageExceptionManager(
+      Exception()
+    ).getResources()
     binding.messageLayout.apply {
       setImage(messageResources.icon)
       setMessage(messageResources.message)

@@ -6,12 +6,12 @@
 
     <fragment
         android:id="@+id/fragment_todos"
-        android:name="com.guerra.enrico.sera.ui.todos.TodosFragment"
+        android:name="com.guerra.enrico.todos.TodosFragment"
         android:label="@string/title_todos" />
 
     <activity
         android:id="@+id/todo_add"
-        android:name="com.guerra.enrico.sera.ui.todos.add.TodoAddActivity"
+        android:name="com.guerra.enrico.todos.add.TodoAddActivity"
         android:label="@string/title_add_todo" />
 
     <include app:graph="@navigation/todo_add_nav_graph" />
