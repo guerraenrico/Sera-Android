@@ -22,9 +22,10 @@
             app:destination="@id/google_login" />
     </fragment>
 
-    <activity
-        android:id="@+id/main_activity"
-        android:name="com.guerra.enrico.sera.ui.main.MainActivity"
-        android:label="@string/title_main" />
+<!--  TODO: to find a solution  -->
+<!--    <activity-->
+<!--        android:id="@+id/main_activity"-->
+<!--        android:name="com.guerra.enrico.sera.ui.main.MainActivity"-->
+<!--        android:label="@string/title_main" />-->
 
 </navigation>

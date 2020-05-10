@@ -3,11 +3,24 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def configPropertiesFile = rootProject.file("config.properties")
+def configProperties = new Properties()
+configProperties.load(new FileInputStream(configPropertiesFile))
+
 android {
     compileSdkVersion compileSdk
 
     defaultConfig {
         minSdkVersion minSdk
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
+        }
+        release {
+            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
+        }
     }
 
     compileOptions {
@@ -66,4 +79,7 @@ dependencies {
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+    // Google SignIn
+    implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
 }

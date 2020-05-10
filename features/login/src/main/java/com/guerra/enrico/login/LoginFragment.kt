@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -15,10 +14,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.sera.BuildConfig
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentLoginBinding
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.login.BuildConfig
+import com.guerra.enrico.login.databinding.FragmentLoginBinding
 import javax.inject.Inject
 
 /**
@@ -98,6 +96,7 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    findNavController().navigate(LoginFragmentDirections.actionLoginToSync())
+//    TODO Find a solution to navigate
+//    findNavController().navigate(LoginFragmentDirections.actionLoginToSync())
   }
 }
