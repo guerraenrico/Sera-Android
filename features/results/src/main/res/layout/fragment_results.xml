@@ -13,9 +13,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:topSystemWindowInsets="@{true}">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/ToolbarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+            </androidx.appcompat.widget.Toolbar>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 

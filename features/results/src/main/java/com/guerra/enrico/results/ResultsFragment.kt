@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialFadeThrough
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentResultsBinding
-import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.results.databinding.FragmentResultsBinding
+import kotlinx.android.synthetic.main.fragment_results.view.*
 import javax.inject.Inject
 
 /**
