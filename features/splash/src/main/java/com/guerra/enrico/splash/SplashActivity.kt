@@ -1,7 +1,6 @@
 package com.guerra.enrico.splash
 
 import android.os.Bundle
-import com.guerra.enrico.sera.R
 import com.guerra.enrico.base_android.arch.BaseActivity
 
 /**

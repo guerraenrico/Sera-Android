@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.guerra.enrico.sera.R
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -35,7 +34,7 @@ class SplashFragment : BaseFragment() {
   }
 
   private fun initView() {
-    viewModel.validationAccessTokenResult.observe(this, Observer { userResult ->
+    viewModel.validationAccessTokenResult.observe(viewLifecycleOwner, Observer { userResult ->
       if (userResult == null || userResult is Result.Loading) return@Observer
       if (userResult.succeeded) {
         gotoMainActivity()
