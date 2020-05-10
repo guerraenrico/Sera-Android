@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/results" />
             <option value="$PROJECT_DIR$/features/settings" />
+            <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/features/todos" />
             <option value="$PROJECT_DIR$/lint" />
             <option value="$PROJECT_DIR$/local" />

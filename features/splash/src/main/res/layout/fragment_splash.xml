@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
-    tools:context=".ui.splash.SplashFragment"
+    tools:context="com.guerra.enrico.splash.SplashFragment"
     >
 
     <TextView

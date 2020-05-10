@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.splash
+package com.guerra.enrico.splash
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.PerFragment
@@ -16,7 +16,7 @@ import dagger.multibindings.IntoMap
 internal abstract class SplashModule {
   @PerFragment
   @ContributesAndroidInjector
-  abstract fun contributeSplashFragment(): SplashFragment
+  abstract fun contributeSplashFragment(): com.guerra.enrico.splash.SplashFragment
 
   @Binds
   @IntoMap

@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.guerra.enrico.splash.SplashActivity"
             android:theme="@style/AppTheme.Sera">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

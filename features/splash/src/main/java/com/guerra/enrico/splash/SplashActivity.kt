@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.splash
+package com.guerra.enrico.splash
 
 import android.os.Bundle
 import com.guerra.enrico.sera.R

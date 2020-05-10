@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/splash"
-        android:name="com.guerra.enrico.sera.ui.splash.SplashFragment"
+        android:name="com.guerra.enrico.splash.SplashFragment"
         android:label="@string/title_splash" />
 
     <activity

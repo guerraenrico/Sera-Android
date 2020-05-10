@@ -10,8 +10,8 @@ import com.guerra.enrico.results.ResultsFragment
 import com.guerra.enrico.results.ResultsModule
 import com.guerra.enrico.settings.SettingsFragment
 import com.guerra.enrico.settings.SettingsModule
-import com.guerra.enrico.sera.ui.splash.SplashActivity
-import com.guerra.enrico.sera.ui.splash.SplashModule
+import com.guerra.enrico.splash.SplashActivity
+import com.guerra.enrico.splash.SplashModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,10 +25,10 @@ abstract class ActivityBindingModule {
   @PerActivity
   @ContributesAndroidInjector(
     modules = [
-      SplashModule::class
+      com.guerra.enrico.splash.SplashModule::class
     ]
   )
-  abstract fun splashActivity(): SplashActivity
+  abstract fun splashActivity(): com.guerra.enrico.splash.SplashActivity
 
   @PerActivity
   @ContributesAndroidInjector(
