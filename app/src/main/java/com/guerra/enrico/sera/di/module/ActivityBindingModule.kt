@@ -4,8 +4,8 @@ import com.guerra.enrico.base.di.PerActivity
 import com.guerra.enrico.base.di.PerFragment
 import com.guerra.enrico.goals.GoalsFragment
 import com.guerra.enrico.goals.GoalsModule
-import com.guerra.enrico.sera.ui.login.LoginActivity
-import com.guerra.enrico.sera.ui.login.LoginModule
+import com.guerra.enrico.login.LoginActivity
+import com.guerra.enrico.login.LoginModule
 import com.guerra.enrico.results.ResultsFragment
 import com.guerra.enrico.results.ResultsModule
 import com.guerra.enrico.sera.ui.settings.SettingsFragment
@@ -33,10 +33,10 @@ abstract class ActivityBindingModule {
   @PerActivity
   @ContributesAndroidInjector(
     modules = [
-      LoginModule::class
+      com.guerra.enrico.login.LoginModule::class
     ]
   )
-  abstract fun loginActivity(): LoginActivity
+  abstract fun loginActivity(): com.guerra.enrico.login.LoginActivity
 
   @PerFragment
   @ContributesAndroidInjector(

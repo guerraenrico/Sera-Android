@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.login
+package com.guerra.enrico.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -61,7 +61,9 @@ class LoginFragment : BaseFragment() {
       .build()
     val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
     binding.signInButton.setOnClickListener {
-      startActivityForResult(googleSignInClient.signInIntent, REQUEST_CODE_SIGN_IN)
+      startActivityForResult(googleSignInClient.signInIntent,
+        REQUEST_CODE_SIGN_IN
+      )
     }
     observe(viewModel.user) {
       when (it) {

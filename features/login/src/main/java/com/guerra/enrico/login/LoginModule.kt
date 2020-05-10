@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.login
+package com.guerra.enrico.login
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.PerFragment
@@ -16,7 +16,7 @@ import dagger.multibindings.IntoMap
 internal abstract class LoginModule {
   @PerFragment
   @ContributesAndroidInjector
-  abstract fun contributeLoginFragment(): LoginFragment
+  abstract fun contributeLoginFragment(): com.guerra.enrico.login.LoginFragment
 
   @PerFragment
   @ContributesAndroidInjector

@@ -11,7 +11,7 @@
 
     <activity
         android:id="@+id/login_activity"
-        android:name="com.guerra.enrico.sera.ui.login.LoginActivity"
+        android:name="com.guerra.enrico.login.LoginActivity"
         android:label="@string/title_login" />
 
     <activity

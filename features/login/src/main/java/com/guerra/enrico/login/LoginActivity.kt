@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.login
+package com.guerra.enrico.login
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

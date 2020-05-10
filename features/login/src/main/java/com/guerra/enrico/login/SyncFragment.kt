@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.login
+package com.guerra.enrico.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SyncFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: com.guerra.enrico.login.LoginViewModel by activityViewModels { viewModelFactory }
 
   private lateinit var binding: FragmentLoginSyncBinding
 

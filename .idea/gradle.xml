@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/goals" />
+            <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/results" />
             <option value="$PROJECT_DIR$/features/todos" />
             <option value="$PROJECT_DIR$/lint" />
