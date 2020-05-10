@@ -1,6 +1,6 @@
 package com.guerra.enrico.goals
 
-import com.guerra.enrico.base_android.arch.BaseViewModel
+import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
 /**
@@ -8,4 +8,4 @@ import javax.inject.Inject
  * on 18/08/2018.
  */
 class GoalsViewModel @Inject constructor(
-) : BaseViewModel()
+) : ViewModel()
