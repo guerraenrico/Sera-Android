@@ -2,22 +2,16 @@ package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.base.di.PerActivity
 import com.guerra.enrico.base.di.PerFragment
-import com.guerra.enrico.sera.ui.goals.GoalsFragment
-import com.guerra.enrico.sera.ui.goals.GoalsModule
+import com.guerra.enrico.goals.GoalsFragment
+import com.guerra.enrico.goals.GoalsModule
 import com.guerra.enrico.sera.ui.login.LoginActivity
 import com.guerra.enrico.sera.ui.login.LoginModule
-import com.guerra.enrico.sera.ui.results.ResultsFragment
-import com.guerra.enrico.sera.ui.results.ResultsModule
+import com.guerra.enrico.results.ResultsFragment
+import com.guerra.enrico.results.ResultsModule
 import com.guerra.enrico.sera.ui.settings.SettingsFragment
 import com.guerra.enrico.sera.ui.settings.SettingsModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
 import com.guerra.enrico.sera.ui.splash.SplashModule
-import com.guerra.enrico.todos.TodosFragment
-import com.guerra.enrico.todos.TodosModule
-import com.guerra.enrico.todos.add.TodoAddActivity
-import com.guerra.enrico.todos.add.TodoAddModel
-import com.guerra.enrico.todos.search.TodoSearchActivity
-import com.guerra.enrico.todos.search.TodoSearchModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -71,18 +65,18 @@ abstract class ActivityBindingModule {
   @PerFragment
   @ContributesAndroidInjector(
     modules = [
-      GoalsModule::class
+      com.guerra.enrico.goals.GoalsModule::class
     ]
   )
-  abstract fun goalsActivity(): GoalsFragment
+  abstract fun goalsActivity(): com.guerra.enrico.goals.GoalsFragment
 
   @PerFragment
   @ContributesAndroidInjector(
     modules = [
-      ResultsModule::class
+      com.guerra.enrico.results.ResultsModule::class
     ]
   )
-  abstract fun resultsFragment(): ResultsFragment
+  abstract fun resultsFragment(): com.guerra.enrico.results.ResultsFragment
 
   @PerFragment
   @ContributesAndroidInjector(

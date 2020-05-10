@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.results
+package com.guerra.enrico.goals
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.ViewModelKey
@@ -8,12 +8,12 @@ import dagger.multibindings.IntoMap
 
 /**
  * Created by enrico
- * on 30/07/2019.
+ * on 18/08/2018.
  */
 @Module
-internal abstract class ResultsModule {
+internal abstract class GoalsModule {
   @Binds
   @IntoMap
-  @ViewModelKey(ResultsViewModel::class)
-  abstract fun bindResultsViewModel(viewModel: ResultsViewModel): ViewModel
+  @ViewModelKey(GoalsViewModel::class)
+  abstract fun bindGoalsViewModel(viewModel: GoalsViewModel): ViewModel
 }

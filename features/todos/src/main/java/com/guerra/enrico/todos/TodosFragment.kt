@@ -39,7 +39,7 @@ class TodosFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
 
-  private val todosViewModel: com.guerra.enrico.todos.TodosViewModel by viewModels { viewModelFactory }
+  private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
 
   private lateinit var binding: FragmentTodosBinding
   private lateinit var taskAdapter: TaskAdapter

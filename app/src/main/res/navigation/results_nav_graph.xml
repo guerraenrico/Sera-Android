@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_results"
-        android:name="com.guerra.enrico.sera.ui.results.ResultsFragment"
+        android:name="com.guerra.enrico.results.ResultsFragment"
         android:label="@string/title_results" />
 
 </navigation>

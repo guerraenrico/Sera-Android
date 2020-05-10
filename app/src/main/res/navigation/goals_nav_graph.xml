@@ -5,6 +5,6 @@
     app:startDestination="@id/fragment_goals">
     <fragment
         android:id="@+id/fragment_goals"
-        android:name="com.guerra.enrico.sera.ui.goals.GoalsFragment"
+        android:name="com.guerra.enrico.goals.GoalsFragment"
         android:label="@string/title_goals" />
 </navigation>

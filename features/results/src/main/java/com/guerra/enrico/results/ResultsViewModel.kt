@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.results
+package com.guerra.enrico.results
 
 import com.guerra.enrico.base_android.arch.BaseViewModel
 import javax.inject.Inject

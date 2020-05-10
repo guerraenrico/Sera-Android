@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.results
+package com.guerra.enrico.goals
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,28 +8,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentResultsBinding
-import com.guerra.enrico.base_android.exception.MessageExceptionManager
+import com.guerra.enrico.sera.databinding.FragmentGoalsBinding
 import com.guerra.enrico.base_android.arch.BaseFragment
 import javax.inject.Inject
 
 /**
  * Created by enrico
- * on 30/07/2019.
+ * on 27/05/2018.
  */
-class ResultsFragment : BaseFragment() {
+class GoalsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: ResultsViewModel by viewModels { viewModelFactory }
+  private val viewModel: GoalsViewModel by viewModels { viewModelFactory }
 
-  private lateinit var binding: FragmentResultsBinding
+  private lateinit var binding: FragmentGoalsBinding
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentResultsBinding.inflate(inflater, container, false).apply {
+    binding = FragmentGoalsBinding.inflate(inflater, container, false).apply {
       lifecycleOwner = viewLifecycleOwner
     }
     return binding.root
@@ -46,7 +45,7 @@ class ResultsFragment : BaseFragment() {
   }
 
   private fun initView() {
-    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_results)
+    binding.toolbar.toolbarTitle.text = resources.getString(R.string.title_goals)
     val messageResources = com.guerra.enrico.base_android.exception.MessageExceptionManager(
       Exception()
     ).getResources()

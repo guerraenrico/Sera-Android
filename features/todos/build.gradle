@@ -16,6 +16,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     dataBinding {
         enabled true
     }
@@ -31,14 +35,12 @@ kapt {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":base")
     implementation project(":base_android")
     implementation project(":components")
     implementation project(":models")
     implementation project(":domain")
-
     implementation project(":common:resources")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -49,7 +51,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -68,6 +69,4 @@ dependencies {
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 }

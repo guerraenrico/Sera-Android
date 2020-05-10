@@ -3,6 +3,7 @@ package com.guerra.enrico.todos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
@@ -24,6 +25,7 @@ import com.guerra.enrico.todos.presentation.taskToPresentations
 import com.guerra.enrico.todos.presentation.tasksToPresentations
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -35,7 +37,7 @@ class TodosViewModel @Inject constructor(
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,
   private val syncTodos: SyncTodos
-) : BaseViewModel(), EventActions {
+) : ViewModel(), EventActions {
 
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
     .onStart { Result.Loading }

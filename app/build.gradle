@@ -72,6 +72,7 @@ dependencies {
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
+    implementation project(":features:todos")
     implementation project(":common:resources")
 
     // FIXME: Workaround waiting for https://github.com/google/dagger/issues/970
