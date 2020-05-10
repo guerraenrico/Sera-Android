@@ -2,6 +2,7 @@ package com.guerra.enrico.todos.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
@@ -11,8 +12,8 @@ import com.guerra.enrico.domain.interactors.todos.GetSuggestions
 import com.guerra.enrico.domain.interactors.todos.RankUpSuggestion
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
-import com.guerra.enrico.sera.ui.base.BaseViewModel
-import com.guerra.enrico.sera.ui.todos.models.SearchData
+import com.guerra.enrico.todos.models.SearchData
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -23,7 +24,7 @@ class TodoSearchViewModel @Inject constructor(
   private val getSuggestions: GetSuggestions,
   private val createSuggestion: CreateSuggestion,
   private val rankUpSuggestion: RankUpSuggestion
-) : BaseViewModel() {
+) : ViewModel() {
 
   private val _suggestionsResult = MutableLiveData<Result<List<Suggestion>>>(Result.Loading)
   val suggestionsResult: LiveData<Result<List<Suggestion>>>

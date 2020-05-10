@@ -11,7 +11,7 @@ import dagger.multibindings.IntoMap
  * on 30/07/2019.
  */
 @Module
-internal abstract class ResultsModule {
+abstract class ResultsModule {
   @Binds
   @IntoMap
   @ViewModelKey(ResultsViewModel::class)

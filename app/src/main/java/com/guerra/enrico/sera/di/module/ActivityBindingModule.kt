@@ -2,15 +2,6 @@ package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.base.di.PerActivity
 import com.guerra.enrico.base.di.PerFragment
-import com.guerra.enrico.goals.GoalsFragment
-import com.guerra.enrico.goals.GoalsModule
-import com.guerra.enrico.login.LoginActivity
-import com.guerra.enrico.login.LoginModule
-import com.guerra.enrico.results.ResultsFragment
-import com.guerra.enrico.results.ResultsModule
-import com.guerra.enrico.settings.SettingsFragment
-import com.guerra.enrico.settings.SettingsModule
-import com.guerra.enrico.splash.SplashActivity
 import com.guerra.enrico.splash.SplashModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -25,7 +16,7 @@ abstract class ActivityBindingModule {
   @PerActivity
   @ContributesAndroidInjector(
     modules = [
-      com.guerra.enrico.splash.SplashModule::class
+      SplashModule::class
     ]
   )
   abstract fun splashActivity(): com.guerra.enrico.splash.SplashActivity
@@ -38,29 +29,29 @@ abstract class ActivityBindingModule {
   )
   abstract fun loginActivity(): com.guerra.enrico.login.LoginActivity
 
-  @PerFragment
-  @ContributesAndroidInjector(
-    modules = [
-      com.guerra.enrico.todos.TodosModule::class
-    ]
-  )
-  abstract fun todosFragment(): com.guerra.enrico.todos.TodosFragment
-
-  @PerActivity
-  @ContributesAndroidInjector(
-    modules = [
-      com.guerra.enrico.todos.add.TodoAddModel::class
-    ]
-  )
-  abstract fun todoAddActivity(): com.guerra.enrico.todos.add.TodoAddActivity
-
-  @PerActivity
-  @ContributesAndroidInjector(
-    modules = [
-      com.guerra.enrico.todos.search.TodoSearchModule::class
-    ]
-  )
-  abstract fun todoSearchActivity(): com.guerra.enrico.todos.search.TodoSearchActivity
+//  @PerFragment
+//  @ContributesAndroidInjector(
+//    modules = [
+//      TodoListModule::class
+//    ]
+//  )
+//  abstract fun todosFragment(): com.guerra.enrico.todos.TodosFragment
+//
+//  @PerActivity
+//  @ContributesAndroidInjector(
+//    modules = [
+//      TodoAddModule::class
+//    ]
+//  )
+//  abstract fun todoAddActivity(): com.guerra.enrico.todos.add.TodoAddActivity
+//
+//  @PerActivity
+//  @ContributesAndroidInjector(
+//    modules = [
+//      TodoSearchModule::class
+//    ]
+//  )
+//  abstract fun todoSearchActivity(): com.guerra.enrico.todos.search.TodoSearchActivity
 
   @PerFragment
   @ContributesAndroidInjector(

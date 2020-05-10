@@ -7,15 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.data.exceptions.MessageExceptionManager
-import com.guerra.enrico.sera.databinding.FragmentTodosSearchBinding
-import com.guerra.enrico.sera.ui.base.BaseFragment
-import com.guerra.enrico.sera.ui.todos.adapter.SuggestionAdapter
+import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.exception.MessageExceptionManager
+import com.guerra.enrico.todos.R
+import com.guerra.enrico.todos.adapter.SuggestionAdapter
+import com.guerra.enrico.todos.databinding.FragmentTodosSearchBinding
 import javax.inject.Inject
 
 /**

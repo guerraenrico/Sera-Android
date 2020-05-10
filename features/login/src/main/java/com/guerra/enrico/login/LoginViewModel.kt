@@ -2,12 +2,14 @@ package com.guerra.enrico.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.User
 import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
 import com.guerra.enrico.base_android.arch.BaseViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -17,7 +19,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
   private val signIn: SignIn,
   private val syncTodos: SyncTodos
-) : BaseViewModel() {
+) : ViewModel() {
 
   private val _user: MediatorLiveData<Result<User>> = MediatorLiveData()
   val user: LiveData<Result<User>>

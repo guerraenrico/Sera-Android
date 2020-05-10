@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.guerra.enrico.models.todos.Suggestion
-import com.guerra.enrico.sera.databinding.ItemTodosSuggestionBinding
+import com.guerra.enrico.todos.databinding.ItemTodosSuggestionBinding
 
 /**
  * Created by enrico

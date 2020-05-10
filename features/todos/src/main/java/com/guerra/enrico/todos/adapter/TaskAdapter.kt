@@ -13,9 +13,8 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.ItemTaskBinding
-import com.guerra.enrico.todos.EventActions
+import com.guerra.enrico.todos.R
+import com.guerra.enrico.todos.databinding.ItemTaskBinding
 import com.guerra.enrico.todos.presentation.TaskPresentation
 import kotlin.math.abs
 
@@ -26,7 +25,7 @@ import kotlin.math.abs
 class TaskAdapter(
   private val lifecycleOwner: LifecycleOwner,
   private val eventActions: com.guerra.enrico.todos.EventActions
-) : ListAdapter<com.guerra.enrico.todos.presentation.TaskPresentation, TaskViewHolder>(TaskDiff) {
+) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
 
   private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
   private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
@@ -65,7 +64,7 @@ class TaskViewHolder(
   private val eventActions: com.guerra.enrico.todos.EventActions
 ) : RecyclerView.ViewHolder(binding.root) {
 
-  fun bind(taskPresentation: com.guerra.enrico.todos.presentation.TaskPresentation) {
+  fun bind(taskPresentation: TaskPresentation) {
     binding.taskPresentation = taskPresentation
     binding.lifecycleOwner = lifecycleOwner
     binding.eventActions = eventActions
@@ -73,11 +72,11 @@ class TaskViewHolder(
   }
 }
 
-internal object TaskDiff : DiffUtil.ItemCallback<com.guerra.enrico.todos.presentation.TaskPresentation>() {
-  override fun areItemsTheSame(oldItem: com.guerra.enrico.todos.presentation.TaskPresentation, newItem: com.guerra.enrico.todos.presentation.TaskPresentation): Boolean =
+internal object TaskDiff : DiffUtil.ItemCallback<TaskPresentation>() {
+  override fun areItemsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
     oldItem.task.id == newItem.task.id
 
-  override fun areContentsTheSame(oldItem: com.guerra.enrico.todos.presentation.TaskPresentation, newItem: com.guerra.enrico.todos.presentation.TaskPresentation): Boolean =
+  override fun areContentsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
     oldItem == newItem
 }
 

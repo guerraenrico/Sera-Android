@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.sera.R
+import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.presentation.CategoryPresentation
 import kotlinx.android.synthetic.main.item_category.view.*
 
@@ -19,30 +19,28 @@ enum class ViewSize {
 }
 
 class CategoryAdapter(
-  private val viewSize: _root_ide_package_.com.guerra.enrico.todos.adapter.ViewSize = _root_ide_package_.com.guerra.enrico.todos.adapter.ViewSize.NORMAL,
-  private val onCategoryClick: (com.guerra.enrico.todos.presentation.CategoryPresentation) -> Unit
-) : ListAdapter<com.guerra.enrico.todos.presentation.CategoryPresentation, _root_ide_package_.com.guerra.enrico.todos.adapter.CategoryViewHolder>(
-  _root_ide_package_.com.guerra.enrico.todos.adapter.CategoryDiff
-) {
+  private val viewSize: ViewSize = ViewSize.NORMAL,
+  private val onCategoryClick: (CategoryPresentation) -> Unit
+) : ListAdapter<CategoryPresentation, CategoryViewHolder>(CategoryDiff) {
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): _root_ide_package_.com.guerra.enrico.todos.adapter.CategoryViewHolder {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
     val itemView =
       LayoutInflater.from(parent.context).inflate(getLayout(viewSize), parent, false)
-    return _root_ide_package_.com.guerra.enrico.todos.adapter.CategoryViewHolder(itemView)
+    return CategoryViewHolder(itemView)
   }
 
-  override fun onBindViewHolder(holder: _root_ide_package_.com.guerra.enrico.todos.adapter.CategoryViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
     holder.bind(getItem(position), onCategoryClick)
   }
 
-  private fun getLayout(viewSize: _root_ide_package_.com.guerra.enrico.todos.adapter.ViewSize): Int = when (viewSize) {
-    _root_ide_package_.com.guerra.enrico.todos.adapter.ViewSize.NORMAL -> R.layout.item_category
-    _root_ide_package_.com.guerra.enrico.todos.adapter.ViewSize.SMALL -> R.layout.item_simple_category
+  private fun getLayout(viewSize: ViewSize): Int = when (viewSize) {
+    ViewSize.NORMAL -> R.layout.item_category
+    ViewSize.SMALL -> R.layout.item_simple_category
   }
 }
 
 class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-  fun bind(categoryPresentation: com.guerra.enrico.todos.presentation.CategoryPresentation, onClick: (com.guerra.enrico.todos.presentation.CategoryPresentation) -> Unit) =
+  fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) =
     with(itemView) {
       labelCategoryName.text = categoryPresentation.category.name
       labelCategoryName.isSelected = categoryPresentation.isChecked
@@ -50,16 +48,16 @@ class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 }
 
-object CategoryDiff : DiffUtil.ItemCallback<com.guerra.enrico.todos.presentation.CategoryPresentation>() {
+object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
   override fun areItemsTheSame(
-    oldItem: com.guerra.enrico.todos.presentation.CategoryPresentation,
-    newItem: com.guerra.enrico.todos.presentation.CategoryPresentation
+    oldItem: CategoryPresentation,
+    newItem: CategoryPresentation
   ): Boolean =
     oldItem.category.id == newItem.category.id
 
   override fun areContentsTheSame(
-    oldItem: com.guerra.enrico.todos.presentation.CategoryPresentation,
-    newItem: com.guerra.enrico.todos.presentation.CategoryPresentation
+    oldItem: CategoryPresentation,
+    newItem: CategoryPresentation
   ): Boolean =
     oldItem == newItem
 }

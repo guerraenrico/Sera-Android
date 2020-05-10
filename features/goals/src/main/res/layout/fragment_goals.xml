@@ -32,7 +32,6 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout

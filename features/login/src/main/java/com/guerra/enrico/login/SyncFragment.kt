@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.databinding.FragmentLoginSyncBinding
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.login.databinding.FragmentLoginSyncBinding
 import javax.inject.Inject
 
 /**
@@ -21,7 +19,7 @@ import javax.inject.Inject
 class SyncFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: com.guerra.enrico.login.LoginViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
 
   private lateinit var binding: FragmentLoginSyncBinding
 
@@ -56,7 +54,8 @@ class SyncFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    findNavController().navigate(R.id.main_activity)
-    requireActivity().finish()
+//    TODO: handle navigation
+//    findNavController().navigate(R.id.main_activity)
+//    requireActivity().finish()
   }
 }

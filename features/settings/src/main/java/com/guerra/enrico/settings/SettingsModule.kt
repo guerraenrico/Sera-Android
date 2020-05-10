@@ -12,7 +12,7 @@ import dagger.multibindings.IntoMap
  */
 
 @Module
-internal abstract class SettingsModule {
+abstract class SettingsModule {
   @Binds
   @IntoMap
   @ViewModelKey(SettingsViewModel::class)

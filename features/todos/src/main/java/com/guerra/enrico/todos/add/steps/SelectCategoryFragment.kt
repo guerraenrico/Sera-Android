@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.base.BaseFragment
-import com.guerra.enrico.sera.ui.todos.adapter.CategoryAdapter
+import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.widget.GridSpacingItemDecoration
+import com.guerra.enrico.todos.R
+import com.guerra.enrico.todos.adapter.CategoryAdapter
 import com.guerra.enrico.todos.add.TodoAddViewModel
-import com.guerra.enrico.todos.presentation.CategoryPresentation
-import com.guerra.enrico.sera.widget.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject

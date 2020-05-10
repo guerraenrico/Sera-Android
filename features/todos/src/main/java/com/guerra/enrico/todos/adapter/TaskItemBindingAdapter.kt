@@ -3,7 +3,7 @@ package com.guerra.enrico.todos.adapter
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import com.guerra.enrico.base.extensions.toDateString
-import com.guerra.enrico.sera.R
+import com.guerra.enrico.todos.R
 import java.util.*
 
 /**

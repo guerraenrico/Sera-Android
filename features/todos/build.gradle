@@ -9,6 +9,8 @@ android {
 
     defaultConfig {
         minSdkVersion minSdk
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     compileOptions {
@@ -51,6 +53,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"

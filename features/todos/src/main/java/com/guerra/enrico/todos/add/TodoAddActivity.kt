@@ -5,11 +5,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.guerra.enrico.sera.R
-import com.guerra.enrico.sera.ui.base.BaseActivity
+import com.guerra.enrico.base_android.arch.BaseActivity
+import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.steps.StepEnum
 import kotlinx.android.synthetic.main.activity_todo_add.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**

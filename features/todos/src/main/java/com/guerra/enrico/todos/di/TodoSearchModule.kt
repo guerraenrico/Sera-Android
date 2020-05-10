@@ -1,8 +1,10 @@
-package com.guerra.enrico.todos.search
+package com.guerra.enrico.todos.di
 
 import androidx.lifecycle.ViewModel
-import com.guerra.enrico.sera.di.PerFragment
-import com.guerra.enrico.sera.di.ViewModelKey
+import com.guerra.enrico.base.di.PerFragment
+import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.todos.search.TodoSearchFragment
+import com.guerra.enrico.todos.search.TodoSearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

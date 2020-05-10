@@ -13,10 +13,10 @@ import dagger.multibindings.IntoMap
  * on 12/10/2018.
  */
 @Module
-internal abstract class LoginModule {
+abstract class LoginModule {
   @PerFragment
   @ContributesAndroidInjector
-  abstract fun contributeLoginFragment(): com.guerra.enrico.login.LoginFragment
+  abstract fun contributeLoginFragment(): LoginFragment
 
   @PerFragment
   @ContributesAndroidInjector

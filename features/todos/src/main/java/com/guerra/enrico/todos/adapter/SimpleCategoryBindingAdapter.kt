@@ -16,8 +16,8 @@ fun taskCategories(recyclerView: RecyclerView, taskCategories: List<Category>) {
   } else {
     recyclerView.visibility = View.VISIBLE
     recyclerView.adapter =
-      (recyclerView.adapter as? _root_ide_package_.com.guerra.enrico.todos.adapter.SimpleCategoryAdapter
-        ?: _root_ide_package_.com.guerra.enrico.todos.adapter.SimpleCategoryAdapter()).apply {
+      (recyclerView.adapter as? SimpleCategoryAdapter
+        ?: SimpleCategoryAdapter()).apply {
         categories = taskCategories
       }
   }

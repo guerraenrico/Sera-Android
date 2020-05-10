@@ -13,10 +13,10 @@ import dagger.multibindings.IntoMap
  * on 17/10/2018.
  */
 @Module
-internal abstract class SplashModule {
+abstract class SplashModule {
   @PerFragment
   @ContributesAndroidInjector
-  abstract fun contributeSplashFragment(): com.guerra.enrico.splash.SplashFragment
+  abstract fun contributeSplashFragment(): SplashFragment
 
   @Binds
   @IntoMap

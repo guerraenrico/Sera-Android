@@ -1,9 +1,9 @@
-package com.guerra.enrico.todos.add
+package com.guerra.enrico.todos.di
 
 import androidx.lifecycle.ViewModel
-import com.guerra.enrico.sera.di.PerFragment
-import com.guerra.enrico.sera.di.ViewModelKey
-import com.guerra.enrico.sera.ui.todos.add.steps.*
+import com.guerra.enrico.base.di.PerFragment
+import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.todos.add.TodoAddViewModel
 import com.guerra.enrico.todos.add.steps.AddCategoryFragment
 import com.guerra.enrico.todos.add.steps.AddTaskFragment
 import com.guerra.enrico.todos.add.steps.DoneFragment
@@ -20,7 +20,7 @@ import dagger.multibindings.IntoMap
  * on 21/10/2018.
  */
 @Module
-internal abstract class TodoAddModel {
+internal abstract class TodoAddModule {
   @PerFragment
   @ContributesAndroidInjector
   abstract fun contributeDoneFragment(): DoneFragment

@@ -6,7 +6,7 @@
 
         <variable
             name="taskPresentation"
-            type="com.guerra.enrico.sera.ui.todos.presentation.TaskPresentation" />
+            type="com.guerra.enrico.todos.presentation.TaskPresentation" />
 
         <variable
             name="position"
