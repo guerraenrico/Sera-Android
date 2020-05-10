@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.settings.presentation
+package com.guerra.enrico.settings.presentation
 
 import androidx.annotation.StringRes
 import com.guerra.enrico.models.Setting

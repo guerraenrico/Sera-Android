@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.settings
+package com.guerra.enrico.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.settings
+package com.guerra.enrico.settings
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -35,7 +35,12 @@ class SettingAdapter(
       TOGGLE -> {
         val binding =
           ItemSettingOptionToggleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        OptionToggleViewHolder(parent.context, binding, lifecycleOwner, eventActions)
+        OptionToggleViewHolder(
+          parent.context,
+          binding,
+          lifecycleOwner,
+          eventActions
+        )
       }
       else -> throw InvalidKeyException("type is no supported")
     }

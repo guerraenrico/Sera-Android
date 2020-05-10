@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.ui.settings
+package com.guerra.enrico.settings
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.ViewModelKey

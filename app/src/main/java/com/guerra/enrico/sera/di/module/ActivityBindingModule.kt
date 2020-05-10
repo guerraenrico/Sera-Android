@@ -8,8 +8,8 @@ import com.guerra.enrico.login.LoginActivity
 import com.guerra.enrico.login.LoginModule
 import com.guerra.enrico.results.ResultsFragment
 import com.guerra.enrico.results.ResultsModule
-import com.guerra.enrico.sera.ui.settings.SettingsFragment
-import com.guerra.enrico.sera.ui.settings.SettingsModule
+import com.guerra.enrico.settings.SettingsFragment
+import com.guerra.enrico.settings.SettingsModule
 import com.guerra.enrico.sera.ui.splash.SplashActivity
 import com.guerra.enrico.sera.ui.splash.SplashModule
 import dagger.Module
@@ -81,8 +81,8 @@ abstract class ActivityBindingModule {
   @PerFragment
   @ContributesAndroidInjector(
     modules = [
-      SettingsModule::class
+      com.guerra.enrico.settings.SettingsModule::class
     ]
   )
-  abstract fun settingsFragment(): SettingsFragment
+  abstract fun settingsFragment(): com.guerra.enrico.settings.SettingsFragment
 }
