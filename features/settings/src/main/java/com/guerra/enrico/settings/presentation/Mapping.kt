@@ -1,7 +1,7 @@
 package com.guerra.enrico.settings.presentation
 
 import com.guerra.enrico.models.Setting
-import com.guerra.enrico.sera.R
+import com.guerra.enrico.settings.R
 
 /**
  * Created by enrico

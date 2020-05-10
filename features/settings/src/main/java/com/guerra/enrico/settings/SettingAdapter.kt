@@ -7,8 +7,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.sera.databinding.ItemSettingOptionToggleBinding
-import com.guerra.enrico.sera.ui.settings.presentation.Option
+import com.guerra.enrico.settings.databinding.ItemSettingOptionToggleBinding
+import com.guerra.enrico.settings.presentation.Option
 import java.security.InvalidKeyException
 
 /**

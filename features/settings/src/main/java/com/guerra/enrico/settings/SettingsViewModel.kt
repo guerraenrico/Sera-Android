@@ -2,18 +2,18 @@ package com.guerra.enrico.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.domain.interactors.settings.Settings
-import com.guerra.enrico.base_android.arch.BaseViewModel
-import com.guerra.enrico.sera.ui.settings.presentation.Option
-import com.guerra.enrico.sera.ui.settings.presentation.toOption
+import com.guerra.enrico.settings.presentation.Option
+import com.guerra.enrico.settings.presentation.toOption
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 08/03/2020.
  */
-class SettingsViewModel @Inject constructor(private val settings: Settings) : BaseViewModel(),
+class SettingsViewModel @Inject constructor(private val settings: Settings) : ViewModel(),
   EventActions {
 
   private val _list = MutableLiveData<List<Option>>(emptyList())
