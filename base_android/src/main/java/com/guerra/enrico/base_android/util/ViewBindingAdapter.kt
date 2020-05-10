@@ -1,4 +1,4 @@
-package com.guerra.enrico.sera.util
+package com.guerra.enrico.base_android.util
 
 import android.view.View
 import androidx.core.view.updatePadding
