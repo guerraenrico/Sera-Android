@@ -1,6 +1,6 @@
 package com.guerra.enrico.splash.di
 
-import com.guerra.enrico.base.di.PerActivity
+import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -11,7 +11,7 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class SplashBindingModule {
-  @PerActivity
+  @FeatureScope
   @ContributesAndroidInjector(
     modules = [SplashModule::class]
   )

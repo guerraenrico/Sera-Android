@@ -39,7 +39,7 @@ internal class CategoryAdapter(
   }
 }
 
-class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+internal class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) =
     with(itemView) {
       labelCategoryName.text = categoryPresentation.category.name
@@ -48,7 +48,7 @@ class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 }
 
-object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
+internal object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
   override fun areItemsTheSame(
     oldItem: CategoryPresentation,
     newItem: CategoryPresentation
