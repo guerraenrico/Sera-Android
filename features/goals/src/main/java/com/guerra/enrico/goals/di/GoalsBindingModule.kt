@@ -1,7 +1,7 @@
-package com.guerra.enrico.login.di
+package com.guerra.enrico.goals.di
 
 import com.guerra.enrico.base.di.FeatureScope
-import com.guerra.enrico.login.LoginActivity
+import com.guerra.enrico.goals.GoalsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -10,10 +10,10 @@ import dagger.android.ContributesAndroidInjector
  * on 13/05/2020.
  */
 @Module
-abstract class LoginBindingModule {
+abstract class GoalsBindingModule {
   @FeatureScope
   @ContributesAndroidInjector(
-    modules = [LoginModule::class]
+    modules = [GoalsModule::class]
   )
-  internal abstract fun loginActivity(): LoginActivity
+  internal abstract fun provideGoalsFragment(): GoalsFragment
 }

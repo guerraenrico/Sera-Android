@@ -15,7 +15,7 @@ import java.security.InvalidKeyException
  * Created by enrico
  * on 09/03/2020.
  */
-class SettingAdapter(
+internal class SettingAdapter(
   private val lifecycleOwner: LifecycleOwner,
   private val eventActions: EventActions
 ) : ListAdapter<Option, RecyclerView.ViewHolder>(OptionItemCallback) {
@@ -56,7 +56,7 @@ class SettingAdapter(
   }
 }
 
-class OptionToggleViewHolder(
+internal class OptionToggleViewHolder(
   private val context: Context,
   private val binding: ItemSettingOptionToggleBinding,
   private val lifecycleOwner: LifecycleOwner,
@@ -73,7 +73,7 @@ class OptionToggleViewHolder(
   }
 }
 
-object OptionItemCallback : DiffUtil.ItemCallback<Option>() {
+internal object OptionItemCallback : DiffUtil.ItemCallback<Option>() {
   override fun areItemsTheSame(oldItem: Option, newItem: Option): Boolean {
     return oldItem.key == newItem.key
   }

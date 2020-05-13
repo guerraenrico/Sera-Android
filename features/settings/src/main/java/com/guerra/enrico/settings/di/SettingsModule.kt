@@ -1,7 +1,8 @@
-package com.guerra.enrico.settings
+package com.guerra.enrico.settings.di
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.settings.SettingsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -12,7 +13,7 @@ import dagger.multibindings.IntoMap
  */
 
 @Module
-abstract class SettingsModule {
+internal abstract class SettingsModule {
   @Binds
   @IntoMap
   @ViewModelKey(SettingsViewModel::class)

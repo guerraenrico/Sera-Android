@@ -1,7 +1,8 @@
-package com.guerra.enrico.goals
+package com.guerra.enrico.goals.di
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.goals.GoalsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -11,7 +12,7 @@ import dagger.multibindings.IntoMap
  * on 18/08/2018.
  */
 @Module
-abstract class GoalsModule {
+internal abstract class GoalsModule {
   @Binds
   @IntoMap
   @ViewModelKey(GoalsViewModel::class)

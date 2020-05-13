@@ -1,7 +1,8 @@
-package com.guerra.enrico.results
+package com.guerra.enrico.results.di
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.results.ResultsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -11,7 +12,7 @@ import dagger.multibindings.IntoMap
  * on 30/07/2019.
  */
 @Module
-abstract class ResultsModule {
+internal abstract class ResultsModule {
   @Binds
   @IntoMap
   @ViewModelKey(ResultsViewModel::class)

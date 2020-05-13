@@ -1,7 +1,7 @@
 package com.guerra.enrico.login.di
 
 import androidx.lifecycle.ViewModel
-import com.guerra.enrico.base.di.PerFragment
+import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.base.di.ViewModelKey
 import com.guerra.enrico.login.LoginFragment
 import com.guerra.enrico.login.LoginViewModel
@@ -16,12 +16,12 @@ import dagger.multibindings.IntoMap
  * on 12/10/2018.
  */
 @Module
-abstract class LoginModule {
-  @PerFragment
+internal abstract class LoginModule {
+  @FeatureScope
   @ContributesAndroidInjector
   abstract fun contributeLoginFragment(): LoginFragment
 
-  @PerFragment
+  @FeatureScope
   @ContributesAndroidInjector
   abstract fun contributeSyncFragment(): SyncFragment
 

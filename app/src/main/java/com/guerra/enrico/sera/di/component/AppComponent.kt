@@ -4,7 +4,7 @@ import com.guerra.enrico.local.LocalModule
 import com.guerra.enrico.remote.RemoteModule
 import com.guerra.enrico.sera.SeraApplication
 import com.guerra.enrico.sera.data.repo.DataModule
-import com.guerra.enrico.sera.di.module.ActivityBindingModule
+import com.guerra.enrico.sera.di.module.FeaturesBindingModule
 import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
@@ -24,7 +24,7 @@ import javax.inject.Singleton
   modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    ActivityBindingModule::class,
+    FeaturesBindingModule::class,
     WorkersModule::class,
     ViewModelModule::class,
     RetrofitModule::class,

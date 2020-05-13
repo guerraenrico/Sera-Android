@@ -13,7 +13,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 08/03/2020.
  */
-class SettingsViewModel @Inject constructor(private val settings: Settings) : ViewModel(),
+internal class SettingsViewModel @Inject constructor(private val settings: Settings) : ViewModel(),
   EventActions {
 
   private val _list = MutableLiveData<List<Option>>(emptyList())

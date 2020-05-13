@@ -7,4 +7,4 @@ import javax.inject.Inject
  * Created by enrico
  * on 30/07/2019.
  */
-class ResultsViewModel @Inject constructor() : ViewModel()
+internal class ResultsViewModel @Inject constructor() : ViewModel()

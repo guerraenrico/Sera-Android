@@ -25,7 +25,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 08/03/2020.
  */
-class SettingsFragment : BaseFragment() {
+internal class SettingsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: SettingsViewModel by viewModels { viewModelFactory }

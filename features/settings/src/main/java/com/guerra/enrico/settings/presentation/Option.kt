@@ -7,7 +7,7 @@ import com.guerra.enrico.models.Setting
  * Created by enrico
  * on 08/03/2020.
  */
-sealed class Option(val key: String) {
+internal sealed class Option(val key: String) {
   data class Toggle(
     @StringRes val title: Int,
     val active: Boolean,

@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 27/05/2018.
  */
-class GoalsFragment : BaseFragment() {
+internal class GoalsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: GoalsViewModel by viewModels { viewModelFactory }

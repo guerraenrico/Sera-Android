@@ -8,7 +8,7 @@ import com.guerra.enrico.settings.R
  * on 08/03/2020.
  */
 
-fun Setting.toOption(): Option = when (this) {
+internal fun Setting.toOption(): Option = when (this) {
   is Setting.DarkTheme -> Option.Toggle(
     title = titleKey,
     active = active,
