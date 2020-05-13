@@ -33,11 +33,9 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
-            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
         }
         release {
             buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
-            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -69,6 +67,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(":base")
+    implementation project(":base_android")
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
@@ -158,5 +157,5 @@ dependencies {
     // Flipper
     debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
     debugImplementation "com.facebook.soloader:soloader:$soloaderVersion"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.33.1$flipperVersion"
+    releaseImplementation "com.facebook.flipper:flipper-noop:$flipperVersion"
 }

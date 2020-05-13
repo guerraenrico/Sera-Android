@@ -15,7 +15,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 18/10/2018.
  */
-class TodoAddActivity : BaseActivity() {
+internal class TodoAddActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoAddViewModel by viewModels { viewModelFactory }

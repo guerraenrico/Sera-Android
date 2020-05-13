@@ -10,7 +10,7 @@ import com.guerra.enrico.todos.databinding.ItemSimpleCategoryBinding
  * Created by enrico
  * on 04/01/2020.
  */
-class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHolder>() {
+internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHolder>() {
   var categories = emptyList<Category>()
 
   override fun getItemCount(): Int = categories.size

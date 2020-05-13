@@ -14,11 +14,11 @@ import kotlinx.android.synthetic.main.item_category.view.*
  * Created by enrico
  * on 21/08/2018.
  */
-enum class ViewSize {
+internal enum class ViewSize {
   NORMAL, SMALL
 }
 
-class CategoryAdapter(
+internal class CategoryAdapter(
   private val viewSize: ViewSize = ViewSize.NORMAL,
   private val onCategoryClick: (CategoryPresentation) -> Unit
 ) : ListAdapter<CategoryPresentation, CategoryViewHolder>(CategoryDiff) {

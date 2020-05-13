@@ -10,7 +10,7 @@ import com.guerra.enrico.models.todos.Category
  * on 04/01/2020.
  */
 @BindingAdapter("taskCategories")
-fun taskCategories(recyclerView: RecyclerView, taskCategories: List<Category>) {
+internal fun taskCategories(recyclerView: RecyclerView, taskCategories: List<Category>) {
   if (taskCategories.isEmpty()) {
     recyclerView.visibility = View.GONE
   } else {

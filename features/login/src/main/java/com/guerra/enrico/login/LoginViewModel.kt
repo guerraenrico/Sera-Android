@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 12/10/2018.
  */
-class LoginViewModel @Inject constructor(
+internal class LoginViewModel @Inject constructor(
   private val signIn: SignIn,
   private val syncTodos: SyncTodos
 ) : ViewModel() {

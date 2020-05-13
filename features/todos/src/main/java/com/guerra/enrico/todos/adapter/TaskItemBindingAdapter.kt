@@ -15,7 +15,7 @@ import java.util.*
   "date",
   requireAll = true
 )
-fun setDate(textView: AppCompatTextView, previousDate: Date?, newDate: Date) {
+internal fun setDate(textView: AppCompatTextView, previousDate: Date?, newDate: Date) {
   if (newDate != previousDate) {
     with(textView) {
       text = String.format(

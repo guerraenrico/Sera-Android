@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 05/04/2020.
  */
-class SyncFragment : BaseFragment() {
+internal class SyncFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }

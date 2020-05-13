@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 19/10/2018.
  */
-class SelectFragment : BaseFragment() {
+internal class SelectFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }

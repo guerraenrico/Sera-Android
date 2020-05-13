@@ -47,6 +47,8 @@ kapt {
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation project(":base")
     implementation project(":base_android")
     implementation project(":components")
@@ -79,6 +81,8 @@ dependencies {
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Google SignIn
     implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"

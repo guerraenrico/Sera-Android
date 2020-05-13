@@ -8,7 +8,7 @@ import com.guerra.enrico.models.todos.Task
  *
  * Class used only for ui necessity purposes
  */
-data class TaskPresentation(
+internal data class TaskPresentation(
   val task: Task,
   val isExpanded: Boolean = false
 )

@@ -24,7 +24,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 21/10/2018.
  */
-class ScheduleFragment : BaseFragment() {
+internal class ScheduleFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 
   @Inject

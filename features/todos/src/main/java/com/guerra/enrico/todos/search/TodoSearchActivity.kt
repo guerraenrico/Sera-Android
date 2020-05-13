@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 16/03/2020.
  */
-class TodoSearchActivity : BaseActivity() {
+internal class TodoSearchActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoSearchViewModel by viewModels { viewModelFactory }

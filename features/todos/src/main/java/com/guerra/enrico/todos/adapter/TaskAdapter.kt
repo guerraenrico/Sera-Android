@@ -22,7 +22,7 @@ import kotlin.math.abs
  * Created by enrico
  * on 24/06/2018.
  */
-class TaskAdapter(
+internal class TaskAdapter(
   private val lifecycleOwner: LifecycleOwner,
   private val eventActions: com.guerra.enrico.todos.EventActions
 ) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
@@ -58,7 +58,7 @@ class TaskAdapter(
   }
 }
 
-class TaskViewHolder(
+internal class TaskViewHolder(
   private val binding: ItemTaskBinding,
   private val lifecycleOwner: LifecycleOwner,
   private val eventActions: com.guerra.enrico.todos.EventActions
@@ -80,7 +80,7 @@ internal object TaskDiff : DiffUtil.ItemCallback<TaskPresentation>() {
     oldItem == newItem
 }
 
-class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
+internal class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
   ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
   override fun onMove(

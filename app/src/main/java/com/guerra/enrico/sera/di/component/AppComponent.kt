@@ -8,7 +8,6 @@ import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.AppModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
-import com.guerra.enrico.todos.di.TodosModule
 import com.guerra.enrico.workers.di.WorkersModule
 import dagger.BindsInstance
 import dagger.Component
@@ -26,7 +25,6 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     AppModule::class,
     ActivityBindingModule::class,
-    TodosModule::class,
     WorkersModule::class,
     ViewModelModule::class,
     RetrofitModule::class,

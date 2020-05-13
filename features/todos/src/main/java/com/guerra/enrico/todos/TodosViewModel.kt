@@ -8,10 +8,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base_android.arch.BaseViewModel
-import com.guerra.enrico.base_android.arch.SnackbarMessage
 import com.guerra.enrico.base.extensions.applyIfSucceeded
 import com.guerra.enrico.base.extensions.ifSucceeded
+import com.guerra.enrico.base_android.arch.SnackbarMessage
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
 import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
@@ -32,7 +31,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 30/05/2018.
  */
-class TodosViewModel @Inject constructor(
+internal class TodosViewModel @Inject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,

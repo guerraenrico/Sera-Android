@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  * on 03/05/2020.
  */
 @Parcelize
-data class SearchData(
+internal data class SearchData(
   val text: String? = null,
   val category: Category? = null,
   val suggestion: Suggestion? = null

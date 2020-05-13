@@ -13,7 +13,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 17/10/2018.
  */
-class SplashViewModel @Inject constructor(
+internal class SplashViewModel @Inject constructor(
   validateToken: ValidateToken
 ) : ViewModel() {
   val validationAccessTokenResult: LiveData<Result<User>> = liveData {

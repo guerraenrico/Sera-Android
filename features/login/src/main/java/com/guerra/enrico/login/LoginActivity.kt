@@ -12,7 +12,7 @@ import com.guerra.enrico.login.databinding.ActivityLoginBinding
  * on 12/10/2018.
  */
 
-class LoginActivity : BaseActivity() {
+internal class LoginActivity : BaseActivity() {
   private lateinit var binding: ActivityLoginBinding
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)

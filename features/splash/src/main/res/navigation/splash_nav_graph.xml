@@ -9,14 +9,14 @@
         android:name="com.guerra.enrico.splash.SplashFragment"
         android:label="@string/title_splash" />
 
-    <activity
-        android:id="@+id/login_activity"
-        android:name="com.guerra.enrico.login.LoginActivity"
-        android:label="@string/title_login" />
+<!--    <activity-->
+<!--        android:id="@+id/login_activity"-->
+<!--        android:name="com.guerra.enrico.login.LoginActivity"-->
+<!--        android:label="@string/title_login" />-->
 
-    <activity
-        android:id="@+id/main_activity"
-        android:name="com.guerra.enrico.sera.ui.main.MainActivity"
-        android:label="@string/title_main" />
+<!--    <activity-->
+<!--        android:id="@+id/main_activity"-->
+<!--        android:name="com.guerra.enrico.sera.ui.main.MainActivity"-->
+<!--        android:label="@string/title_main" />-->
 
 </navigation>

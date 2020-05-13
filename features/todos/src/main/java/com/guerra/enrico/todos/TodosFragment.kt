@@ -35,7 +35,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 27/05/2018.
  */
-class TodosFragment : BaseFragment() {
+internal class TodosFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
 

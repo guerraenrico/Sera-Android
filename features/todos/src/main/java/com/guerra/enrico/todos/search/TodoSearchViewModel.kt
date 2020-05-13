@@ -20,7 +20,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 16/03/2020.
  */
-class TodoSearchViewModel @Inject constructor(
+internal class TodoSearchViewModel @Inject constructor(
   private val getSuggestions: GetSuggestions,
   private val createSuggestion: CreateSuggestion,
   private val rankUpSuggestion: RankUpSuggestion

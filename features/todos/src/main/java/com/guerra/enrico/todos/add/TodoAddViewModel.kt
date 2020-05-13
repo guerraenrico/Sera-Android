@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 21/10/2018.
  */
-class TodoAddViewModel @Inject constructor(
+internal class TodoAddViewModel @Inject constructor(
   private val dispatchers: CoroutineDispatcherProvider,
   observeCategories: ObserveCategories,
   private val insertCategory: InsertCategory,

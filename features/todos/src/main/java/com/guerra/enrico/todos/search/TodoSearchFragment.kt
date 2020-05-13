@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 23/03/2020.
  */
-class TodoSearchFragment : BaseFragment() {
+internal class TodoSearchFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoSearchViewModel by activityViewModels { viewModelFactory }

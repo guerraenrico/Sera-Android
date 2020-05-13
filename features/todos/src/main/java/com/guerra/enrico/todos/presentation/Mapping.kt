@@ -7,7 +7,7 @@ import com.guerra.enrico.models.todos.Task
  * Created by enrico
  * on 29/12/2019.
  */
-fun categoriesToPresentations(categories: List<Category>): List<CategoryPresentation> =
+internal fun categoriesToPresentations(categories: List<Category>): List<CategoryPresentation> =
   categories.map {
     CategoryPresentation(
       category = it,
@@ -15,10 +15,10 @@ fun categoriesToPresentations(categories: List<Category>): List<CategoryPresenta
     )
   }
 
-fun tasksToPresentations(tasks: List<Task>): List<TaskPresentation> =
+internal fun tasksToPresentations(tasks: List<Task>): List<TaskPresentation> =
   tasks.map { taskToPresentations(it) }
 
-fun taskToPresentations(tasks: Task): TaskPresentation =
+internal fun taskToPresentations(tasks: Task): TaskPresentation =
   TaskPresentation(
     task = tasks,
     isExpanded = false

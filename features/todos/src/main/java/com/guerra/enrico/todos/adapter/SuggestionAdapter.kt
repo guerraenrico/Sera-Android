@@ -12,7 +12,7 @@ import com.guerra.enrico.todos.databinding.ItemTodosSuggestionBinding
  * Created by enrico
  * on 02/05/2020.
  */
-class SuggestionAdapter(
+internal class SuggestionAdapter(
   private val onSuggestionClick: (Suggestion) -> Unit
 ) : ListAdapter<Suggestion, SuggestionViewHolder>(SuggestionDiff) {
 
@@ -27,7 +27,7 @@ class SuggestionAdapter(
   }
 }
 
-class SuggestionViewHolder(
+internal class SuggestionViewHolder(
   private val binding: ItemTodosSuggestionBinding,
   private val onClick: (Suggestion) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -39,7 +39,7 @@ class SuggestionViewHolder(
   }
 }
 
-object SuggestionDiff : DiffUtil.ItemCallback<Suggestion>() {
+internal object SuggestionDiff : DiffUtil.ItemCallback<Suggestion>() {
   override fun areItemsTheSame(oldItem: Suggestion, newItem: Suggestion): Boolean {
     return oldItem.id == newItem.id
   }

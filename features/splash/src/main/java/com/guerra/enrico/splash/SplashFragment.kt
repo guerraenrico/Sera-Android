@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -17,7 +16,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 23/12/2019.
  */
-class SplashFragment : BaseFragment() {
+internal class SplashFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: SplashViewModel by activityViewModels { viewModelFactory }
@@ -37,21 +36,22 @@ class SplashFragment : BaseFragment() {
     viewModel.validationAccessTokenResult.observe(viewLifecycleOwner, Observer { userResult ->
       if (userResult == null || userResult is Result.Loading) return@Observer
       if (userResult.succeeded) {
-        gotoMainActivity()
+//        gotoMainActivity()
       }
       if (userResult is Result.Error) {
-        gotoLoginActivity()
+//        gotoLoginActivity()
       }
     })
   }
 
-  private fun gotoMainActivity() {
-    findNavController().navigate(R.id.main_activity)
-    requireActivity().finish()
-  }
-
-  private fun gotoLoginActivity() {
-    findNavController().navigate(R.id.login_activity)
-    requireActivity().finish()
-  }
+  // TODO: manage navigation
+//  private fun gotoMainActivity() {
+//    findNavController().navigate(R.id.main_activity)
+//    requireActivity().finish()
+//  }
+//
+//  private fun gotoLoginActivity() {
+//    findNavController().navigate(R.id.login_activity)
+//    requireActivity().finish()
+//  }
 }

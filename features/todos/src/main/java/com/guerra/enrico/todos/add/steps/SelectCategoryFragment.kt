@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 19/10/2018.
  */
-class SelectCategoryFragment : BaseFragment() {
+internal class SelectCategoryFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 
   @Inject

@@ -45,6 +45,10 @@ dependencies {
     implementation project(":domain")
     implementation project(":common:resources")
 
+    implementation project(":data")
+    implementation project(":local")
+    implementation project(":remote")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.android:flexbox:$flexboxVersion"
@@ -73,4 +77,6 @@ dependencies {
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 }

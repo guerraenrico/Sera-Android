@@ -1,8 +1,11 @@
-package com.guerra.enrico.login
+package com.guerra.enrico.login.di
 
 import androidx.lifecycle.ViewModel
 import com.guerra.enrico.base.di.PerFragment
 import com.guerra.enrico.base.di.ViewModelKey
+import com.guerra.enrico.login.LoginFragment
+import com.guerra.enrico.login.LoginViewModel
+import com.guerra.enrico.login.SyncFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
