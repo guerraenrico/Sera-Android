@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -79,19 +82,19 @@ class LoginFragment : BaseFragment() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == REQUEST_CODE_SIGN_IN) {
-//      handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
+      handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
     }
   }
 
   // FIXME why Task is not resolved ?????
-//  private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
-//    try {
-//      val account = task.getResult(ApiException::class.java)
-//      viewModel.onCodeReceived(account?.serverAuthCode ?: "")
-//    } catch (ex: ApiException) {
-//      showSnackbar(R.string.error_google_signin)
-//    }
-//  }
+  private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
+    try {
+      val account = task.getResult(ApiException::class.java)
+      viewModel.onCodeReceived(account?.serverAuthCode ?: "")
+    } catch (ex: ApiException) {
+      showSnackbar(R.string.error_google_signin)
+    }
+  }
 
   private fun gotoMainActivity() {
 //    TODO Find a solution to navigate

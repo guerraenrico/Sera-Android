@@ -85,5 +85,6 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Google SignIn
-    implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
+    // is this even life?
+    api "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
 }
