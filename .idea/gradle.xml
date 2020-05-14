@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/lint" />
             <option value="$PROJECT_DIR$/local" />
             <option value="$PROJECT_DIR$/models" />
+            <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/remote" />
             <option value="$PROJECT_DIR$/workers" />
           </set>
