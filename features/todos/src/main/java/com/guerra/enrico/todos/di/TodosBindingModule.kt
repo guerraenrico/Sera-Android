@@ -1,6 +1,7 @@
 package com.guerra.enrico.todos.di
 
 import com.guerra.enrico.base.di.FeatureScope
+import com.guerra.enrico.domain.DomainModule
 import com.guerra.enrico.todos.TodosFragment
 import com.guerra.enrico.todos.add.TodoAddActivity
 import com.guerra.enrico.todos.search.TodoSearchActivity
@@ -11,7 +12,7 @@ import dagger.android.ContributesAndroidInjector
  * Created by enrico
  * on 10/05/2020.
  */
-@Module
+@Module(includes = [DomainModule::class])
 abstract class TodosBindingModule {
 
   @FeatureScope

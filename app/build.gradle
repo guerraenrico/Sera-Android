@@ -80,11 +80,6 @@ dependencies {
 
     implementation project(":common:resources")
 
-    // FIXME: Workaround waiting for https://github.com/google/dagger/issues/970
-    implementation project(":data")
-    implementation project(":local")
-    implementation project(":remote")
-
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
