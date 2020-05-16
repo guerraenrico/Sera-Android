@@ -30,9 +30,6 @@ class LoginNavigationModule {
   @IntoMap
   @ActivityKey(ActivityDestination.LOGIN)
   internal fun provideLoginDestination(): DestinationInfo {
-    return DestinationInfo(
-      LoginActivity::class.java.`package`!!.name,
-      LoginActivity::class.java.simpleName
-    )
+    return DestinationInfo(LoginActivity::class.java.simpleName)
   }
 }

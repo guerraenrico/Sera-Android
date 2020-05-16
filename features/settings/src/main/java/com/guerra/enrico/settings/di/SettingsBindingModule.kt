@@ -32,9 +32,6 @@ class SettingsNavigationModule {
   @IntoMap
   @FragmentKey(FragmentDestination.SETTINGS)
   internal fun provideSettingsDestination(): DestinationInfo {
-    return DestinationInfo(
-      SettingsFragment::class.java.`package`!!.name,
-      SettingsFragment::class.java.simpleName
-    )
+    return DestinationInfo(SettingsFragment::class.java.simpleName)
   }
 }

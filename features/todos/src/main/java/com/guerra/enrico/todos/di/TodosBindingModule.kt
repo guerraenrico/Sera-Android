@@ -47,29 +47,20 @@ class TodosNavigationModule {
   @IntoMap
   @FragmentKey(FragmentDestination.TODOS)
   internal fun provideTodosDestination(): DestinationInfo {
-    return DestinationInfo(
-      TodosFragment::class.java.`package`!!.name,
-      TodosFragment::class.java.simpleName
-    )
+    return DestinationInfo(TodosFragment::class.java.simpleName)
   }
 
   @Provides
   @IntoMap
   @ActivityKey(ActivityDestination.TODOS_ADD)
   internal fun provideTodoAddDestination(): DestinationInfo {
-    return DestinationInfo(
-      TodoAddActivity::class.java.`package`!!.name,
-      TodoAddActivity::class.java.simpleName
-    )
+    return DestinationInfo(TodoAddActivity::class.java.simpleName)
   }
 
   @Provides
   @IntoMap
   @ActivityKey(ActivityDestination.TODOS_SEARCH)
   internal fun provideTodoSearchDestination(): DestinationInfo {
-    return DestinationInfo(
-      TodoSearchActivity::class.java.`package`!!.name,
-      TodoSearchActivity::class.java.simpleName
-    )
+    return DestinationInfo(TodoSearchActivity::class.java.simpleName)
   }
 }

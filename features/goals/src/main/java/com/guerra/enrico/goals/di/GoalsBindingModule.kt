@@ -31,9 +31,6 @@ class GoalsNavigationModule {
   @IntoMap
   @FragmentKey(FragmentDestination.GOALS)
   internal fun provideGoalsDestination(): DestinationInfo {
-    return DestinationInfo(
-      GoalsFragment::class.java.`package`!!.name,
-      GoalsFragment::class.java.simpleName
-    )
+    return DestinationInfo(GoalsFragment::class.java.simpleName)
   }
 }

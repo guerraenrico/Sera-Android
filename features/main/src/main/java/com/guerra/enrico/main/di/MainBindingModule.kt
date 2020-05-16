@@ -27,9 +27,6 @@ class MainNavigationModule {
   @IntoMap
   @ActivityKey(ActivityDestination.MAIN)
   internal fun provideActivityDestination(): DestinationInfo {
-    return DestinationInfo(
-      MainActivity::class.java.`package`!!.name,
-      MainActivity::class.java.simpleName
-    )
+    return DestinationInfo(MainActivity::class.java.name)
   }
 }
