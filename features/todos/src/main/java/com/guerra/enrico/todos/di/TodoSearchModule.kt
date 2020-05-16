@@ -1,7 +1,6 @@
 package com.guerra.enrico.todos.di
 
 import androidx.lifecycle.ViewModel
-import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.base.di.PerFragment
 import com.guerra.enrico.base.di.ViewModelKey
 import com.guerra.enrico.todos.search.TodoSearchFragment

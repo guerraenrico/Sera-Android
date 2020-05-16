@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.guerra.enrico.main.MainActivity"
             android:theme="@style/AppTheme.Sera.MainActivity" />
 
         <activity

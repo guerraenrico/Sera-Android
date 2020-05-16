@@ -2,6 +2,7 @@ package com.guerra.enrico.sera.di.module
 
 import com.guerra.enrico.goals.di.GoalsBindingModule
 import com.guerra.enrico.login.di.LoginBindingModule
+import com.guerra.enrico.main.di.MainBindingModule
 import com.guerra.enrico.results.di.ResultsBindingModule
 import com.guerra.enrico.settings.di.SettingsBindingModule
 import com.guerra.enrico.splash.di.SplashBindingModule
@@ -15,6 +16,7 @@ import dagger.Module
 
 @Module(
   includes = [
+    MainBindingModule::class,
     SplashBindingModule::class,
     LoginBindingModule::class,
     TodosBindingModule::class,

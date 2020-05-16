@@ -71,6 +71,7 @@ dependencies {
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
+    implementation project(":features:main")
     implementation project(":features:splash")
     implementation project(":features:login")
     implementation project(":features:todos")
@@ -79,6 +80,9 @@ dependencies {
     implementation project(":features:settings")
 
     implementation project(":common:resources")
+
+    // TODO move main activity
+    implementation project(":navigation")
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"

@@ -16,7 +16,7 @@
 
 <!--    <activity-->
 <!--        android:id="@+id/main_activity"-->
-<!--        android:name="com.guerra.enrico.sera.ui.main.MainActivity"-->
+<!--        android:name="com.guerra.enrico.main.MainActivity"-->
 <!--        android:label="@string/title_main" />-->
 
 </navigation>
