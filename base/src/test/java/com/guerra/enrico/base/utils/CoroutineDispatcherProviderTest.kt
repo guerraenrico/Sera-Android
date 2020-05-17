@@ -11,4 +11,5 @@ import kotlinx.coroutines.Dispatchers
 class CoroutineDispatcherProviderTest : CoroutineDispatcherProvider {
   override fun io(): CoroutineDispatcher = Dispatchers.Unconfined
   override fun ui(): CoroutineDispatcher = Dispatchers.Unconfined
+  override fun cpu(): CoroutineDispatcher = Dispatchers.Unconfined
 }

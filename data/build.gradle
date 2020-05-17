@@ -32,8 +32,8 @@ android {
 dependencies {
     implementation project(":base")
     implementation project(":models")
-    implementation project(":remote")
-    implementation project(":local")
+    api project(":remote")
+    api project(":local")
 
     // Gson
     implementation "com.google.code.gson:gson:$gsonVersion"

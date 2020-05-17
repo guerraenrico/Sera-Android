@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:duration="@integer/animation_duration_m">
+
+    <transitionSet>
+        <targets>
+            <target android:targetId="@+id/todo_search_background" />
+            <target android:targetId="@+id/search_toolbar_edit_text_search" />
+        </targets>
+        <changeBounds />
+    </transitionSet>
+
+    <transition
+        class="com.guerra.enrico.base_android.animation.FadeTransition"
+        app:endAlpha="0.0"
+        app:startAlpha="1.0">
+        <targets>
+            <target android:targetId="@id/todo_search_background" />
+        </targets>
+    </transition>
+
+</transitionSet>

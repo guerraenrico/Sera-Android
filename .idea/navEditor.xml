@@ -124,7 +124,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="navigation_goals_f">
+                  <entry key="fragment_goals">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -232,7 +232,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="navigation_results_f">
+                  <entry key="fragment_results">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -254,7 +254,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="navigation_settings_f">
+                  <entry key="fragment_settings">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">

@@ -33,11 +33,9 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
-            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
         }
         release {
             buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
-            buildConfigField "String", "OAUTH2_CLIENT_ID", configProperties['OAUTH2_CLIENT_ID']
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -69,14 +67,23 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(":base")
+    implementation project(":base_android")
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
+    implementation project(":features:main")
+    implementation project(":features:splash")
+    implementation project(":features:login")
+    implementation project(":features:todos")
+    implementation project(":features:goals")
+    implementation project(":features:results")
+    implementation project(":features:settings")
 
-    // FIXME: Workaround waiting for https://github.com/google/dagger/issues/970
-    implementation project(":data")
-    implementation project(":local")
-    implementation project(":remote")
+    implementation project(":common:resources")
+
+    // TODO move main activity
+    implementation project(":navigation")
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
@@ -86,7 +93,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -126,9 +133,6 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
-    // Google SignIn
-    implementation "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
-
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
@@ -152,5 +156,5 @@ dependencies {
     // Flipper
     debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
     debugImplementation "com.facebook.soloader:soloader:$soloaderVersion"
-    releaseImplementation "com.facebook.flipper:flipper-noop:0.33.1$flipperVersion"
+    releaseImplementation "com.facebook.flipper:flipper-noop:$flipperVersion"
 }

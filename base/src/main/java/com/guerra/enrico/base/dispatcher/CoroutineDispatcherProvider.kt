@@ -9,4 +9,5 @@ import kotlinx.coroutines.CoroutineDispatcher
 interface CoroutineDispatcherProvider {
   fun io(): CoroutineDispatcher
   fun ui(): CoroutineDispatcher
+  fun cpu(): CoroutineDispatcher
 }

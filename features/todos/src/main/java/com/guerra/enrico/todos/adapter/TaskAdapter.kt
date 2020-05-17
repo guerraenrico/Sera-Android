@@ -1,0 +1,153 @@
+package com.guerra.enrico.todos.adapter
+
+import android.graphics.Canvas
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
+import com.guerra.enrico.todos.R
+import com.guerra.enrico.todos.databinding.ItemTaskBinding
+import com.guerra.enrico.todos.presentation.TaskPresentation
+import kotlin.math.abs
+
+/**
+ * Created by enrico
+ * on 24/06/2018.
+ */
+internal class TaskAdapter(
+  private val lifecycleOwner: LifecycleOwner,
+  private val eventActions: com.guerra.enrico.todos.EventActions
+) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
+
+  private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
+  private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
+    eventActions.onTaskSwipeToComplete(it)
+  })
+
+  override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+    super.onAttachedToRecyclerView(recyclerView)
+    itemTouchHelper.attachToRecyclerView(recyclerView)
+  }
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+    val binding =
+      ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
+        recyclerViewCategories.apply {
+          setRecycledViewPool(recyclerViewCategoriesPool)
+          layoutManager = FlexboxLayoutManager(context).apply {
+            recycleChildrenOnDetach = true
+            flexDirection = FlexDirection.ROW
+            justifyContent = JustifyContent.FLEX_START
+            alignItems = AlignItems.FLEX_START
+          }
+        }
+      }
+    return TaskViewHolder(binding, lifecycleOwner, eventActions)
+  }
+
+  override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+    holder.bind(getItem(position))
+  }
+}
+
+internal class TaskViewHolder(
+  private val binding: ItemTaskBinding,
+  private val lifecycleOwner: LifecycleOwner,
+  private val eventActions: com.guerra.enrico.todos.EventActions
+) : RecyclerView.ViewHolder(binding.root) {
+
+  fun bind(taskPresentation: TaskPresentation) {
+    binding.taskPresentation = taskPresentation
+    binding.lifecycleOwner = lifecycleOwner
+    binding.eventActions = eventActions
+    binding.executePendingBindings()
+  }
+}
+
+internal object TaskDiff : DiffUtil.ItemCallback<TaskPresentation>() {
+  override fun areItemsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
+    oldItem.task.id == newItem.task.id
+
+  override fun areContentsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
+    oldItem == newItem
+}
+
+internal class SwipeToCompleteCallback(private val completeListener: (Int) -> Unit) :
+  ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+  override fun onMove(
+    recyclerView: RecyclerView,
+    viewHolder: RecyclerView.ViewHolder,
+    target: RecyclerView.ViewHolder
+  ): Boolean {
+    return false
+  }
+
+  override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+    if (direction == ItemTouchHelper.LEFT) {
+      completeListener(viewHolder.adapterPosition)
+    }
+  }
+
+  override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+    ItemTouchHelper.Callback.getDefaultUIUtil()
+      .onSelected(viewHolder?.itemView?.findViewById(R.id.container_task_item))
+  }
+
+  override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+    ItemTouchHelper.Callback.getDefaultUIUtil()
+      .clearView(viewHolder.itemView.findViewById(R.id.container_task_item))
+  }
+
+  override fun onChildDraw(
+    canvas: Canvas,
+    recyclerView: RecyclerView,
+    viewHolder: RecyclerView.ViewHolder,
+    dX: Float,
+    dY: Float,
+    actionState: Int,
+    isCurrentlyActive: Boolean
+  ) {
+    val backdrop = viewHolder.itemView.findViewById<MotionLayout>(R.id.backdrop)
+    backdrop.progress = abs(dX / canvas.width)
+
+    ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(
+      canvas,
+      recyclerView,
+      viewHolder.itemView.findViewById(R.id.container_task_item),
+      dX,
+      dY,
+      actionState,
+      isCurrentlyActive
+    )
+  }
+
+  override fun onChildDrawOver(
+    c: Canvas,
+    recyclerView: RecyclerView,
+    viewHolder: RecyclerView.ViewHolder?,
+    dX: Float,
+    dY: Float,
+    actionState: Int,
+    isCurrentlyActive: Boolean
+  ) {
+    ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(
+      c,
+      recyclerView,
+      viewHolder?.itemView?.findViewById(R.id.container_task_item),
+      dX,
+      dY,
+      actionState,
+      isCurrentlyActive
+    )
+  }
+}
+

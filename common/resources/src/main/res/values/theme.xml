@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="fontFamily">@font/prompt</item>
+
+        <item name="android:statusBarColor">@color/color_fallback_status_bar</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="materialButtonStyle">@style/Widget.Sera.Button</item>
+        <item name="android:datePickerDialogTheme">@style/Widget.Sera.Dialog</item>
+    </style>
+
+    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents" />
+
+    <style name="AppTheme" parent="Base" />
+
+    <style name="AppTheme.Sera">
+        <item name="colorPrimary">@color/color_aquamarine_500</item>
+        <item name="colorOnPrimary">@color/color_white</item>
+        <item name="colorPrimaryDark">@color/color_aquamarine_600</item>
+        <item name="colorAccent">@color/color_yellow_500</item>
+        <item name="colorSurface">@color/color_light_grey_200</item>
+        <item name="colorOnSurface">@color/color_grey_500</item>
+        <item name="colorSecondarySurface">@color/color_light_grey_500</item>
+        <item name="colorOnSecondarySurface">@color/color_grey_500</item>
+
+        <item name="colorControlNormal">@color/color_light_grey_200</item>
+        <item name="colorControlActivated">@color/color_aquamarine_500</item>
+        <item name="colorOnControlNormal">@color/color_aquamarine_500</item>
+        <item name="colorOnControlActivated">@color/color_light_grey_300</item>
+        <item name="colorSecondaryControlNormal">@color/color_light_grey_400</item>
+
+        <item name="android:textColorPrimary">@color/color_grey_800</item>
+        <item name="android:textColorSecondary">@color/color_grey_500</item>
+        <item name="android:windowBackground">@color/color_light_grey_200</item>
+        <item name="android:colorBackground">@color/color_light_grey_200</item>
+        <item name="scrimBackground">@color/color_light_grey_200</item>
+
+        <item name="inputBackgroundColor">@color/color_light_grey_500</item>
+        <item name="hintTextColor">@color/color_grey_500</item>
+
+        <item name="colorDivider">@color/color_light_grey_200</item>
+
+        <item name="colorIcon">@color/color_grey_800</item>
+    </style>
+
+    <style name="AppTheme.Sera.MainActivity">
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+</resources>

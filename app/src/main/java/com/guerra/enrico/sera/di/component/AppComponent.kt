@@ -1,12 +1,9 @@
 package com.guerra.enrico.sera.di.component
 
-import com.guerra.enrico.domain.DomainModule
-import com.guerra.enrico.local.LocalModule
-import com.guerra.enrico.remote.RemoteModule
+import com.guerra.enrico.navigation.di.NavigationModule
 import com.guerra.enrico.sera.SeraApplication
-import com.guerra.enrico.sera.data.repo.DataModule
-import com.guerra.enrico.sera.di.module.ActivityBindingModule
 import com.guerra.enrico.sera.di.module.AppModule
+import com.guerra.enrico.sera.di.module.FeaturesBindingModule
 import com.guerra.enrico.sera.di.module.RetrofitModule
 import com.guerra.enrico.sera.di.module.ViewModelModule
 import com.guerra.enrico.workers.di.WorkersModule
@@ -25,14 +22,11 @@ import javax.inject.Singleton
   modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    ActivityBindingModule::class,
+    FeaturesBindingModule::class,
     WorkersModule::class,
     ViewModelModule::class,
     RetrofitModule::class,
-    // FIXME: Workaround waiting for https://github.com/google/dagger/issues/970
-    DataModule::class,
-    LocalModule::class,
-    RemoteModule::class
+    NavigationModule::class
   ]
 )
 interface AppComponent : AndroidInjector<SeraApplication> {

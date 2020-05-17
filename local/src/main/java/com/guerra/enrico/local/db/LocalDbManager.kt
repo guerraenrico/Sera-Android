@@ -49,7 +49,8 @@ interface LocalDbManager {
   suspend fun syncTasks(tasks: List<Task>)
 
   // Suggestions
-  fun observeSuggestion(text: String): Flow<List<Suggestion>>
+  suspend fun searchSuggestions(text: String): List<Suggestion>
+  suspend fun getSuggestions(): List<Suggestion>
   suspend fun insertSuggestion(suggestion: Suggestion): Long
   suspend fun updateSuggestion(suggestion: Suggestion): Int
 

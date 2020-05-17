@@ -13,6 +13,6 @@ interface AuthRepository {
 
   suspend fun validateAccessToken(): Result<User>
   suspend fun refreshToken(): Result<Unit>
-  suspend fun <T> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>>
-  suspend fun <T> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T>
+  suspend fun <T: Any> refreshTokenIfNotAuthorized(vararg blocks: suspend () -> Result<T>): List<Result<T>>
+  suspend fun <T: Any> refreshTokenIfNotAuthorized(block: suspend () -> Result<T>): Result<T>
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.guerra.enrico.base.Result" />
+
+        <variable
+            name="viewModel"
+            type="com.guerra.enrico.todos.TodosViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.todos.TodosFragment">
+
+        <!-- Use a separate view for the background, rather than on the root view because it is a shared element -->
+        <View
+            android:id="@+id/activity_todos_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:transitionName="@string/todos_container_transition" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            style="@style/Widget.AppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|snap"
+                app:menu="@menu/todos"
+                app:topSystemWindowInsets="@{true}"
+                >
+
+                <EditText
+                    android:id="@+id/toolbar_edit_text_search"
+                    style="@style/SearchTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@null"
+                    android:focusable="false"
+                    android:hint="@string/hint_search"
+                    android:inputType="none"
+                    android:transitionName="@string/todos_search_transition" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/todos_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionGroup="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.guerra.enrico.base_android.widget.CustomSwipeRefreshLayout
+                android:id="@+id/refresh_layout_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:onRefreshListener="@{() -> viewModel.onRefreshData()}"
+                app:refreshing="@{viewModel.swipeRefresh}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.guerra.enrico.components.MessageLayout
+                        android:id="@+id/message_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_tasks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+
+            </com.guerra.enrico.base_android.widget.CustomSwipeRefreshLayout>
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

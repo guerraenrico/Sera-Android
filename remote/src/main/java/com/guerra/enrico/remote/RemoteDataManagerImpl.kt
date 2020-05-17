@@ -92,7 +92,7 @@ class RemoteDataManagerImpl @Inject constructor(
     api.sync(accessToken, SyncParams(lastSync, syncActions))
   }
 
-  private suspend fun <R> callAndCatch(block: suspend () -> ApiResponse<R>): CallResult<R> =
+  private suspend fun <R : Any> callAndCatch(block: suspend () -> ApiResponse<R>): CallResult<R> =
     runCatching {
       CallResult.Result(block())
     }.getOrElse<CallResult<R>, CallResult<R>> { e ->

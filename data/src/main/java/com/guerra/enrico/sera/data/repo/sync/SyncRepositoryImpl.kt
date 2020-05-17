@@ -1,13 +1,12 @@
 package com.guerra.enrico.sera.data.repo.sync
 
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.local.db.LocalDbManager
 import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.remote.RemoteDataManager
-import com.guerra.enrico.remote.response.CallResult
-import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import com.guerra.enrico.sera.data.repo.withAccessToken
 import java.util.*
 import javax.inject.Inject
@@ -34,22 +33,11 @@ class SyncRepositoryImpl @Inject constructor(
     localDbManager.withAccessToken { accessToken ->
       val syncActions = localDbManager.getSyncActions()
       val lastSync = getLastSyncDate()
-
-      return@withAccessToken when (val apiResult =
-        remoteDataManager.sync(accessToken, lastSync, syncActions)) {
-        is CallResult.Result -> {
-          val data = apiResult.apiResponse.data
-          if (apiResult.apiResponse.success && data != null) {
-            localDbManager.deleteSyncActions(syncActions)
-            Result.Success(data)
-          } else {
-            Result.Error(apiResult.apiResponse.error.toRemoteExceptionOrUnknown())
-          }
-        }
-        is CallResult.Error -> {
-          Result.Error(apiResult.exception)
-        }
+      val result = remoteDataManager.sync(accessToken, lastSync, syncActions).toResult()
+      if (result.succeeded) {
+        localDbManager.deleteSyncActions(syncActions)
       }
+      return@withAccessToken result
     }
 
   override fun getLastSyncDate(): Date? {

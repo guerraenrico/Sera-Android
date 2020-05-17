@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.guerra.enrico.splash.SplashActivity"
             android:theme="@style/AppTheme.Sera">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,19 +27,19 @@
         </activity>
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.guerra.enrico.main.MainActivity"
             android:theme="@style/AppTheme.Sera.MainActivity" />
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.guerra.enrico.login.LoginActivity"
             android:theme="@style/AppTheme.Sera" />
 
         <activity
-            android:name=".ui.todos.add.TodoAddActivity"
+            android:name="com.guerra.enrico.todos.add.TodoAddActivity"
             android:theme="@style/AppTheme.Sera" />
 
         <activity
-            android:name=".ui.todos.search.TodoSearchActivity"
+            android:name="com.guerra.enrico.todos.search.TodoSearchActivity"
             android:theme="@style/AppTheme.Sera.SearchActivity" />
 
         <activity
