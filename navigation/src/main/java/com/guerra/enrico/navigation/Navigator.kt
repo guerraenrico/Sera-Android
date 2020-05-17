@@ -2,6 +2,7 @@ package com.guerra.enrico.navigation
 
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 
@@ -12,7 +13,7 @@ import androidx.fragment.app.FragmentManager
 interface Navigator {
   fun startLoginActivity(activity: FragmentActivity, options: Bundle? = null)
   fun startMainActivity(activity: FragmentActivity, options: Bundle? = null)
-  fun startTodoSearchActivityForResult(activity: FragmentActivity, options: Bundle? = null)
+  fun startTodoSearchActivityForResult(fragment: Fragment, options: Bundle? = null)
   fun startTodoAddActivity(activity: FragmentActivity, options: Bundle? = null)
 
   fun replaceWithLoginFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)

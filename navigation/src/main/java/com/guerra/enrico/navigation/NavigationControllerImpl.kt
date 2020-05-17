@@ -47,6 +47,20 @@ internal class NavigationControllerImpl @Inject constructor(
     activity.startActivityForResult(intent, requestCode, options)
   }
 
+  override fun startActivityForResult(
+    fragment: Fragment,
+    destination: ActivityDestination,
+    requestCode: Int,
+    options: Bundle?
+  ) {
+    val destinationInfo = activityDestinations[destination]
+      ?: throw IllegalArgumentException("No package provided for this destination:$destination")
+
+    val clazz = Class.forName(destinationInfo.className)
+    val intent = Intent(Intent.ACTION_VIEW).setClass(fragment.requireContext(), clazz)
+    fragment.startActivityForResult(intent, requestCode, options)
+  }
+
   override fun replaceFragment(
     fragmentManager: FragmentManager,
     @IdRes containerId: Int,

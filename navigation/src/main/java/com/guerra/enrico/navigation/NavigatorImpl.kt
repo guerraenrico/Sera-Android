@@ -1,6 +1,7 @@
 package com.guerra.enrico.navigation
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.guerra.enrico.navigation.di.ActivityDestination
@@ -22,9 +23,9 @@ internal class NavigatorImpl @Inject constructor(
     navigationController.startActivity(activity, ActivityDestination.MAIN, options)
   }
 
-  override fun startTodoSearchActivityForResult(activity: FragmentActivity, options: Bundle?) {
+  override fun startTodoSearchActivityForResult(fragment: Fragment, options: Bundle?) {
     navigationController.startActivityForResult(
-      activity,
+      fragment,
       ActivityDestination.TODOS_SEARCH,
       TODO_SEARCH_REQUEST_CODE,
       options

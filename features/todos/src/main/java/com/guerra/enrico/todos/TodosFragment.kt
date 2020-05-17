@@ -151,7 +151,7 @@ internal class TodosFragment : BaseFragment() {
         Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
-      navigator.startTodoSearchActivityForResult(requireActivity(), options.toBundle())
+      navigator.startTodoSearchActivityForResult(this, options.toBundle())
     }
   }
 
