@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import com.guerra.enrico.base_android.arch.BaseActivity
+import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.steps.StepEnum
 import kotlinx.android.synthetic.main.activity_todo_add.*
@@ -20,7 +20,8 @@ internal class TodoAddActivity : BaseActivity() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: TodoAddViewModel by viewModels { viewModelFactory }
 
-  private val navController by lazy { findNavController(R.id.containerHostFragment) }
+  @Inject
+  lateinit var navigator: Navigator
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -34,18 +35,39 @@ internal class TodoAddActivity : BaseActivity() {
   private fun initView() {
     viewModel.currentStep.observe(this, Observer { step ->
       when (step) {
-        StepEnum.SELECT -> goTo(R.id.step_select)
-        StepEnum.ADD_CATEGORY -> goTo(R.id.step_add_category, StepEnum.SELECT)
-        StepEnum.SELECT_CATEGORY -> goTo(R.id.step_select_category, StepEnum.SELECT)
-        StepEnum.ADD_TASK -> goTo(R.id.step_add_task, StepEnum.SELECT)
-        StepEnum.SCHEDULE -> goTo(R.id.step_schedule, StepEnum.ADD_TASK)
-        StepEnum.DONE -> goTo(R.id.step_done, StepEnum.SCHEDULE)
-        else -> goTo(R.id.step_select)
+        StepEnum.SELECT -> {
+          bindPrevButton()
+          navigator.replaceWithTodoAddSelectFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        StepEnum.ADD_CATEGORY -> {
+          bindPrevButton(StepEnum.SELECT)
+          navigator.replaceWithTodoAddAddCategoryFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        StepEnum.SELECT_CATEGORY -> {
+          bindPrevButton(StepEnum.SELECT)
+          navigator.replaceWithTodoAddSelectCategoryFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        StepEnum.ADD_TASK -> {
+          bindPrevButton(StepEnum.SELECT)
+          navigator.replaceWithTodoAddAddTaskFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        StepEnum.SCHEDULE -> {
+          bindPrevButton(StepEnum.ADD_TASK)
+          navigator.replaceWithTodoAddScheduleFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        StepEnum.DONE -> {
+          bindPrevButton(StepEnum.SCHEDULE)
+          navigator.replaceWithTodoAddDoneFragment(supportFragmentManager, R.id.containerHostFragment)
+        }
+        else -> {
+          navigator.replaceWithTodoAddSelectFragment(supportFragmentManager, R.id.containerHostFragment)
+          bindPrevButton()
+        }
       }
     })
   }
 
-  private fun goTo(navId: Int, previousStep: StepEnum? = null) {
+  private fun bindPrevButton(previousStep: StepEnum? = null) {
     buttonPrevious.setOnClickListener {
       if (previousStep != null) {
         viewModel.goToNextStep(previousStep)
@@ -53,6 +75,5 @@ internal class TodoAddActivity : BaseActivity() {
         finish()
       }
     }
-    navController.navigate(navId)
   }
 }

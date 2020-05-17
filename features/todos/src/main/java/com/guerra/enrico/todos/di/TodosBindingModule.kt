@@ -9,6 +9,12 @@ import com.guerra.enrico.navigation.di.FragmentDestination
 import com.guerra.enrico.navigation.di.FragmentKey
 import com.guerra.enrico.todos.TodosFragment
 import com.guerra.enrico.todos.add.TodoAddActivity
+import com.guerra.enrico.todos.add.steps.AddCategoryFragment
+import com.guerra.enrico.todos.add.steps.AddTaskFragment
+import com.guerra.enrico.todos.add.steps.DoneFragment
+import com.guerra.enrico.todos.add.steps.ScheduleFragment
+import com.guerra.enrico.todos.add.steps.SelectCategoryFragment
+import com.guerra.enrico.todos.add.steps.SelectFragment
 import com.guerra.enrico.todos.search.TodoSearchActivity
 import dagger.Module
 import dagger.Provides
@@ -62,5 +68,47 @@ class TodosNavigationModule {
   @ActivityKey(ActivityDestination.TODOS_SEARCH)
   internal fun provideTodoSearchDestination(): DestinationInfo {
     return DestinationInfo(TodoSearchActivity::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_SELECT)
+  internal fun provideTodoAddSelectDestination(): DestinationInfo {
+    return DestinationInfo(SelectFragment::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_ADD_CATEGORY)
+  internal fun provideTodoAddAddCategoryDestination(): DestinationInfo {
+    return DestinationInfo(AddCategoryFragment::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_SELECT_CATEGORY)
+  internal fun provideTodoAddSelectCategoryDestination(): DestinationInfo {
+    return DestinationInfo(SelectCategoryFragment::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_ADD_TASK)
+  internal fun provideTodoAddAddTaskDestination(): DestinationInfo {
+    return DestinationInfo(AddTaskFragment::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_SCHEDULE)
+  internal fun provideTodoAddScheduleDestination(): DestinationInfo {
+    return DestinationInfo(ScheduleFragment::class.java.name)
+  }
+
+  @Provides
+  @IntoMap
+  @FragmentKey(FragmentDestination.TODO_ADD_DONE)
+  internal fun provideTodoAddDoneDestination(): DestinationInfo {
+    return DestinationInfo(DoneFragment::class.java.name)
   }
 }
