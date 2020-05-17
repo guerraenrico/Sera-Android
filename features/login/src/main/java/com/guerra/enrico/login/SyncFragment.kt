@@ -10,6 +10,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.databinding.FragmentLoginSyncBinding
+import com.guerra.enrico.navigation.Navigator
 import javax.inject.Inject
 
 /**
@@ -20,6 +21,9 @@ internal class SyncFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+
+  @Inject
+  lateinit var navigator: Navigator
 
   private lateinit var binding: FragmentLoginSyncBinding
 
@@ -54,8 +58,7 @@ internal class SyncFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-//    TODO: handle navigation
-//    findNavController().navigate(R.id.main_activity)
-//    requireActivity().finish()
+    navigator.startMainActivity(requireActivity())
+    requireActivity().finish()
   }
 }

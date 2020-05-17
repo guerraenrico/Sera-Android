@@ -5,6 +5,8 @@ package com.guerra.enrico.navigation.di
  * on 16/05/2020.
  */
 enum class FragmentDestination {
+  LOGIN,
+  LOGIN_SYNC,
   TODOS,
   GOALS,
   RESULTS,

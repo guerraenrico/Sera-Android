@@ -16,6 +16,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.databinding.FragmentLoginBinding
+import com.guerra.enrico.navigation.Navigator
 import javax.inject.Inject
 
 /**
@@ -27,6 +28,9 @@ class LoginFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+
+  @Inject
+  lateinit var navigator: Navigator
 
   private lateinit var binding: FragmentLoginBinding
 
@@ -86,7 +90,6 @@ class LoginFragment : BaseFragment() {
     }
   }
 
-  // FIXME why Task is not resolved ?????
   private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
     try {
       val account = task.getResult(ApiException::class.java)
@@ -97,7 +100,6 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-//    TODO Find a solution to navigate
-//    findNavController().navigate(LoginFragmentDirections.actionLoginToSync())
+    navigator.startMainActivity(requireActivity())
   }
 }

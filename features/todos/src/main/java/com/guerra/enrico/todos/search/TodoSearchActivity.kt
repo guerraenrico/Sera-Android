@@ -10,9 +10,9 @@ import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
+import com.guerra.enrico.navigation.TODO_SEARCH_RESULT_KEY
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.databinding.ActivityTodoSearchBinding
-import com.guerra.enrico.todos.navigation.TODO_SEARCH_RESULT_KEY
 import javax.inject.Inject
 
 /**

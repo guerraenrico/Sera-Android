@@ -30,6 +30,6 @@ class ResultsNavigationModule {
   @IntoMap
   @FragmentKey(FragmentDestination.RESULTS)
   internal fun provideResultsDestination(): DestinationInfo {
-    return DestinationInfo(ResultsFragment::class.java.simpleName)
+    return DestinationInfo(ResultsFragment::class.java.name)
   }
 }

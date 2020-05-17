@@ -11,7 +11,6 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.di.ActivityDestination
 import javax.inject.Inject
 
 /**
@@ -50,12 +49,12 @@ internal class SplashFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    navigator.openActivity(requireActivity(), ActivityDestination.MAIN)
+    navigator.startMainActivity(requireActivity())
     requireActivity().finish()
   }
 
   private fun gotoLoginActivity() {
-    navigator.openActivity(requireActivity(), ActivityDestination.LOGIN)
+    navigator.startLoginActivity(requireActivity())
     requireActivity().finish()
   }
 }
