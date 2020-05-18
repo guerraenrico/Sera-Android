@@ -147,9 +147,4 @@ dependencies {
 
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
-
-    // Flipper
-    debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
-    debugImplementation "com.facebook.soloader:soloader:$soloaderVersion"
-    releaseImplementation "com.facebook.flipper:flipper-noop:$flipperVersion"
 }
