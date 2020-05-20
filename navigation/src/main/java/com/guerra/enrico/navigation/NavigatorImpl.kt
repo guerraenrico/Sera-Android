@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.guerra.enrico.navigation.di.ActivityDestination
 import com.guerra.enrico.navigation.di.FragmentDestination
+import com.guerra.enrico.navigation.directions.ActivityDirection
+import com.guerra.enrico.navigation.directions.FragmentDirection
+import com.guerra.enrico.navigation.directions.WithParams
 import javax.inject.Inject
 
 /**
@@ -15,6 +18,38 @@ import javax.inject.Inject
 internal class NavigatorImpl @Inject constructor(
   private val navigationController: NavigationController
 ) : Navigator {
+
+  override fun startActivity(
+    activity: FragmentActivity,
+    direction: ActivityDirection,
+    options: Bundle?
+  ) {
+    val bundle = Bundle(options)
+    if (direction is WithParams<*>) {
+      bundle.putParcelable(direction.key, direction.params)
+    }
+    navigationController.startActivity(activity, direction.destination, bundle)
+  }
+
+  override fun startActivityForResult(
+    activity: FragmentActivity,
+    direction: ActivityDirection,
+    options: Bundle?
+  ) {
+    TODO("Not yet implemented")
+  }
+
+  override fun replaceFragment(
+    fragmentManager: FragmentManager,
+    containerId: Int,
+    direction: FragmentDirection
+  ) {
+    if (direction is WithParams<*>) {
+      // TODO handle pass parameter to fragment
+    }
+    navigationController.replaceFragment(fragmentManager, containerId, direction.destination)
+  }
+
   override fun startLoginActivity(activity: FragmentActivity, options: Bundle?) {
     navigationController.startActivity(activity, ActivityDestination.LOGIN, options)
   }
