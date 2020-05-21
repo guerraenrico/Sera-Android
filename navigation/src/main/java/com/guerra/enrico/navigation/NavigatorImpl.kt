@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.guerra.enrico.navigation.di.ActivityDestination
-import com.guerra.enrico.navigation.di.FragmentDestination
 import com.guerra.enrico.navigation.directions.ActivityDirection
 import com.guerra.enrico.navigation.directions.FragmentDirection
 import com.guerra.enrico.navigation.directions.WithParams
+import com.guerra.enrico.navigation.directions.WithResult
 import javax.inject.Inject
 
 /**
@@ -36,7 +35,23 @@ internal class NavigatorImpl @Inject constructor(
     direction: ActivityDirection,
     options: Bundle?
   ) {
-    TODO("Not yet implemented")
+    // TODO
+  }
+
+  override fun startActivityForResult(
+    fragment: Fragment,
+    direction: ActivityDirection,
+    options: Bundle?
+  ) {
+    if (direction !is WithResult) {
+      throw IllegalArgumentException("Destination ${direction.destination} doesn't support result")
+    }
+    navigationController.startActivityForResult(
+      fragment,
+      direction.destination,
+      direction.code,
+      options
+    )
   }
 
   override fun replaceFragment(
@@ -49,113 +64,4 @@ internal class NavigatorImpl @Inject constructor(
     }
     navigationController.replaceFragment(fragmentManager, containerId, direction.destination)
   }
-
-  override fun startLoginActivity(activity: FragmentActivity, options: Bundle?) {
-    navigationController.startActivity(activity, ActivityDestination.LOGIN, options)
-  }
-
-  override fun startMainActivity(activity: FragmentActivity, options: Bundle?) {
-    navigationController.startActivity(activity, ActivityDestination.MAIN, options)
-  }
-
-  override fun startTodoSearchActivityForResult(fragment: Fragment, options: Bundle?) {
-    navigationController.startActivityForResult(
-      fragment,
-      ActivityDestination.TODOS_SEARCH,
-      TODO_SEARCH_REQUEST_CODE,
-      options
-    )
-  }
-
-  override fun startTodoAddActivity(activity: FragmentActivity, options: Bundle?) {
-    navigationController.startActivity(activity, ActivityDestination.TODOS_ADD, options)
-  }
-
-  override fun replaceWithLoginFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.LOGIN)
-  }
-
-  override fun replaceWithLoginSyncFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.LOGIN_SYNC)
-  }
-
-  override fun replaceWithTodosFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.TODOS)
-  }
-
-  override fun replaceWithTodoAddSelectFragment(
-    fragmentManager: FragmentManager,
-    containerId: Int
-  ) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_SELECT
-    )
-  }
-
-  override fun replaceWithTodoAddAddCategoryFragment(
-    fragmentManager: FragmentManager,
-    containerId: Int
-  ) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_ADD_CATEGORY
-    )
-  }
-
-  override fun replaceWithTodoAddSelectCategoryFragment(
-    fragmentManager: FragmentManager,
-    containerId: Int
-  ) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_SELECT_CATEGORY
-    )
-  }
-
-  override fun replaceWithTodoAddAddTaskFragment(
-    fragmentManager: FragmentManager,
-    containerId: Int
-  ) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_ADD_TASK
-    )
-  }
-
-  override fun replaceWithTodoAddScheduleFragment(
-    fragmentManager: FragmentManager,
-    containerId: Int
-  ) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_SCHEDULE
-    )
-  }
-
-  override fun replaceWithTodoAddDoneFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(
-      fragmentManager,
-      containerId,
-      FragmentDestination.TODO_ADD_DONE
-    )
-  }
-
-  override fun replaceWithGoalsFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.GOALS)
-  }
-
-  override fun replaceWithResultsFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.RESULTS)
-  }
-
-  override fun replaceWithSettingsFragment(fragmentManager: FragmentManager, containerId: Int) {
-    navigationController.replaceFragment(fragmentManager, containerId, FragmentDestination.SETTINGS)
-  }
-
 }

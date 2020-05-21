@@ -11,6 +11,7 @@ import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.login.databinding.ActivityLoginBinding
 import com.guerra.enrico.login.models.Step
 import com.guerra.enrico.navigation.Navigator
+import com.guerra.enrico.navigation.directions.login.LoginDirections
 import javax.inject.Inject
 
 /**
@@ -36,10 +37,11 @@ internal class LoginActivity : BaseActivity() {
     binding.root.systemUiFullScreen()
 
     observeEvent(viewModel.step) {
-      when (it) {
-        Step.LOGIN -> navigator.replaceWithLoginFragment(supportFragmentManager, R.id.loginFragmentHost)
-        Step.SYNC -> navigator.replaceWithLoginSyncFragment(supportFragmentManager, R.id.loginFragmentHost)
+      val direction = when (it) {
+        Step.LOGIN -> LoginDirections.Login.Fragment()
+        Step.SYNC -> LoginDirections.Login.SyncFragment()
       }
+      navigator.replaceFragment(supportFragmentManager, R.id.loginFragmentHost, direction)
     }
   }
 }

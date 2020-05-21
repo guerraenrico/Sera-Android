@@ -1,11 +1,11 @@
 package com.guerra.enrico.navigation.directions.todos
 
+import com.guerra.enrico.navigation.TODO_SEARCH_REQUEST_CODE
 import com.guerra.enrico.navigation.di.ActivityDestination
 import com.guerra.enrico.navigation.di.FragmentDestination
 import com.guerra.enrico.navigation.directions.ActivityDirection
 import com.guerra.enrico.navigation.directions.FragmentDirection
-import com.guerra.enrico.navigation.directions.WithParams
-import com.guerra.enrico.navigation.models.todos.TodoSearchParams
+import com.guerra.enrico.navigation.directions.WithResult
 
 /**
  * Created by enrico
@@ -13,20 +13,52 @@ import com.guerra.enrico.navigation.models.todos.TodoSearchParams
  */
 
 object TodosDirections {
-
-  class SearchActivity : ActivityDirection {
-    override val destination: ActivityDestination = ActivityDestination.TODOS_SEARCH
+  object Tasks {
+    class Fragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODOS
+    }
   }
 
-  class SearchActivityWithParams(override val params: TodoSearchParams) : ActivityDirection, WithParams<TodoSearchParams>{
-    override val key: String = ""
-    override val destination: ActivityDestination = ActivityDestination.TODOS_SEARCH
+  object Search {
+    class Activity : ActivityDirection, WithResult {
+      override val destination: ActivityDestination = ActivityDestination.TODOS_SEARCH
+      override val code: Int = TODO_SEARCH_REQUEST_CODE
+    }
+
+    class Fragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_SEARCH
+    }
   }
 
-  class SearchFragment : FragmentDirection {
-    override val destination: FragmentDestination = FragmentDestination.TODO_SEARCH
-  }
+  object Add {
+    class Activity : ActivityDirection {
+      override val destination: ActivityDestination = ActivityDestination.TODOS_ADD
+    }
 
+    class SelectFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_SELECT
+    }
+
+    class SelectCategoryFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_SELECT_CATEGORY
+    }
+
+    class AddCategoryFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_ADD_CATEGORY
+    }
+
+    class AddTaskFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_ADD_TASK
+    }
+
+    class ScheduleFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_SCHEDULE
+    }
+
+    class DoneFragment : FragmentDirection {
+      override val destination: FragmentDestination = FragmentDestination.TODO_ADD_DONE
+    }
+  }
 }
 
 // nav.todos.search.main.startForResult(activity, bundle) {}
