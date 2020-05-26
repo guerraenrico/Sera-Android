@@ -1,14 +1,12 @@
 package com.guerra.enrico.navigation
 
 import android.content.Intent
-import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.IdRes
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.guerra.enrico.navigation.di.ActivityDestination
-import com.guerra.enrico.navigation.di.DestinationInfo
-import com.guerra.enrico.navigation.di.FragmentDestination
 import javax.inject.Inject
 
 /**
@@ -16,60 +14,47 @@ import javax.inject.Inject
  * on 17/05/2020.
  */
 internal class NavigationControllerImpl @Inject constructor(
-  private val activityDestinations: Map<ActivityDestination, DestinationInfo>,
-  private val fragmentDestinations: Map<FragmentDestination, DestinationInfo>
 ) : NavigationController {
 
   override fun startActivity(
     activity: FragmentActivity,
-    destination: ActivityDestination,
-    options: Bundle?
+    intent: Intent,
+    options: ActivityOptionsCompat?
   ) {
-    val destinationInfo = activityDestinations[destination]
-      ?: throw IllegalArgumentException("No package provided for this destination:$destination")
-
-    val clazz = Class.forName(destinationInfo.className)
-    val intent = Intent(Intent.ACTION_VIEW).setClass(activity, clazz)
-    activity.startActivity(intent, options)
+    activity.startActivity(intent, options?.toBundle())
   }
 
-  override fun startActivityForResult(
+  override fun <I : Any, O : Any> startActivityForResult(
     activity: FragmentActivity,
-    destination: ActivityDestination,
-    requestCode: Int,
-    options: Bundle?
+    input: I,
+    contract: ActivityResultContract<I, O>,
+    options: ActivityOptionsCompat?
   ) {
-    val destinationInfo = activityDestinations[destination]
-      ?: throw IllegalArgumentException("No package provided for this destination:$destination")
 
-    val clazz = Class.forName(destinationInfo.className)
-    val intent = Intent(Intent.ACTION_VIEW).setClass(activity, clazz)
-    activity.startActivityForResult(intent, requestCode, options)
+    val startForResult = activity.registerForActivityResult(contract) {
+
+    }
+    startForResult.launch(input, options)
   }
 
-  override fun startActivityForResult(
+  override fun <I : Any, O : Any> startActivityForResult(
     fragment: Fragment,
-    destination: ActivityDestination,
-    requestCode: Int,
-    options: Bundle?
+    input: I,
+    contract: ActivityResultContract<I, O>,
+    options: ActivityOptionsCompat?
   ) {
-    val destinationInfo = activityDestinations[destination]
-      ?: throw IllegalArgumentException("No package provided for this destination:$destination")
 
-    val clazz = Class.forName(destinationInfo.className)
-    val intent = Intent(Intent.ACTION_VIEW).setClass(fragment.requireContext(), clazz)
-    fragment.startActivityForResult(intent, requestCode, options)
+    val startForResult = fragment.registerForActivityResult(contract) {
+
+    }
+    startForResult.launch(input, options)
   }
 
   override fun replaceFragment(
     fragmentManager: FragmentManager,
     @IdRes containerId: Int,
-    destination: FragmentDestination
+    fragment: Fragment
   ) {
-    val destinationInfo = fragmentDestinations[destination]
-      ?: throw IllegalArgumentException("No package provided for this destination:$destination")
-
-    val fragment: Fragment = Class.forName(destinationInfo.className).newInstance() as Fragment
     fragmentManager.beginTransaction().apply {
       replace(containerId, fragment)
       commit()

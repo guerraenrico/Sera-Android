@@ -23,7 +23,6 @@ import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.TODO_SEARCH_RESULT_KEY
 import com.guerra.enrico.navigation.directions.todos.TodosDirections
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosBinding
@@ -152,7 +151,7 @@ internal class TodosFragment : BaseFragment() {
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
       val direction = TodosDirections.Search.Activity()
-      navigator.startActivityForResult(this, direction, options.toBundle())
+      navigator.startActivityForResult(this, direction, options)
     }
   }
 

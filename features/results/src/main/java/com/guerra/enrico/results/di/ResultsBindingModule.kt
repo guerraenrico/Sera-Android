@@ -2,9 +2,9 @@ package com.guerra.enrico.results.di
 
 import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.domain.DomainModule
-import com.guerra.enrico.navigation.di.DestinationInfo
-import com.guerra.enrico.navigation.di.FragmentDestination
-import com.guerra.enrico.navigation.di.FragmentKey
+import com.guerra.enrico.navigation.di.Destination
+import com.guerra.enrico.navigation.di.FragmentTarget
+import com.guerra.enrico.navigation.annotations.FragmentKey
 import com.guerra.enrico.results.ResultsFragment
 import dagger.Module
 import dagger.Provides
@@ -28,8 +28,8 @@ abstract class ResultsBindingModule {
 class ResultsNavigationModule {
   @Provides
   @IntoMap
-  @FragmentKey(FragmentDestination.RESULTS)
-  internal fun provideResultsDestination(): DestinationInfo {
-    return DestinationInfo(ResultsFragment::class.java.name)
+  @FragmentKey(FragmentTarget.RESULTS)
+  internal fun provideResultsDestination(): Destination {
+    return Destination(ResultsFragment::class.java.name)
   }
 }

@@ -1,7 +1,7 @@
 package com.guerra.enrico.navigation.directions.login
 
-import com.guerra.enrico.navigation.di.ActivityDestination
-import com.guerra.enrico.navigation.di.FragmentDestination
+import com.guerra.enrico.navigation.di.ActivityTarget
+import com.guerra.enrico.navigation.di.FragmentTarget
 import com.guerra.enrico.navigation.directions.ActivityDirection
 import com.guerra.enrico.navigation.directions.FragmentDirection
 
@@ -12,15 +12,15 @@ import com.guerra.enrico.navigation.directions.FragmentDirection
 object LoginDirections {
   object Login {
     class Activity : ActivityDirection {
-      override val destination: ActivityDestination = ActivityDestination.LOGIN
+      override val target: ActivityTarget = ActivityTarget.LOGIN
     }
 
     class Fragment : FragmentDirection {
-      override val destination: FragmentDestination = FragmentDestination.LOGIN
+      val target: FragmentTarget = FragmentTarget.LOGIN
     }
 
     class SyncFragment : FragmentDirection {
-      override val destination: FragmentDestination = FragmentDestination.LOGIN_SYNC
+      val target: FragmentTarget = FragmentTarget.LOGIN_SYNC
     }
   }
 }

@@ -3,9 +3,9 @@ package com.guerra.enrico.goals.di
 import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.domain.DomainModule
 import com.guerra.enrico.goals.GoalsFragment
-import com.guerra.enrico.navigation.di.DestinationInfo
-import com.guerra.enrico.navigation.di.FragmentDestination
-import com.guerra.enrico.navigation.di.FragmentKey
+import com.guerra.enrico.navigation.di.Destination
+import com.guerra.enrico.navigation.di.FragmentTarget
+import com.guerra.enrico.navigation.annotations.FragmentKey
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -29,8 +29,8 @@ abstract class GoalsBindingModule {
 class GoalsNavigationModule {
   @Provides
   @IntoMap
-  @FragmentKey(FragmentDestination.GOALS)
-  internal fun provideGoalsDestination(): DestinationInfo {
-    return DestinationInfo(GoalsFragment::class.java.name)
+  @FragmentKey(FragmentTarget.GOALS)
+  internal fun provideGoalsDestination(): Destination {
+    return Destination(GoalsFragment::class.java.name)
   }
 }

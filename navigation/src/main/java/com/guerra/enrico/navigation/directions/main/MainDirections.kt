@@ -1,6 +1,6 @@
 package com.guerra.enrico.navigation.directions.main
 
-import com.guerra.enrico.navigation.di.ActivityDestination
+import com.guerra.enrico.navigation.di.ActivityTarget
 import com.guerra.enrico.navigation.directions.ActivityDirection
 
 /**
@@ -9,6 +9,6 @@ import com.guerra.enrico.navigation.directions.ActivityDirection
  */
 object MainDirections {
   class Activity : ActivityDirection {
-    override val destination: ActivityDestination = ActivityDestination.MAIN
+    override val target: ActivityTarget = ActivityTarget.MAIN
   }
 }

@@ -1,6 +1,6 @@
 package com.guerra.enrico.navigation.directions.goals
 
-import com.guerra.enrico.navigation.di.FragmentDestination
+import com.guerra.enrico.navigation.di.FragmentTarget
 import com.guerra.enrico.navigation.directions.FragmentDirection
 
 /**
@@ -10,7 +10,7 @@ import com.guerra.enrico.navigation.directions.FragmentDirection
 object GoalsDirections {
   object Goals {
     class Fragment : FragmentDirection {
-      override val destination: FragmentDestination = FragmentDestination.GOALS
+      override val target: FragmentTarget = FragmentTarget.GOALS
     }
   }
 }

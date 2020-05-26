@@ -1,27 +1,34 @@
 package com.guerra.enrico.navigation.directions
 
 import android.os.Parcelable
-import com.guerra.enrico.navigation.di.ActivityDestination
-import com.guerra.enrico.navigation.di.FragmentDestination
+import androidx.activity.result.contract.ActivityResultContract
+import com.guerra.enrico.navigation.di.ActivityTarget
+import com.guerra.enrico.navigation.di.FragmentTarget
 
 /**
  * Created by enrico
  * on 20/05/2020.
  */
 
-interface WithParams<T: Parcelable> {
+interface Input<T: Parcelable> {
   val key: String
   val params: T
 }
 
-interface WithResult {
+interface Output {
   val code: Int
+  val dataKey: String
 }
 
+interface Result<I: Any, O> {
+  fun getContract(clazz: Class<Any>): ActivityResultContract<I, O?>
+}
+
+
 interface FragmentDirection {
-  val destination: FragmentDestination
+  val target: FragmentTarget
 }
 
 interface ActivityDirection {
-  val destination: ActivityDestination
+  val target: ActivityTarget
 }

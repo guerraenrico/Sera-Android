@@ -5,5 +5,5 @@ package com.guerra.enrico.navigation
  * on 17/05/2020.
  */
 internal const val TODO_SEARCH_REQUEST_CODE: Int = 1001
-
-const val TODO_SEARCH_RESULT_KEY: String = "com.guerra.enrico.sera.TodoSearchRequest.key"
+internal const val TODO_SEARCH_INPUT_KEY: String = "com.guerra.enrico.sera.TodoSearchRequest.key.input"
+internal const val TODO_SEARCH_OUTPUT_KEY: String = "com.guerra.enrico.sera.TodoSearchRequest.key.output"

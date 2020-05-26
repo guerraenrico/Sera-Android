@@ -2,11 +2,9 @@ package com.guerra.enrico.settings.di
 
 import com.guerra.enrico.base.di.FeatureScope
 import com.guerra.enrico.domain.DomainModule
-import com.guerra.enrico.navigation.di.ActivityDestination
-import com.guerra.enrico.navigation.di.ActivityKey
-import com.guerra.enrico.navigation.di.DestinationInfo
-import com.guerra.enrico.navigation.di.FragmentDestination
-import com.guerra.enrico.navigation.di.FragmentKey
+import com.guerra.enrico.navigation.di.Destination
+import com.guerra.enrico.navigation.di.FragmentTarget
+import com.guerra.enrico.navigation.annotations.FragmentKey
 import com.guerra.enrico.settings.SettingsFragment
 import dagger.Module
 import dagger.Provides
@@ -30,8 +28,8 @@ abstract class SettingsBindingModule {
 class SettingsNavigationModule {
   @Provides
   @IntoMap
-  @FragmentKey(FragmentDestination.SETTINGS)
-  internal fun provideSettingsDestination(): DestinationInfo {
-    return DestinationInfo(SettingsFragment::class.java.name)
+  @FragmentKey(FragmentTarget.SETTINGS)
+  internal fun provideSettingsDestination(): Destination {
+    return Destination(SettingsFragment::class.java.name)
   }
 }
