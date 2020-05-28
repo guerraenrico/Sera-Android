@@ -39,6 +39,9 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+
     // Material Component
     implementation "com.google.android.material:material:$materialVersion"
 
@@ -46,7 +49,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
 
-    // Timber
+    // Timberd
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
     testImplementation "androidx.test:core:$testCoreVersion"
@@ -54,4 +57,10 @@ dependencies {
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$testJunitVersion"
+    androidTestImplementation "androidx.test:rules:$testRulesVersion"
+
 }

@@ -32,8 +32,10 @@ buildscript {
 
         testCoreVersion = "1.2.0"
         testArchCoreVersion = "2.1.0"
+        testJunitVersion = "1.1.1"
+        testRulesVersion = "1.2.0"
 
-        testRunnerVersion = "1.3.0-alpha02"
+        testRunnerVersion = "1.3.0-rc01"
         testEspresso = "3.3.0-alpha02"
 
         mockkVersion = "1.9.3"
