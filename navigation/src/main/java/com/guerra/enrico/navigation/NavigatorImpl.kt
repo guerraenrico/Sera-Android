@@ -13,6 +13,7 @@ import com.guerra.enrico.navigation.directions.ActivityDirection
 import com.guerra.enrico.navigation.directions.FragmentDirection
 import com.guerra.enrico.navigation.directions.Input
 import com.guerra.enrico.navigation.directions.Output
+import dagger.multibindings.ClassKey
 import javax.inject.Inject
 
 /**
@@ -20,7 +21,7 @@ import javax.inject.Inject
  * on 16/05/2020.
  */
 internal class NavigatorImpl @Inject constructor(
-  private val activities: Map<ActivityTarget, Destination>,
+  private val activities: Map<ActivityTarget, Destination>, //
   private val fragments: Map<FragmentTarget, Destination>,
   private val navigationController: NavigationController
 ) : Navigator {

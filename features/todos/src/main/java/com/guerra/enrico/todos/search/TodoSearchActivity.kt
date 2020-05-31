@@ -34,6 +34,8 @@ internal class TodoSearchActivity : BaseActivity() {
     binding.lifecycleOwner = this
     binding.root.systemUiFullScreen()
 
+    intent.extras
+
     observeResult()
   }
 

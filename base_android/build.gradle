@@ -49,7 +49,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
 
-    // Timberd
+    // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
     testImplementation "androidx.test:core:$testCoreVersion"
