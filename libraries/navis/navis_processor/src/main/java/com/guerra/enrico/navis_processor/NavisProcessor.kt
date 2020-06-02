@@ -35,7 +35,7 @@ import kotlin.reflect.KClass
  * on 02/06/2020.
  */
 @AutoService(Processor::class) // Annotation to register the processor so it can be run in the build process
-internal class NavisProcessor : AbstractProcessor() {
+class NavisProcessor : AbstractProcessor() {
 
   private lateinit var messager: Messager
   private lateinit var filer: Filer

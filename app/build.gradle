@@ -145,4 +145,8 @@ dependencies {
 
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+
+    // Navis
+    implementation project(":libraries:navis:navis_annotation")
+    kapt project(':libraries:navis:navis_processor')
 }
