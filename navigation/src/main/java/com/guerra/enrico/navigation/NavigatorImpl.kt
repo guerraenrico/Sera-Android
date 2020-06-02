@@ -43,7 +43,7 @@ internal class NavigatorImpl @Inject constructor(
     }
 
 
-    navigationController.startActivity(activity, intent, bundle)
+//    navigationController.startActivity(activity, intent, bundle)
   }
 
   override fun startActivityForResult(
@@ -73,11 +73,11 @@ internal class NavigatorImpl @Inject constructor(
       throw IllegalArgumentException("Destination ${direction.target} doesn't support result")
     }
 
-    navigationController.startActivityForResult(
-      fragment,
-      intent,
-      options
-    )
+//    navigationController.startActivityForResult(
+//      fragment,
+//      intent,
+//      options
+//    )
   }
 
   override fun replaceFragment(
