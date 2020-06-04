@@ -6,8 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.directions.FragmentDirection
-import com.guerra.enrico.navigation.directions.todos.TodosDirections
+import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.steps.StepEnum
 import kotlinx.android.synthetic.main.activity_todo_add.*
@@ -36,28 +35,28 @@ internal class TodoAddActivity : BaseActivity() {
 
   private fun initView() {
     viewModel.currentStep.observe(this, Observer { step ->
-      when (step) {
-        StepEnum.SELECT -> bindPrevButton(TodosDirections.Add.SelectFragment())
-        StepEnum.ADD_CATEGORY -> bindPrevButton(
-          TodosDirections.Add.AddCategoryFragment(),
-          StepEnum.SELECT
-        )
-        StepEnum.SELECT_CATEGORY -> bindPrevButton(
-          TodosDirections.Add.SelectCategoryFragment(),
-          StepEnum.SELECT
-        )
-        StepEnum.ADD_TASK -> bindPrevButton(TodosDirections.Add.AddTaskFragment(), StepEnum.SELECT)
-        StepEnum.SCHEDULE -> bindPrevButton(
-          TodosDirections.Add.ScheduleFragment(),
-          StepEnum.ADD_TASK
-        )
-        StepEnum.DONE -> bindPrevButton(TodosDirections.Add.DoneFragment(), StepEnum.SCHEDULE)
-        else -> bindPrevButton(TodosDirections.Add.SelectFragment())
-      }
+//      when (step) {
+//        StepEnum.SELECT -> bindPrevButton(TodosDirections.Add.SelectFragment())
+//        StepEnum.ADD_CATEGORY -> bindPrevButton(
+//          TodosDirections.Add.AddCategoryFragment(),
+//          StepEnum.SELECT
+//        )
+//        StepEnum.SELECT_CATEGORY -> bindPrevButton(
+//          TodosDirections.Add.SelectCategoryFragment(),
+//          StepEnum.SELECT
+//        )
+//        StepEnum.ADD_TASK -> bindPrevButton(TodosDirections.Add.AddTaskFragment(), StepEnum.SELECT)
+//        StepEnum.SCHEDULE -> bindPrevButton(
+//          TodosDirections.Add.ScheduleFragment(),
+//          StepEnum.ADD_TASK
+//        )
+//        StepEnum.DONE -> bindPrevButton(TodosDirections.Add.DoneFragment(), StepEnum.SCHEDULE)
+//        else -> bindPrevButton(TodosDirections.Add.SelectFragment())
+//      }
     })
   }
 
-  private fun bindPrevButton(direction: FragmentDirection, previousStep: StepEnum? = null) {
+  private fun bindPrevButton(direction: FragmentRoute, previousStep: StepEnum? = null) {
     buttonPrevious.setOnClickListener {
       if (previousStep != null) {
         viewModel.goToNextStep(previousStep)
@@ -65,6 +64,6 @@ internal class TodoAddActivity : BaseActivity() {
         finish()
       }
     }
-    navigator.replaceFragment(supportFragmentManager, R.id.containerHostFragment, direction)
+//    navigator.replaceFragment(supportFragmentManager, R.id.containerHostFragment, direction)
   }
 }

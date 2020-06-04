@@ -17,7 +17,6 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.databinding.FragmentLoginBinding
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.directions.main.MainDirections
 import javax.inject.Inject
 
 /**
@@ -101,7 +100,7 @@ class LoginFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    val direction = MainDirections.Activity()
-    navigator.startActivity(requireActivity(), direction)
+//    val direction = MainDirections.Activity()
+//    navigator.startActivity(requireActivity(), direction)
   }
 }

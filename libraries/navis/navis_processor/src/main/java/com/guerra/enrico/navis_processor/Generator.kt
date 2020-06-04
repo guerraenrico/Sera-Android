@@ -15,7 +15,6 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import javax.annotation.processing.Messager
 import javax.lang.model.element.TypeElement
-import javax.tools.Diagnostic
 import kotlin.reflect.KClass
 
 /**
@@ -94,7 +93,7 @@ internal class Generator(
       buildTargetFunction.addParameter("input", it.className.toKClass())
     }
 
-    val obj =  generateBuildTargetReturnObject(route)
+    val obj = generateBuildTargetReturnObject(route)
     buildTargetFunction.addStatement("return %L", obj)
 
     return buildTargetFunction.build()
@@ -103,8 +102,6 @@ internal class Generator(
   private fun generateBuildTargetReturnObject(route: RouteComponent): TypeSpec {
     val objectClass = TypeSpec.anonymousClassBuilder()
       .addSuperinterface(route.targetKClass)
-
-    messager.printMessage(Diagnostic.Kind.WARNING, "------ ${route.className}")
 
     objectClass.addProperty(generateClassNameProp(route.className))
 

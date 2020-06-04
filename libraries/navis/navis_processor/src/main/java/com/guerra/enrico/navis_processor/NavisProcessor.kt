@@ -7,8 +7,8 @@ import com.google.auto.service.AutoService
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
 import com.guerra.enrico.navis_annotation.annotations.Input
-import com.guerra.enrico.navis_annotation.annotations.Result
 import com.guerra.enrico.navis_annotation.annotations.Portum
+import com.guerra.enrico.navis_annotation.annotations.Result
 import com.guerra.enrico.navis_annotation.annotations.Routes
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
 import com.guerra.enrico.navis_processor.models.FragmentRouteComponent
@@ -40,6 +40,9 @@ class NavisProcessor : AbstractProcessor() {
   private lateinit var messager: Messager
   private lateinit var filer: Filer
 
+  private var portum: PortumComponent? = null
+  private var routes = mutableListOf<RoutesComponent>()
+
   /**
    * Method called only one time
    */
@@ -53,19 +56,9 @@ class NavisProcessor : AbstractProcessor() {
   override fun process(annotations: Set<TypeElement>, roundEnv: RoundEnvironment): Boolean {
     messager.printMessage(Diagnostic.Kind.NOTE, "Navis processor is running")
 
-    val portum = getPortum(roundEnv)
-    if (portum == null) {
-      val message = "Create a class with annotation Portum"
-      messager.printMessage(Diagnostic.Kind.WARNING, message)
-      return true
-    }
+    portum = getPortum(roundEnv)
 
-    val routes = getRoutes(roundEnv)
-    if (routes.isEmpty()) {
-      val message = "Annotate the class that contains your routes with Routes annotation"
-      messager.printMessage(Diagnostic.Kind.ERROR, message)
-      return true
-    }
+    routes = getRoutes(roundEnv)
 
     roundEnv.getElementsAnnotatedWith(ActivityRoute::class.java).forEach { annotatedElement ->
       val routeComponent = getActivityRoute(annotatedElement) ?: return true
@@ -93,9 +86,12 @@ class NavisProcessor : AbstractProcessor() {
         )
     }
 
-    portum.addAllRoutes(routes)
+    val portumComponent = portum ?: return true
 
-    val generator = Generator(messager, portum)
+    messager.printMessage(Diagnostic.Kind.WARNING, "---- portum set \n")
+
+    portumComponent.addAllRoutes(routes)
+    val generator = Generator(messager, portumComponent)
 
     try {
       generator.build()
@@ -104,9 +100,8 @@ class NavisProcessor : AbstractProcessor() {
       // Important to clear resource for next rounds
       routes.clear()
     } catch (e: Exception) {
-      messager.printMessage(Diagnostic.Kind.ERROR, "error write: ${e}")
+      messager.printMessage(Diagnostic.Kind.ERROR, "---- error write: ${e}")
     }
-    messager.printMessage(Diagnostic.Kind.WARNING, "complete")
 
     return true
 
@@ -142,9 +137,7 @@ class NavisProcessor : AbstractProcessor() {
       if (!isAnnotatingClass(annotatedElement, Routes::class.java.canonicalName)) {
         return mutableListOf()
       }
-
       val enclosingClass = annotatedElement as TypeElement
-
       val routesComponent = RoutesComponent(enclosingClass)
       routes.add(routesComponent)
     }

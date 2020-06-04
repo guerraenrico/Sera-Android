@@ -7,10 +7,6 @@ import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.main.databinding.ActivityMainBinding
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.directions.goals.GoalsDirections
-import com.guerra.enrico.navigation.directions.results.ResultsDirections
-import com.guerra.enrico.navigation.directions.settings.SettingsDirections
-import com.guerra.enrico.navigation.directions.todos.TodosDirections
 import javax.inject.Inject
 
 /**
@@ -38,10 +34,11 @@ class MainActivity : BaseActivity() {
   private fun setupBottomNavigationBar() {
     binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
       val direction = when (item.itemId) {
-        R.id.navigation_todos -> TodosDirections.Tasks.Fragment()
-        R.id.navigation_goals -> GoalsDirections.Goals.Fragment()
-        R.id.navigation_results -> ResultsDirections.Results.Fragment()
-        R.id.navigation_settings -> SettingsDirections.Settings.Fragment()
+        // TODO fix
+//        R.id.navigation_todos -> TodosDirections.Tasks.Fragment()
+//        R.id.navigation_goals -> GoalsDirections.Goals.Fragment()
+//        R.id.navigation_results -> ResultsDirections.Results.Fragment()
+//        R.id.navigation_settings -> SettingsDirections.Settings.Fragment()
         else -> return@setOnNavigationItemSelectedListener false
       }
       navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, direction)
@@ -50,8 +47,9 @@ class MainActivity : BaseActivity() {
     binding.bottomNavigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
 
     // Show default fragment
-    binding.bottomNavigation.selectedItemId = R.id.navigation_todos
-    val direction = TodosDirections.Tasks.Fragment()
-    navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, direction)
+    // TODO fix
+//    binding.bottomNavigation.selectedItemId = R.id.navigation_todos
+//    val direction = TodosDirections.Tasks.Fragment()
+//    navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, direction)
   }
 }
