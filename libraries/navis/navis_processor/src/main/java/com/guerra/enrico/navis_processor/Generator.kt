@@ -4,7 +4,7 @@ import com.google.auto.common.MoreElements
 import com.guerra.enrico.navis_annotation.contracts.WithInput
 import com.guerra.enrico.navis_annotation.contracts.WithResult
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
-import com.guerra.enrico.navis_processor.models.PortumComponent
+import com.guerra.enrico.navis_processor.models.PortumComponent2
 import com.guerra.enrico.navis_processor.models.RouteComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.squareup.kotlinpoet.FileSpec
@@ -23,7 +23,7 @@ import kotlin.reflect.KClass
  */
 internal class Generator(
   private val messager: Messager,
-  private val portumComponent: PortumComponent
+  private val portumComponent: PortumComponent2
 ) {
 
   fun build(): List<FileSpec> {
@@ -163,15 +163,19 @@ internal class Generator(
       .build()
   }
 
-  private fun getClassName(enclosingClass: TypeElement): String {
-    return enclosingClass.qualifiedName
+  private fun getClassName(enclosingElement: TypeElement): String {
+    return enclosingElement.qualifiedName
       .toString()
-      .substring(packageName.length + 1)
+      .substring(getPackageName(enclosingElement).length + 1)
       .replace(".", "_")
       .replace("(.)(\\p{Upper})".toRegex(), "$1_$2")
       .plus("Routes")
   }
 
-  private val packageName: String =
-    MoreElements.getPackage(portumComponent.enclosingClass).qualifiedName.toString()
+  private val packageName: String = "com.guerra.enrico.navigation"
+//    MoreElements.getPackage(portumComponent.enclosingClass).qualifiedName.toString()
+
+  fun getPackageName(enclosingElement: TypeElement): String {
+    return MoreElements.getPackage(enclosingElement).qualifiedName.toString()
+  }
 }

@@ -1,13 +1,10 @@
 package com.guerra.enrico.navis_processor.models
 
-import javax.lang.model.element.TypeElement
-
 /**
  * Created by enrico
- * on 02/06/2020.
+ * on 07/06/2020.
  */
-internal class PortumComponent(
-  val enclosingClass: TypeElement,
+internal class PortumComponent2(
   initialRoutes: List<RoutesComponent> = emptyList()
 ) {
   var routes: List<RoutesComponent> = initialRoutes
