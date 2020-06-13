@@ -5,6 +5,7 @@ package com.guerra.enrico.navis_processor.models
  * on 07/06/2020.
  */
 internal class PortumComponent2(
+  var path: String = "",
   initialRoutes: List<RoutesComponent> = emptyList()
 ) {
   var routes: List<RoutesComponent> = initialRoutes

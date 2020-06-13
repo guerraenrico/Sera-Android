@@ -1,6 +1,5 @@
 package com.guerra.enrico.todos
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionInflater
@@ -22,12 +21,9 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
-import com.guerra.enrico.navigation.Goals_NavigationRoutes
-import com.guerra.enrico.navigation.Login_NavigationRoutes
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosBinding
-import com.guerra.enrico.todos.models.SearchData
 import javax.inject.Inject
 
 /**

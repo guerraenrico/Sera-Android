@@ -3,8 +3,10 @@ package com.guerra.enrico.navis_processor.step.portum
 import com.google.auto.common.BasicAnnotationProcessor.ProcessingStep
 import com.google.common.collect.SetMultimap
 import com.guerra.enrico.navis_annotation.annotations.Portum
+import com.guerra.enrico.navis_annotation.annotations.Routes
 import com.guerra.enrico.navis_processor.NavisAnnotationProcessor
 import com.guerra.enrico.navis_processor.models.PortumComponent
+import io.github.classgraph.ClassGraph
 import javax.annotation.processing.Messager
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
@@ -32,6 +34,9 @@ internal class PortumProcessingStep(
 //
 //    messager.printMessage(Diagnostic.Kind.WARNING, "----portum found")
 
+    messager.printMessage(Diagnostic.Kind.WARNING, "----run portum step")
+    val path = findPortumClassPath(messager)
+    graph.portumComponent.path = path
 
     return mutableSetOf()
   }
@@ -43,5 +48,17 @@ internal class PortumProcessingStep(
 
   override fun annotations(): MutableSet<out Class<out Annotation>> {
     return mutableSetOf(Portum::class.java)
+  }
+
+  private fun findPortumClassPath(messager: Messager) : String{
+    val result = ClassGraph().enableAnnotationInfo().scan()
+    messager.printMessage(Diagnostic.Kind.WARNING, "----scanResult: ${result}")
+    val listClassInfo = result.getClassesWithAnnotation(Portum::class.java.canonicalName)
+
+    result.close()
+
+    val classInfo = listClassInfo.first()
+
+    return classInfo.classpathElementFile.absolutePath
   }
 }
