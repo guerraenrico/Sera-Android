@@ -59,7 +59,7 @@ internal class TodosFragment : BaseFragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    enterTransition = MaterialFadeThrough.create()
+    enterTransition = MaterialFadeThrough()
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
