@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
@@ -37,8 +38,8 @@ internal class LoginActivity : BaseActivity() {
 
     observeEvent(viewModel.step) {
       when (it) {
-        Step.LOGIN -> navigator.replaceWithLoginFragment(supportFragmentManager, R.id.loginFragmentHost)
-        Step.SYNC -> navigator.replaceWithLoginSyncFragment(supportFragmentManager, R.id.loginFragmentHost)
+        Step.LOGIN -> findNavController(R.id.loginFragmentHost).navigate(R.id.google_login)
+        Step.SYNC -> findNavController(R.id.loginFragmentHost).navigate(R.id.login_sync)
       }
     }
   }

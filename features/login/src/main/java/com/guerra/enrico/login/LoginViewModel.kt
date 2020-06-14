@@ -35,6 +35,13 @@ internal class LoginViewModel @Inject constructor(
   val step: LiveData<Event<Step>>
     get() = _step
 
+  init {
+    viewModelScope.launch {
+      _sync.value = Result.Loading
+      _sync.value = syncTodos(SyncTodos.SyncTodosParams(forcePullData = true))
+    }
+  }
+
   fun onCodeReceived(code: String) {
     viewModelScope.launch {
       _user.value = Result.Loading
@@ -42,13 +49,6 @@ internal class LoginViewModel @Inject constructor(
       if (result.succeeded) {
         _step.value = Event(Step.SYNC)
       }
-    }
-  }
-
-  fun startSync() {
-    viewModelScope.launch {
-      _sync.value = Result.Loading
-      _sync.value = syncTodos(SyncTodos.SyncTodosParams(forcePullData = true))
     }
   }
 }
