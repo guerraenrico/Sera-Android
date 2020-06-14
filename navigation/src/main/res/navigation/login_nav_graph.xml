@@ -4,6 +4,10 @@
     android:id="@+id/login_nav_graph"
     app:startDestination="@id/google_login">
 
+    <activity
+        android:id="@+id/login_activity"
+        android:name="com.guerra.enrico.login.LoginActivity" />
+
     <fragment
         android:id="@+id/google_login"
         android:name="com.guerra.enrico.login.LoginFragment"
@@ -21,10 +25,5 @@
             android:id="@+id/action_sync_to_login"
             app:destination="@id/google_login" />
     </fragment>
-
-    <activity
-        android:id="@+id/main_activity"
-        android:name="com.guerra.enrico.main.MainActivity"
-        />
 
 </navigation>

@@ -5,8 +5,9 @@
     android:id="@+id/goals_nav_graph"
     app:startDestination="@id/fragment_goals"
     tools:ignore="UnusedNavigation">
+
     <fragment
         android:id="@+id/fragment_goals"
-        android:name="com.guerra.enrico.goals.GoalsFragment"
-        android:label="@string/title_goals" />
+        android:name="com.guerra.enrico.goals.GoalsFragment" />
+
 </navigation>
