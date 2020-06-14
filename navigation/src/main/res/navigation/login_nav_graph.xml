@@ -26,4 +26,6 @@
             app:destination="@id/google_login" />
     </fragment>
 
+    <include app:graph="@navigation/main_nav_graph" />
+
 </navigation>

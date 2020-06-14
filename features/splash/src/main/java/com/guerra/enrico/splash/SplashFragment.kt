@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -49,12 +50,12 @@ internal class SplashFragment : BaseFragment() {
   }
 
   private fun gotoMainActivity() {
-    navigator.startMainActivity(requireActivity())
+    findNavController().navigate(R.id.action_to_main)
     requireActivity().finish()
   }
 
   private fun gotoLoginActivity() {
-    navigator.startLoginActivity(requireActivity())
+    findNavController().navigate(R.id.action_to_login)
     requireActivity().finish()
   }
 }
