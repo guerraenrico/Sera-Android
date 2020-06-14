@@ -36,7 +36,7 @@ internal class ResultsFragment : BaseFragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    enterTransition = MaterialFadeThrough()
+    enterTransition = MaterialFadeThrough.create()
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
