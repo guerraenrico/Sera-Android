@@ -1,3 +1,5 @@
+apply from: "navis.gradle"
+
 buildscript {
     ext {
         compileSdk = 29
@@ -72,6 +74,7 @@ allprojects {
             freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
         }
     }
+
 }
 
 task clean(type: Delete) {
