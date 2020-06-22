@@ -1,11 +1,8 @@
 package com.guerra.enrico.navis_processor
 
 import com.google.auto.common.BasicAnnotationProcessor
-import com.google.auto.common.MoreElements
 import com.google.auto.service.AutoService
-import com.guerra.enrico.navis_annotation.annotations.Portum
 import com.guerra.enrico.navis_processor.models.PortumComponent
-import com.guerra.enrico.navis_processor.step.portum.PortumProcessingStep
 import com.guerra.enrico.navis_processor.step.route.RoutesProcessingStep
 import java.io.File
 import javax.annotation.processing.Processor
@@ -52,13 +49,11 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
         generator.build()
           .forEach { it.writeTo(File(filePath)) }
 
-        // Important to clear resource for next rounds
-        portumComponent.clearRoutes()
+        graph.portumComponent = null
       } catch (e: Exception) {
         messager.printMessage(Diagnostic.Kind.ERROR, "---- error write: $e")
       }
     }
   }
-
 
 }

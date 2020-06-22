@@ -8,7 +8,6 @@ import com.google.common.collect.SetMultimap
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
 import com.guerra.enrico.navis_annotation.annotations.Input
-import com.guerra.enrico.navis_annotation.annotations.Portum
 import com.guerra.enrico.navis_annotation.annotations.Result
 import com.guerra.enrico.navis_annotation.annotations.Routes
 import com.guerra.enrico.navis_processor.NavisAnnotationProcessor
@@ -18,12 +17,10 @@ import com.guerra.enrico.navis_processor.models.PortumComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.guerra.enrico.navis_processor.models.WithInputComponent
 import com.guerra.enrico.navis_processor.models.WithResultComponent
-import java.lang.reflect.Type
 import javax.annotation.processing.Messager
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
-import javax.tools.Diagnostic
 import kotlin.reflect.KClass
 
 /**
@@ -33,12 +30,8 @@ import kotlin.reflect.KClass
 @Suppress("UnstableApiUsage")
 internal class RoutesProcessingStep(
   private val graph: NavisAnnotationProcessor.Graph,
-  private val messager: Messager
+  messager: Messager
 ) : ProcessingStep {
-
-  init {
-    messager.printMessage(Diagnostic.Kind.WARNING, "---init route processing step ")
-  }
 
   private val validator = RouteValidator(messager)
 
