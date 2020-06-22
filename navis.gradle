@@ -10,17 +10,13 @@ def getModuleBuildDir(moduleName) {
     return project.findProject(moduleName).buildDir.toString()
 }
 
-def getModuleDir(moduleName) {
-    return "${project.findProject(moduleName).projectDir.toString()}/src/main/java"
-}
-
 subprojects {
-    def portumModuleName = "navigation"
+    def aggregatorModuleName = "navigation"
     def androidPlugins = [
             "com.android.build.gradle.AppPlugin",
             "com.android.build.gradle.LibraryPlugin"
     ]
-    def buildDir = getModuleBuildDir(portumModuleName)
+    def buildDir = getModuleBuildDir(aggregatorModuleName)
 
     project.plugins.whenPluginAdded { plugin ->
         if (plugin.class.name in androidPlugins) {
