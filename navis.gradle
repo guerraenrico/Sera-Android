@@ -6,8 +6,12 @@ static def getBuildTypes(moduleProject) {
     return buildTypes.join(",")
 }
 
-def getModuleDir(moduleName) {
+def getModuleBuildDir(moduleName) {
     return project.findProject(moduleName).buildDir.toString()
+}
+
+def getModuleDir(moduleName) {
+    return "${project.findProject(moduleName).projectDir.toString()}/src/main/java"
 }
 
 subprojects {
@@ -16,7 +20,8 @@ subprojects {
             "com.android.build.gradle.AppPlugin",
             "com.android.build.gradle.LibraryPlugin"
     ]
-    def dir = getModuleDir(portumModuleName)
+    def buildDir = getModuleBuildDir(portumModuleName)
+
     project.plugins.whenPluginAdded { plugin ->
         if (plugin.class.name in androidPlugins) {
             def buildTypes = getBuildTypes(project)
@@ -24,7 +29,7 @@ subprojects {
                 javaCompileOptions {
                     annotationProcessorOptions {
                         arguments += [
-                                "portumPath": dir,
+                                "portumPath": buildDir,
                                 "buildTypes": buildTypes
                         ]
                     }
@@ -32,5 +37,4 @@ subprojects {
             }
         }
     }
-
 }

@@ -8,14 +8,17 @@ import com.google.common.collect.SetMultimap
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
 import com.guerra.enrico.navis_annotation.annotations.Input
+import com.guerra.enrico.navis_annotation.annotations.Portum
 import com.guerra.enrico.navis_annotation.annotations.Result
 import com.guerra.enrico.navis_annotation.annotations.Routes
 import com.guerra.enrico.navis_processor.NavisAnnotationProcessor
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
 import com.guerra.enrico.navis_processor.models.FragmentRouteComponent
+import com.guerra.enrico.navis_processor.models.PortumComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.guerra.enrico.navis_processor.models.WithInputComponent
 import com.guerra.enrico.navis_processor.models.WithResultComponent
+import java.lang.reflect.Type
 import javax.annotation.processing.Messager
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
@@ -27,30 +30,33 @@ import kotlin.reflect.KClass
  * Created by enrico
  * on 05/06/2020.
  */
+@Suppress("UnstableApiUsage")
 internal class RoutesProcessingStep(
   private val graph: NavisAnnotationProcessor.Graph,
- private val messager: Messager
+  private val messager: Messager
 ) : ProcessingStep {
+
+  init {
+    messager.printMessage(Diagnostic.Kind.WARNING, "---init route processing step ")
+  }
 
   private val validator = RouteValidator(messager)
 
   override fun process(elementsByAnnotation: SetMultimap<Class<out Annotation>, Element>): MutableSet<out Element> {
-    val elements = elementsByAnnotation[Routes::class.java]
+    val routesElements = elementsByAnnotation[Routes::class.java]
 
-    messager.printMessage(Diagnostic.Kind.WARNING, "----elements: ${elements.size}")
-    messager.printMessage(Diagnostic.Kind.WARNING, "----graph.portumComponent: ${graph.portumComponent}")
+    val dummyElement = routesElements.first() as TypeElement
+    val portumComponent = graph.portumComponent ?: PortumComponent(dummyElement)
 
-    val portumComponent = graph.portumComponent ?: return elements
-
-    messager.printMessage(Diagnostic.Kind.WARNING, "----routeElements: ${elements.size}")
-
-    for (element in elements) {
+    for (element in routesElements) {
       val typeElement = element as TypeElement
       val routesComponent = getRoutesComponent(typeElement)
       if (routesComponent != null) {
         portumComponent.addRoutes(routesComponent)
       }
     }
+
+    graph.portumComponent = portumComponent
 
     return mutableSetOf()
   }
@@ -138,7 +144,6 @@ internal class RoutesProcessingStep(
   private fun getInjectedClassName(element: Element, annotation: KClass<out Annotation>): String? {
     val annotationMirror = MoreElements.getAnnotationMirror(element, annotation.java)
     if (!annotationMirror.isPresent) {
-      messager.printMessage(Diagnostic.Kind.WARNING, "not have $annotation", element)
       return null
     }
     val annotationValue =

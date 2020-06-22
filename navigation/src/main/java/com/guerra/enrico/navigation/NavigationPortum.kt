@@ -7,4 +7,4 @@ import com.guerra.enrico.navis_annotation.annotations.Portum
  * on 02/06/2020.
  */
 @Portum
-class NavigationPortum
+interface NavigationPortum

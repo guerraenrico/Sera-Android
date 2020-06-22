@@ -2,6 +2,7 @@ package com.guerra.enrico.navis_processor.step.route
 
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
+import com.guerra.enrico.navis_annotation.annotations.Portum
 import com.guerra.enrico.navis_annotation.annotations.Result
 import javax.annotation.processing.Messager
 import javax.lang.model.element.Element
@@ -13,6 +14,15 @@ import javax.tools.Diagnostic
  * on 06/06/2020.
  */
 internal class RouteValidator(private val messager: Messager) {
+
+  fun isAnnotatingInterface(element: Element): Boolean {
+    if (element.kind != ElementKind.INTERFACE) {
+      val message = "Only interfaces can be annotated with @${Portum::class.java.canonicalName}"
+      messager.printMessage(Diagnostic.Kind.ERROR, message, element)
+      return false
+    }
+    return true
+  }
 
   fun isValidActivityRouteElement(element: Element): Boolean {
     val activityRouteAnnotationName = ActivityRoute::class.java.canonicalName

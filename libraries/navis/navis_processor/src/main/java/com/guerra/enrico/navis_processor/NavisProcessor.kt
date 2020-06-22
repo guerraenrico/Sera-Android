@@ -1,4 +1,4 @@
-//package com.guerra.enrico.navis_processor
+package com.guerra.enrico.navis_processor
 //
 //import com.google.auto.common.AnnotationMirrors
 //import com.google.auto.common.BasicAnnotationProcessor

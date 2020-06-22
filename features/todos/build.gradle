@@ -31,10 +31,6 @@ android {
 
 }
 
-kapt {
-    generateStubs = true
-}
-
 dependencies {
 
     implementation project(":base")

@@ -4,7 +4,7 @@ import com.google.auto.common.MoreElements
 import com.guerra.enrico.navis_annotation.contracts.WithInput
 import com.guerra.enrico.navis_annotation.contracts.WithResult
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
-import com.guerra.enrico.navis_processor.models.PortumComponent2
+import com.guerra.enrico.navis_processor.models.PortumComponent
 import com.guerra.enrico.navis_processor.models.RouteComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.squareup.kotlinpoet.FileSpec
@@ -13,7 +13,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import javax.annotation.processing.Messager
 import javax.lang.model.element.TypeElement
 import kotlin.reflect.KClass
 
@@ -21,9 +20,9 @@ import kotlin.reflect.KClass
  * Created by enrico
  * on 02/06/2020.
  */
-internal class Generator(
-  private val messager: Messager,
-  private val portumComponent: PortumComponent2
+@Suppress("UnstableApiUsage")
+internal class FileGenerator(
+  private val portumComponent: PortumComponent
 ) {
 
   fun build(): List<FileSpec> {
@@ -157,25 +156,18 @@ internal class Generator(
       .build()
   }
 
-  private fun generateIntProp(name: String, value: Int, modifier: KModifier): PropertySpec {
-    return PropertySpec.builder(name, Int::class, modifier)
-      .initializer("", value)
-      .build()
-  }
-
   private fun getClassName(enclosingElement: TypeElement): String {
     return enclosingElement.qualifiedName
       .toString()
       .substring(getPackageName(enclosingElement).length + 1)
-      .replace(".", "_")
+      .replace(".", "")
       .replace("(.)(\\p{Upper})".toRegex(), "$1_$2")
       .plus("Routes")
   }
 
-  private val packageName: String = "com.guerra.enrico.navigation"
-//    MoreElements.getPackage(portumComponent.enclosingClass).qualifiedName.toString()
+  private val packageName: String = getPackageName(portumComponent.enclosingClass)
 
-  fun getPackageName(enclosingElement: TypeElement): String {
+  private fun getPackageName(enclosingElement: TypeElement): String {
     return MoreElements.getPackage(enclosingElement).qualifiedName.toString()
   }
 }

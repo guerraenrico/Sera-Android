@@ -1,8 +1,11 @@
 package com.guerra.enrico.navis_processor
 
 import com.google.auto.common.BasicAnnotationProcessor
+import com.google.auto.common.MoreElements
 import com.google.auto.service.AutoService
-import com.guerra.enrico.navis_processor.models.PortumComponent2
+import com.guerra.enrico.navis_annotation.annotations.Portum
+import com.guerra.enrico.navis_processor.models.PortumComponent
+import com.guerra.enrico.navis_processor.step.portum.PortumProcessingStep
 import com.guerra.enrico.navis_processor.step.route.RoutesProcessingStep
 import java.io.File
 import javax.annotation.processing.Processor
@@ -18,36 +21,36 @@ import javax.tools.Diagnostic
 internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
 
   class Graph {
-    var portumComponent = PortumComponent2()
+    var portumComponent: PortumComponent? = null
   }
 
   private val graph = Graph()
+  private val optionParser = OptionParser()
 
   override fun initSteps(): MutableIterable<ProcessingStep> {
     val messager = processingEnv.messager
-    messager.printMessage(Diagnostic.Kind.WARNING, "----initstep")
-
     return mutableListOf(
-//      PortumProcessingStep(graph, messager),
       RoutesProcessingStep(graph, messager)
     )
   }
 
+  override fun getSupportedOptions(): MutableSet<String> {
+    return optionParser.supportedOptions.toMutableSet()
+  }
+
   override fun postRound(roundEnv: RoundEnvironment) {
-    val portumComponent = graph.portumComponent
     val messager = processingEnv.messager
 
-    messager.printMessage(Diagnostic.Kind.WARNING, "----postRound: ${portumComponent}")
+    val portumComponent = graph.portumComponent ?: return
 
     if (roundEnv.processingOver()) {
 
-      val generator = Generator(messager, portumComponent)
+      val filePath = optionParser.filePath(processingEnv.options)
+      val generator = FileGenerator(portumComponent)
 
       try {
         generator.build()
-//          .forEach { it.writeTo(processingEnv.filer) }
-          // TODO WTF
-          .forEach { it.writeTo(File("D:\\Progetti\\Sera\\Android\\Sera\\navigation\\build\\generated\\source\\kapt\\debug")) }
+          .forEach { it.writeTo(File(filePath)) }
 
         // Important to clear resource for next rounds
         portumComponent.clearRoutes()
@@ -56,5 +59,6 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
       }
     }
   }
+
 
 }
