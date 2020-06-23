@@ -26,9 +26,7 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
 
   override fun initSteps(): MutableIterable<ProcessingStep> {
     val messager = processingEnv.messager
-    return mutableListOf(
-      RoutesProcessingStep(graph, messager)
-    )
+    return mutableListOf(RoutesProcessingStep(graph, messager))
   }
 
   override fun getSupportedOptions(): MutableSet<String> {
@@ -46,8 +44,7 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
       val generator = FileGenerator(portumComponent)
 
       try {
-        generator.build()
-          .forEach { it.writeTo(File(filePath)) }
+        generator.build().forEach { it.writeTo(File(filePath)) }
 
         graph.portumComponent = null
       } catch (e: Exception) {

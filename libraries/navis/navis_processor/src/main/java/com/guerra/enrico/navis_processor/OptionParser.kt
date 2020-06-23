@@ -4,7 +4,7 @@ package com.guerra.enrico.navis_processor
  * Created by enrico
  * on 15/06/2020.
  */
-class OptionParser {
+internal class OptionParser {
 
   companion object {
     private const val PORTUM_PATH = "portumPath"
