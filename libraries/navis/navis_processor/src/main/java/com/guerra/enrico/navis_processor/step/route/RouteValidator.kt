@@ -2,32 +2,24 @@ package com.guerra.enrico.navis_processor.step.route
 
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
-import com.guerra.enrico.navis_annotation.annotations.Result
-import javax.annotation.processing.Messager
+import com.guerra.enrico.navis_processor.ErrorTypeException
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
-import javax.tools.Diagnostic
 
 /**
  * Created by enrico
  * on 06/06/2020.
  */
-internal class RouteValidator(private val messager: Messager) {
+internal class RouteValidator {
 
-  fun isValidActivityRouteElement(element: Element): Boolean {
+  fun assertValidActivityRouteElement(element: Element) {
     val activityRouteAnnotationName = ActivityRoute::class.java.canonicalName
-    return isAnnotatingClass(element, activityRouteAnnotationName)
+    assertIsAnnotatingClass(element, activityRouteAnnotationName)
   }
 
-  fun isValidFragmentRouteElement(element: Element): Boolean {
+  fun assertValidFragmentRouteElement(element: Element) {
     val fragmentRouteAnnotationName = FragmentRoute::class.java.canonicalName
-    val resultAnnotationName = Result::class.java.canonicalName
-    if (element.getAnnotation(Result::class.java) != null) {
-      val message =
-        "$resultAnnotationName is not supported for $fragmentRouteAnnotationName, it will be ignored: ${element.simpleName}"
-      messager.printMessage(Diagnostic.Kind.WARNING, message, element)
-    }
-    return isAnnotatingClass(element, fragmentRouteAnnotationName)
+    assertIsAnnotatingClass(element, fragmentRouteAnnotationName)
   }
 
   fun hasActivityRouteAnnotation(element: Element): Boolean {
@@ -38,13 +30,11 @@ internal class RouteValidator(private val messager: Messager) {
     return element.getAnnotation(FragmentRoute::class.java) != null
   }
 
-  private fun isAnnotatingClass(element: Element, annotationName: String): Boolean {
+  private fun assertIsAnnotatingClass(element: Element, annotationName: String) {
     if (element.kind != ElementKind.CLASS) {
       val message = "Only classes can be annotated with $annotationName"
-      messager.printMessage(Diagnostic.Kind.ERROR, message, element)
-      return false
+      throw ErrorTypeException(message, element)
     }
-    return true
   }
 
 }
