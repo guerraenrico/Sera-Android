@@ -121,25 +121,22 @@ internal class FileGenerator(
     return objectClass.build()
   }
 
-  // TODO Try to generalize
   private fun generateClassNameProp(className: String): PropertySpec {
-    return generateStringProp(
-      name = "className",
-      value = className,
-      modifier = KModifier.OVERRIDE
-    )
+    return PropertySpec.builder("className", String::class, KModifier.OVERRIDE)
+      .initializer("%S", className)
+      .build()
   }
 
-  // TODO Try to generalize
   private fun generateInputsParameter(key: String, paramsType: KClass<*>): List<PropertySpec> {
-    val keyProp = generateStringProp("key", key, KModifier.OVERRIDE)
+    val keyProp = PropertySpec.builder("key", String::class, KModifier.OVERRIDE)
+      .initializer("%S", key)
+      .build()
     val paramsProp = PropertySpec.builder("params", paramsType, KModifier.OVERRIDE)
       .initializer("%L", "input")
       .build()
     return listOf(keyProp, paramsProp)
   }
 
-  // TODO Try to generalize
   private fun generateResultParameter(): List<PropertySpec> {
     val codeProp = PropertySpec.builder("code", Int::class, KModifier.OVERRIDE)
       .initializer("%L", "resultCode")
@@ -148,12 +145,6 @@ internal class FileGenerator(
       .initializer("%L", "resultKey")
       .build()
     return listOf(codeProp, dataKeyPro)
-  }
-
-  private fun generateStringProp(name: String, value: String, modifier: KModifier): PropertySpec {
-    return PropertySpec.builder(name, String::class, modifier)
-      .initializer("%S", value)
-      .build()
   }
 
   private fun getClassName(enclosingElement: TypeElement): String {
