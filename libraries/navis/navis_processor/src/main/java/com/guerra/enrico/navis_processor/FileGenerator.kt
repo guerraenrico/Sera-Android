@@ -152,7 +152,6 @@ internal class FileGenerator(
       .toString()
       .substring(getPackageName(enclosingElement).length + 1)
       .replace(".", "")
-      .replace("(.)(\\p{Upper})".toRegex(), "$1_$2")
       .plus("Routes")
   }
 
