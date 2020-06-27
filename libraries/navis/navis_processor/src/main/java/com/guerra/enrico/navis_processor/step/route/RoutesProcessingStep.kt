@@ -34,7 +34,7 @@ internal class RoutesProcessingStep(
   messager: Messager
 ) : BaseProcessingStep(messager) {
 
-  private val validator = RouteValidator()
+  private val validator = RoutesValidator()
 
   override fun doWork(elementsByAnnotation: SetMultimap<Class<out Annotation>, Element>): MutableSet<Element> {
     val routesElements = elementsByAnnotation[Routes::class.java]
@@ -79,14 +79,14 @@ internal class RoutesProcessingStep(
 
     val enclosingElement = element.enclosingElement as TypeElement
 
-    val className = getInjectedClassName(element, ActivityRoute::class)
+    val type = getAnnotationValueType(element, ActivityRoute::class)
     val withInputComponent = getInputComponentIfSet(element)
     val withResultComponent = getResultComponentIfSet(element)
 
     return ActivityRouteComponent(
       enclosingElement = enclosingElement,
       elementName = element.simpleName.toString(),
-      className = className,
+      className = type.qualifiedName.toString(),
       withInputComponent = withInputComponent,
       withResultComponent = withResultComponent
     )
@@ -97,13 +97,13 @@ internal class RoutesProcessingStep(
 
     val enclosingElement = element.enclosingElement as TypeElement
 
-    val className = getInjectedClassName(element, FragmentRoute::class)
+    val type = getAnnotationValueType(element, FragmentRoute::class)
     val withInputComponent = getInputComponentIfSet(element)
 
     return FragmentRouteComponent(
       enclosingElement = enclosingElement,
       elementName = element.simpleName.toString(),
-      className = className,
+      className = type.qualifiedName.toString(),
       withInputComponent = withInputComponent
     )
   }
@@ -112,12 +112,14 @@ internal class RoutesProcessingStep(
     if (!element.hasAnnotation(Input::class)) {
       return null
     }
-    val className = getInjectedClassName(element, Input::class)
+    val type = getAnnotationValueType(element, Input::class)
+
+    validator.assertIsExtendingParcelable(type)
 
     // TODO support multiple input object
     return WithInputComponent(
       key = "${element.simpleName}_param1",
-      className = className
+      className = type.qualifiedName.toString()
     )
   }
 
@@ -125,13 +127,15 @@ internal class RoutesProcessingStep(
     if (!element.hasAnnotation(Result::class)) {
       return null
     }
-    val className = getInjectedClassName(element, Result::class)
+    val type = getAnnotationValueType(element, Result::class)
+
+    validator.assertIsExtendingParcelable(type)
 
     // TODO support multiple result object
     return WithResultComponent(
       code = 1,
       dataKey = "${element.simpleName}_result1",
-      className = className
+      className = type.qualifiedName.toString()
     )
   }
 
@@ -140,14 +144,16 @@ internal class RoutesProcessingStep(
     return annotationMirror.isPresent
   }
 
-  private fun getInjectedClassName(element: Element, annotation: KClass<out Annotation>): String {
+  private fun getAnnotationValueType(
+    element: Element,
+    annotation: KClass<out Annotation>
+  ): TypeElement {
     val annotationMirror = MoreElements.getAnnotationMirror(element, annotation.java)
     val annotationValue =
       AnnotationMirrors.getAnnotationValue(annotationMirror.get(), "value").value
     return when (annotationValue) {
       is TypeMirror -> {
-        val type = MoreTypes.asTypeElement(annotationValue)
-        type.qualifiedName.toString()
+        MoreTypes.asTypeElement(annotationValue)
       }
       else -> {
         val message = "Unsupported annotation value type"

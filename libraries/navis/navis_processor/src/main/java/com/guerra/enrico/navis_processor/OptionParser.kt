@@ -11,6 +11,7 @@ internal class OptionParser {
 
     private const val GENERATED_FILE_PATH = "generated\\source\\kapt"
     private const val BUILD_TYPE_DEBUG = "debug"
+    // TODO support release
     private const val BUILD_TYPE_RELEASE = "release"
   }
 

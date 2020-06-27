@@ -12,6 +12,10 @@ import javax.tools.Diagnostic
 /**
  * Created by enrico
  * on 04/06/2020.
+ *
+ * TODO: implement:
+ * - create extension functions for fragment and activities to get input
+ *
  */
 
 @AutoService(Processor::class)
