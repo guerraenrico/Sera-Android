@@ -16,32 +16,33 @@ import com.guerra.enrico.todos.search.TodoSearchActivity
  * Created by enrico
  * on 02/06/2020.
  */
+
 @Routes
 abstract class TodosNavigation {
   @FragmentRoute(TodosFragment::class)
-  object Todos
+  object List
 
   @ActivityRoute(TodoAddActivity::class)
-  object TodoAdd
+  object Add
 
   @ActivityRoute(TodoSearchActivity::class)
-  object TodoSearch
+  object Search
 
   @FragmentRoute(SelectFragment::class)
-  object TodoAddSelect
+  object AddSelect
 
   @FragmentRoute(AddCategoryFragment::class)
-  object TodoAddCategory
+  object AddCategory
 
   @FragmentRoute(SelectCategoryFragment::class)
-  object TodoAddSelectCategory
+  object SelectCategory
 
   @FragmentRoute(AddTaskFragment::class)
-  object TodoAddTask
+  object AddTask
 
   @FragmentRoute(ScheduleFragment::class)
-  object TodoAddSchedule
+  object AddSchedule
 
   @FragmentRoute(DoneFragment::class)
-  object TodoAddDone
+  object Done
 }

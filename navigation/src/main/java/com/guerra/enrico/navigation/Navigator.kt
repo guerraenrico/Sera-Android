@@ -13,9 +13,27 @@ import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
  * on 16/05/2020.
  */
 interface Navigator {
-  fun startActivity(activity: FragmentActivity, target: ActivityTarget, options: ActivityOptionsCompat? = null)
-  fun startActivityForResult(activity: FragmentActivity,  target: ActivityTarget, options: ActivityOptionsCompat? = null)
-  fun startActivityForResult(fragment: Fragment,  target: ActivityTarget, options: ActivityOptionsCompat? = null)
+  fun startActivity(
+    activity: FragmentActivity,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
 
-  fun replaceFragment(fragmentManager: FragmentManager, @IdRes containerId: Int,  target: FragmentTarget)
+  fun startActivityForResult(
+    activity: FragmentActivity,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
+
+  fun startActivityForResult(
+    fragment: Fragment,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
+
+  fun replaceFragment(
+    fragmentManager: FragmentManager,
+    @IdRes containerId: Int,
+    target: FragmentTarget
+  )
 }

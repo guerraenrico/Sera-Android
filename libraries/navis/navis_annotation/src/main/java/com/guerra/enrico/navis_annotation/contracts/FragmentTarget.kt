@@ -1,4 +1,4 @@
-package com.guerra.enrico.navis.contracts
+package com.guerra.enrico.navis_annotation.contracts
 
 /**
  * Created by enrico

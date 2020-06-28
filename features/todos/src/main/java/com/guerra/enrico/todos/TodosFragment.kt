@@ -147,16 +147,16 @@ internal class TodosFragment : BaseFragment() {
         Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
-//      val direction = TodosDirections.Search.Activity()
-//      navigator.startActivityForResult(this, direction, options)
+      val direction = TodosNavigationRoutes.Search.buildTarget()
+      navigator.startActivityForResult(this, direction, options)
     }
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.action_add_todo -> {
-//        val direction = TodosDirections.Add.Activity()
-//        navigator.startActivity(requireActivity(), direction)
+        val target = TodosNavigationRoutes.Add.buildTarget()
+        navigator.startActivity(requireActivity(), target)
         true
       }
       else -> false
@@ -164,7 +164,7 @@ internal class TodosFragment : BaseFragment() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
+//    TODO: handle result
 //    if (requestCode == TodosDirections.Search.Activity().code) {
 //      if (resultCode == Activity.RESULT_OK && data != null) {
 //
