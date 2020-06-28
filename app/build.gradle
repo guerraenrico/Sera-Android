@@ -80,7 +80,6 @@ dependencies {
 
     implementation project(":common:resources")
 
-    // TODO move main activity
     implementation project(":navigation")
 
 

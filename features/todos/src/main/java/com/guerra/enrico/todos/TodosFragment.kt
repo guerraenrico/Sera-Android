@@ -1,5 +1,6 @@
 package com.guerra.enrico.todos
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionInflater
@@ -22,6 +23,7 @@ import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.navigation.Navigator
+import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosBinding
 import javax.inject.Inject
@@ -147,8 +149,8 @@ internal class TodosFragment : BaseFragment() {
         Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
-      val direction = TodosNavigationRoutes.Search.buildTarget()
-      navigator.startActivityForResult(this, direction, options)
+      val target = TodosNavigationRoutes.Search.buildTarget()
+      navigator.startActivityForResult(this, target, options)
     }
   }
 
@@ -164,15 +166,17 @@ internal class TodosFragment : BaseFragment() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//    TODO: handle result
-//    if (requestCode == TodosDirections.Search.Activity().code) {
-//      if (resultCode == Activity.RESULT_OK && data != null) {
-//
-//        val searchData = data.getParcelableExtra<SearchData>(TODO_SEARCH_RESULT_KEY) ?: return
-//        todosViewModel.onSearchResult(searchData)
-//      }
-//    } else {
-//      super.onActivityResult(requestCode, resultCode, data)
-//    }
+    val code = TodosNavigationRoutes.Search.resultCode
+    val key  = TodosNavigationRoutes.Search.resultKey
+
+    if (requestCode == code) {
+      if (resultCode == Activity.RESULT_OK && data != null) {
+
+        val searchData = data.getParcelableExtra<SearchData>(key) ?: return
+        todosViewModel.onSearchResult(searchData)
+      }
+    } else {
+      super.onActivityResult(requestCode, resultCode, data)
+    }
   }
 }

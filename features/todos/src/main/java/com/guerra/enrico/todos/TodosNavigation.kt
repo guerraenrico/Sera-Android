@@ -1,7 +1,9 @@
 package com.guerra.enrico.todos
 
+import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.navis_annotation.annotations.ActivityRoute
 import com.guerra.enrico.navis_annotation.annotations.FragmentRoute
+import com.guerra.enrico.navis_annotation.annotations.Result
 import com.guerra.enrico.navis_annotation.annotations.Routes
 import com.guerra.enrico.todos.add.TodoAddActivity
 import com.guerra.enrico.todos.add.steps.AddCategoryFragment
@@ -26,6 +28,7 @@ abstract class TodosNavigation {
   object Add
 
   @ActivityRoute(TodoSearchActivity::class)
+  @Result(SearchData::class)
   object Search
 
   @FragmentRoute(SelectFragment::class)

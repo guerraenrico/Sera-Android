@@ -28,9 +28,12 @@ internal class NavigatorImpl @Inject constructor() : Navigator {
     val clazz = Class.forName(target.className)
     val intent = Intent(Intent.ACTION_VIEW).setClass(activity, clazz)
 
-    val bundle = Bundle(options?.toBundle())
+    val bundle = Bundle()
     if (target is WithInput<*>) {
       bundle.putParcelable(target.key, target.params as Parcelable)
+    }
+    if (options != null) {
+      bundle.putAll(options.toBundle())
     }
 
     activity.startActivity(intent, bundle)
@@ -49,9 +52,12 @@ internal class NavigatorImpl @Inject constructor() : Navigator {
     val intent = Intent(Intent.ACTION_VIEW).setClass(activity, clazz)
     val requestCode = target.code
 
-    val bundle = Bundle(options?.toBundle())
+    val bundle = Bundle()
     if (target is WithInput<*>) {
       bundle.putParcelable(target.key, target.params as Parcelable)
+    }
+    if (options != null) {
+      bundle.putAll(options.toBundle())
     }
 
     activity.startActivityForResult(intent, requestCode, bundle)
@@ -70,9 +76,12 @@ internal class NavigatorImpl @Inject constructor() : Navigator {
     val intent = Intent(Intent.ACTION_VIEW).setClass(fragment.requireContext(), clazz)
     val requestCode = target.code
 
-    val bundle = Bundle(options?.toBundle())
+    val bundle = Bundle()
     if (target is WithInput<*>) {
       bundle.putParcelable(target.key, target.params as Parcelable)
+    }
+    if (options != null) {
+      bundle.putAll(options.toBundle())
     }
 
     fragment.startActivityForResult(intent, requestCode, bundle)

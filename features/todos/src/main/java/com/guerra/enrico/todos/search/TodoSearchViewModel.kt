@@ -12,7 +12,7 @@ import com.guerra.enrico.domain.interactors.todos.GetSuggestions
 import com.guerra.enrico.domain.interactors.todos.RankUpSuggestion
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
-import com.guerra.enrico.todos.models.SearchData
+import com.guerra.enrico.navigation.models.todos.SearchData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

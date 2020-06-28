@@ -1,4 +1,4 @@
-package com.guerra.enrico.todos.models
+package com.guerra.enrico.navigation.models.todos
 
 import android.os.Parcelable
 import com.guerra.enrico.models.todos.Category
@@ -7,10 +7,10 @@ import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by enrico
- * on 03/05/2020.
+ * on 28/06/2020.
  */
 @Parcelize
-internal data class SearchData(
+data class SearchData(
   val text: String? = null,
   val category: Category? = null,
   val suggestion: Suggestion? = null
