@@ -70,10 +70,7 @@ class LoginFragment : BaseFragment() {
     observe(viewModel.user) {
       when (it) {
         is Result.Loading -> showOverlayLoader()
-        is Result.Success -> {
-          hideOverlayLoader()
-          gotoMainActivity()
-        }
+        is Result.Success -> hideOverlayLoader()
         is Result.Error -> {
           hideOverlayLoader()
           showSnackbar(it.exception.message ?: resources.getString(R.string.error_google_signin))
@@ -97,9 +94,5 @@ class LoginFragment : BaseFragment() {
     } catch (ex: ApiException) {
       showSnackbar(R.string.error_google_signin)
     }
-  }
-
-  private fun gotoMainActivity() {
-    navigator.startMainActivity(requireActivity())
   }
 }

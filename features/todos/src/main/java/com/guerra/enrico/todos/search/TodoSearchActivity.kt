@@ -10,8 +10,8 @@ import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
-import com.guerra.enrico.navigation.TODO_SEARCH_RESULT_KEY
 import com.guerra.enrico.todos.R
+import com.guerra.enrico.todos.TodosNavigationRoutes
 import com.guerra.enrico.todos.databinding.ActivityTodoSearchBinding
 import javax.inject.Inject
 
@@ -39,8 +39,9 @@ internal class TodoSearchActivity : BaseActivity() {
 
   private fun observeResult() {
     observeEvent(viewModel.searchData) {
+      val key = TodosNavigationRoutes.Search.resultKey
       val intent = Intent().apply {
-        putExtra(TODO_SEARCH_RESULT_KEY, it)
+        putExtra(key, it)
       }
       setResult(Activity.RESULT_OK, intent)
       finishAfterTransition()

@@ -23,11 +23,9 @@ import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.navigation.Navigator
-import com.guerra.enrico.navigation.TODO_SEARCH_REQUEST_CODE
-import com.guerra.enrico.navigation.TODO_SEARCH_RESULT_KEY
+import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosBinding
-import com.guerra.enrico.todos.models.SearchData
 import javax.inject.Inject
 
 /**
@@ -59,7 +57,7 @@ internal class TodosFragment : BaseFragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    enterTransition = MaterialFadeThrough.create()
+    enterTransition = MaterialFadeThrough()
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -151,14 +149,16 @@ internal class TodosFragment : BaseFragment() {
         Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
         Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
       )
-      navigator.startTodoSearchActivityForResult(this, options.toBundle())
+      val target = TodosNavigationRoutes.Search.buildTarget()
+      navigator.startActivityForResult(this, target, options)
     }
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.action_add_todo -> {
-        navigator.startTodoAddActivity(requireActivity())
+        val target = TodosNavigationRoutes.Add.buildTarget()
+        navigator.startActivity(requireActivity(), target)
         true
       }
       else -> false
@@ -166,9 +166,13 @@ internal class TodosFragment : BaseFragment() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == TODO_SEARCH_REQUEST_CODE) {
+    val code = TodosNavigationRoutes.Search.resultCode
+    val key  = TodosNavigationRoutes.Search.resultKey
+
+    if (requestCode == code) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        val searchData = data.getParcelableExtra<SearchData>(TODO_SEARCH_RESULT_KEY) ?: return
+
+        val searchData = data.getParcelableExtra<SearchData>(key) ?: return
         todosViewModel.onSearchResult(searchData)
       }
     } else {

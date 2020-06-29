@@ -18,7 +18,7 @@ import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.domain.observers.todos.ObserveTasks
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
-import com.guerra.enrico.todos.models.SearchData
+import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.presentation.TaskPresentation
 import com.guerra.enrico.todos.presentation.taskToPresentations
 import com.guerra.enrico.todos.presentation.tasksToPresentations
@@ -98,11 +98,12 @@ internal class TodosViewModel @Inject constructor(
   }
 
   fun onSearchResult(searchData: SearchData) {
+    val text = searchData.text
     when {
       searchData.category != null ->
         observeTasks(ObserveTasks.Params(category = searchData.category))
-      searchData.text != null && searchData.text.isNotBlank() ->
-        observeTasks(ObserveTasks.Params(text = searchData.text))
+      text != null && text.isNotBlank() ->
+        observeTasks(ObserveTasks.Params(text = text))
       searchData.suggestion != null ->
         observeTasks(ObserveTasks.Params(suggestion = searchData.suggestion))
     }

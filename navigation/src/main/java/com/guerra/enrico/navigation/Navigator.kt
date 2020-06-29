@@ -1,34 +1,39 @@
 package com.guerra.enrico.navigation
 
-import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.guerra.enrico.navis_annotation.contracts.ActivityTarget
+import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
 
 /**
  * Created by enrico
  * on 16/05/2020.
  */
 interface Navigator {
-  fun startLoginActivity(activity: FragmentActivity, options: Bundle? = null)
-  fun startMainActivity(activity: FragmentActivity, options: Bundle? = null)
-  fun startTodoSearchActivityForResult(fragment: Fragment, options: Bundle? = null)
-  fun startTodoAddActivity(activity: FragmentActivity, options: Bundle? = null)
+  fun startActivity(
+    activity: FragmentActivity,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
 
-  fun replaceWithLoginFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithLoginSyncFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
+  fun startActivityForResult(
+    activity: FragmentActivity,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
 
-  fun replaceWithTodosFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddSelectFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddAddCategoryFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddSelectCategoryFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddAddTaskFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddScheduleFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithTodoAddDoneFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
+  fun startActivityForResult(
+    fragment: Fragment,
+    target: ActivityTarget,
+    options: ActivityOptionsCompat? = null
+  )
 
-
-  fun replaceWithGoalsFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithResultsFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
-  fun replaceWithSettingsFragment(fragmentManager: FragmentManager, @IdRes containerId: Int)
+  fun replaceFragment(
+    fragmentManager: FragmentManager,
+    @IdRes containerId: Int,
+    target: FragmentTarget
+  )
 }

@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 def configPropertiesFile = rootProject.file("config.properties")
 def configProperties = new Properties()
@@ -81,7 +80,6 @@ dependencies {
 
     implementation project(":common:resources")
 
-    // TODO move main activity
     implementation project(":navigation")
 
 
@@ -100,14 +98,8 @@ dependencies {
 
     // Architecture Component
 
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleKtxVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleKtxVersion"
-
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
     // Dagger Android
     implementation "com.google.dagger:dagger-android:$daggerVersion"
@@ -153,8 +145,7 @@ dependencies {
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
 
-    // Flipper
-    debugImplementation "com.facebook.flipper:flipper:$flipperVersion"
-    debugImplementation "com.facebook.soloader:soloader:$soloaderVersion"
-    releaseImplementation "com.facebook.flipper:flipper-noop:$flipperVersion"
+    // Navis
+    implementation project(":libraries:navis:navis_annotation")
+    kapt project(':libraries:navis:navis_processor')
 }

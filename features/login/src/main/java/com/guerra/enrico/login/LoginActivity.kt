@@ -36,10 +36,11 @@ internal class LoginActivity : BaseActivity() {
     binding.root.systemUiFullScreen()
 
     observeEvent(viewModel.step) {
-      when (it) {
-        Step.LOGIN -> navigator.replaceWithLoginFragment(supportFragmentManager, R.id.loginFragmentHost)
-        Step.SYNC -> navigator.replaceWithLoginSyncFragment(supportFragmentManager, R.id.loginFragmentHost)
+      val target = when (it) {
+        Step.LOGIN -> LoginNavigationRoutes.Form.buildTarget()
+        Step.SYNC -> LoginNavigationRoutes.Sync.buildTarget()
       }
+      navigator.replaceFragment(supportFragmentManager, R.id.loginFragmentHost, target)
     }
   }
 }

@@ -28,6 +28,10 @@
             <option value="$PROJECT_DIR$/features/settings" />
             <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/features/todos" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/navis" />
+            <option value="$PROJECT_DIR$/libraries/navis/navis_annotation" />
+            <option value="$PROJECT_DIR$/libraries/navis/navis_processor" />
             <option value="$PROJECT_DIR$/lint" />
             <option value="$PROJECT_DIR$/local" />
             <option value="$PROJECT_DIR$/models" />
@@ -37,7 +41,6 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
-        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
