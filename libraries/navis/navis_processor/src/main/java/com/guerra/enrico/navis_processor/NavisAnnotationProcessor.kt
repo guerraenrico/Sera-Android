@@ -2,7 +2,7 @@ package com.guerra.enrico.navis_processor
 
 import com.google.auto.common.BasicAnnotationProcessor
 import com.google.auto.service.AutoService
-import com.guerra.enrico.navis_processor.models.PortumComponent
+import com.guerra.enrico.navis_processor.models.GeneralComponent
 import com.guerra.enrico.navis_processor.step.route.RoutesProcessingStep
 import java.io.File
 import javax.annotation.processing.Processor
@@ -22,7 +22,7 @@ import javax.tools.Diagnostic
 internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
 
   class Graph {
-    var portumComponent: PortumComponent? = null
+    var generalComponent: GeneralComponent? = null
   }
 
   private val graph = Graph()
@@ -40,7 +40,7 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
   override fun postRound(roundEnv: RoundEnvironment) {
     val messager = processingEnv.messager
 
-    val portumComponent = graph.portumComponent ?: return
+    val portumComponent = graph.generalComponent ?: return
 
     if (roundEnv.processingOver()) {
 
@@ -50,7 +50,7 @@ internal class NavisAnnotationProcessor : BasicAnnotationProcessor() {
       try {
         generator.build().forEach { it.writeTo(File(filePath)) }
 
-        graph.portumComponent = null
+        graph.generalComponent = null
       } catch (e: Exception) {
         messager.printMessage(Diagnostic.Kind.ERROR, "---- error write: $e")
       }

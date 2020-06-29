@@ -4,7 +4,7 @@ import com.google.auto.common.MoreElements
 import com.guerra.enrico.navis_annotation.contracts.WithInput
 import com.guerra.enrico.navis_annotation.contracts.WithResult
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
-import com.guerra.enrico.navis_processor.models.PortumComponent
+import com.guerra.enrico.navis_processor.models.GeneralComponent
 import com.guerra.enrico.navis_processor.models.RouteComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.squareup.kotlinpoet.FileSpec
@@ -22,11 +22,11 @@ import kotlin.reflect.KClass
  */
 @Suppress("UnstableApiUsage")
 internal class FileGenerator(
-  private val portumComponent: PortumComponent
+  private val generalComponent: GeneralComponent
 ) {
 
   fun build(): List<FileSpec> {
-    return portumComponent.routes.map {
+    return generalComponent.routes.map {
       generateCode(it)
     }
   }
@@ -155,7 +155,7 @@ internal class FileGenerator(
       .plus("Routes")
   }
 
-  private val packageName: String = getPackageName(portumComponent.enclosingClass)
+  private val packageName: String = getPackageName(generalComponent.enclosingClass)
 
   private fun getPackageName(enclosingElement: TypeElement): String {
     return MoreElements.getPackage(enclosingElement).qualifiedName.toString()

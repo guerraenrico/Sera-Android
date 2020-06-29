@@ -13,7 +13,7 @@ import com.guerra.enrico.navis_processor.ErrorTypeException
 import com.guerra.enrico.navis_processor.NavisAnnotationProcessor
 import com.guerra.enrico.navis_processor.models.ActivityRouteComponent
 import com.guerra.enrico.navis_processor.models.FragmentRouteComponent
-import com.guerra.enrico.navis_processor.models.PortumComponent
+import com.guerra.enrico.navis_processor.models.GeneralComponent
 import com.guerra.enrico.navis_processor.models.RoutesComponent
 import com.guerra.enrico.navis_processor.models.WithInputComponent
 import com.guerra.enrico.navis_processor.models.WithResultComponent
@@ -40,7 +40,7 @@ internal class RoutesProcessingStep(
     val routesElements = elementsByAnnotation[Routes::class.java]
 
     val dummyElement = routesElements.first() as TypeElement
-    val portumComponent = graph.portumComponent ?: PortumComponent(dummyElement)
+    val portumComponent = graph.generalComponent ?: GeneralComponent(dummyElement)
 
     for (element in routesElements) {
       val typeElement = element as TypeElement
@@ -48,7 +48,7 @@ internal class RoutesProcessingStep(
       portumComponent.addRoutes(routesComponent)
     }
 
-    graph.portumComponent = portumComponent
+    graph.generalComponent = portumComponent
 
     return mutableSetOf()
   }

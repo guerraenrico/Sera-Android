@@ -6,7 +6,7 @@ import javax.lang.model.element.TypeElement
  * Created by enrico
  * on 02/06/2020.
  */
-internal class PortumComponent(
+internal class GeneralComponent(
   val enclosingClass: TypeElement,
   initialRoutes: List<RoutesComponent> = emptyList()
 ) {
@@ -15,13 +15,5 @@ internal class PortumComponent(
 
   fun addRoutes(routesComponent: RoutesComponent) {
     routes = routes + routesComponent
-  }
-
-  fun addAllRoutes(routesComponents: List<RoutesComponent>) {
-    routes = routes + routesComponents
-  }
-
-  fun clearRoutes() {
-    routes = emptyList()
   }
 }
