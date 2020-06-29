@@ -40,15 +40,15 @@ internal class RoutesProcessingStep(
     val routesElements = elementsByAnnotation[Routes::class.java]
 
     val dummyElement = routesElements.first() as TypeElement
-    val portumComponent = graph.generalComponent ?: GeneralComponent(dummyElement)
+    val component = graph.generalComponent ?: GeneralComponent(dummyElement)
 
     for (element in routesElements) {
       val typeElement = element as TypeElement
       val routesComponent = getRoutesComponent(typeElement)
-      portumComponent.addRoutes(routesComponent)
+      component.addRoutes(routesComponent)
     }
 
-    graph.generalComponent = portumComponent
+    graph.generalComponent = component
 
     return mutableSetOf()
   }
