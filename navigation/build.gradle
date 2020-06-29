@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion compileSdk
@@ -21,11 +20,11 @@ dependencies {
     implementation project(":base")
     implementation project(":models")
 
-    androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
-
     // Dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 

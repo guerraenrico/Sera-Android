@@ -55,7 +55,6 @@ internal class SyncFragment : BaseFragment() {
         )
       }
     }
-    viewModel.startSync()
   }
 
   private fun gotoMainActivity() {
