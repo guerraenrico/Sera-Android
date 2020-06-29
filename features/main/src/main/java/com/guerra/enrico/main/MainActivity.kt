@@ -1,7 +1,10 @@
 package com.guerra.enrico.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
@@ -23,6 +26,11 @@ class MainActivity : BaseActivity() {
   private lateinit var binding: ActivityMainBinding
 
   @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+
+  private val viewModel: MainViewModel by viewModels { viewModelFactory }
+
+  @Inject
   lateinit var navigator: Navigator
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,16 +46,15 @@ class MainActivity : BaseActivity() {
   }
 
   private fun setupBottomNavigationBar() {
-    binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-      val target = getTarget(item.itemId)
+    viewModel.selectedMenuItemId.observe(this, Observer { itemId ->
+      val target = getTarget(itemId)
       navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, target)
+    })
+    binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+      viewModel.onSelectMenuItem(item.itemId)
       true
     }
     binding.bottomNavigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
-
-    // Show default fragment
-    val direction = getTarget(binding.bottomNavigation.selectedItemId)
-    navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, direction)
   }
 
   private fun getTarget(itemId: Int): FragmentTarget {
