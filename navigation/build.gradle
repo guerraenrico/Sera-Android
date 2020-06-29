@@ -21,10 +21,6 @@ dependencies {
     implementation project(":base")
     implementation project(":models")
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
-
     androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
 
     // Dagger
