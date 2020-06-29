@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/search_fragment_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/searchFragmentHost"
+            android:name="com.guerra.enrico.todos.search.TodoSearchFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:defaultNavHost="false"
-            app:navGraph="@navigation/todo_search_nav_graph" />
-
-<!--        <FrameLayout-->
-<!--            android:id="@+id/botttttt"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="150dp"-->
-<!--            android:background="#f00" />-->
+            android:layout_weight="1" />
 
     </LinearLayout>
 

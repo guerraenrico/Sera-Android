@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -71,10 +70,7 @@ class LoginFragment : BaseFragment() {
     observe(viewModel.user) {
       when (it) {
         is Result.Loading -> showOverlayLoader()
-        is Result.Success -> {
-          hideOverlayLoader()
-          gotoSync()
-        }
+        is Result.Success -> hideOverlayLoader()
         is Result.Error -> {
           hideOverlayLoader()
           showSnackbar(it.exception.message ?: resources.getString(R.string.error_google_signin))
@@ -98,9 +94,5 @@ class LoginFragment : BaseFragment() {
     } catch (ex: ApiException) {
       showSnackbar(R.string.error_google_signin)
     }
-  }
-
-  private fun gotoSync() {
-    findNavController().navigate(R.id.action_login_to_sync)
   }
 }

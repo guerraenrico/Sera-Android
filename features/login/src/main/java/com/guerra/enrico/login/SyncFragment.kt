@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.databinding.FragmentLoginSyncBinding
+import com.guerra.enrico.main.MainNavigationRoutes
 import com.guerra.enrico.navigation.Navigator
 import javax.inject.Inject
 
@@ -55,10 +55,12 @@ internal class SyncFragment : BaseFragment() {
         )
       }
     }
+    viewModel.startSync()
   }
 
   private fun gotoMainActivity() {
-    findNavController().navigate(R.id.main_activity)
+    val target = MainNavigationRoutes.Main.buildTarget()
+    navigator.startActivity(requireActivity(), target)
     requireActivity().finish()
   }
 }

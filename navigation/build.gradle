@@ -19,6 +19,7 @@ android {
 
 dependencies {
     implementation project(":base")
+    implementation project(":models")
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
@@ -31,4 +32,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // Navis
+    implementation project(":libraries:navis:navis_annotation")
+    kapt project(':libraries:navis:navis_processor')
 }

@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="lint" target="1.7" />
+      <module name="navis_annotation" target="1.7" />
+      <module name="navis_processor" target="1.7" />
       <module name="Sera.app" target="1.8" />
       <module name="Sera.base" target="1.8" />
       <module name="Sera.data" target="1.8" />
