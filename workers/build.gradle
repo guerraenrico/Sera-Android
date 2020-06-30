@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
 android {
     compileSdkVersion compileSdk
     defaultConfig {
@@ -25,6 +27,10 @@ dependencies {
     // Assisted Inject
     compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assistedInjectVersion"
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     // Work Manager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"

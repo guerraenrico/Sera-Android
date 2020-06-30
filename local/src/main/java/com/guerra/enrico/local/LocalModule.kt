@@ -8,14 +8,17 @@ import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.local.prefs.PreferencesManagerImpl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 31/03/2020.
  */
+@InstallIn(ApplicationComponent::class)
 @Module
-class LocalModule {
+object LocalModule {
   @Provides
   @Singleton
   fun provideSeraDatabase(context: Context): SeraDatabase =
