@@ -17,12 +17,14 @@ import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.SuggestionAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 23/03/2020.
  */
+@AndroidEntryPoint
 internal class TodoSearchFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

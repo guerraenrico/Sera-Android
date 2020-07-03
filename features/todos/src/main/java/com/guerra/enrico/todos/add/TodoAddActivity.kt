@@ -10,6 +10,7 @@ import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.TodosNavigationRoutes
 import com.guerra.enrico.todos.add.steps.StepEnum
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_todo_add.*
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 18/10/2018.
  */
+@AndroidEntryPoint
 internal class TodoAddActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

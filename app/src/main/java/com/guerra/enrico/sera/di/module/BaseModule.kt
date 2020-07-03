@@ -8,12 +8,15 @@ import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.logger.SeraLogger
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 16/02/2020.
  */
+@InstallIn(ApplicationComponent::class)
 @Module
 class BaseModule {
   @Provides

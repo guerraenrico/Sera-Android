@@ -3,18 +3,18 @@ package com.guerra.enrico.base_android.arch
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.extensions.isNotNullAndEmpty
 import com.guerra.enrico.base.extensions.onDismiss
 import com.guerra.enrico.base_android.R
 import com.guerra.enrico.components.OverlayLoader
-import dagger.android.support.DaggerFragment
 
 /**
  * Created by enrico
  * on 18/08/2018.
  */
-open class BaseFragment : DaggerFragment() {
+open class BaseFragment : Fragment() {
   private var snackbar: Snackbar? = null
   private lateinit var overlayLoader: OverlayLoader
 

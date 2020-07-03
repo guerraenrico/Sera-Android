@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.TodoAddViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 19/10/2018.
  */
+@AndroidEntryPoint
 internal class DoneFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

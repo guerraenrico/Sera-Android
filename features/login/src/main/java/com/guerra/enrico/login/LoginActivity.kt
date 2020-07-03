@@ -11,6 +11,7 @@ import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.login.databinding.ActivityLoginBinding
 import com.guerra.enrico.login.models.Step
 import com.guerra.enrico.navigation.Navigator
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
@@ -18,6 +19,7 @@ import javax.inject.Inject
  * on 12/10/2018.
  */
 
+@AndroidEntryPoint
 internal class LoginActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

@@ -17,6 +17,7 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.settings.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -25,6 +26,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 08/03/2020.
  */
+@AndroidEntryPoint
 internal class SettingsFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

@@ -1,6 +1,7 @@
 package com.guerra.enrico.sera
 
 import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.guerra.enrico.sera.appinitializers.AppInitializers
 import dagger.hilt.android.HiltAndroidApp
@@ -18,7 +19,7 @@ class SeraApplication : Application(), Configuration.Provider {
   lateinit var initializers: AppInitializers
 
   @Inject
-  lateinit var workConfiguration: Configuration
+  lateinit var workerFactory: HiltWorkerFactory
 
   override fun onCreate() {
     super.onCreate()
@@ -31,5 +32,7 @@ class SeraApplication : Application(), Configuration.Provider {
     LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)
   }
 
-  override fun getWorkManagerConfiguration(): Configuration = workConfiguration
+  override fun getWorkManagerConfiguration(): Configuration {
+    return Configuration.Builder().setWorkerFactory(workerFactory).build()
+  }
 }

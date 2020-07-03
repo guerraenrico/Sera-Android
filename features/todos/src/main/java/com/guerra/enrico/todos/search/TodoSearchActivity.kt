@@ -13,12 +13,14 @@ import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.TodosNavigationRoutes
 import com.guerra.enrico.todos.databinding.ActivityTodoSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 16/03/2020.
  */
+@AndroidEntryPoint
 internal class TodoSearchActivity : BaseActivity() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

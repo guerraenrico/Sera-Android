@@ -12,6 +12,7 @@ import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.TodoAddViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_add_category.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -20,6 +21,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 19/10/2018.
  */
+@AndroidEntryPoint
 internal class AddCategoryFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 

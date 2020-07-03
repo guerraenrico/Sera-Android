@@ -15,6 +15,7 @@ import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
 import com.guerra.enrico.results.ResultsNavigationRoutes
 import com.guerra.enrico.settings.SettingsNavigationRoutes
 import com.guerra.enrico.todos.TodosNavigationRoutes
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ import javax.inject.Inject
  * Created by enrico
  * on 15/12/2019.
  */
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
   private lateinit var binding: ActivityMainBinding
 

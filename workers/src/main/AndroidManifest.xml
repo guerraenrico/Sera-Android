@@ -3,11 +3,12 @@
     package="com.guerra.enrico.workers">
 
     <application>
+
 <!--        <provider-->
 <!--            android:name="androidx.work.impl.WorkManagerInitializer"-->
 <!--            android:authorities="${applicationId}.workmanager-init"-->
-<!--            tools:node="remove"-->
-<!--            android:exported="false" />-->
+<!--            tools:node="remove" />-->
+
     </application>
 
 </manifest>

@@ -2,17 +2,17 @@ package com.guerra.enrico.base_android.arch
 
 import android.os.Bundle
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base_android.R
 import com.guerra.enrico.components.OverlayLoader
-import dagger.android.support.DaggerAppCompatActivity
 
 /**
  * Created by enrico
  * on 27/05/2018.
  */
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
   private var snackbar: Snackbar? = null
   private lateinit var overlayLoader: OverlayLoader
 

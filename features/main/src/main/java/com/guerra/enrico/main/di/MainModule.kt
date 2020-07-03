@@ -5,12 +5,15 @@ import com.guerra.enrico.base.di.ViewModelKey
 import com.guerra.enrico.main.MainViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.multibindings.IntoMap
 
 /**
  * Created by enrico
  * on 29/06/2020.
  */
+@InstallIn(ActivityComponent::class)
 @Module
 internal abstract class MainModule {
   @Binds

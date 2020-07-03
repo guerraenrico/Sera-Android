@@ -42,12 +42,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
-    }
-
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 
     testOptions {
@@ -58,7 +55,7 @@ android {
 }
 
 kapt {
-    generateStubs = true
+    correctErrorTypes true
 }
 
 dependencies {
@@ -102,15 +99,13 @@ dependencies {
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-    // Dagger Android
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-
     // Hilt
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+
+    // Hilt Worker
+    implementation "androidx.hilt:hilt-work:$hiltVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
 
 
     // Retrofit
