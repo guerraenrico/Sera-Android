@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -26,9 +25,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: LoginViewModel by activityViewModels()
 
   @Inject
   lateinit var navigator: Navigator

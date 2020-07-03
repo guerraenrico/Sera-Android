@@ -3,7 +3,6 @@ package com.guerra.enrico.todos.add
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
@@ -20,9 +19,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class TodoAddActivity : BaseActivity() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoAddViewModel by viewModels { viewModelFactory }
+  private val viewModel: TodoAddViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator

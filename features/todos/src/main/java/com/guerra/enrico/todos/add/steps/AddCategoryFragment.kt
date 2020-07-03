@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.succeeded
@@ -15,7 +14,6 @@ import com.guerra.enrico.todos.add.TodoAddViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_add_category.*
 import java.lang.ref.WeakReference
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -25,9 +23,7 @@ import javax.inject.Inject
 internal class AddCategoryFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: TodoAddViewModel by activityViewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater,

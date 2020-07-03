@@ -1,5 +1,6 @@
 package com.guerra.enrico.todos.search
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,13 +15,12 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.navigation.models.todos.SearchData
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 16/03/2020.
  */
-internal class TodoSearchViewModel @Inject constructor(
+internal class TodoSearchViewModel @ViewModelInject constructor(
   private val getSuggestions: GetSuggestions,
   private val createSuggestion: CreateSuggestion,
   private val rankUpSuggestion: RankUpSuggestion

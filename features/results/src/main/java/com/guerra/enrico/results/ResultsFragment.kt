@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.results.databinding.FragmentResultsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_results.view.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -19,9 +17,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class ResultsFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: ResultsViewModel by viewModels { viewModelFactory }
+  private val viewModel: ResultsViewModel by viewModels()
 
   private lateinit var binding: FragmentResultsBinding
 

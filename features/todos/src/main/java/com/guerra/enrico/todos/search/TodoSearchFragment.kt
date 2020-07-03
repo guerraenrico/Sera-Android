@@ -9,7 +9,6 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -18,7 +17,6 @@ import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.SuggestionAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -26,9 +24,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class TodoSearchFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoSearchViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: TodoSearchViewModel by activityViewModels()
 
   private lateinit var binding: FragmentTodosSearchBinding
   private lateinit var suggestionAdapter: SuggestionAdapter

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -21,9 +20,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class SyncFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: LoginViewModel by activityViewModels()
 
   @Inject
   lateinit var navigator: Navigator

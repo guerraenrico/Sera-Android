@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
@@ -14,7 +13,6 @@ import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.TodosNavigationRoutes
 import com.guerra.enrico.todos.databinding.ActivityTodoSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -22,9 +20,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class TodoSearchActivity : BaseActivity() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoSearchViewModel by viewModels { viewModelFactory }
+  private val viewModel: TodoSearchViewModel by viewModels()
 
   private lateinit var binding: ActivityTodoSearchBinding
 

@@ -1,5 +1,6 @@
 package com.guerra.enrico.todos
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,13 +26,12 @@ import com.guerra.enrico.todos.presentation.tasksToPresentations
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 30/05/2018.
  */
-internal class TodosViewModel @Inject constructor(
+internal class TodosViewModel @ViewModelInject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState,

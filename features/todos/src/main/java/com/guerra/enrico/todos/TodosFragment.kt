@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,9 +34,7 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class TodosFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
+  private val todosViewModel: TodosViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator

@@ -1,29 +1,29 @@
 package com.guerra.enrico.todos.add
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.models.todos.Category
-import com.guerra.enrico.models.todos.Task
+import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.interactors.todos.InsertCategory
 import com.guerra.enrico.domain.interactors.todos.InsertTask
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
+import com.guerra.enrico.models.todos.Category
+import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.todos.add.steps.StepEnum
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 21/10/2018.
  */
-internal class TodoAddViewModel @Inject constructor(
+internal class TodoAddViewModel @ViewModelInject constructor(
   private val dispatchers: CoroutineDispatcherProvider,
   observeCategories: ObserveCategories,
   private val insertCategory: InsertCategory,

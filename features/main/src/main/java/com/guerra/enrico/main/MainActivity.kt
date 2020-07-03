@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
@@ -16,7 +15,6 @@ import com.guerra.enrico.results.ResultsNavigationRoutes
 import com.guerra.enrico.settings.SettingsNavigationRoutes
 import com.guerra.enrico.todos.TodosNavigationRoutes
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 /**
@@ -27,10 +25,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
   private lateinit var binding: ActivityMainBinding
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-
-  private val viewModel: MainViewModel by viewModels { viewModelFactory }
+  private val viewModel: MainViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator
@@ -60,7 +55,7 @@ class MainActivity : BaseActivity() {
   }
 
   private fun getTarget(itemId: Int): FragmentTarget {
-   return when (itemId) {
+    return when (itemId) {
       R.id.navigation_todos -> TodosNavigationRoutes.List.buildTarget()
       R.id.navigation_goals -> GoalsNavigationRoutes.Goals.buildTarget()
       R.id.navigation_results -> ResultsNavigationRoutes.Results.buildTarget()

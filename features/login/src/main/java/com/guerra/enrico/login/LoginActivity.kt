@@ -3,7 +3,6 @@ package com.guerra.enrico.login
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
@@ -21,9 +20,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 internal class LoginActivity : BaseActivity() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+  private val viewModel: LoginViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator
