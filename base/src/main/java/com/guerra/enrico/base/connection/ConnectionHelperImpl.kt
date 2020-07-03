@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendAtomicCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -14,7 +15,7 @@ import kotlin.coroutines.resume
  * Created by enrico
  * on 15/02/2020.
  */
-class ConnectionHelperImpl @Inject constructor(val context: Context) : ConnectionHelper {
+class ConnectionHelperImpl @Inject constructor(@ApplicationContext val context: Context) : ConnectionHelper {
 
   @SuppressLint("MissingPermission")
   override fun isInternetConnectionAvailable(): Boolean {

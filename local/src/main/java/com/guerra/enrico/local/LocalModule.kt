@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 /**
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 object LocalModule {
   @Provides
   @Singleton
-  fun provideSeraDatabase(context: Context): SeraDatabase =
+  fun provideSeraDatabase(@ApplicationContext context: Context): SeraDatabase =
     SeraDatabase.getInstance(context)
 
   @Provides
