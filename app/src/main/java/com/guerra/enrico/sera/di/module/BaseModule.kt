@@ -6,8 +6,8 @@ import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProviderImpl
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.base.logger.SeraLogger
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
@@ -18,18 +18,16 @@ import javax.inject.Singleton
  */
 @InstallIn(ApplicationComponent::class)
 @Module
-class BaseModule {
-  @Provides
-  fun provideAppDispatchers(appDispatchers: CoroutineDispatcherProviderImpl): CoroutineDispatcherProvider =
-    appDispatchers
+abstract class BaseModule {
+  @Binds
+  abstract fun provideAppDispatchers(appDispatchers: CoroutineDispatcherProviderImpl): CoroutineDispatcherProvider
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideLogger(logger: SeraLogger): Logger = logger
+  abstract fun provideLogger(logger: SeraLogger): Logger
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideConnectionHelper(connectionHelper: ConnectionHelperImpl): ConnectionHelper =
-    connectionHelper
+  abstract fun provideConnectionHelper(connectionHelper: ConnectionHelperImpl): ConnectionHelper
 
 }

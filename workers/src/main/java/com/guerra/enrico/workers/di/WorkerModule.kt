@@ -13,7 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
  * on 04/07/2020.
  */
 @InstallIn(ApplicationComponent::class)
-@Module(includes = [WorkersModuleBinds::class])
+@Module
 object WorkerModule {
   @Provides
   fun provideWorkManager(@ApplicationContext context: Context): WorkManager {

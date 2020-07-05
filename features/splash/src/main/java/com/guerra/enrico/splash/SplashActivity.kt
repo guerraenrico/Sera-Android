@@ -1,6 +1,8 @@
 package com.guerra.enrico.splash
 
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.guerra.enrico.base_android.arch.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 

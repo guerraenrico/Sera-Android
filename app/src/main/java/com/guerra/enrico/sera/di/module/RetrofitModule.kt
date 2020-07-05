@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
  */
 @InstallIn(ApplicationComponent::class)
 @Module
-class RetrofitModule {
+object RetrofitModule {
   @Provides
   fun provideRetrofit(
     okHttpClient: OkHttpClient,

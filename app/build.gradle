@@ -102,10 +102,10 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
-
-    // Hilt Worker
-    implementation "androidx.hilt:hilt-work:$hiltVersion"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltVersion"
+    implementation "androidx.hilt:hilt-work:$hiltVersion"
+
 
 
     // Retrofit
