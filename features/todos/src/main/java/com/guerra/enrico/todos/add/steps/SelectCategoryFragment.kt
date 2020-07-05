@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.Result
@@ -15,20 +14,19 @@ import com.guerra.enrico.base_android.widget.GridSpacingItemDecoration
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.CategoryAdapter
 import com.guerra.enrico.todos.add.TodoAddViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 import java.lang.ref.WeakReference
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 19/10/2018.
  */
+@AndroidEntryPoint
 internal class SelectCategoryFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: TodoAddViewModel by activityViewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater,

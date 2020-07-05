@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,16 +25,16 @@ import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.databinding.FragmentTodosBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 27/05/2018.
  */
+@AndroidEntryPoint
 internal class TodosFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val todosViewModel: TodosViewModel by viewModels { viewModelFactory }
+  private val todosViewModel: TodosViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator

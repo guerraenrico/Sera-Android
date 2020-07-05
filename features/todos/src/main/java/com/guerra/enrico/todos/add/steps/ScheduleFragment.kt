@@ -7,29 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.TodoAddViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_schedule.*
 import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 21/10/2018.
  */
+@AndroidEntryPoint
 internal class ScheduleFragment : BaseFragment() {
   private lateinit var root: WeakReference<View>
 
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: TodoAddViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: TodoAddViewModel by activityViewModels()
 
   private var selectedDate = Date()
 

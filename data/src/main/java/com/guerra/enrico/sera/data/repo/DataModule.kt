@@ -1,7 +1,5 @@
 package com.guerra.enrico.sera.data.repo
 
-import com.guerra.enrico.local.LocalModule
-import com.guerra.enrico.remote.RemoteModule
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import com.guerra.enrico.sera.data.repo.auth.AuthRepositoryImpl
 import com.guerra.enrico.sera.data.repo.settings.SettingsRepository
@@ -14,43 +12,41 @@ import com.guerra.enrico.sera.data.repo.todos.suggestion.SuggestionRepository
 import com.guerra.enrico.sera.data.repo.todos.suggestion.SuggestionRepositoryImpl
 import com.guerra.enrico.sera.data.repo.todos.task.TaskRepository
 import com.guerra.enrico.sera.data.repo.todos.task.TaskRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 /**
  * Created by enrico
  * on 31/03/2020.
  */
-@Module(includes = [LocalModule::class, RemoteModule::class])
-class DataModule {
-  @Provides
+@InstallIn(ApplicationComponent::class)
+@Module
+abstract class DataModule {
+  @Binds
   @Singleton
-  fun provideSyncRepository(syncRepository: SyncRepositoryImpl): SyncRepository =
-    syncRepository
+  abstract fun provideSyncRepository(syncRepository: SyncRepositoryImpl): SyncRepository
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository =
-    authRepository
+  abstract fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository =
-    categoryRepository
+  abstract fun provideCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository =
-    taskRepository
+  abstract fun provideTaskRepository(taskRepository: TaskRepositoryImpl): TaskRepository
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository =
-    suggestionRepository
+  abstract fun provideSuggestionRepository(suggestionRepository: SuggestionRepositoryImpl): SuggestionRepository
 
-  @Provides
+  @Binds
   @Singleton
-  fun provideSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository =
-    settingsRepository
+  abstract fun provideSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository
 }

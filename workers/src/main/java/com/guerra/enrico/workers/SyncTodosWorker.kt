@@ -1,20 +1,18 @@
 package com.guerra.enrico.workers
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
-import com.guerra.enrico.domain.invoke
-import com.guerra.enrico.workers.di.ChildWorkerFactory
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 
 /**
  * Created by enrico
  * on 17/12/2018.
  */
-class SyncTodosWorker @AssistedInject constructor(
+class SyncTodosWorker @WorkerInject constructor(
   @Assisted context: Context,
   @Assisted params: WorkerParameters,
   private val syncTodos: SyncTodos,
@@ -30,7 +28,4 @@ class SyncTodosWorker @AssistedInject constructor(
     syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
     return Result.success()
   }
-
-  @AssistedInject.Factory
-  interface Factory : ChildWorkerFactory
 }

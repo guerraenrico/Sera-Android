@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -17,17 +16,16 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.databinding.FragmentLoginBinding
 import com.guerra.enrico.navigation.Navigator
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 23/12/2019.
  */
-
+@AndroidEntryPoint
 class LoginFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+  private val viewModel: LoginViewModel by activityViewModels()
 
   @Inject
   lateinit var navigator: Navigator

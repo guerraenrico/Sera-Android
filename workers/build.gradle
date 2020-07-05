@@ -2,11 +2,17 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion compileSdk
     defaultConfig {
         minSdkVersion minSdk
         consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -16,15 +22,11 @@ dependencies {
     implementation project(":base")
     implementation project(":domain")
 
-    // Dagger Android
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-
-    // Assisted Inject
-    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assistedInjectVersion"
-    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation "androidx.hilt:hilt-work:$hiltVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
 
     // Work Manager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"

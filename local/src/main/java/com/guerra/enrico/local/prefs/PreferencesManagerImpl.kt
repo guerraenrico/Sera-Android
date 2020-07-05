@@ -3,6 +3,7 @@ package com.guerra.enrico.local.prefs
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.guerra.enrico.local.PreferencesFile
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ import javax.inject.Inject
  * on 16/10/2018.
  */
 class PreferencesManagerImpl @Inject constructor(
-  context: Context,
+  @ApplicationContext context: Context,
   @PreferencesFile preferenceFile: String
 ) : PreferencesManager {
 

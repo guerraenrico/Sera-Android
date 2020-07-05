@@ -1,5 +1,6 @@
 package com.guerra.enrico.login
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,13 +13,12 @@ import com.guerra.enrico.domain.interactors.todos.SyncTodos
 import com.guerra.enrico.login.models.Step
 import com.guerra.enrico.models.User
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 12/10/2018.
  */
-internal class LoginViewModel @Inject constructor(
+internal class LoginViewModel @ViewModelInject constructor(
   private val signIn: SignIn,
   private val syncTodos: SyncTodos
 ) : ViewModel() {

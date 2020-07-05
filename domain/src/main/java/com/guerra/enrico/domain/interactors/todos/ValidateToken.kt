@@ -4,6 +4,7 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
+import com.guerra.enrico.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -14,10 +15,10 @@ import javax.inject.Inject
 class ValidateToken @Inject constructor(
   private val authRepository: AuthRepository,
   coroutineDispatcherProvider: CoroutineDispatcherProvider
-) : Interactor<Unit, Result<com.guerra.enrico.models.User>>() {
+) : Interactor<Unit, Result<User>>() {
   override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
-  override suspend fun doWork(params: Unit): Result<com.guerra.enrico.models.User> =
+  override suspend fun doWork(params: Unit): Result<User> =
     authRepository.refreshTokenIfNotAuthorized {
       authRepository.validateAccessToken()
     }

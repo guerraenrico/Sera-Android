@@ -1,10 +1,10 @@
 package com.guerra.enrico.sera
 
+import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.guerra.enrico.sera.appinitializers.AppInitializers
-import com.guerra.enrico.sera.di.component.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 import leakcanary.LeakCanary
 import timber.log.Timber
 import javax.inject.Inject
@@ -13,16 +13,13 @@ import javax.inject.Inject
  * Created by enrico
  * on 30/05/2018.
  */
-class SeraApplication : DaggerApplication(), Configuration.Provider {
+@HiltAndroidApp
+class SeraApplication : Application(), Configuration.Provider {
   @Inject
   lateinit var initializers: AppInitializers
 
   @Inject
-  lateinit var workConfiguration: Configuration
-
-  override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-    return DaggerAppComponent.factory().create(this)
-  }
+  lateinit var workerFactory: HiltWorkerFactory
 
   override fun onCreate() {
     super.onCreate()
@@ -35,5 +32,7 @@ class SeraApplication : DaggerApplication(), Configuration.Provider {
     LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)
   }
 
-  override fun getWorkManagerConfiguration(): Configuration = workConfiguration
+  override fun getWorkManagerConfiguration(): Configuration {
+    return Configuration.Builder().setWorkerFactory(workerFactory).build()
+  }
 }

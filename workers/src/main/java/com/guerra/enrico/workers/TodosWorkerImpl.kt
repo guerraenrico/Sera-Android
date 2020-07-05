@@ -26,8 +26,7 @@ class TodosWorkerImpl @Inject constructor(
   }
 
   override fun setUpNightTodoSync() {
-    val request =
-      PeriodicWorkRequest.Builder(
+    val request = PeriodicWorkRequest.Builder(
         SyncTodosWorker::class.java,
         1,
         TimeUnit.HOURS

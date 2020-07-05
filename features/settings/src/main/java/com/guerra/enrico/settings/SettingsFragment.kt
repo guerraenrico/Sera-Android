@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,18 +16,17 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.settings.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.delay
-import javax.inject.Inject
 
 /**
  * Created by enrico
  * on 08/03/2020.
  */
+@AndroidEntryPoint
 internal class SettingsFragment : BaseFragment() {
-  @Inject
-  lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
+  private val viewModel: SettingsViewModel by viewModels()
 
   private lateinit var binding: FragmentSettingsBinding
   private lateinit var settingAdapter: SettingAdapter
