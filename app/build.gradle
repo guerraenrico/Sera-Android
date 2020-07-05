@@ -126,6 +126,14 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
+    // Navis
+    implementation project(":libraries:navis:navis_annotation")
+    kapt project(':libraries:navis:navis_processor')
+
+    // Leak canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+
+    // Unit Test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
@@ -134,19 +142,21 @@ dependencies {
     testImplementation "androidx.test:core:$testCoreVersion"
     testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
 
-    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
-
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 
     kaptTest "androidx.room:room-compiler:$roomVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    // Instrument Test
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$testRunnerVersion"
 
-    // Navis
-    implementation project(":libraries:navis:navis_annotation")
-    kapt project(':libraries:navis:navis_processor')
+    androidTestImplementation "androidx.test.ext:junit:$testAndroidXVersion"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$testEspresso"
+
 }
