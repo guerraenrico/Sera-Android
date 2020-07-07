@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.base_android.arch.viewmodel.Converter
 import com.guerra.enrico.base_android.arch.viewmodel.ViewModelState
 import com.guerra.enrico.base_android.arch.viewmodel.ViewState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.onStart
 open class BaseViewModel<VMS : ViewModelState, VS : ViewState>(
   initialState: VMS,
   converter: Converter<VMS, VS>,
-  coroutineDispatcherProvider: CoroutineDispatcherProvider
+  @IODispatcher dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
   private val viewModelState =
@@ -42,7 +43,7 @@ open class BaseViewModel<VMS : ViewModelState, VS : ViewState>(
       .onStart { viewModelState.offer(initialState) }
       .map { converter.convert(it) }
       .distinctUntilChanged()
-      .flowOn(coroutineDispatcherProvider.io())
+      .flowOn(dispatcher)
       .onEach { _viewState.value = it }
       .launchIn(viewModelScope)
   }

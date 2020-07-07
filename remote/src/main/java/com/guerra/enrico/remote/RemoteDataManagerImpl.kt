@@ -1,7 +1,7 @@
 package com.guerra.enrico.remote
 
 import com.google.gson.Gson
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.CPUDispatcher
 import com.guerra.enrico.base.logger.Logger
 import com.guerra.enrico.models.exceptions.ConnectionException
 import com.guerra.enrico.models.sync.SyncAction
@@ -18,6 +18,7 @@ import com.guerra.enrico.remote.response.ApiError
 import com.guerra.enrico.remote.response.ApiResponse
 import com.guerra.enrico.remote.response.AuthData
 import com.guerra.enrico.remote.response.CallResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.Reader
@@ -33,7 +34,7 @@ import javax.inject.Inject
 class RemoteDataManagerImpl @Inject constructor(
   private val api: Api,
   private val gson: Gson,
-  private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+  @CPUDispatcher val dispatcher: CoroutineDispatcher,
   private val logger: Logger
 ) : RemoteDataManager {
 
@@ -115,7 +116,7 @@ class RemoteDataManagerImpl @Inject constructor(
       return@getOrElse CallResult.Result(ApiResponse(false, null, ApiError.unknown()))
     }
 
-  private suspend fun convertJson(reader: Reader) = withContext(coroutineDispatcherProvider.io()) {
+  private suspend fun convertJson(reader: Reader) = withContext(dispatcher) {
     gson.fromJson(reader, ApiResponse::class.java)
   }
 }

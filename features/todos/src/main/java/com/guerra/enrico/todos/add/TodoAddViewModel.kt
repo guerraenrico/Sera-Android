@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
 import com.guerra.enrico.domain.interactors.todos.InsertCategory
 import com.guerra.enrico.domain.interactors.todos.InsertTask
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.todos.add.steps.StepEnum
+import com.guerra.enrico.todos.presentation.CategoryPresentation
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -24,7 +24,6 @@ import java.util.*
  * on 21/10/2018.
  */
 internal class TodoAddViewModel @ViewModelInject constructor(
-  private val dispatchers: CoroutineDispatcherProvider,
   observeCategories: ObserveCategories,
   private val insertCategory: InsertCategory,
   private val insertTask: InsertTask
@@ -32,10 +31,10 @@ internal class TodoAddViewModel @ViewModelInject constructor(
   private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
     .onStart { Result.Loading }
     .map { Result.Success(it) }
-    .asLiveData(dispatchers.io())
+    .asLiveData()
 
-  private val _categoriesFilterResult = MediatorLiveData<Result<List<com.guerra.enrico.todos.presentation.CategoryPresentation>>>()
-  val categoriesPresentationResult: LiveData<Result<List<com.guerra.enrico.todos.presentation.CategoryPresentation>>>
+  private val _categoriesFilterResult = MediatorLiveData<Result<List<CategoryPresentation>>>()
+  val categoriesPresentationResult: LiveData<Result<List<CategoryPresentation>>>
     get() = _categoriesFilterResult
 
   private val _createCategoryResult: MediatorLiveData<Result<Category>> = MediatorLiveData()
@@ -63,7 +62,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
       }
       if (result is Result.Success) {
         _categoriesFilterResult.postValue(Result.Success(result.data.map {
-          com.guerra.enrico.todos.presentation.CategoryPresentation(
+          CategoryPresentation(
             it
           )
         }))
@@ -77,7 +76,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
       val categoriesResult = _categoriesFilterResult.value
       if (categoriesResult is Result.Success) {
         _categoriesFilterResult.postValue(Result.Success(categoriesResult.data.map { categoryFilter ->
-          return@map com.guerra.enrico.todos.presentation.CategoryPresentation(
+          return@map CategoryPresentation(
             categoryFilter.category,
             categoryFilter.category.id == category?.id
           )
@@ -89,19 +88,19 @@ internal class TodoAddViewModel @ViewModelInject constructor(
     observeCategories(Unit)
   }
 
-  fun toggleCategory(categoryPresentation: com.guerra.enrico.todos.presentation.CategoryPresentation, checked: Boolean) {
+  fun toggleCategory(categoryPresentation: CategoryPresentation, checked: Boolean) {
     toggleSelectedCategory(categoryPresentation, checked)
   }
 
   fun onAddCategory(name: String) {
     val newCategory =
       Category(name = name)
-    viewModelScope.launch(dispatchers.io()) {
-      _createCategoryResult.postValue(Result.Loading)
+    viewModelScope.launch {
+      _createCategoryResult.value = Result.Loading
       val result = insertCategory(newCategory)
-      _createCategoryResult.postValue(result)
+      _createCategoryResult.value = result
       if (result is Result.Success) {
-        _selectedCategory.postValue(result.data)
+        _selectedCategory.value = result.data
       }
     }
   }
@@ -114,10 +113,10 @@ internal class TodoAddViewModel @ViewModelInject constructor(
 
   fun onAddTask(todoWithin: Date) {
     task = task.copy(todoWithin = todoWithin)
-    viewModelScope.launch(dispatchers.io()) {
-      _createTaskResult.postValue(Result.Loading)
+    viewModelScope.launch {
+      _createTaskResult.value = Result.Loading
       val result = insertTask(task)
-      _createTaskResult.postValue(result)
+      _createTaskResult.value = result
     }
   }
 
@@ -125,7 +124,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
     _currentStep.value = stepEnum
   }
 
-  private fun toggleSelectedCategory(categoryPresentation: com.guerra.enrico.todos.presentation.CategoryPresentation, checked: Boolean) {
+  private fun toggleSelectedCategory(categoryPresentation: CategoryPresentation, checked: Boolean) {
     _selectedCategory.value = (if (checked) categoryPresentation.category else null)
   }
 }
