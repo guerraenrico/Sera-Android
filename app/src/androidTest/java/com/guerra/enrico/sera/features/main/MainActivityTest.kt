@@ -10,9 +10,11 @@ import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.main.MainActivity
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.sera.R
+import com.guerra.enrico.sera.di.module.CoroutineDispatcherModule
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -27,6 +29,7 @@ import org.junit.runner.RunWith
  * on 05/07/2020.
  */
 @HiltAndroidTest
+@UninstallModules(CoroutineDispatcherModule::class)
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
   @get:Rule(order = 0)
@@ -35,12 +38,11 @@ class MainActivityTest {
   @get:Rule(order = 1)
   var activityIntentRule = ActivityScenarioRule(MainActivity::class.java)
 
-  @BindValue
-  var observeCategories: ObserveCategories = mockk()
+//  @BindValue
+//  var observeCategories: ObserveCategories = mockk()
 
   @Test
   fun testLoadTodosFragment() {
-    observeCategories.toString()
     onView(withId(R.id.todos_container)).check(matches(isDisplayed()))
   }
 

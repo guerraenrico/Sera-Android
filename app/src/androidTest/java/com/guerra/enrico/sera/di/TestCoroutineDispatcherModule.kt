@@ -18,7 +18,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
  */
 @Module
 @InstallIn(ApplicationComponent::class)
-abstract class TestCoroutineDispatcherModule {
+object TestCoroutineDispatcherModule {
   @Provides
   @CPUDispatcher
   fun provideCPUDispatcher(): CoroutineDispatcher =

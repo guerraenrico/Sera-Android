@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
  */
 @InstallIn(ApplicationComponent::class)
 @Module
-abstract class CoroutineDispatcherModule {
+object CoroutineDispatcherModule {
   @Provides
   @CPUDispatcher
   fun provideCPUDispatcher(): CoroutineDispatcher = Dispatchers.Default
