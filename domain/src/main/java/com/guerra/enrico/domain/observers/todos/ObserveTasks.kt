@@ -1,6 +1,6 @@
 package com.guerra.enrico.domain.observers.todos
 
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.domain.SubjectInteractor
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
@@ -16,9 +16,8 @@ import javax.inject.Inject
  */
 class ObserveTasks @Inject constructor(
   private val taskRepository: TaskRepository,
-  coroutineDispatcherProvider: CoroutineDispatcherProvider
+  @IODispatcher override val dispatcher: CoroutineDispatcher
 ) : SubjectInteractor<ObserveTasks.Params, List<Task>>() {
-  override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override fun createObservable(params: Params): Flow<List<Task>> {
     // TODO: to complete using the suggestion as category

@@ -16,7 +16,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.guerra.enrico.sera.SeraTestRunner"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -106,8 +106,6 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-work:$hiltVersion"
 
-
-
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -126,6 +124,14 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
+    // Navis
+    implementation project(":libraries:navis:navis_annotation")
+    kapt project(':libraries:navis:navis_processor')
+
+    // Leak canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+
+    // Unit Test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
@@ -134,19 +140,34 @@ dependencies {
     testImplementation "androidx.test:core:$testCoreVersion"
     testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
 
-    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
-
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 
     kaptTest "androidx.room:room-compiler:$roomVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    // Instrument Test
+    androidTestImplementation "junit:junit:$junitVersion"
 
-    // Navis
-    implementation project(":libraries:navis:navis_annotation")
-    kapt project(':libraries:navis:navis_processor')
+    androidTestImplementation "androidx.test:core-ktx:$testAndroidXVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$testJunitVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$testRulesVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$testEspresso"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$testEspresso"
+
+    androidTestImplementation "io.mockk:mockk:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$daggerHiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+
+    androidTestImplementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
+    kaptAndroidTest "androidx.hilt:hilt-compiler:$hiltVersion"
+    androidTestImplementation "androidx.hilt:hilt-work:$hiltVersion"
+
 }

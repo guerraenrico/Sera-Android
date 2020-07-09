@@ -1,7 +1,7 @@
 package com.guerra.enrico.domain.interactors
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.User
 import com.guerra.enrico.sera.data.repo.auth.AuthRepository
@@ -14,9 +14,8 @@ import javax.inject.Inject
  */
 class SignIn @Inject constructor(
   private val authRepository: AuthRepository,
-  coroutineDispatcherProvider: CoroutineDispatcherProvider
+  @IODispatcher override val dispatcher: CoroutineDispatcher
 ) : Interactor<String, Result<User>>() {
-  override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: String): Result<User> {
     return authRepository.googleSignInCallback(params)

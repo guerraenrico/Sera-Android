@@ -3,7 +3,7 @@ package com.guerra.enrico.domain.interactors.todos
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
@@ -24,9 +24,8 @@ class SyncTodos @Inject constructor(
   private val tasksRepository: TaskRepository,
   private val categoryRepository: CategoryRepository,
   private val authRepository: AuthRepository,
-  coroutineDispatcherProvider: CoroutineDispatcherProvider
+  @IODispatcher override val dispatcher: CoroutineDispatcher
 ) : Interactor<SyncTodos.SyncTodosParams, Result<Unit>>() {
-  override val dispatcher: CoroutineDispatcher = coroutineDispatcherProvider.io()
 
   override suspend fun doWork(params: SyncTodosParams): Result<Unit> =
     authRepository.refreshTokenIfNotAuthorized {

@@ -1,7 +1,7 @@
 package com.guerra.enrico.domain.interactors.todos
 
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.dispatcher.CoroutineDispatcherProvider
+import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.domain.Interactor
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.sera.data.repo.todos.suggestion.SuggestionRepository
@@ -14,9 +14,8 @@ import javax.inject.Inject
  */
 class GetSuggestions @Inject constructor(
   private val suggestionRepository: SuggestionRepository,
-  dispatcherProvider: CoroutineDispatcherProvider
+  @IODispatcher override val dispatcher: CoroutineDispatcher
 ) : Interactor<GetSuggestions.Params, Result<List<Suggestion>>>() {
-  override val dispatcher: CoroutineDispatcher = dispatcherProvider.io()
 
   override suspend fun doWork(params: Params): Result<List<Suggestion>> {
     if (params.text.isBlank()) {
