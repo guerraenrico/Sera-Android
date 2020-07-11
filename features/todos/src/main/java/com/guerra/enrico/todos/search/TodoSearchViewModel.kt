@@ -36,7 +36,7 @@ internal class TodoSearchViewModel @ViewModelInject constructor(
 
   var job by AutoDisposableJob()
 
-  fun load() {
+  init {
     job = viewModelScope.launch {
       _suggestionsResult.value = getSuggestions(GetSuggestions.Params())
     }

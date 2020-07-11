@@ -2,6 +2,7 @@ package com.guerra.enrico.base.extensions
 
 import android.view.View
 import android.view.WindowInsets
+import androidx.core.view.updatePadding
 
 /**
  * Created by enrico
@@ -22,7 +23,7 @@ private fun recordInitialPaddingForView(view: View) = InitialPadding(
   right = view.paddingRight
 )
 
-fun View.requestApplyInsetsWhenAttached() {
+private fun View.requestApplyInsetsWhenAttached() {
   if (isAttachedToWindow) {
     requestApplyInsets()
   } else {
@@ -44,6 +45,26 @@ fun View.doApplyWindowInsets(f: (View, WindowInsets, InitialPadding) -> Unit) {
     insets
   }
   requestApplyInsetsWhenAttached()
+}
+
+fun View.applyWindowInsets(
+  left: Boolean = false,
+  top: Boolean = false,
+  right: Boolean = false,
+  bottom: Boolean = false
+) {
+  doApplyWindowInsets { view, windowInsets, initialPadding ->
+    val paddingLeft = if (left) windowInsets.systemWindowInsetLeft else 0
+    val paddingTop = if (top) windowInsets.systemWindowInsetTop else 0
+    val paddingRight = if (right) windowInsets.systemWindowInsetRight else 0
+    val paddingBottom = if (bottom) windowInsets.systemWindowInsetBottom else 0
+    view.updatePadding(
+      left = initialPadding.left + paddingLeft,
+      top = initialPadding.top + paddingTop,
+      right = initialPadding.right + paddingRight,
+      bottom = initialPadding.bottom + paddingBottom
+    )
+  }
 }
 
 fun View.systemUiFullScreen() {

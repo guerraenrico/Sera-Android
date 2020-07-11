@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.applyWindowInsets
 import com.guerra.enrico.base.extensions.makeSceneTransitionAnimation
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
@@ -24,8 +25,8 @@ import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
-import com.guerra.enrico.todos.databinding.FragmentTodosBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_todos.*
 import javax.inject.Inject
 
 /**
@@ -39,7 +40,6 @@ internal class TodosFragment : BaseFragment() {
   @Inject
   lateinit var navigator: Navigator
 
-  private lateinit var binding: FragmentTodosBinding
   private lateinit var taskAdapter: TaskAdapter
 
   override fun onCreateView(
@@ -47,11 +47,7 @@ internal class TodosFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentTodosBinding.inflate(inflater, container, false).apply {
-      lifecycleOwner = viewLifecycleOwner
-      viewModel = todosViewModel
-    }
-    return binding.root
+    return inflater.inflate(R.layout.fragment_todos, container, false)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +61,8 @@ internal class TodosFragment : BaseFragment() {
   }
 
   private fun initView() {
+    toolbar.applyWindowInsets(top = true)
+
     with(requireActivity().window) {
       exitTransition = TransitionInflater.from(requireContext())
         .inflateTransition(R.transition.activity_main_todos_exit)
@@ -72,13 +70,14 @@ internal class TodosFragment : BaseFragment() {
         .inflateTransition(R.transition.activity_main_todos_reenter)
     }
 
-    binding.toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
+    toolbar.setOnMenuItemClickListener { onMenuItemClick(it) }
 
     setupRecyclerView()
     setupSearch()
 
     observeTaskList()
     observeSnackbarMessage()
+    observeRefresh()
   }
 
   private fun observeTaskList() {
@@ -86,16 +85,16 @@ internal class TodosFragment : BaseFragment() {
       if (tasksResult is Result.Loading) {
         return@observe
       }
-      binding.messageLayout.hide()
+      message_layout.hide()
       if (tasksResult is Result.Success) {
-        binding.recyclerViewTasks.visibility = View.VISIBLE
+        recycler_view_tasks.visibility = View.VISIBLE
         taskAdapter.submitList(tasksResult.data)
         return@observe
       }
       if (tasksResult is Result.Error) {
         val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
-        binding.recyclerViewTasks.visibility = View.GONE
-        binding.messageLayout.apply {
+        recycler_view_tasks.visibility = View.GONE
+        message_layout.apply {
           setImage(messageResources.icon)
           setMessage(messageResources.message)
           setButton(resources.getString(R.string.message_layout_button_try_again)) {
@@ -118,11 +117,19 @@ internal class TodosFragment : BaseFragment() {
     }
   }
 
+  private fun observeRefresh() {
+    observe(todosViewModel.swipeRefresh) { refresh ->
+      refresh_layout_tasks.isRefreshing = refresh
+    }
+  }
+
   private fun setupRecyclerView() {
+    refresh_layout_tasks.setOnRefreshListener { todosViewModel.onRefreshData() }
+
     taskAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
 
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-    binding.recyclerViewTasks.apply {
+    recycler_view_tasks.apply {
       layoutManager = linearLayoutManager
       adapter = taskAdapter
       (itemAnimator as DefaultItemAnimator).run {
@@ -143,10 +150,10 @@ internal class TodosFragment : BaseFragment() {
   }
 
   private fun setupSearch() {
-    binding.toolbarEditTextSearch.setOnClickListener {
+    toolbar_edit_text_search.setOnClickListener {
       val options = requireActivity().makeSceneTransitionAnimation(
-        Pair(binding.rootContainer as View, getString(R.string.todos_container_transition)),
-        Pair(binding.toolbarEditTextSearch as View, getString(R.string.todos_search_transition))
+        Pair(root_container as View, getString(R.string.todos_container_transition)),
+        Pair(toolbar_edit_text_search as View, getString(R.string.todos_search_transition))
       )
       val target = TodosNavigationRoutes.Search.buildTarget()
       navigator.startActivityForResult(this, target, options)
@@ -166,7 +173,7 @@ internal class TodosFragment : BaseFragment() {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     val code = TodosNavigationRoutes.Search.resultCode
-    val key  = TodosNavigationRoutes.Search.resultKey
+    val key = TodosNavigationRoutes.Search.resultKey
 
     if (requestCode == code) {
       if (resultCode == Activity.RESULT_OK && data != null) {
