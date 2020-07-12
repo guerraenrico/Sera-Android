@@ -68,7 +68,7 @@ internal class SettingsFragment : BaseFragment() {
   }
 
   private fun initRecyclerView() {
-    settingAdapter = SettingAdapter(viewLifecycleOwner, viewModel)
+    settingAdapter = SettingAdapter(viewModel)
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     recycler_view_settings.apply {
       layoutManager = linearLayoutManager

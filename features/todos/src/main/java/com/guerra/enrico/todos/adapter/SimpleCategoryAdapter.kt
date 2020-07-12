@@ -1,10 +1,12 @@
 package com.guerra.enrico.todos.adapter
 
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.guerra.enrico.base.extensions.inflate
 import com.guerra.enrico.models.todos.Category
-import com.guerra.enrico.todos.databinding.ItemSimpleCategoryBinding
+import com.guerra.enrico.todos.R
 
 /**
  * Created by enrico
@@ -15,20 +17,19 @@ internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHo
 
   override fun getItemCount(): Int = categories.size
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-    SimpleCategoryViewHolder(
-      ItemSimpleCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleCategoryViewHolder {
+    val view = parent.inflate(R.layout.item_simple_category)
+    return SimpleCategoryViewHolder(view)
+  }
 
   override fun onBindViewHolder(holder: SimpleCategoryViewHolder, position: Int) {
     holder.bind(categories[position])
   }
 }
 
-class SimpleCategoryViewHolder(private val binding: ItemSimpleCategoryBinding) :
-  RecyclerView.ViewHolder(binding.root) {
+internal class SimpleCategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+  private val name: TextView = view.findViewById(R.id.label_category_name)
   fun bind(category: Category) {
-    binding.category = category
-    binding.executePendingBindings()
+    name.text = category.name
   }
 }

@@ -126,7 +126,7 @@ internal class TodosFragment : BaseFragment() {
   private fun setupRecyclerView() {
     refresh_layout_tasks.setOnRefreshListener { todosViewModel.onRefreshData() }
 
-    taskAdapter = TaskAdapter(viewLifecycleOwner, todosViewModel)
+    taskAdapter = TaskAdapter(todosViewModel)
 
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     recycler_view_tasks.apply {

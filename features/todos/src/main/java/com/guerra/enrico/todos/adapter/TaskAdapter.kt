@@ -1,9 +1,11 @@
 package com.guerra.enrico.todos.adapter
 
 import android.graphics.Canvas
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -13,8 +15,10 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.guerra.enrico.base.extensions.inflate
+import com.guerra.enrico.base.extensions.toDateString
+import com.guerra.enrico.todos.EventActions
 import com.guerra.enrico.todos.R
-import com.guerra.enrico.todos.databinding.ItemTaskBinding
 import com.guerra.enrico.todos.presentation.TaskPresentation
 import kotlin.math.abs
 
@@ -23,8 +27,7 @@ import kotlin.math.abs
  * on 24/06/2018.
  */
 internal class TaskAdapter(
-  private val lifecycleOwner: LifecycleOwner,
-  private val eventActions: com.guerra.enrico.todos.EventActions
+  private val eventActions: EventActions
 ) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
 
   private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
@@ -38,19 +41,8 @@ internal class TaskAdapter(
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-    val binding =
-      ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
-        recyclerViewCategories.apply {
-          setRecycledViewPool(recyclerViewCategoriesPool)
-          layoutManager = FlexboxLayoutManager(context).apply {
-            recycleChildrenOnDetach = true
-            flexDirection = FlexDirection.ROW
-            justifyContent = JustifyContent.FLEX_START
-            alignItems = AlignItems.FLEX_START
-          }
-        }
-      }
-    return TaskViewHolder(binding, lifecycleOwner, eventActions)
+    val view = parent.inflate(R.layout.item_task)
+    return TaskViewHolder(view, recyclerViewCategoriesPool, eventActions)
   }
 
   override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -59,16 +51,57 @@ internal class TaskAdapter(
 }
 
 internal class TaskViewHolder(
-  private val binding: ItemTaskBinding,
-  private val lifecycleOwner: LifecycleOwner,
-  private val eventActions: com.guerra.enrico.todos.EventActions
-) : RecyclerView.ViewHolder(binding.root) {
+  view: View,
+  recyclerViewPool: RecyclerView.RecycledViewPool,
+  private val eventActions: EventActions
+) : RecyclerView.ViewHolder(view) {
+
+  private val container: View = view.findViewById(R.id.container_task_item)
+  private val title: TextView = view.findViewById(R.id.task_title)
+  private val date: TextView = view.findViewById(R.id.task_date)
+  private val description: TextView = view.findViewById(R.id.task_description)
+  private val recyclerViewCategories: RecyclerView =
+    view.findViewById(R.id.recycler_view_categories)
+
+  private val dateFormatText = view.context.getString(R.string.label_todo_within)
+
+  init {
+    recyclerViewCategories.apply {
+      setRecycledViewPool(recyclerViewPool)
+      layoutManager = FlexboxLayoutManager(context).apply {
+        recycleChildrenOnDetach = true
+        flexDirection = FlexDirection.ROW
+        justifyContent = JustifyContent.FLEX_START
+        alignItems = AlignItems.FLEX_START
+      }
+    }
+  }
 
   fun bind(taskPresentation: TaskPresentation) {
-    binding.taskPresentation = taskPresentation
-    binding.lifecycleOwner = lifecycleOwner
-    binding.eventActions = eventActions
-    binding.executePendingBindings()
+    val task = taskPresentation.task
+    container.setOnClickListener { eventActions.onTaskClick(task) }
+
+    title.text = task.title
+
+    if (task.description.isBlank()) {
+      description.isVisible = false
+    } else {
+      description.isVisible = true
+      description.text = task.description
+    }
+
+    date.text = String.format(dateFormatText, task.todoWithin.toDateString())
+
+    if (task.categories.isEmpty()) {
+      recyclerViewCategories.isVisible = false
+    } else {
+      recyclerViewCategories.isVisible = true
+      val adapter = recyclerViewCategories.adapter as? SimpleCategoryAdapter
+        ?: SimpleCategoryAdapter()
+      recyclerViewCategories.adapter = adapter.apply {
+        categories = task.categories
+      }
+    }
   }
 }
 

@@ -17,7 +17,6 @@ import java.security.InvalidKeyException
  * on 09/03/2020.
  */
 internal class SettingAdapter(
-  private val lifecycleOwner: LifecycleOwner,
   private val eventActions: EventActions
 ) : ListAdapter<Option, RecyclerView.ViewHolder>(OptionItemCallback) {
   companion object {
@@ -37,7 +36,7 @@ internal class SettingAdapter(
         val view = parent.inflate(R.layout.item_setting_option_toggle)
         OptionToggleViewHolder(view, eventActions)
       }
-      else -> throw InvalidKeyException("type is no supported")
+      else -> throw InvalidKeyException("type is not supported")
     }
   }
 
@@ -46,7 +45,7 @@ internal class SettingAdapter(
       TOGGLE -> {
         (holder as OptionToggleViewHolder).bind(getItem(position) as Option.Toggle)
       }
-      else -> throw InvalidKeyException("type is no supported")
+      else -> throw InvalidKeyException("type is not supported")
     }
   }
 }

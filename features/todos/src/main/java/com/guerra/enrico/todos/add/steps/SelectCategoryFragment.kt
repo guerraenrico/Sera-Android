@@ -38,8 +38,8 @@ internal class SelectCategoryFragment : BaseFragment() {
     return view
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     val gridLayoutManager = GridLayoutManager(context, 2)
     val filterAdapter =
       CategoryAdapter { categoryFilter ->
