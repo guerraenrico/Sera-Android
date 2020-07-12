@@ -10,13 +10,14 @@ import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.guerra.enrico.base.Result
+import com.guerra.enrico.base.extensions.applyWindowInsets
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.SuggestionAdapter
-import com.guerra.enrico.todos.databinding.FragmentTodosSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_todos_search.*
 
 /**
  * Created by enrico
@@ -26,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 internal class TodoSearchFragment : BaseFragment() {
   private val viewModel: TodoSearchViewModel by activityViewModels()
 
-  private lateinit var binding: FragmentTodosSearchBinding
   private lateinit var suggestionAdapter: SuggestionAdapter
 
   override fun onCreateView(
@@ -34,8 +34,7 @@ internal class TodoSearchFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentTodosSearchBinding.inflate(inflater, container, false)
-    return binding.root
+    return inflater.inflate(R.layout.fragment_todos_search, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,17 +43,15 @@ internal class TodoSearchFragment : BaseFragment() {
   }
 
   private fun initView() {
-    binding.toolbar.apply {
+    toolbar.apply {
       navigationIcon = getDrawable(requireContext(), R.drawable.ic_close)
       setNavigationOnClickListener { finishAfterTransition(requireActivity()) }
-
       setOnMenuItemClickListener { onMenuItemClick(it) }
-      setupRecyclerView()
-      observeSuggestionList()
-
-      viewModel.load()
+      applyWindowInsets(top = true)
     }
 
+    setupRecyclerView()
+    observeSuggestionList()
   }
 
   private fun observeSuggestionList() = observe(viewModel.suggestionsResult) { suggestionsResult ->
@@ -62,11 +59,11 @@ internal class TodoSearchFragment : BaseFragment() {
       is Result.Loading -> {
       }
       is Result.Success -> {
-        binding.messageLayout.hide()
-        binding.recyclerViewSuggestions.isVisible = true
+        message_layout.hide()
+        recycler_view_suggestions.isVisible = true
         if (suggestionsResult.data.isEmpty()) {
-          binding.recyclerViewSuggestions.isVisible = false
-          binding.messageLayout.apply {
+          recycler_view_suggestions.isVisible = false
+          message_layout.apply {
             setMessage("No suggestions")
             setButton(resources.getString(R.string.message_layout_button_try_again)) {
               viewModel.loadWhileTyping("")
@@ -79,8 +76,8 @@ internal class TodoSearchFragment : BaseFragment() {
       }
       is Result.Error -> {
         val messageResources = MessageExceptionManager(Exception()).getResources()
-        binding.recyclerViewSuggestions.isVisible = false
-        binding.messageLayout.apply {
+        recycler_view_suggestions.isVisible = false
+        message_layout.apply {
           setImage(messageResources.icon)
           setMessage(messageResources.message)
           setButton(resources.getString(R.string.message_layout_button_try_again)) {
@@ -96,7 +93,7 @@ internal class TodoSearchFragment : BaseFragment() {
     suggestionAdapter = SuggestionAdapter {
       viewModel.onSuggestionClick(it)
     }
-    binding.recyclerViewSuggestions.apply {
+    recycler_view_suggestions.apply {
       adapter = suggestionAdapter
     }
   }
@@ -104,7 +101,7 @@ internal class TodoSearchFragment : BaseFragment() {
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.action_search_todo -> {
-        val text = binding.searchToolbarEditTextSearch.text.toString()
+        val text = search_toolbar_edit_text_search.text.toString()
         viewModel.onSearch(text)
         true
       }

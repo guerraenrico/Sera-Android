@@ -26,9 +26,8 @@ internal class AddTaskFragment : BaseFragment() {
     savedInstanceState: Bundle?
   ): View? = inflater.inflate(R.layout.fragment_todo_add_add_task, container, false)
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
-
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     val selectedCategory = viewModel.selectedCategory
     if (selectedCategory == null) {
       viewModel.goToNextStep(StepEnum.SELECT_CATEGORY)

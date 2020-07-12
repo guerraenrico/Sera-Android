@@ -1,13 +1,14 @@
 package com.guerra.enrico.settings
 
-import android.content.Context
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.settings.databinding.ItemSettingOptionToggleBinding
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.guerra.enrico.base.extensions.inflate
 import com.guerra.enrico.settings.presentation.Option
 import java.security.InvalidKeyException
 
@@ -16,7 +17,6 @@ import java.security.InvalidKeyException
  * on 09/03/2020.
  */
 internal class SettingAdapter(
-  private val lifecycleOwner: LifecycleOwner,
   private val eventActions: EventActions
 ) : ListAdapter<Option, RecyclerView.ViewHolder>(OptionItemCallback) {
   companion object {
@@ -33,16 +33,10 @@ internal class SettingAdapter(
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     return when (viewType) {
       TOGGLE -> {
-        val binding =
-          ItemSettingOptionToggleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        OptionToggleViewHolder(
-          parent.context,
-          binding,
-          lifecycleOwner,
-          eventActions
-        )
+        val view = parent.inflate(R.layout.item_setting_option_toggle)
+        OptionToggleViewHolder(view, eventActions)
       }
-      else -> throw InvalidKeyException("type is no supported")
+      else -> throw InvalidKeyException("type is not supported")
     }
   }
 
@@ -51,25 +45,26 @@ internal class SettingAdapter(
       TOGGLE -> {
         (holder as OptionToggleViewHolder).bind(getItem(position) as Option.Toggle)
       }
-      else -> throw InvalidKeyException("type is no supported")
+      else -> throw InvalidKeyException("type is not supported")
     }
   }
 }
 
 internal class OptionToggleViewHolder(
-  private val context: Context,
-  private val binding: ItemSettingOptionToggleBinding,
-  private val lifecycleOwner: LifecycleOwner,
+  view: View,
   private val eventActions: EventActions
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(view) {
+
+  private val title: TextView = view.findViewById(R.id.option_title)
+  private val container: View = view.findViewById(R.id.option_container)
+  private val switch: SwitchMaterial = view.findViewById(R.id.option_switch)
+
   fun bind(optionToggle: Option.Toggle) {
-    binding.optionTitle.text = context.getString(optionToggle.title)
-    binding.lifecycleOwner = lifecycleOwner
-    binding.optionContainer.setOnClickListener {
+    title.text = itemView.context.getString(optionToggle.title)
+    container.setOnClickListener {
       eventActions.onSettingClick(optionToggle.setting)
     }
-    binding.optionSwitch.isChecked = optionToggle.active
-    binding.executePendingBindings()
+    switch.isChecked = optionToggle.active
   }
 }
 

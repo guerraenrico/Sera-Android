@@ -41,8 +41,8 @@ internal class ScheduleFragment : BaseFragment() {
     return view
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     observeCreateTask()
     scheduleDate.setOnClickListener {
       showDatePicker()
@@ -51,7 +51,6 @@ internal class ScheduleFragment : BaseFragment() {
       viewModel.onAddTask(selectedDate)
     }
   }
-
   private fun observeCreateTask() {
     observe(viewModel.createdTaskResult) { result ->
       if (result is Result.Loading) {

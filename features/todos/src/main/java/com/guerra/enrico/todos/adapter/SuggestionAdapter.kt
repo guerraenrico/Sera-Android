@@ -1,12 +1,14 @@
 package com.guerra.enrico.todos.adapter
 
-import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.guerra.enrico.base.extensions.inflate
 import com.guerra.enrico.models.todos.Suggestion
-import com.guerra.enrico.todos.databinding.ItemTodosSuggestionBinding
+import com.guerra.enrico.todos.R
 
 /**
  * Created by enrico
@@ -17,9 +19,8 @@ internal class SuggestionAdapter(
 ) : ListAdapter<Suggestion, SuggestionViewHolder>(SuggestionDiff) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
-    val binding =
-      ItemTodosSuggestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    return SuggestionViewHolder(binding, onSuggestionClick)
+    val view = parent.inflate(R.layout.item_todos_suggestion)
+    return SuggestionViewHolder(view, onSuggestionClick)
   }
 
   override fun onBindViewHolder(holder: SuggestionViewHolder, position: Int) {
@@ -28,14 +29,18 @@ internal class SuggestionAdapter(
 }
 
 internal class SuggestionViewHolder(
-  private val binding: ItemTodosSuggestionBinding,
+  view: View,
   private val onClick: (Suggestion) -> Unit
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(view) {
+
+  private val container: View = view.findViewById(R.id.container)
+  private val label: TextView = view.findViewById(R.id.text)
+
   fun bind(suggestion: Suggestion) {
-    binding.container.setOnClickListener {
+    container.setOnClickListener {
       onClick(suggestion)
     }
-    binding.text.text = suggestion.text
+    label.text = suggestion.text
   }
 }
 
@@ -47,5 +52,4 @@ internal object SuggestionDiff : DiffUtil.ItemCallback<Suggestion>() {
   override fun areContentsTheSame(oldItem: Suggestion, newItem: Suggestion): Boolean {
     return oldItem == newItem
   }
-
 }

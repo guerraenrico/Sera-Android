@@ -2,19 +2,18 @@ package com.guerra.enrico.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.goals.GoalsNavigationRoutes
-import com.guerra.enrico.main.databinding.ActivityMainBinding
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
 import com.guerra.enrico.results.ResultsNavigationRoutes
 import com.guerra.enrico.settings.SettingsNavigationRoutes
 import com.guerra.enrico.todos.TodosNavigationRoutes
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 /**
@@ -23,7 +22,6 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
-  private lateinit var binding: ActivityMainBinding
 
   private val viewModel: MainViewModel by viewModels()
 
@@ -34,10 +32,9 @@ class MainActivity : BaseActivity() {
     super.onCreate(savedInstanceState)
     setLightStatusBarIfNeeded()
 
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-    binding.lifecycleOwner = this
+    setContentView(R.layout.activity_main)
 
-    binding.root.systemUiFullScreen()
+    root.systemUiFullScreen()
 
     setupBottomNavigationBar()
   }
@@ -47,11 +44,11 @@ class MainActivity : BaseActivity() {
       val target = getTarget(itemId)
       navigator.replaceFragment(supportFragmentManager, R.id.main_fragment_host, target)
     })
-    binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+    bottom_navigation.setOnNavigationItemSelectedListener { item ->
       viewModel.onSelectMenuItem(item.itemId)
       true
     }
-    binding.bottomNavigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
+    bottom_navigation.setOnNavigationItemReselectedListener { /* Disable default behavior */ }
   }
 
   private fun getTarget(itemId: Int): FragmentTarget {

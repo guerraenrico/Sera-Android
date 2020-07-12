@@ -14,9 +14,9 @@ import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.login.databinding.FragmentLoginBinding
 import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 /**
@@ -30,8 +30,6 @@ class LoginFragment : BaseFragment() {
   @Inject
   lateinit var navigator: Navigator
 
-  private lateinit var binding: FragmentLoginBinding
-
   companion object {
     private const val REQUEST_CODE_SIGN_IN = 9003
 
@@ -43,10 +41,7 @@ class LoginFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
-      lifecycleOwner = viewLifecycleOwner
-    }
-    return binding.root
+    return inflater.inflate(R.layout.fragment_login, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +54,7 @@ class LoginFragment : BaseFragment() {
       .requestServerAuthCode(BuildConfig.OAUTH2_CLIENT_ID)
       .build()
     val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
-    binding.signInButton.setOnClickListener {
+    sign_in_button.setOnClickListener {
       startActivityForResult(
         googleSignInClient.signInIntent,
         REQUEST_CODE_SIGN_IN
