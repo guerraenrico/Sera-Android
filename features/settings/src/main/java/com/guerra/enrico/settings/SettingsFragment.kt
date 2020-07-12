@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
+import com.guerra.enrico.base.extensions.applyWindowInsets
 import com.guerra.enrico.base.extensions.launchWhenResumed
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.settings.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_settings.view.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.delay
 
 /**
@@ -28,7 +28,6 @@ import kotlinx.coroutines.delay
 internal class SettingsFragment : BaseFragment() {
   private val viewModel: SettingsViewModel by viewModels()
 
-  private lateinit var binding: FragmentSettingsBinding
   private lateinit var settingAdapter: SettingAdapter
 
   override fun onCreateView(
@@ -36,10 +35,7 @@ internal class SettingsFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentSettingsBinding.inflate(inflater, container, false).apply {
-      lifecycleOwner = viewLifecycleOwner
-    }
-    return binding.root
+    return inflater.inflate(R.layout.fragment_settings, container, false)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +49,8 @@ internal class SettingsFragment : BaseFragment() {
   }
 
   private fun initView() {
-    binding.toolbar.toolbarTitle.text = getString(R.string.title_settings)
+    toolbar.applyWindowInsets(top = true)
+    toolbar_title.text = getString(R.string.title_settings)
     initRecyclerView()
     observe(viewModel.list) {
       settingAdapter.submitList(it)
@@ -73,7 +70,7 @@ internal class SettingsFragment : BaseFragment() {
   private fun initRecyclerView() {
     settingAdapter = SettingAdapter(viewLifecycleOwner, viewModel)
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-    binding.recyclerViewSettings.apply {
+    recycler_view_settings.apply {
       layoutManager = linearLayoutManager
       adapter = settingAdapter
       (itemAnimator as DefaultItemAnimator).run {
