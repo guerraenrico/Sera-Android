@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.transition.MaterialFadeThrough
+import com.guerra.enrico.base.extensions.applyWindowInsets
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +40,8 @@ internal class ResultsFragment : BaseFragment() {
 
   private fun initView() {
     toolbar_title.text = resources.getString(R.string.title_results)
+    toolbar.applyWindowInsets(top = true)
+
     val messageResources = MessageExceptionManager(Exception()).getResources()
     message_layout.apply {
       setImage(messageResources.icon)

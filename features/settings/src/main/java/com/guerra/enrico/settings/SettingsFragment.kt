@@ -49,8 +49,9 @@ internal class SettingsFragment : BaseFragment() {
   }
 
   private fun initView() {
-    toolbar.applyWindowInsets(top = true)
     toolbar_title.text = getString(R.string.title_settings)
+    toolbar.applyWindowInsets(top = true)
+
     initRecyclerView()
     observe(viewModel.list) {
       settingAdapter.submitList(it)

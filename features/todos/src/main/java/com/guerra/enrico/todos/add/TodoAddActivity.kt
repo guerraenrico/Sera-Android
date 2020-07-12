@@ -3,6 +3,7 @@ package com.guerra.enrico.todos.add
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.guerra.enrico.base.extensions.applyWindowInsets
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navis_annotation.contracts.FragmentTarget
@@ -30,6 +31,7 @@ internal class TodoAddActivity : BaseActivity() {
     toolbarTitle?.text = ""
     toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_close, theme)
     toolbar.setNavigationOnClickListener { finish() }
+    toolbar.applyWindowInsets(top = true)
     initView()
   }
 
@@ -45,7 +47,10 @@ internal class TodoAddActivity : BaseActivity() {
           TodosNavigationRoutes.SelectCategory.buildTarget(),
           StepEnum.SELECT
         )
-        StepEnum.ADD_TASK -> bindPrevButton(TodosNavigationRoutes.AddTask.buildTarget(), StepEnum.SELECT)
+        StepEnum.ADD_TASK -> bindPrevButton(
+          TodosNavigationRoutes.AddTask.buildTarget(),
+          StepEnum.SELECT
+        )
         StepEnum.SCHEDULE -> bindPrevButton(
           TodosNavigationRoutes.AddSchedule.buildTarget(),
           StepEnum.ADD_TASK
