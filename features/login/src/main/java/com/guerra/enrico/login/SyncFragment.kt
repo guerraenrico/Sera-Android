@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.login.databinding.FragmentLoginSyncBinding
 import com.guerra.enrico.main.MainNavigationRoutes
 import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,8 +24,6 @@ internal class SyncFragment : BaseFragment() {
   @Inject
   lateinit var navigator: Navigator
 
-  private lateinit var binding: FragmentLoginSyncBinding
-
   companion object {
     fun newInstance() = SyncFragment()
   }
@@ -36,10 +33,7 @@ internal class SyncFragment : BaseFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentLoginSyncBinding.inflate(inflater, container, false).apply {
-      lifecycleOwner = viewLifecycleOwner
-    }
-    return binding.root
+    return inflater.inflate(R.layout.fragment_login_sync, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
