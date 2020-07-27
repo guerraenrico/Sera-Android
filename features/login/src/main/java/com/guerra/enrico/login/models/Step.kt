@@ -5,5 +5,5 @@ package com.guerra.enrico.login.models
  * on 17/05/2020.
  */
 internal enum class Step {
-  LOGIN, SYNC
+  LOGIN, SYNC, COMPLETE
 }

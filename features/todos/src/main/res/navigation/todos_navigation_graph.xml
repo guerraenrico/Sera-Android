@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/todos_navigation_graph"
+    app:startDestination="@id/todosFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/todosFragment"
+        android:name="com.guerra.enrico.todos.TodosFragment">
+        <deepLink app:uri="@string/todos_deep_link" />
+    </fragment>
+
+    <activity
+        android:id="@+id/todosAddActivity"
+        android:name="com.guerra.enrico.todos.add.TodoAddActivity" />
+
+    <activity
+        android:id="@+id/todosSearchActivity"
+        android:name="com.guerra.enrico.todos.search.TodoSearchActivity" />
+
+    <action
+        android:id="@+id/startTodoSearchActivity"
+        app:destination="@id/todosSearchActivity" />
+
+</navigation>

@@ -21,14 +21,11 @@ dependencies {
     implementation project(":base")
     implementation project(":models")
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
-
-    // Navis
-    implementation project(":libraries:navis:navis_annotation")
-    kapt project(':libraries:navis:navis_processor')
 }

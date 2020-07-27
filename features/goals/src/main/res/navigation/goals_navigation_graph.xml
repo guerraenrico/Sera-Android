@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/goals_navigation_graph"
+    app:startDestination="@id/goalsFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/goalsFragment"
+        android:name="com.guerra.enrico.goals.GoalsFragment">
+        <deepLink app:uri="@string/goals_deep_link" />
+    </fragment>
+
+</navigation>

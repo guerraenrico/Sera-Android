@@ -2,6 +2,7 @@ package com.guerra.enrico.login
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.navigation.findNavController
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base.extensions.systemUiFullScreen
@@ -32,11 +33,14 @@ internal class LoginActivity : BaseActivity() {
     root.systemUiFullScreen()
 
     observeEvent(viewModel.step) {
-      val target = when (it) {
-        Step.LOGIN -> LoginNavigationRoutes.Form.buildTarget()
-        Step.SYNC -> LoginNavigationRoutes.Sync.buildTarget()
+      when (it) {
+        Step.LOGIN -> findNavController(R.id.loginFragmentHost).navigate(R.id.loginFragment)
+        Step.SYNC -> findNavController(R.id.loginFragmentHost).navigate(R.id.syncFragment)
+        Step.COMPLETE -> {
+          val uri = navigator.getUriTodos(this)
+          findNavController(R.id.loginFragmentHost).navigate(uri)
+        }
       }
-      navigator.replaceFragment(supportFragmentManager, R.id.login_fragment_host, target)
     }
   }
 }

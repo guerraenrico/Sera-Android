@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
+import com.guerra.enrico.todos.search.TodoSearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos.*
 import javax.inject.Inject
@@ -36,9 +38,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 internal class TodosFragment : BaseFragment() {
   private val todosViewModel: TodosViewModel by viewModels()
-
-  @Inject
-  lateinit var navigator: Navigator
 
   private lateinit var taskAdapter: TaskAdapter
 
@@ -155,16 +154,14 @@ internal class TodosFragment : BaseFragment() {
         Pair(root_container as View, getString(R.string.todos_container_transition)),
         Pair(toolbar_edit_text_search as View, getString(R.string.todos_search_transition))
       )
-      val target = TodosNavigationRoutes.Search.buildTarget()
-      navigator.startActivityForResult(this, target, options)
+      findNavController().navigate(R.id.startTodoSearchActivity, options.toBundle())
     }
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.action_add_todo -> {
-        val target = TodosNavigationRoutes.Add.buildTarget()
-        navigator.startActivity(requireActivity(), target)
+        findNavController().navigate(R.id.todosAddActivity)
         true
       }
       else -> false
@@ -172,8 +169,8 @@ internal class TodosFragment : BaseFragment() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    val code = TodosNavigationRoutes.Search.resultCode
-    val key = TodosNavigationRoutes.Search.resultKey
+    val code = TodoSearchActivity.SEARCH_RESULT_REQUEST_CODE
+    val key = TodoSearchActivity.SEARCH_RESULT_KEY
 
     if (requestCode == code) {
       if (resultCode == Activity.RESULT_OK && data != null) {

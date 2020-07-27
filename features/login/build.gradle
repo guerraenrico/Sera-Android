@@ -72,7 +72,7 @@ dependencies {
     // Google SignIn
     api "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
 
-    // Navis
-    implementation project(":libraries:navis:navis_annotation")
-    kapt project(':libraries:navis:navis_processor')
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 }
