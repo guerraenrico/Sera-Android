@@ -14,10 +14,8 @@ import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -26,9 +24,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginFragment : BaseFragment() {
   private val viewModel: LoginViewModel by activityViewModels()
-
-  @Inject
-  lateinit var navigator: Navigator
 
   companion object {
     private const val REQUEST_CODE_SIGN_IN = 9003

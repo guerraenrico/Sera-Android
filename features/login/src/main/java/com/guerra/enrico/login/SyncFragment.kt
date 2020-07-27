@@ -8,10 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.main.MainNavigationRoutes
-import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -20,13 +17,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 internal class SyncFragment : BaseFragment() {
   private val viewModel: LoginViewModel by activityViewModels()
-
-  @Inject
-  lateinit var navigator: Navigator
-
-  companion object {
-    fun newInstance() = SyncFragment()
-  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -41,18 +31,13 @@ internal class SyncFragment : BaseFragment() {
 
     observe(viewModel.sync) {
       when (it) {
-        is Result.Loading -> return@observe
-        is Result.Success -> gotoMainActivity()
+        is Result.Loading,
+        is Result.Success -> return@observe
         is Result.Error -> showSnackbar(
           it.exception.message ?: resources.getString(R.string.error_google_signin)
         )
       }
     }
-  }
 
-  private fun gotoMainActivity() {
-    val target = MainNavigationRoutes.Main.buildTarget()
-    navigator.startActivity(requireActivity(), target)
-    requireActivity().finish()
   }
 }

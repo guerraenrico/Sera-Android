@@ -63,7 +63,6 @@ dependencies {
     implementation project(":models")
     implementation project(":domain")
     implementation project(":workers")
-    implementation project(":features:main")
     implementation project(":features:splash")
     implementation project(":features:login")
     implementation project(":features:todos")
@@ -119,9 +118,9 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
-    // Navis
-    implementation project(":libraries:navis:navis_annotation")
-    kapt project(':libraries:navis:navis_processor')
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     // Leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"

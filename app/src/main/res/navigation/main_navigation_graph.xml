@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@id/todos_navigation_graph">
+
+    <include app:graph="@navigation/todos_navigation_graph" />
+    <include app:graph="@navigation/goals_navigation_graph" />
+    <include app:graph="@navigation/results_navigation_graph" />
+    <include app:graph="@navigation/settings_navigation_graph" />
+
+</navigation>

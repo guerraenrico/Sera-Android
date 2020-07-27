@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todos_add_navigation_graph"
+    app:startDestination="@id/todosAdd_SelectFragment">
+
+    <fragment
+        android:id="@+id/todosAdd_SelectFragment"
+        android:name="com.guerra.enrico.todos.add.steps.SelectFragment" />
+
+    <fragment
+        android:id="@+id/todosAdd_SelectCategoryFragment"
+        android:name="com.guerra.enrico.todos.add.steps.SelectCategoryFragment" />
+
+    <fragment
+        android:id="@+id/todosAdd_AddCategoryFragment"
+        android:name="com.guerra.enrico.todos.add.steps.AddCategoryFragment" />
+
+    <fragment
+        android:id="@+id/todosAdd_AddTaskFragment"
+        android:name="com.guerra.enrico.todos.add.steps.AddTaskFragment" />
+
+    <fragment
+        android:id="@+id/todosAdd_ScheduleFragment"
+        android:name="com.guerra.enrico.todos.add.steps.ScheduleFragment" />
+
+    <fragment
+        android:id="@+id/todosAdd_DoneFragment"
+        android:name="com.guerra.enrico.todos.add.steps.DoneFragment" />
+
+</navigation>
