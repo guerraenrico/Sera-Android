@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
@@ -20,7 +21,8 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class SplashFragment : BaseFragment() {
-  private val viewModel: SplashViewModel by activityViewModels()
+
+  private val viewModel: SplashViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator
@@ -49,14 +51,12 @@ internal class SplashFragment : BaseFragment() {
   }
 
   private fun gotoTodos() {
-    val uri = navigator.getUriTodos()
+    val uri = navigator.getUriMain()
     findNavController().navigate(uri)
-    requireActivity().finish()
   }
 
   private fun gotoLogin() {
     val uri = navigator.getUriLogin()
     findNavController().navigate(uri)
-    requireActivity().finish()
   }
 }

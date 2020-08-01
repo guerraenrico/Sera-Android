@@ -3,6 +3,7 @@ package com.guerra.enrico.navigation
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.StringRes
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /**
@@ -10,11 +11,15 @@ import javax.inject.Inject
  * on 16/05/2020.
  */
 internal class NavigatorImpl @Inject constructor(
-  private val context: Context
+  @ApplicationContext private val context: Context
 ) : Navigator {
 
   override fun getUriLogin(): Uri {
     return context.getDeepLink(R.string.login_deep_link)
+  }
+
+  override fun getUriMain(): Uri {
+    return context.getDeepLink(R.string.main_deep_link)
   }
 
   override fun getUriTodos(): Uri {

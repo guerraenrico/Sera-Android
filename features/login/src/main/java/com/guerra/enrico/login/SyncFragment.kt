@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.login.models.Step
+import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -16,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 internal class SyncFragment : BaseFragment() {
+  @Inject
+  lateinit var navigator: Navigator
+
   private val viewModel: LoginViewModel by activityViewModels()
 
   override fun onCreateView(
@@ -36,6 +44,17 @@ internal class SyncFragment : BaseFragment() {
         is Result.Error -> showSnackbar(
           it.exception.message ?: resources.getString(R.string.error_google_signin)
         )
+      }
+    }
+
+    observeEvent(viewModel.step) {
+      when (it) {
+        Step.LOGIN -> findNavController().navigate(R.id.loginFragment)
+        Step.SYNC -> findNavController().navigate(R.id.syncFragment)
+        Step.COMPLETE -> {
+          val uri = navigator.getUriTodos()
+          findNavController().navigate(uri)
+        }
       }
     }
 

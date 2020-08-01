@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -13,9 +15,13 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.login.models.Step
+import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
+import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -49,7 +55,7 @@ class LoginFragment : BaseFragment() {
       .requestServerAuthCode(BuildConfig.OAUTH2_CLIENT_ID)
       .build()
     val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
-    sign_in_button.setOnClickListener {
+    signInButton.setOnClickListener {
       startActivityForResult(
         googleSignInClient.signInIntent,
         REQUEST_CODE_SIGN_IN
@@ -64,8 +70,15 @@ class LoginFragment : BaseFragment() {
           showSnackbar(it.exception.message ?: resources.getString(R.string.error_google_signin))
         }
       }
-
     }
+
+    observeEvent(viewModel.step) {
+      when (it) {
+        Step.SYNC -> findNavController().navigate(R.id.syncFragment)
+        else -> { }
+      }
+    }
+
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
