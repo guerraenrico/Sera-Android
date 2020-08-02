@@ -1,10 +1,21 @@
 *.iml
 .gradle
-/local.properties
-/.idea
-.DS_Store
-/build
 /captures
-.externalNativeBuild
+/build
+
+/local.properties
 config.properties
 *.log
+
+.DS_Store
+.externalNativeBuild
+
+# IntelliJ .idea folder
+.idea/workspace.xml
+.idea/libraries
+.idea/caches
+.idea/navEditor.xml
+.idea/tasks.xml
+.idea/modules.xml
+.idea/compiler.xml
+/.idea/jarRepositories.xml
