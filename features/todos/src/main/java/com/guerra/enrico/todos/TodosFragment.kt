@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,13 +24,11 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
-import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.search.TodoSearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -154,7 +153,8 @@ internal class TodosFragment : BaseFragment() {
         Pair(root_container as View, getString(R.string.todos_container_transition)),
         Pair(toolbar_edit_text_search as View, getString(R.string.todos_search_transition))
       )
-      findNavController().navigate(R.id.startTodoSearchActivity, options.toBundle())
+      val extras = ActivityNavigator.Extras.Builder().setActivityOptions(options).build()
+      findNavController().navigate(R.id.startTodoSearchActivity, null, null, extras)
     }
   }
 
