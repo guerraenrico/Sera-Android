@@ -256,6 +256,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
                   <entry key="syncFragment">
                     <value>
                       <LayoutPositions>
@@ -268,6 +269,8 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+=======
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                 </map>
               </option>
             </LayoutPositions>
@@ -380,6 +383,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
                   <entry key="menuGoals">
                     <value>
                       <LayoutPositions />
@@ -398,6 +402,30 @@
                   <entry key="menuTodos">
                     <value>
                       <LayoutPositions />
+=======
+                  <entry key="login_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="mainFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                     </value>
                   </entry>
                   <entry key="results_navigation_graph">
@@ -424,6 +452,21 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
+=======
+                  <entry key="splash_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                   <entry key="todos_navigation_graph">
                     <value>
                       <LayoutPositions>
@@ -490,6 +533,33 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+<<<<<<< HEAD
+=======
+                  <entry key="goals_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="150" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="login_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="252" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                   <entry key="mainFragment">
                     <value>
                       <LayoutPositions>
@@ -514,6 +584,43 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
+=======
+                  <entry key="menuGoals">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="menuTodos">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="results_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="288" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settings_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="426" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                   <entry key="splash_navigation_graph">
                     <value>
                       <LayoutPositions>
@@ -526,6 +633,21 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
+=======
+                  <entry key="todos_navigation_graph">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+>>>>>>> deb3efcdd2d1168f210542a28fb779119fde62af
                 </map>
               </option>
             </LayoutPositions>
