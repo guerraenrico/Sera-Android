@@ -10,6 +10,7 @@ configProperties.load(new FileInputStream(configPropertiesFile))
 
 android {
     compileSdkVersion compileSdk
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.guerra.enrico.sera"
         minSdkVersion minSdk
