@@ -52,7 +52,8 @@ internal class SyncFragment : BaseFragment() {
         Step.LOGIN -> findNavController().navigate(R.id.loginFragment)
         Step.SYNC -> findNavController().navigate(R.id.syncFragment)
         Step.COMPLETE -> {
-          val uri = navigator.getUriTodos()
+          hideOverlayLoader()
+          val uri = navigator.getUriMain()
           findNavController().navigate(uri)
         }
       }
