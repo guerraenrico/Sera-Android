@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todos_search_navigation_graph"
+    app:startDestination="@id/todoSearchFragment">
+
+    <fragment
+        android:id="@+id/todoSearchFragment"
+        android:name="com.guerra.enrico.todos.search.TodoSearchFragment" />
+
+</navigation>

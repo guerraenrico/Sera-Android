@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.login.LoginNavigationRoutes
-import com.guerra.enrico.main.MainNavigationRoutes
 import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,7 +21,8 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 internal class SplashFragment : BaseFragment() {
-  private val viewModel: SplashViewModel by activityViewModels()
+
+  private val viewModel: SplashViewModel by viewModels()
 
   @Inject
   lateinit var navigator: Navigator
@@ -41,23 +42,21 @@ internal class SplashFragment : BaseFragment() {
     viewModel.validationAccessTokenResult.observe(viewLifecycleOwner, Observer { userResult ->
       if (userResult == null || userResult is Result.Loading) return@Observer
       if (userResult.succeeded) {
-        gotoMainActivity()
+        gotoTodos()
       }
       if (userResult is Result.Error) {
-        gotoLoginActivity()
+        gotoLogin()
       }
     })
   }
 
-  private fun gotoMainActivity() {
-    val target = MainNavigationRoutes.Main.buildTarget()
-    navigator.startActivity(requireActivity(), target)
-    requireActivity().finish()
+  private fun gotoTodos() {
+    val uri = navigator.getUriMain()
+    findNavController().navigate(uri)
   }
 
-  private fun gotoLoginActivity() {
-    val target = LoginNavigationRoutes.Login.buildTarget()
-    navigator.startActivity(requireActivity(), target)
-    requireActivity().finish()
+  private fun gotoLogin() {
+    val uri = navigator.getUriLogin()
+    findNavController().navigate(uri)
   }
 }

@@ -18,21 +18,15 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.guerra.enrico.splash.SplashActivity"
-            android:theme="@style/AppTheme.Sera">
+            android:name=".RootActivity"
+            android:theme="@style/AppTheme.Sera.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-
-        <activity
-            android:name="com.guerra.enrico.main.MainActivity"
-            android:theme="@style/AppTheme.Sera.MainActivity" />
-
-        <activity
-            android:name="com.guerra.enrico.login.LoginActivity"
-            android:theme="@style/AppTheme.Sera" />
 
         <activity
             android:name="com.guerra.enrico.todos.add.TodoAddActivity"

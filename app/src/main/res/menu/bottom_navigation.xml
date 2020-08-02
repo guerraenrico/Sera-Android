@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuTodos"
+        android:icon="@drawable/ic_todo"
+        android:title="@string/title_todos" />
+
+    <item
+        android:id="@+id/menuGoals"
+        android:icon="@drawable/ic_goals"
+        android:title="@string/title_goals" />
+
+    <item
+        android:id="@+id/menuResults"
+        android:icon="@drawable/ic_results"
+        android:title="@string/title_results" />
+
+    <item
+        android:id="@+id/menuSettings"
+        android:icon="@drawable/selector_ic_settings"
+        android:title="@string/title_settings" />
+
+</menu>

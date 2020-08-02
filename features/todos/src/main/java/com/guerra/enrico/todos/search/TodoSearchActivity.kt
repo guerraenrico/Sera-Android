@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.todos.R
-import com.guerra.enrico.todos.TodosNavigationRoutes
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -18,6 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 internal class TodoSearchActivity : BaseActivity() {
   private val viewModel: TodoSearchViewModel by viewModels()
+
+  companion object {
+    const val SEARCH_RESULT_KEY = "search_result_key"
+    const val SEARCH_RESULT_REQUEST_CODE = 1001
+
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -29,10 +36,9 @@ internal class TodoSearchActivity : BaseActivity() {
   }
 
   private fun observeResult() {
-    observeEvent(viewModel.searchData) {
-      val key = TodosNavigationRoutes.Search.resultKey
+    observeEvent(viewModel.searchData) { searchData ->
       val intent = Intent().apply {
-        putExtra(key, it)
+        putExtra(SEARCH_RESULT_KEY, searchData)
       }
       setResult(Activity.RESULT_OK, intent)
       finishAfterTransition()
