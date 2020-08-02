@@ -6,7 +6,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.guerra.enrico.sera.main.MainActivity
+import com.guerra.enrico.sera.main.RootActivity
 import com.guerra.enrico.sera.R
 import com.guerra.enrico.sera.di.module.CoroutineDispatcherModule
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -23,12 +23,12 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @UninstallModules(CoroutineDispatcherModule::class)
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class RootActivityTest {
   @get:Rule(order = 0)
   var hiltRule = HiltAndroidRule(this)
 
   @get:Rule(order = 1)
-  var activityIntentRule = ActivityScenarioRule(MainActivity::class.java)
+  var activityIntentRule = ActivityScenarioRule(RootActivity::class.java)
 
 //  @BindValue
 //  var observeCategories: ObserveCategories = mockk()
