@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".main.RootActivity"
             android:theme="@style/AppTheme.Sera.MainActivity">
 
             <intent-filter>
