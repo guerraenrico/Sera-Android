@@ -5,6 +5,7 @@
     app:startDestination="@id/splash_navigation_graph">
 
     <include app:graph="@navigation/splash_navigation_graph" />
+    <include app:graph="@navigation/main_navigation_graph" />
 
     <fragment
         android:id="@+id/mainFragment"
@@ -13,7 +14,5 @@
         <deepLink app:uri="@string/main_deep_link" />
 
     </fragment>
-
-    <include app:graph="@navigation/main_navigation_graph" />
 
 </navigation>
