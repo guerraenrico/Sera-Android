@@ -4,6 +4,7 @@
     android:id="@+id/main_navigation_graph"
     app:startDestination="@id/todos_navigation_graph">
 
+    <include app:graph="@navigation/login_navigation_graph" />
     <include app:graph="@navigation/todos_navigation_graph" />
     <include app:graph="@navigation/goals_navigation_graph" />
     <include app:graph="@navigation/results_navigation_graph" />

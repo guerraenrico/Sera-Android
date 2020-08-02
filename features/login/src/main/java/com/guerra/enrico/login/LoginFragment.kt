@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,10 +17,8 @@ import com.guerra.enrico.base.extensions.observe
 import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.models.Step
-import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
-import javax.inject.Inject
 
 /**
  * Created by enrico
@@ -33,8 +30,6 @@ class LoginFragment : BaseFragment() {
 
   companion object {
     private const val REQUEST_CODE_SIGN_IN = 9003
-
-    fun newInstance() = LoginFragment()
   }
 
   override fun onCreateView(
@@ -63,8 +58,8 @@ class LoginFragment : BaseFragment() {
     }
     observe(viewModel.user) {
       when (it) {
-        is Result.Loading -> showOverlayLoader()
-        is Result.Success -> hideOverlayLoader()
+        is Result.Loading,
+        is Result.Success -> return@observe
         is Result.Error -> {
           hideOverlayLoader()
           showSnackbar(it.exception.message ?: resources.getString(R.string.error_google_signin))
@@ -75,7 +70,8 @@ class LoginFragment : BaseFragment() {
     observeEvent(viewModel.step) {
       when (it) {
         Step.SYNC -> findNavController().navigate(R.id.syncFragment)
-        else -> { }
+        else -> {
+        }
       }
     }
 
