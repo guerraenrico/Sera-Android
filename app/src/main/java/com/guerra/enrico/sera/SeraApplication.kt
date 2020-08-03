@@ -5,7 +5,6 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.guerra.enrico.sera.appinitializers.AppInitializers
 import dagger.hilt.android.HiltAndroidApp
-import leakcanary.LeakCanary
 import timber.log.Timber
 import javax.inject.Inject
 
