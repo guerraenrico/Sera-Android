@@ -27,7 +27,7 @@ buildscript {
         navigationVersion = "2.3.0"
 
         // Tools
-        leakCanary = "2.3"
+        leakCanary = "2.4"
         lintVersion = "26.4.1"
 
         // Unit Test
