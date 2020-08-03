@@ -8,10 +8,6 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 30/05/2018.
- */
 @HiltAndroidApp
 class SeraApplication : Application(), Configuration.Provider {
   @Inject
