@@ -124,7 +124,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     // Leak canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    // debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
 
     // Unit Test
     testImplementation "junit:junit:$junitVersion"

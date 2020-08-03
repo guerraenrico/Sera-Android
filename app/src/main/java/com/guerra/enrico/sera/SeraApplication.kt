@@ -28,8 +28,6 @@ class SeraApplication : Application(), Configuration.Provider {
     if (BuildConfig.DEBUG) {
       Timber.plant(Timber.DebugTree())
     }
-
-    LeakCanary.config = LeakCanary.config.copy(dumpHeap = false)
   }
 
   override fun getWorkManagerConfiguration(): Configuration {
