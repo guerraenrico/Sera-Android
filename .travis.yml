@@ -9,7 +9,7 @@ android:
   - extra-android-m2repository
 before_install:
   - chmod +x gradlew
-  - openssl aes-256-cbc -k "$config_psw" -in config.properties.enc -out config.properties -d
+  - openssl aes-256-cbc -K $encrypted_5b4197fb87e6_key -iv $encrypted_5b4197fb87e6_iv -in config.properties.enc -out config.properties -d
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -18,9 +18,6 @@ cache:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
   - "$HOME/.android/build-cache"
-env:
-  global:
-    secure: mjdbMtteh3b8uWSLBgB2Fd5hVdaiCFYfcyvNSnk2Q8ym/q9nwZYn5zbP+S+CxNFgGKZ6shTrNCfficyvDWvFWwx07dJ8ORFLT3rjth2xuBS0s+FnHVTWB4qCO/2eFBNlGvHuZbYnnsdlPQ7GLierWhu16V87YxybFgd58yiKajS8Nc0LbccbtbkWqWx2+LfauBJ6KaV5JdeUjE7a1X7FCsfU+FZp0aKRVmlanaNL4+0j3f4P4sIEvVWr1nfVWq3Ew7DO5Jhn5kGA/vpmEclZyHZU0Mmc133A8xptdq6YcKSKswDITKfpA0x9Mh4Fopk1ZnlusRFx/Ojleph6exw69LFbOQBuKo6KZ1CU0ttUdrlMADOGP1XmHYr9c5835Lbgf8L/hskn0pnUFwuQ/Lf+oDk0mp/o2HwmOHjeDVm5ZGRqBeFW7SflWAzweqVnWGNOJi/d6LIquRcOtSR+w8hBoYDQbxLqa2SqUK2T530G8cJ59dM5IQAbUre+cH9fgvHxo4j2Z2CPj9P4gXMJ9SKkI7br8tBAwgJb+vZMQgPDOqqfT06/7akdRkUGEApKHWc2z4QvwTaipmsVoVPzaHbeyzB6Zi1t/5FOMBqcM2hvnrtp1H6CoX5WLkLxnrNaGJ9tL8zkaN9NFEAQUNqs3GVW4Qz3lURQZI50DL6s8LktmZs=
 
 #branches:
 #  only:
