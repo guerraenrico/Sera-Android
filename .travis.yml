@@ -11,7 +11,7 @@ before_install:
   - chmod +x gradlew
   - openssl aes-256-cbc -K $encrypted_5b4197fb87e6_key -iv $encrypted_5b4197fb87e6_iv -in config.properties.enc -out config.properties -d
   - mkdir "$ANDROID_HOME/licenses" || true
-  - cp ./licenses/* "$ANDROID_HOME/licenses/
+  - cp ./licenses/* "$ANDROID_HOME/licenses/"
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
