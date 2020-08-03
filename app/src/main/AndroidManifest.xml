@@ -21,6 +21,8 @@
             android:name=".RootActivity"
             android:theme="@style/AppTheme.Sera.MainActivity">
 
+            <nav-graph android:value="@navigation/root_navigation_graph" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
