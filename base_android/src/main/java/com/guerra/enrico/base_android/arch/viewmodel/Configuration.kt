@@ -2,6 +2,6 @@ package com.guerra.enrico.base_android.arch.viewmodel
 
 /**
  * Created by enrico
- * on 06/05/2020.
+ * on 07/08/2020.
  */
-interface ViewModelState
+class Configuration(val debounce: Long)

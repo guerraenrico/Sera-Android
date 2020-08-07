@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base_android.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.widget.GridSpacingItemDecoration
 import com.guerra.enrico.todos.R

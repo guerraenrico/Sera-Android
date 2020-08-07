@@ -10,8 +10,8 @@ import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.applyWindowInsets
-import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
+import com.guerra.enrico.base_android.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.todos.R

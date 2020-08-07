@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.extensions.observeEvent
+import com.guerra.enrico.base_android.extensions.observe
+import com.guerra.enrico.base_android.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.login.models.Step
 import com.guerra.enrico.navigation.Navigator

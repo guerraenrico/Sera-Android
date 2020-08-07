@@ -1,4 +1,4 @@
-package com.guerra.enrico.base.extensions
+package com.guerra.enrico.base_android.extensions
 
 import android.content.Context
 import android.util.DisplayMetrics
@@ -6,11 +6,6 @@ import android.util.TypedValue
 import android.view.WindowManager
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-
-/**
- * Created by enrico
- * on 03/02/2020.
- */
 
 /**
  * Get display metrics

@@ -1,4 +1,4 @@
-package com.guerra.enrico.base.extensions
+package com.guerra.enrico.base_android.extensions
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,8 +1,8 @@
 package com.guerra.enrico.sera
 
 import android.os.Bundle
-import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
-import com.guerra.enrico.base.extensions.systemUiFullScreen
+import com.guerra.enrico.base_android.extensions.setLightStatusBarIfNeeded
+import com.guerra.enrico.base_android.extensions.systemUiFullScreen
 import com.guerra.enrico.base_android.arch.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_root.*

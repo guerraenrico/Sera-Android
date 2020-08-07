@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
-import com.guerra.enrico.base.extensions.observeEvent
-import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
+import com.guerra.enrico.base_android.extensions.observeEvent
+import com.guerra.enrico.base_android.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.todos.R
 import dagger.hilt.android.AndroidEntryPoint

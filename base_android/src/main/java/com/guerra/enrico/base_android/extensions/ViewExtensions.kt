@@ -1,4 +1,4 @@
-package com.guerra.enrico.base.extensions
+package com.guerra.enrico.base_android.extensions
 
 import android.view.View
 import android.view.WindowInsets
@@ -16,12 +16,13 @@ data class InitialPadding(
   val right: Int
 )
 
-private fun recordInitialPaddingForView(view: View) = InitialPadding(
-  left = view.paddingLeft,
-  top = view.paddingTop,
-  bottom = view.paddingBottom,
-  right = view.paddingRight
-)
+private fun recordInitialPaddingForView(view: View) =
+  InitialPadding(
+    left = view.paddingLeft,
+    top = view.paddingTop,
+    bottom = view.paddingBottom,
+    right = view.paddingRight
+  )
 
 private fun View.requestApplyInsetsWhenAttached() {
   if (isAttachedToWindow) {
@@ -39,7 +40,8 @@ private fun View.requestApplyInsetsWhenAttached() {
 }
 
 fun View.doApplyWindowInsets(f: (View, WindowInsets, InitialPadding) -> Unit) {
-  val initialPadding = recordInitialPaddingForView(this)
+  val initialPadding =
+    recordInitialPaddingForView(this)
   setOnApplyWindowInsetsListener { v, insets ->
     f(v, insets, initialPadding)
     insets

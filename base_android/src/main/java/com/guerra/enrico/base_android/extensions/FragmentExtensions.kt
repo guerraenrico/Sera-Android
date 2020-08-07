@@ -1,4 +1,4 @@
-package com.guerra.enrico.base.extensions
+package com.guerra.enrico.base_android.extensions
 
 import android.content.Context
 import android.content.res.Configuration
@@ -17,11 +17,6 @@ import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.EventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-
-/**
- * Created by enrico
- * on 03/02/2020.
- */
 
 /**
  * If needed, set the status bar for light theme
@@ -102,3 +97,6 @@ fun Fragment.closeKeyboard() {
 fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
   return viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }
+
+val Fragment.viewLifecycleScope: CoroutineScope
+  get() = viewLifecycleOwner.lifecycleScope

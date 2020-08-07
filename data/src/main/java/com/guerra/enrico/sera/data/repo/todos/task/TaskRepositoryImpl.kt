@@ -34,7 +34,6 @@ class TaskRepositoryImpl @Inject constructor(
         Result.Success(Unit)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 

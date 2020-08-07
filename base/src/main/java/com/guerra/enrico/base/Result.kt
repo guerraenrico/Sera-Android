@@ -10,7 +10,6 @@ import kotlin.contracts.contract
 sealed class Result<out R : Any> {
   data class Success<out T : Any>(val data: T) : Result<T>()
   data class Error(val exception: Exception) : Result<Nothing>()
-  object Loading : Result<Nothing>()
 }
 
 val Result<Any>.succeeded

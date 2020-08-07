@@ -1,4 +1,4 @@
-package com.guerra.enrico.base.extensions
+package com.guerra.enrico.base_android.extensions
 
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo

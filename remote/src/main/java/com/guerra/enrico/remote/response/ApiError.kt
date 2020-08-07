@@ -4,10 +4,6 @@ import com.guerra.enrico.models.exceptions.ErrorCodes.NOT_AUTHORIZED
 import com.guerra.enrico.models.exceptions.ErrorCodes.UNKNOWN
 import com.guerra.enrico.models.exceptions.RemoteException
 
-/**
- * Created by enrico
- * on 17/08/2018.
- */
 data class ApiError(val code: String, val message: String) {
 
   fun toRemoteException(): RemoteException {

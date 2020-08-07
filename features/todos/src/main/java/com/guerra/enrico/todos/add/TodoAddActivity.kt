@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.guerra.enrico.base.extensions.applyWindowInsets
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
 import com.guerra.enrico.base_android.arch.BaseActivity
 import com.guerra.enrico.navigation.Navigator
 import com.guerra.enrico.todos.R

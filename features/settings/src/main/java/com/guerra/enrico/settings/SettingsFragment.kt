@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
-import com.guerra.enrico.base.extensions.applyWindowInsets
-import com.guerra.enrico.base.extensions.launchWhenResumed
-import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.extensions.observeEvent
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
+import com.guerra.enrico.base_android.extensions.launchWhenResumed
+import com.guerra.enrico.base_android.extensions.observe
+import com.guerra.enrico.base_android.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*

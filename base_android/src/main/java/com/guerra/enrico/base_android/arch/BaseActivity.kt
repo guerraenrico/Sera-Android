@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.base.extensions.setLightStatusBarIfNeeded
+import com.guerra.enrico.base_android.extensions.setLightStatusBarIfNeeded
 import com.guerra.enrico.base_android.R
 import com.guerra.enrico.components.OverlayLoader
 

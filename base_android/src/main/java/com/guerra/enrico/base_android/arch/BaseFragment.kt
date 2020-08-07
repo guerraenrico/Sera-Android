@@ -5,10 +5,15 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.extensions.isNotNullAndEmpty
 import com.guerra.enrico.base.extensions.onDismiss
 import com.guerra.enrico.base_android.R
+import com.guerra.enrico.base_android.extensions.viewLifecycleScope
 import com.guerra.enrico.components.OverlayLoader
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 /**
  * Created by enrico
@@ -22,6 +27,21 @@ open class BaseFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     overlayLoader =
       OverlayLoader.make(requireActivity(), resources.getString(R.string.label_loading))
+  }
+
+  fun <T> observe(flow: Flow<T>, block: (T) -> Unit) {
+    flow
+      .onEach { block(it) }
+      .launchIn(viewLifecycleScope)
+  }
+
+  fun <T> observeEvent(flow: Flow<Event<T>>, block: (T) -> Unit) {
+    flow
+      .onEach {
+        val event = it.getContent() ?: return@onEach
+        block(event)
+      }
+      .launchIn(viewLifecycleScope)
   }
 
   fun showSnackbar(

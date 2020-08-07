@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.observe
+import com.guerra.enrico.base_android.extensions.observe
 import com.guerra.enrico.base.succeeded
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R

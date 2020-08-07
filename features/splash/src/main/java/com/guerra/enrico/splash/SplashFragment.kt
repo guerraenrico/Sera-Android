@@ -4,21 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.succeeded
+import com.guerra.enrico.base.extensions.exhaustive
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 23/12/2019.
- */
 @AndroidEntryPoint
 internal class SplashFragment : BaseFragment() {
 
@@ -39,18 +32,16 @@ internal class SplashFragment : BaseFragment() {
   }
 
   private fun initView() {
-    viewModel.validationAccessTokenResult.observe(viewLifecycleOwner, Observer { userResult ->
-      if (userResult == null || userResult is Result.Loading) return@Observer
-      if (userResult.succeeded) {
-        gotoTodos()
-      }
-      if (userResult is Result.Error) {
-        gotoLogin()
-      }
-    })
+    observe(viewModel.viewState) { state ->
+      when (state) {
+        SplashState.Idle -> {}
+        SplashState.Complete -> gotoMain()
+        SplashState.Error -> gotoLogin()
+      }.exhaustive
+    }
   }
 
-  private fun gotoTodos() {
+  private fun gotoMain() {
     val uri = navigator.getUriMain()
     findNavController().navigate(uri)
   }

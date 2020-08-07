@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.base.extensions.inflate
+import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.presentation.CategoryPresentation
 

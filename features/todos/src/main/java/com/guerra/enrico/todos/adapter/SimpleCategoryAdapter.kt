@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.base.extensions.inflate
+import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.todos.R
 
