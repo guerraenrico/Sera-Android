@@ -2,6 +2,7 @@ package com.guerra.enrico.base_android.arch
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -19,9 +20,12 @@ import kotlinx.coroutines.flow.onEach
  * Created by enrico
  * on 18/08/2018.
  */
-open class BaseFragment : Fragment() {
+open class BaseFragment : Fragment {
   private var snackbar: Snackbar? = null
   private lateinit var overlayLoader: OverlayLoader
+
+  constructor() : super()
+  constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -40,6 +44,19 @@ open class BaseFragment : Fragment() {
       .onEach {
         val event = it.getContent() ?: return@onEach
         block(event)
+      }
+      .launchIn(viewLifecycleScope)
+  }
+
+  fun observeLoading(flow: Flow<Event<Boolean>>) {
+    flow
+      .onEach { event ->
+        val show = event.getContent() ?: return@onEach
+        if (show) {
+          showOverlayLoader()
+        } else {
+          hideOverlayLoader()
+        }
       }
       .launchIn(viewLifecycleScope)
   }

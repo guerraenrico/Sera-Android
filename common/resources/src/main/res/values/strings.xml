@@ -48,7 +48,7 @@
     <string name="message_task_completed">Task completed</string>
 
     <!-- Errors -->
-    <string name="error_google_signin">An error occur while managing response</string>
+    <string name="error_google_sign_in">An error occur while managing response</string>
     <string name="error_observe_categories">An error occur while fetching categories</string>
 
     <!-- Exceptions -->
