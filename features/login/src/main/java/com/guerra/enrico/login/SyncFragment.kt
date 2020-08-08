@@ -25,6 +25,7 @@ internal class SyncFragment : BaseFragment(R.layout.fragment_login_sync) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     setupObservers()
+    viewModel.startSync()
   }
 
   private fun setupObservers() {
