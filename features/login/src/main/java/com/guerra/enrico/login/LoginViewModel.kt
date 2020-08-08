@@ -11,10 +11,6 @@ import com.guerra.enrico.login.models.LoginState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
-/**
- * Created by enrico
- * on 12/10/2018.
- */
 internal class LoginViewModel @ViewModelInject constructor(
   @IODispatcher val dispatcher: CoroutineDispatcher,
   private val signIn: SignIn,

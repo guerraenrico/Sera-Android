@@ -12,14 +12,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.guerra.enrico.base.extensions.exhaustive
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.widget.SnackbarBuilder
 import com.guerra.enrico.login.models.LoginState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
 
-/**
- * Created by enrico
- * on 23/12/2019.
- */
 @AndroidEntryPoint
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
   private val viewModel: LoginViewModel by activityViewModels()
@@ -59,7 +56,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         LoginState.Sync -> findNavController().navigate(R.id.syncFragment)
         is LoginState.Error -> {
           hideOverlayLoader()
-          showSnackbar(state.exception.message ?: resources.getString(R.string.error_google_sign_in))
+          showSnackbar(
+            SnackbarBuilder()
+              .message(state.exception.message ?: getString(R.string.error_google_sign_in))
+          )
         }
       }.exhaustive
     }
@@ -79,7 +79,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
       val account = task.getResult(ApiException::class.java)
       viewModel.onCodeReceived(account?.serverAuthCode ?: "")
     } catch (ex: ApiException) {
-      showSnackbar(R.string.error_google_sign_in)
+      showSnackbar(SnackbarBuilder().message(R.string.error_google_sign_in))
     }
   }
 }

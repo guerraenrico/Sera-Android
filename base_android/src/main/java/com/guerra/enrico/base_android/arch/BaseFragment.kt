@@ -8,18 +8,15 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.extensions.isNotNullAndEmpty
-import com.guerra.enrico.base.extensions.onDismiss
 import com.guerra.enrico.base_android.R
+import com.guerra.enrico.base_android.extensions.onDismiss
 import com.guerra.enrico.base_android.extensions.viewLifecycleScope
+import com.guerra.enrico.base_android.widget.SnackbarBuilder
 import com.guerra.enrico.components.OverlayLoader
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-/**
- * Created by enrico
- * on 18/08/2018.
- */
 open class BaseFragment : Fragment {
   private var snackbar: Snackbar? = null
   private lateinit var overlayLoader: OverlayLoader
@@ -61,6 +58,12 @@ open class BaseFragment : Fragment {
       .launchIn(viewLifecycleScope)
   }
 
+  fun showSnackbar(snackbarBuilder: SnackbarBuilder) {
+    val snackbar = snackbarBuilder.build(requireActivity().findViewById(android.R.id.content))
+    snackbar.show()
+  }
+
+  @Deprecated("use version with builder")
   fun showSnackbar(
     @StringRes messageId: Int, view: View? = null, @StringRes actionId: Int? = null,
     onAction: (() -> Unit)? = null, onDismiss: (() -> Unit)? = null
@@ -70,6 +73,7 @@ open class BaseFragment : Fragment {
     showSnackbar(resources.getString(messageId), view, actionText, onAction, onDismiss)
   }
 
+  @Deprecated("use version with builder")
   fun showSnackbar(
     message: String,
     view: View? = null,

@@ -6,15 +6,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.guerra.enrico.base.extensions.exhaustive
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.widget.SnackbarBuilder
 import com.guerra.enrico.login.models.LoginState
 import com.guerra.enrico.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 05/04/2020.
- */
 @AndroidEntryPoint
 internal class SyncFragment : BaseFragment(R.layout.fragment_login_sync) {
   @Inject
@@ -41,7 +38,10 @@ internal class SyncFragment : BaseFragment(R.layout.fragment_login_sync) {
         }
         is LoginState.Error -> {
           hideOverlayLoader()
-          showSnackbar(state.exception.message ?: resources.getString(R.string.exception_unknown))
+          showSnackbar(
+            SnackbarBuilder()
+              .message(state.exception.message ?: getString(R.string.exception_unknown))
+          )
         }
       }.exhaustive
     }
