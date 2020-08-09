@@ -1,12 +1,7 @@
-package com.guerra.enrico.settings.presentation
+package com.guerra.enrico.settings.model
 
 import com.guerra.enrico.models.Setting
 import com.guerra.enrico.settings.R
-
-/**
- * Created by enrico
- * on 08/03/2020.
- */
 
 internal fun Setting.toOption(): Option = when (this) {
   is Setting.DarkTheme -> Option.Toggle(

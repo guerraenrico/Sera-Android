@@ -8,13 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.guerra.enrico.base_android.extensions.inflate
-import com.guerra.enrico.settings.presentation.Option
+import com.guerra.enrico.settings.model.Option
 import java.security.InvalidKeyException
 
-/**
- * Created by enrico
- * on 09/03/2020.
- */
 internal class SettingAdapter(
   private val eventActions: EventActions
 ) : ListAdapter<Option, RecyclerView.ViewHolder>(OptionItemCallback) {

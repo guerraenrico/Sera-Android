@@ -10,7 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base_android.extensions.observe
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.base_android.widget.GridSpacingItemDecoration
+import com.guerra.enrico.components.recyclerview.decorators.GridSpacingItemDecoration
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.CategoryAdapter
 import com.guerra.enrico.todos.add.TodoAddViewModel

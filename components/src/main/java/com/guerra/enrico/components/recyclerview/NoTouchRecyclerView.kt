@@ -1,4 +1,4 @@
-package com.guerra.enrico.base_android.widget
+package com.guerra.enrico.components.recyclerview
 
 import android.content.Context
 import android.util.AttributeSet

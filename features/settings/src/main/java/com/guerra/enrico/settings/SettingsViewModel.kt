@@ -1,44 +1,49 @@
 package com.guerra.enrico.settings
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.guerra.enrico.base.Event
+import com.guerra.enrico.base.dispatcher.IODispatcher
+import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
 import com.guerra.enrico.domain.interactors.settings.Settings
-import com.guerra.enrico.settings.presentation.Option
-import com.guerra.enrico.settings.presentation.toOption
+import com.guerra.enrico.models.Setting
+import com.guerra.enrico.settings.model.SettingsState
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
-/**
- * Created by enrico
- * on 08/03/2020.
- */
-internal class SettingsViewModel @ViewModelInject constructor(private val settings: Settings) : ViewModel(),
+internal class SettingsViewModel @ViewModelInject constructor(
+  @IODispatcher dispatcher: CoroutineDispatcher,
+  private val settings: Settings
+) : SingleStateViewModel<SettingsState>(initialState = SettingsState.Idle, dispatcher = dispatcher),
   EventActions {
 
-  private val _list = MutableLiveData<List<Option>>(emptyList())
-  val list: LiveData<List<Option>>
-    get() = _list
-
-  private val _enableDarkTheme = MutableLiveData<Event<Boolean>>()
-  val enableDarkTheme: LiveData<Event<Boolean>>
-    get() = _enableDarkTheme
+  private val _enableDarkTheme = ConflatedBroadcastChannel<Boolean>()
+  val enableDarkTheme: Flow<Boolean>
+    get() = _enableDarkTheme.asFlow()
 
   init {
     getList()
   }
 
   private fun getList() {
-    _list.value = settings.getSettings().map { it.toOption() }
+    state = SettingsState.Items(settings.getSettings())
   }
 
-  override fun onSettingClick(setting: com.guerra.enrico.models.Setting) {
+  override fun onSettingClick(setting: Setting) {
     when (setting) {
-      is com.guerra.enrico.models.Setting.DarkTheme -> {
-        _enableDarkTheme.value = Event(!setting.active)
-        settings.updateDarkTheme(!setting.active)
+      is Setting.DarkTheme -> {
+        val newDarkThemeState = !setting.active
+
+        _enableDarkTheme.offer(newDarkThemeState)
+        settings.updateDarkTheme(newDarkThemeState)
       }
     }
     getList()
   }
+
+  override fun onCleared() {
+    super.onCleared()
+    _enableDarkTheme.close()
+  }
+
 }

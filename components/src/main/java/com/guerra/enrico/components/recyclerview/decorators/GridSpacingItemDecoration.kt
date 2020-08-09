@@ -1,4 +1,4 @@
-package com.guerra.enrico.base_android.widget
+package com.guerra.enrico.components.recyclerview.decorators
 
 import android.graphics.Rect
 import android.view.View
