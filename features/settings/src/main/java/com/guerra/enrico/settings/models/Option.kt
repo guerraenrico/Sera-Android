@@ -1,4 +1,4 @@
-package com.guerra.enrico.settings.model
+package com.guerra.enrico.settings.models
 
 import androidx.annotation.StringRes
 import com.guerra.enrico.models.Setting

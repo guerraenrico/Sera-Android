@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.guerra.enrico.base_android.extensions.inflate
-import com.guerra.enrico.settings.model.Option
+import com.guerra.enrico.settings.models.Option
 import java.security.InvalidKeyException
 
 internal class SettingAdapter(

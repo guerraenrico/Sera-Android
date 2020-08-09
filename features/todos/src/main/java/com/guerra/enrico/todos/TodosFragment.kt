@@ -30,10 +30,6 @@ import com.guerra.enrico.todos.search.TodoSearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos.*
 
-/**
- * Created by enrico
- * on 27/05/2018.
- */
 @AndroidEntryPoint
 internal class TodosFragment : BaseFragment() {
   private val todosViewModel: TodosViewModel by viewModels()

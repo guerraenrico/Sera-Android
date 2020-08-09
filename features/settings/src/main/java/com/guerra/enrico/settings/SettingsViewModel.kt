@@ -5,7 +5,7 @@ import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
 import com.guerra.enrico.domain.interactors.settings.Settings
 import com.guerra.enrico.models.Setting
-import com.guerra.enrico.settings.model.SettingsState
+import com.guerra.enrico.settings.models.SettingsState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

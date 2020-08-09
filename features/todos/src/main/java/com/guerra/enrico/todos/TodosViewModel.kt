@@ -27,10 +27,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-/**
- * Created by enrico
- * on 30/05/2018.
- */
 internal class TodosViewModel @ViewModelInject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,

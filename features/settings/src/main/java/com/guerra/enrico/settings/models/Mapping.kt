@@ -1,4 +1,4 @@
-package com.guerra.enrico.settings.model
+package com.guerra.enrico.settings.models
 
 import com.guerra.enrico.models.Setting
 import com.guerra.enrico.settings.R

@@ -12,7 +12,7 @@ import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.extensions.applyWindowInsets
 import com.guerra.enrico.base_android.extensions.launchWhenResumed
 import com.guerra.enrico.components.recyclerview.decorators.VerticalDividerItemDecoration
-import com.guerra.enrico.settings.model.SettingsState
+import com.guerra.enrico.settings.models.SettingsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.delay
