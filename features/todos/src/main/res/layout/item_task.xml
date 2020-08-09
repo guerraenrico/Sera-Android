@@ -19,7 +19,7 @@
             app:layout_constraintGuide_percent="0.7" />
 
         <FrameLayout
-            android:id="@+id/circle_view"
+            android:id="@+id/circleView"
             android:layout_width="@dimen/complete_task_circle_size"
             android:layout_height="@dimen/complete_task_circle_size"
             android:background="@drawable/background_task_complete_circle"
@@ -28,21 +28,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/icon_check"
+            android:id="@+id/iconCheck"
             android:layout_width="@dimen/complete_task_circle_size"
             android:layout_height="@dimen/complete_task_circle_size"
             android:alpha="0"
             android:contentDescription="@string/desc_icon_mark_task_as_completed"
             android:src="@drawable/ic_task_mark_completed"
-            app:layout_constraintBottom_toBottomOf="@id/circle_view"
-            app:layout_constraintEnd_toEndOf="@id/circle_view"
-            app:layout_constraintStart_toStartOf="@id/circle_view"
-            app:layout_constraintTop_toTopOf="@id/circle_view" />
+            app:layout_constraintBottom_toBottomOf="@id/circleView"
+            app:layout_constraintEnd_toEndOf="@id/circleView"
+            app:layout_constraintStart_toStartOf="@id/circleView"
+            app:layout_constraintTop_toTopOf="@id/circleView" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <LinearLayout
-        android:id="@+id/container_task_item"
+        android:id="@+id/containerTaskItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/item_list_background"
@@ -50,7 +50,7 @@
         android:padding="@dimen/margin_m">
 
         <TextView
-            android:id="@+id/task_title"
+            android:id="@+id/taskTitle"
             style="@style/ListItemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
-            android:id="@+id/task_date"
+            android:id="@+id/taskDate"
             style="@style/ListItemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,14 +72,14 @@
         <!-- android:textColor="@{taskPresentation.task.completed ? @color/task_list_item_color_completed : @color/task_list_item_color_active}-->
 
         <TextView
-            android:id="@+id/task_description"
+            android:id="@+id/taskDescription"
             style="@style/ListItemDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_m" />
 
         <com.guerra.enrico.components.recyclerview.NoTouchRecyclerView
-            android:id="@+id/recycler_view_categories"
+            android:id="@+id/recyclerViewCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />

@@ -48,4 +48,11 @@ open class BaseViewModel<VMS : Any, VS : Any>(
       .onEach { _viewState.value = it }
       .launchIn(viewModelScope)
   }
+
+  protected inline fun <reified T> runIf(block: (T) -> Unit) {
+    val currentState = state
+    if (currentState is T) {
+      block(currentState)
+    }
+  }
 }

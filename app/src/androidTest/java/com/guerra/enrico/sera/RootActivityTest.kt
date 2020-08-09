@@ -33,7 +33,7 @@ class RootActivityTest {
 
   @Test
   fun testLoadTodosFragment() {
-    onView(withId(R.id.todos_container)).check(matches(isDisplayed()))
+    onView(withId(R.id.container)).check(matches(isDisplayed()))
   }
 
 }

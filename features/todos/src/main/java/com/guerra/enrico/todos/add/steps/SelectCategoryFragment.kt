@@ -46,7 +46,7 @@ internal class SelectCategoryFragment : BaseFragment() {
         val checked = !categoryFilter.isChecked
         viewModel.toggleCategory(categoryFilter, checked)
       }
-    recycler_view_categories.apply {
+    recyclerViewCategories.apply {
       layoutManager = gridLayoutManager
       adapter = filterAdapter
       addItemDecoration(
@@ -70,7 +70,7 @@ internal class SelectCategoryFragment : BaseFragment() {
     }
     hideOverlayLoader()
     if (categoriesPresentationResult is Result.Success) {
-      (recycler_view_categories.adapter as CategoryAdapter).submitList(categoriesPresentationResult.data)
+      (recyclerViewCategories.adapter as CategoryAdapter).submitList(categoriesPresentationResult.data)
       observeSelectedCategory()
       return
     }

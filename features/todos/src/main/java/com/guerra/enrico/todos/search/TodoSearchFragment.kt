@@ -59,11 +59,11 @@ internal class TodoSearchFragment : BaseFragment() {
       is Result.Loading -> {
       }
       is Result.Success -> {
-        message_layout.hide()
+        messageLayout.hide()
         recycler_view_suggestions.isVisible = true
         if (suggestionsResult.data.isEmpty()) {
           recycler_view_suggestions.isVisible = false
-          message_layout.apply {
+          messageLayout.apply {
             setMessage("No suggestions")
             setButton(resources.getString(R.string.message_layout_button_try_again)) {
               viewModel.loadWhileTyping("")
@@ -77,7 +77,7 @@ internal class TodoSearchFragment : BaseFragment() {
       is Result.Error -> {
         val messageResources = MessageExceptionManager(Exception()).getResources()
         recycler_view_suggestions.isVisible = false
-        message_layout.apply {
+        messageLayout.apply {
           setImage(messageResources.icon)
           setMessage(messageResources.message)
           setButton(resources.getString(R.string.message_layout_button_try_again)) {

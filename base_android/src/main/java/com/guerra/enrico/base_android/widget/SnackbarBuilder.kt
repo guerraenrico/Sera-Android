@@ -20,7 +20,12 @@ class SnackbarBuilder {
   }
 
   fun action(text: String, block: () -> Unit): SnackbarBuilder {
-    option = option.copy(action = Action(text, block))
+    option = option.copy(action = Action(text = text, block = block))
+    return this
+  }
+
+  fun action(@StringRes textId: Int, block: () -> Unit): SnackbarBuilder {
+    option = option.copy(action = Action(textId = textId, block = block))
     return this
   }
 
@@ -41,7 +46,10 @@ class SnackbarBuilder {
       else -> Snackbar.make(view, "", duration)
     }
     if (action != null) {
-      snackbar.setAction(action.text) { action.block }
+      when {
+        action.text != null -> snackbar.setAction(action.text) { action.block }
+        action.textId != null -> snackbar.setAction(action.textId) { action.block }
+      }
     }
     if (onDismiss != null) {
       snackbar.onDismiss(onDismiss)
@@ -58,7 +66,8 @@ class SnackbarBuilder {
   )
 
   private class Action(
-    val text: String,
+    @StringRes val textId: Int? = null,
+    val text: String? = null,
     val block: () -> Unit
   )
 }

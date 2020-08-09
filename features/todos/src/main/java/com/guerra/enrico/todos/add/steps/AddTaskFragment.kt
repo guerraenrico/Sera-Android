@@ -37,10 +37,10 @@ internal class AddTaskFragment : BaseFragment() {
       String.format(resources.getString(R.string.subtitle_add_task), selectedCategory.name)
 
     buttonSchedule.setOnClickListener {
-      if (task_title.text.isNullOrEmpty()) {
+      if (taskTitle.text.isNullOrEmpty()) {
         showSnackbar(resources.getString(R.string.message_insert_task_title), it)
       }
-      if (viewModel.onSetTaskInfo(task_title.text.toString(), taskDescription.text.toString())) {
+      if (viewModel.onSetTaskInfo(taskTitle.text.toString(), taskDescription.text.toString())) {
         viewModel.goToNextStep(StepEnum.SCHEDULE)
       }
     }

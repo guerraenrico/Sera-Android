@@ -14,24 +14,20 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.base.extensions.toDateString
+import com.guerra.enrico.base_android.extensions.inflate
+import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.todos.EventActions
 import com.guerra.enrico.todos.R
-import com.guerra.enrico.todos.presentation.TaskPresentation
 import kotlin.math.abs
 
-/**
- * Created by enrico
- * on 24/06/2018.
- */
 internal class TaskAdapter(
   private val eventActions: EventActions
-) : ListAdapter<TaskPresentation, TaskViewHolder>(TaskDiff) {
+) : ListAdapter<Task, TaskViewHolder>(TaskDiff) {
 
-  private val recyclerViewCategoriesPool = RecyclerView.RecycledViewPool()
-  private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback {
-    eventActions.onTaskSwipeToComplete(it)
+  private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback { position ->
+    val task = getItem(position)
+    eventActions.onTaskSwipeToComplete(task.id)
   })
 
   override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -41,7 +37,7 @@ internal class TaskAdapter(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
     val view = parent.inflate(R.layout.item_task)
-    return TaskViewHolder(view, recyclerViewCategoriesPool, eventActions)
+    return TaskViewHolder(view, eventActions)
   }
 
   override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -51,22 +47,20 @@ internal class TaskAdapter(
 
 internal class TaskViewHolder(
   view: View,
-  recyclerViewPool: RecyclerView.RecycledViewPool,
   private val eventActions: EventActions
 ) : RecyclerView.ViewHolder(view) {
 
-  private val container: View = view.findViewById(R.id.container_task_item)
-  private val title: TextView = view.findViewById(R.id.task_title)
-  private val date: TextView = view.findViewById(R.id.task_date)
-  private val description: TextView = view.findViewById(R.id.task_description)
+  private val container: View = view.findViewById(R.id.containerTaskItem)
+  private val title: TextView = view.findViewById(R.id.taskTitle)
+  private val date: TextView = view.findViewById(R.id.taskDate)
+  private val description: TextView = view.findViewById(R.id.taskDescription)
   private val recyclerViewCategories: RecyclerView =
-    view.findViewById(R.id.recycler_view_categories)
+    view.findViewById(R.id.recyclerViewCategories)
 
   private val dateFormatText = view.context.getString(R.string.label_todo_within)
 
   init {
     recyclerViewCategories.apply {
-      setRecycledViewPool(recyclerViewPool)
       layoutManager = FlexboxLayoutManager(context).apply {
         recycleChildrenOnDetach = true
         flexDirection = FlexDirection.ROW
@@ -76,9 +70,8 @@ internal class TaskViewHolder(
     }
   }
 
-  fun bind(taskPresentation: TaskPresentation) {
-    val task = taskPresentation.task
-    container.setOnClickListener { eventActions.onTaskClick(task) }
+  fun bind(task: Task) {
+    container.setOnClickListener { eventActions.onTaskClick(task.id) }
 
     title.text = task.title
 
@@ -104,11 +97,11 @@ internal class TaskViewHolder(
   }
 }
 
-internal object TaskDiff : DiffUtil.ItemCallback<TaskPresentation>() {
-  override fun areItemsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
-    oldItem.task.id == newItem.task.id
+internal object TaskDiff : DiffUtil.ItemCallback<Task>() {
+  override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean =
+    oldItem.id == newItem.id
 
-  override fun areContentsTheSame(oldItem: TaskPresentation, newItem: TaskPresentation): Boolean =
+  override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean =
     oldItem == newItem
 }
 
@@ -131,12 +124,12 @@ internal class SwipeToCompleteCallback(private val completeListener: (Int) -> Un
 
   override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
     ItemTouchHelper.Callback.getDefaultUIUtil()
-      .onSelected(viewHolder?.itemView?.findViewById(R.id.container_task_item))
+      .onSelected(viewHolder?.itemView?.findViewById(R.id.containerTaskItem))
   }
 
   override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
     ItemTouchHelper.Callback.getDefaultUIUtil()
-      .clearView(viewHolder.itemView.findViewById(R.id.container_task_item))
+      .clearView(viewHolder.itemView.findViewById(R.id.containerTaskItem))
   }
 
   override fun onChildDraw(
@@ -154,7 +147,7 @@ internal class SwipeToCompleteCallback(private val completeListener: (Int) -> Un
     ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(
       canvas,
       recyclerView,
-      viewHolder.itemView.findViewById(R.id.container_task_item),
+      viewHolder.itemView.findViewById(R.id.containerTaskItem),
       dX,
       dY,
       actionState,
@@ -174,7 +167,7 @@ internal class SwipeToCompleteCallback(private val completeListener: (Int) -> Un
     ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(
       c,
       recyclerView,
-      viewHolder?.itemView?.findViewById(R.id.container_task_item),
+      viewHolder?.itemView?.findViewById(R.id.containerTaskItem),
       dX,
       dY,
       actionState,
