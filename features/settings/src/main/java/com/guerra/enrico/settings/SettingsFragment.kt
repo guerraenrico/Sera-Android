@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.extensions.applyWindowInsets
-import com.guerra.enrico.base_android.extensions.launchWhenResumed
 import com.guerra.enrico.components.recyclerview.decorators.VerticalDividerItemDecoration
 import com.guerra.enrico.settings.models.SettingsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
@@ -65,14 +63,11 @@ internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
       }
     }
 
-    observe(viewModel.enableDarkTheme) {
-      launchWhenResumed {
-        delay(400)
-        if (it) {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+    observeEvent(viewModel.enableDarkTheme) { enabled ->
+      if (enabled) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+      } else {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
       }
     }
   }
