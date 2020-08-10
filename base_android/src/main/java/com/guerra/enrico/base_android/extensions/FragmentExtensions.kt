@@ -10,11 +10,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.guerra.enrico.base.Event
-import com.guerra.enrico.base.EventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
