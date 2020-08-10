@@ -55,7 +55,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
         LoginState.Sync -> findNavController().navigate(R.id.syncFragment)
         is LoginState.Error -> {
-          hideOverlayLoader()
           showSnackbar(
             SnackbarBuilder()
               .message(state.exception.message ?: getString(R.string.error_google_sign_in))

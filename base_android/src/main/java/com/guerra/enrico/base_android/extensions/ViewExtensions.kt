@@ -4,11 +4,6 @@ import android.view.View
 import android.view.WindowInsets
 import androidx.core.view.updatePadding
 
-/**
- * Created by enrico
- * on 01/03/2020.
- */
-
 data class InitialPadding(
   val left: Int,
   val top: Int,

@@ -7,9 +7,7 @@ import android.view.WindowManager
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 
-/**
- * Get display metrics
- */
+
 fun Context.displayMetric(): DisplayMetrics {
   val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
   val displayMetrics = DisplayMetrics()
@@ -17,9 +15,6 @@ fun Context.displayMetric(): DisplayMetrics {
   return displayMetrics
 }
 
-/**
- * Get color from a theme attribute
- */
 @ColorInt
 fun Context.getColorAttr(@AttrRes resId: Int): Int {
   val typedValue = TypedValue()

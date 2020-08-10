@@ -7,11 +7,6 @@ import androidx.annotation.LayoutRes
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-/**
- * Created by enrico
- * on 03/02/2020.
- */
-
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View {
   return LayoutInflater.from(context).inflate(layoutId, this, false)
 }

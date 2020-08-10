@@ -18,9 +18,6 @@ import com.guerra.enrico.base.EventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
-/**
- * If needed, set the status bar for light theme
- */
 fun FragmentActivity.setLightStatusBarIfNeeded() {
   val currentMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && currentMode == Configuration.UI_MODE_NIGHT_NO) {
@@ -43,42 +40,6 @@ fun FragmentActivity.makeSceneTransitionAnimation(
   return ActivityOptionsCompat.makeSceneTransitionAnimation(this, *elements.toTypedArray())
 }
 
-/**
- * Start observe liveData that emits events
- */
-fun <T> FragmentActivity.observeEvent(liveData: LiveData<Event<T>>, block: (T) -> Unit) {
-  liveData.observe(this, EventObserver {
-    if (it != null) {
-      block(it)
-    }
-  })
-}
-
-/**
- * Start observe liveData
- */
-fun <T> Fragment.observe(liveData: LiveData<T>, block: (T) -> Unit) {
-  liveData.observe(viewLifecycleOwner, Observer {
-    if (it != null) {
-      block(it)
-    }
-  })
-}
-
-/**
- * Start observe liveData that emits events
- */
-fun <T> Fragment.observeEvent(liveData: LiveData<Event<T>>, block: (T) -> Unit) {
-  liveData.observe(viewLifecycleOwner, EventObserver {
-    if (it != null) {
-      block(it)
-    }
-  })
-}
-
-/**
- * Close keyboard and remove focus from view
- */
 fun Fragment.closeKeyboard() {
   if (!isAdded) return
   activity?.let {
@@ -91,9 +52,7 @@ fun Fragment.closeKeyboard() {
   }
 }
 
-/**
- * Shortcut for viewLifecycleOwner.lifecycleScope.launchWhenResumed
- */
+
 fun Fragment.launchWhenResumed(block: suspend CoroutineScope.() -> Unit): Job {
   return viewLifecycleOwner.lifecycleScope.launchWhenResumed(block)
 }

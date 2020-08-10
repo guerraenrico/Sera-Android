@@ -13,11 +13,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.withStyledAttributes
 import com.guerra.enrico.base_android.R
 
-/**
- * Created by enrico
- * on 29/03/2020.
- */
-
 class ScaleTransition(context: Context, attributeSet: AttributeSet) :
   Visibility(context, attributeSet) {
 

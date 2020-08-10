@@ -15,10 +15,6 @@ import kotlinx.android.synthetic.main.fragment_bottom_sheet_dialog_with_toolbar.
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
-/**
- * Created by enrico
- * on 02/02/2020.
- */
 abstract class BottomSheetDialogWithToolbarFragment : BottomSheetDialogFragment() {
 
   override fun getTheme(): Int {

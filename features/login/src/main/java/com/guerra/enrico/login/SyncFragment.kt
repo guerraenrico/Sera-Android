@@ -37,7 +37,6 @@ internal class SyncFragment : BaseFragment(R.layout.fragment_login_sync) {
           findNavController().navigate(uri)
         }
         is LoginState.Error -> {
-          hideOverlayLoader()
           showSnackbar(
             SnackbarBuilder()
               .message(state.exception.message ?: getString(R.string.exception_unknown))
