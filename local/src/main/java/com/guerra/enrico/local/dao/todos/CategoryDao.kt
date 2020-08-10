@@ -9,27 +9,27 @@ import com.guerra.enrico.models.todos.Category
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal abstract class CategoryDao {
+interface CategoryDao {
   @Query("SELECT * FROM Category")
-  abstract fun observeAll(): Flow<List<Category>>
+  fun observeAll(): Flow<List<Category>>
 
   @Query("SELECT * FROM Category WHERE id = :id")
-  abstract suspend fun get(id: String): Category
+  suspend fun get(id: String): Category
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  abstract suspend fun insertOne(category: Category): Long
+  suspend fun insertOne(category: Category): Long
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  abstract suspend fun insertAll(categories: List<Category>): List<Long>
+  suspend fun insertAll(categories: List<Category>): List<Long>
 
   @Query("UPDATE CATEGORY SET name= :name WHERE id =:id")
-  abstract suspend fun updateFields(id: String, name: String): Int
+  suspend fun updateFields(id: String, name: String): Int
 
   @Query("DELETE FROM category WHERE id = :id")
-  abstract suspend fun removeOne(id: String): Int
+  suspend fun removeOne(id: String): Int
 
   @Query("DELETE FROM Category")
-  abstract suspend fun clear()
+  suspend fun clear()
 
   @Transaction
   suspend fun sync(categories: List<Category>) {

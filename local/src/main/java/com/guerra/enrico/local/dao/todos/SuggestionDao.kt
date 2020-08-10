@@ -9,7 +9,7 @@ import com.guerra.enrico.models.todos.Suggestion
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal interface SuggestionDao {
+interface SuggestionDao {
   @Query("SELECT * FROM Suggestion WHERE text LIKE :text ORDER BY rating DESC")
   fun search(text: String): List<Suggestion>
 

@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.guerra.enrico.models.User
 
 @Dao
-internal interface UserDao {
+interface UserDao {
   @Query("SELECT * FROM User WHERE id = :userId LIMIT 1")
   suspend fun getFirst(userId: String): User
 

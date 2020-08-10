@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.guerra.enrico.models.Session
 
 @Dao
-internal interface SessionDao {
+interface SessionDao {
   @Query("SELECT * FROM Session ORDER BY createdAt DESC LIMIT 1")
   suspend fun getFirst(): Session
 
