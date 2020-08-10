@@ -8,10 +8,6 @@ import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.models.todos.Task
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Created by enrico
- * on 31/05/2018.
- */
 interface LocalDbManager {
   // Session
 

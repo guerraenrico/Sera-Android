@@ -8,12 +8,8 @@ import androidx.room.Update
 import com.guerra.enrico.models.todos.Suggestion
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Created by enrico
- * on 30/03/2020.
- */
 @Dao
-interface SuggestionDao {
+internal interface SuggestionDao {
   @Query("SELECT * FROM Suggestion WHERE text LIKE :text ORDER BY rating DESC")
   fun search(text: String): List<Suggestion>
 

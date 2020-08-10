@@ -6,12 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.models.Session
 
-/**
- * Created by enrico
- * on 16/10/2018.
- */
 @Dao
-interface SessionDao {
+internal interface SessionDao {
   @Query("SELECT * FROM Session ORDER BY createdAt DESC LIMIT 1")
   suspend fun getFirst(): Session
 

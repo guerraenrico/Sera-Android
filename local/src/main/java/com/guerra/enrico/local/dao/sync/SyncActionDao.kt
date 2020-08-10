@@ -7,12 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guerra.enrico.models.sync.SyncAction
 
-/**
- * Created by enrico
- * on 20/01/2020.
- */
 @Dao
-interface SyncActionDao {
+internal interface SyncActionDao {
   @Query("SELECT * FROM SyncAction ORDER BY createdAt ASC")
   suspend fun get(): List<SyncAction>
 

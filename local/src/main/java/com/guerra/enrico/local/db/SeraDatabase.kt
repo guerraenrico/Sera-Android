@@ -21,10 +21,6 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.models.todos.Task
 
-/**
- * Created by enrico
- * on 03/06/2018.
- */
 @Database(
   entities = [Session::class, User::class, Category::class, Task::class, Suggestion::class, SyncAction::class],
   version = 1
@@ -47,11 +43,10 @@ abstract class SeraDatabase : RoomDatabase() {
     private var INSTANCE: SeraDatabase? = null
 
     fun getInstance(context: Context): SeraDatabase =
-      INSTANCE
-        ?: synchronized(this) {
-          INSTANCE
-            ?: buildDatabase(context).also { INSTANCE = it }
-        }
+      INSTANCE ?: synchronized(this) {
+        INSTANCE
+          ?: buildDatabase(context).also { INSTANCE = it }
+      }
 
     private fun buildDatabase(context: Context) =
       Room.databaseBuilder(

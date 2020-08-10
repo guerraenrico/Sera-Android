@@ -10,5 +10,5 @@ data class Session constructor(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
   @ColumnInfo(name = "userId") val userId: String,
   @ColumnInfo(name = "accessToken") val accessToken: String,
-  @ColumnInfo(name = "createdAt") val createdAt: Date
+  @ColumnInfo(name = "createdAt") val createdAt: Date = Date()
 )

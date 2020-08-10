@@ -3,10 +3,6 @@ package com.guerra.enrico.local.db.converters
 import androidx.room.TypeConverter
 import com.guerra.enrico.models.sync.Operation
 
-/**
- * Created by enrico
- * on 10/02/2020.
- */
 internal object OperationConverter {
   @TypeConverter
   @JvmStatic
