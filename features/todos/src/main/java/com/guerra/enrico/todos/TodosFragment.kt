@@ -26,7 +26,8 @@ import com.guerra.enrico.todos.adapter.TaskAdapter
 import com.guerra.enrico.todos.models.SnackbarEvent
 import com.guerra.enrico.todos.models.TodosEvent
 import com.guerra.enrico.todos.models.TodosState
-import com.guerra.enrico.todos.search.TodoSearchActivity
+import com.guerra.enrico.todos.search.TodoSearchFragment.Companion.SEARCH_RESULT_KEY
+import com.guerra.enrico.todos.search.TodoSearchFragment.Companion.SEARCH_RESULT_REQUEST_CODE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos.*
 
@@ -159,8 +160,8 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    val code = TodoSearchActivity.SEARCH_RESULT_REQUEST_CODE
-    val key = TodoSearchActivity.SEARCH_RESULT_KEY
+    val code = SEARCH_RESULT_REQUEST_CODE
+    val key = SEARCH_RESULT_KEY
 
     if (requestCode == code) {
       if (resultCode == Activity.RESULT_OK && data != null) {
