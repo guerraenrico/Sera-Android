@@ -1,3 +1,4 @@
+include ':base_test'
 include ':app', ':data', ':base', ':workers', ':domain'
 include ':lint'
 include ':local'

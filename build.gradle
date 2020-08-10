@@ -45,6 +45,7 @@ buildscript {
         testRunnerVersion = "1.3.0-rc03"
         testEspresso = "3.3.0-rc03"
         testAndroidXVersion = "1.2.0"
+        kotlin_version = '1.3.72'
     }
 
     repositories {

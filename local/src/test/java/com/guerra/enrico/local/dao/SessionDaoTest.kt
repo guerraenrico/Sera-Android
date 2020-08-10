@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.guerra.enrico.base.utils.TestCoroutineRule
+import com.guerra.enrico.base_test.TestCoroutineRule
 import com.guerra.enrico.local.db.SeraDatabase
 import com.guerra.enrico.models.Session
 import org.junit.After
@@ -58,8 +58,8 @@ class SessionDaoTest {
 
   @Test
   fun lastSession() = testCoroutineRule.runBlockingTest {
-    val session1 = sessionEmpty.copy(id = "1")
-    val session2 = sessionEmpty.copy(id = "2")
+    val session1 = sessionEmpty.copy(id = "1", createdAt = Date(1597096429509L))
+    val session2 = sessionEmpty.copy(id = "2", createdAt = Date(1597097429509L))
 
     sut.insert(session1)
     sut.insert(session2)
@@ -73,6 +73,7 @@ class SessionDaoTest {
     val session = sessionEmpty
 
     sut.insert(session)
+    sut.clear()
     val result = sut.getFirst()
 
     assertNull(result)

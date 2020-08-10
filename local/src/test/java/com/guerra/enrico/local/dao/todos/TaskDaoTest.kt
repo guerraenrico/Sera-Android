@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.guerra.enrico.base.utils.TestCoroutineRule
+import com.guerra.enrico.base_test.TestCoroutineRule
 import com.guerra.enrico.local.db.SeraDatabase
 import com.guerra.enrico.models.todos.Task
 import kotlinx.coroutines.flow.first
@@ -25,7 +25,7 @@ class TaskDaoTest {
   val instantTaskExecutorRule = InstantTaskExecutorRule()
 
   @get:Rule
-  val testCoroutineRule = TestCoroutineRule()
+  val testCoroutineRule = com.guerra.enrico.base_test.TestCoroutineRule()
 
   private lateinit var database: SeraDatabase
   private lateinit var sut: TaskDao
