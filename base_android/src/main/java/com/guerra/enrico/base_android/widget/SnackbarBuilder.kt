@@ -47,8 +47,8 @@ class SnackbarBuilder {
     }
     if (action != null) {
       when {
-        action.text != null -> snackbar.setAction(action.text) { action.block }
-        action.textId != null -> snackbar.setAction(action.textId) { action.block }
+        action.text != null -> snackbar.setAction(action.text) { action.block() }
+        action.textId != null -> snackbar.setAction(action.textId) { action.block() }
       }
     }
     if (onDismiss != null) {

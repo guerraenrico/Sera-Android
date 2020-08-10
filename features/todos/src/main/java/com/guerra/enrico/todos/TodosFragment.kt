@@ -7,6 +7,7 @@ import android.transition.TransitionInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.util.Pair
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
@@ -36,7 +37,7 @@ import kotlinx.android.synthetic.main.fragment_todos.*
 internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
   private val viewModel: TodosViewModel by viewModels()
 
-  private val adapter: TaskAdapter by lazyFast {
+  private val taskAdapter: TaskAdapter by lazyFast {
     TaskAdapter(
       onTaskClick = viewModel::onTaskClick,
       onSwipeToComplete = viewModel::onTaskSwipeToComplete
@@ -83,7 +84,7 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
     }
     recyclerView.apply {
       layoutManager = linearLayoutManager
-      adapter = adapter
+      adapter = taskAdapter
       itemAnimator = defaultItemAnimator
       addItemDecoration(VerticalDividerItemDecoration(requireContext()))
     }
@@ -120,12 +121,12 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
 
   private fun renderData(state: TodosState.Data) {
     messageLayout.hide()
-    recyclerView.visibility = View.VISIBLE
-    adapter.submitList(state.tasks)
+    recyclerView.isVisible = true
+    taskAdapter.submitList(state.visibleTasks)
   }
 
   private fun renderError(state: TodosState.Error) {
-    recyclerView.visibility = View.GONE
+    recyclerView.isVisible = false
     val messageResources = MessageExceptionManager(state.exception).getResources()
     messageLayout.apply {
       setImage(messageResources.icon)

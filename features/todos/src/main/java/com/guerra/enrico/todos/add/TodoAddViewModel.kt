@@ -9,6 +9,7 @@ import com.guerra.enrico.base.extensions.event
 import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
 import com.guerra.enrico.domain.interactors.todos.InsertCategory
 import com.guerra.enrico.domain.interactors.todos.InsertTask
+import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.todos.add.models.Step
@@ -45,7 +46,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
       }
       .launchIn(viewModelScope)
 
-    observeCategories(Unit)
+    observeCategories()
   }
 
   fun onSelectCategory(category: Category) {

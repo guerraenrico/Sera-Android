@@ -24,6 +24,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,10 +49,12 @@ internal class TodosViewModel @ViewModelInject constructor(
       .onEach { tasks ->
         state = reducer.updateWithTasks(state, tasks)
       }
+      .launchIn(viewModelScope)
     observeCategories.observe()
       .onEach { categories ->
         state = reducer.updateWithCategories(state, categories)
       }
+      .launchIn(viewModelScope)
 
     observeTasks(ObserveTasks.Params())
     observeCategories()

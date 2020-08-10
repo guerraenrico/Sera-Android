@@ -6,18 +6,11 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.IdRes
-import androidx.annotation.MainThread
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.createViewModelLazy
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 

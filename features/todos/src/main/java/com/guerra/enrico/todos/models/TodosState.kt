@@ -10,7 +10,14 @@ sealed class TodosState {
     val tasks: List<Task>,
     val categories: List<Category>,
     val pendingCompletedTasks: List<Task> = emptyList()
-  ) : TodosState()
+  ) : TodosState() {
+
+    val visibleTasks: List<Task>
+      get() {
+        return tasks - pendingCompletedTasks
+      }
+
+  }
 
   data class Error(val exception: Exception) : TodosState()
 }
