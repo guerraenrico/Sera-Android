@@ -1,9 +1,5 @@
 package com.guerra.enrico.base.logger
 
-/**
- * Created by enrico
- * on 12/12/2019.
- */
 interface Logger {
   fun e(code: String)
   fun e(tag: String, message: String)

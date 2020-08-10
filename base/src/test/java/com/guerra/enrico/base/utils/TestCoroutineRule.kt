@@ -11,10 +11,6 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-/**
- * Created by enrico
- * on 07/12/2019.
- */
 class TestCoroutineRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
   TestWatcher() {
 

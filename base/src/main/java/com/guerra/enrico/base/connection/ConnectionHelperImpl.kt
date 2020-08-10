@@ -11,10 +11,6 @@ import kotlinx.coroutines.suspendAtomicCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-/**
- * Created by enrico
- * on 15/02/2020.
- */
 class ConnectionHelperImpl @Inject constructor(@ApplicationContext val context: Context) : ConnectionHelper {
 
   @SuppressLint("MissingPermission")

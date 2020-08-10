@@ -1,10 +1,5 @@
 package com.guerra.enrico.base.extensions
 
-/**
- * Created by enrico
- * on 18/02/2020.
- */
-
 private typealias F1<T> = (T) -> T
 
 private typealias F2<T, A> = (T, A) -> T
