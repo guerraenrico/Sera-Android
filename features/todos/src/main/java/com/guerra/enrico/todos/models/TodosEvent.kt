@@ -1,10 +1,7 @@
 package com.guerra.enrico.todos.models
 
-import java.lang.Exception
-
 sealed class TodosEvent {
   data class ShowSnackbar(val snackbarEvent: SnackbarEvent) : TodosEvent()
-  data class SwipeRefresh(val enabled: Boolean) : TodosEvent()
 }
 
 sealed class SnackbarEvent {

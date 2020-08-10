@@ -34,8 +34,7 @@ internal class TodosViewModel @ViewModelInject constructor(
   private val reducer: TodosReducer,
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
-  private val updateTaskCompleteState: UpdateTaskCompleteState,
-  private val syncTodos: SyncTodos
+  private val updateTaskCompleteState: UpdateTaskCompleteState
 ) : SingleStateViewModel<TodosState>(
   initialState = TodosState.Idle, dispatcher = dispatcher
 ) {
@@ -58,14 +57,6 @@ internal class TodosViewModel @ViewModelInject constructor(
 
     observeTasks(ObserveTasks.Params())
     observeCategories()
-  }
-
-  fun onRefreshData() {
-    viewModelScope.launch {
-      _events.event = TodosEvent.SwipeRefresh(enabled = true)
-      syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
-      _events.event = TodosEvent.SwipeRefresh(enabled = false)
-    }
   }
 
   fun onSearchResult(searchData: SearchData) {

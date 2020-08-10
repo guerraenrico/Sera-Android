@@ -21,9 +21,9 @@ class SyncTodos @Inject constructor(
   private val categoryRepository: CategoryRepository,
   private val authRepository: AuthRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher
-) : Interactor<SyncTodos.SyncTodosParams, Result<Unit>>() {
+) : Interactor<Unit, Result<Unit>>() {
 
-  override suspend fun doWork(params: SyncTodosParams): Result<Unit> =
+  override suspend fun doWork(params: Unit): Result<Unit> =
     authRepository.refreshTokenIfNotAuthorized {
 
       val result = syncRepository.sendSyncActions()
@@ -61,8 +61,4 @@ class SyncTodos @Inject constructor(
     val listType = object : TypeToken<T>() {}.type
     return gson.fromJson(value, listType)
   }
-
-  data class SyncTodosParams(
-    val forcePullData: Boolean
-  )
 }

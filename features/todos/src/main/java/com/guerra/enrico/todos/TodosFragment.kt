@@ -72,8 +72,6 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
   }
 
   private fun setupRecyclerView() {
-    refreshLayout.setOnRefreshListener { viewModel.onRefreshData() }
-
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     val defaultItemAnimator = DefaultItemAnimator().apply {
       supportsChangeAnimations = false
@@ -114,8 +112,7 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
     observeEvent(viewModel.events) { event ->
       when (event) {
         is TodosEvent.ShowSnackbar -> renderSnackbar(event.snackbarEvent)
-        is TodosEvent.SwipeRefresh -> refreshLayout.isRefreshing = event.enabled
-      }
+      }.exhaustive
     }
   }
 
@@ -131,9 +128,6 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
     messageLayout.apply {
       setImage(messageResources.icon)
       setMessage(messageResources.message)
-      setButton(resources.getString(R.string.message_layout_button_try_again)) {
-        viewModel.onRefreshData()
-      }
       show()
     }
   }

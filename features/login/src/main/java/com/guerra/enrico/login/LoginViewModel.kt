@@ -7,6 +7,7 @@ import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
 import com.guerra.enrico.domain.interactors.SignIn
 import com.guerra.enrico.domain.interactors.todos.SyncTodos
+import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.login.models.LoginState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ internal class LoginViewModel @ViewModelInject constructor(
 
   fun startSync() {
     viewModelScope.launch {
-      val result = syncTodos(SyncTodos.SyncTodosParams(forcePullData = true))
+      val result = syncTodos()
       state = when (result) {
         is Result.Success -> LoginState.Complete
         is Result.Error -> LoginState.Error(result.exception)
