@@ -8,10 +8,6 @@ import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.todos.R
 
-/**
- * Created by enrico
- * on 04/01/2020.
- */
 internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHolder>() {
   var categories = emptyList<Category>()
 

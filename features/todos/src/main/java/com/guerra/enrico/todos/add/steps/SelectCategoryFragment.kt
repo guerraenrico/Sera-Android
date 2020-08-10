@@ -1,98 +1,65 @@
 package com.guerra.enrico.todos.add.steps
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.guerra.enrico.base.Result
-import com.guerra.enrico.base_android.extensions.observe
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.widget.SnackbarBuilder
 import com.guerra.enrico.components.recyclerview.decorators.GridSpacingItemDecoration
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.CategoryAdapter
 import com.guerra.enrico.todos.add.TodoAddViewModel
+import com.guerra.enrico.todos.add.models.Step
+import com.guerra.enrico.todos.add.models.TodoAddState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
-import java.lang.ref.WeakReference
 
-/**
- * Created by enrico
- * on 19/10/2018.
- */
 @AndroidEntryPoint
-internal class SelectCategoryFragment : BaseFragment() {
-  private lateinit var root: WeakReference<View>
+internal class SelectCategoryFragment : BaseFragment(R.layout.fragment_todo_add_select_category) {
 
-  private val viewModel: TodoAddViewModel by activityViewModels()
+  private val viewModel: TodoAddViewModel by viewModels()
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val view = inflater.inflate(R.layout.fragment_todo_add_select_category, container, false)
-    root = WeakReference(view)
-    return view
+  private val categoryAdapter: CategoryAdapter by lazyFast {
+    CategoryAdapter { category ->
+      viewModel.onSelectCategory(category)
+    }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     val gridLayoutManager = GridLayoutManager(context, 2)
-    val filterAdapter =
-      CategoryAdapter { categoryFilter ->
-        val checked = !categoryFilter.isChecked
-        viewModel.toggleCategory(categoryFilter, checked)
-      }
+    val gridItemDecorator = GridSpacingItemDecoration(
+      spanCount = 2,
+      spacing = resources.getDimensionPixelOffset(R.dimen.padding_s),
+      includeEdge = true
+    )
     recyclerViewCategories.apply {
       layoutManager = gridLayoutManager
-      adapter = filterAdapter
-      addItemDecoration(
-        GridSpacingItemDecoration(
-          2,
-          resources.getDimensionPixelOffset(R.dimen.padding_s),
-          true
-        )
-      )
+      adapter = categoryAdapter
+      addItemDecoration(gridItemDecorator)
     }
-    observe(viewModel.categoriesPresentationResult) { processCategoryListResponse(it) }
+
+    setupObservers()
   }
 
-  private fun processCategoryListResponse(categoriesPresentationResult: Result<List<com.guerra.enrico.todos.presentation.CategoryPresentation>>?) {
-    if (categoriesPresentationResult == null) {
-      return
-    }
-    if (categoriesPresentationResult is Result.Loading) {
-      showOverlayLoader()
-      return
-    }
-    hideOverlayLoader()
-    if (categoriesPresentationResult is Result.Success) {
-      (recyclerViewCategories.adapter as CategoryAdapter).submitList(categoriesPresentationResult.data)
-      observeSelectedCategory()
-      return
-    }
-    if (categoriesPresentationResult is Error) {
-      root.get()?.let {
-        Snackbar.make(
-          it, categoriesPresentationResult.message
-            ?: "An error occur while fetching categories", Snackbar.LENGTH_LONG
-        ).show()
-      }
+  private fun setupObservers() {
+    observe(viewModel.viewState) { state ->
+      bindState(state)
     }
   }
 
-  private fun observeSelectedCategory() {
+  private fun bindState(state: TodoAddState) {
+    categoryAdapter.submitList(state.categories) {
+      categoryAdapter.updateSelectedCategory(state.selectedCategory)
+    }
+
     buttonNext.setOnClickListener {
-      if (viewModel.selectedCategory == null) {
-        showSnackbar(
-          resources.getString(R.string.message_select_category),
-          it
-        )
+      if (state.selectedCategory == null) {
+        showSnackbar(SnackbarBuilder().message(R.string.message_select_category))
       } else {
-        viewModel.goToNextStep(StepEnum.ADD_TASK)
+        viewModel.goToNextStep(Step.ADD_TASK)
       }
     }
   }
