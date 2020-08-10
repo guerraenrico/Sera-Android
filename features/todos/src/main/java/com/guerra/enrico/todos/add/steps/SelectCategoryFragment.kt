@@ -2,7 +2,9 @@ package com.guerra.enrico.todos.add.steps
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_todo_add_select_category.*
 @AndroidEntryPoint
 internal class SelectCategoryFragment : BaseFragment(R.layout.fragment_todo_add_select_category) {
 
-  private val viewModel: TodoAddViewModel by viewModels()
+  private val viewModel: TodoAddViewModel  by activityViewModels()
 
   private val categoryAdapter: CategoryAdapter by lazyFast {
     CategoryAdapter { category ->

@@ -4,7 +4,9 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.TodoAddViewModel
@@ -16,7 +18,7 @@ import java.util.*
 @AndroidEntryPoint
 internal class ScheduleFragment : BaseFragment(R.layout.fragment_todo_add_schedule) {
 
-  private val viewModel: TodoAddViewModel by viewModels()
+  private val viewModel: TodoAddViewModel  by activityViewModels()
 
   private var selectedDate = Date()
 

@@ -55,7 +55,7 @@ internal class CategoryAdapter(
 
 internal class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-  private val name: TextView = view.findViewById(R.id.label_category_name)
+  private val name: TextView = itemView.findViewById(R.id.categoryName)
 
   fun bind(category: Category, onClick: (Category) -> Unit, isSelected: Boolean) {
     name.text = category.name

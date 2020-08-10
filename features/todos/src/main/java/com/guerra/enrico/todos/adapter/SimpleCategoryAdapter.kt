@@ -24,7 +24,7 @@ internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHo
 }
 
 internal class SimpleCategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-  private val name: TextView = view.findViewById(R.id.label_category_name)
+  private val name: TextView = view.findViewById(R.id.categoryName)
   fun bind(category: Category) {
     name.text = category.name
   }

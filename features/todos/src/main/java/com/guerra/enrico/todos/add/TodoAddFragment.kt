@@ -3,9 +3,12 @@ package com.guerra.enrico.todos.add
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.guerra.enrico.base.extensions.exhaustive
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.base_android.extensions.applyWindowInsets
@@ -19,13 +22,19 @@ import kotlinx.android.synthetic.main.fragment_todo_add.*
 @AndroidEntryPoint
 class TodoAddFragment : BaseFragment(R.layout.fragment_todo_add) {
 
-  private val viewModel: TodoAddViewModel by viewModels()
+  private val viewModel: TodoAddViewModel by activityViewModels()
+
+  private val navController: NavController by lazyFast {
+    val nestedHostFragment =
+      childFragmentManager.findFragmentById(R.id.todoAddFragmentHost) as NavHostFragment
+    nestedHostFragment.navController
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
     toolbarTitle?.text = ""
-    toolbar.navigationIcon = resources.getDrawable(R.drawable.ic_close, requireActivity().theme)
+    toolbar.navigationIcon = ResourcesCompat.getDrawable(resources, R.drawable.ic_close, requireActivity().theme)
     toolbar.setNavigationOnClickListener { requireActivity().finish() }
     toolbar.applyWindowInsets(top = true)
 
@@ -74,7 +83,7 @@ class TodoAddFragment : BaseFragment(R.layout.fragment_todo_add) {
         requireActivity().finish()
       }
     }
-    findNavController().navigate(id)
+    navController.navigate(id)
   }
 
 }
