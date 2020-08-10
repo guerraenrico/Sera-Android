@@ -1,9 +1,5 @@
 package com.guerra.enrico.models.exceptions
 
-/**
- * Created by enrico
- * on 01/04/2020.
- */
 object ErrorCodes {
   const val UNKNOWN = "unknown"
   const val NOT_AUTHORIZED = "not_authorized"

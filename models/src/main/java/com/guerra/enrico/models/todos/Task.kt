@@ -11,10 +11,6 @@ import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.sync.Syncable
 import java.util.*
 
-/**
- * Created by enrico
- * on 02/06/2018.
- */
 @Entity(tableName = "Task")
 data class Task constructor(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),

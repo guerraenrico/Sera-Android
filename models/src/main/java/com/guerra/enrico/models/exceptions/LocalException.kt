@@ -3,10 +3,6 @@ package com.guerra.enrico.models.exceptions
 import com.guerra.enrico.models.exceptions.ErrorCodes.EXPIRED_SESSION
 import com.guerra.enrico.models.exceptions.ErrorCodes.NOT_AUTHORIZED
 
-/**
- * Created by enrico
- * on 12/12/2019.
- */
 class LocalException (val code: String) : GenericException() {
   companion object {
     fun notAuthorized() =

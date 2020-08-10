@@ -8,10 +8,6 @@ import com.guerra.enrico.models.EntityData
 import com.guerra.enrico.models.generateId
 import java.util.*
 
-/**
- * Created by enrico
- * on 15/01/2020.
- */
 @Entity(tableName = "SyncAction")
 data class SyncAction(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = generateId(),

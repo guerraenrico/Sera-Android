@@ -5,10 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-/**
- * Created by enrico
- * on 16/10/2018.
- */
 @Entity(tableName = "Session")
 data class Session constructor(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = "",
