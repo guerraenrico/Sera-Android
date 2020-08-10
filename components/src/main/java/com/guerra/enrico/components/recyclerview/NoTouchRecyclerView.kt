@@ -5,10 +5,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- * Created by enrico
- * on 04/01/2020.
- */
 class NoTouchRecyclerView @JvmOverloads constructor(
   context: Context,
   attributeSet: AttributeSet? = null,

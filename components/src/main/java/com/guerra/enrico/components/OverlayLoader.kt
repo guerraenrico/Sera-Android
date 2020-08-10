@@ -13,10 +13,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import kotlin.math.roundToInt
 
-/**
- * Created by enrico
- * on 06/12/2018.
- */
 class OverlayLoader private constructor(
   private val layoutBackground: LinearLayout
 ) {

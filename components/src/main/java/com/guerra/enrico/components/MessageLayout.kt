@@ -11,10 +11,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.layout_message.view.*
 
-/**
- * Created by enrico
- * on 08/12/2018.
- */
 class MessageLayout(context: Context, attributeSet: AttributeSet) :
   FrameLayout(context, attributeSet) {
   private var backgroundRes: Drawable?
