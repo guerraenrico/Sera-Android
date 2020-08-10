@@ -8,10 +8,6 @@ import com.android.tools.lint.detector.api.Issue
 import com.guerra.enrico.lint.directColor.DirectColorUseIssue
 import com.guerra.enrico.lint.directDimens.DirectDimenUseIssue
 
-/**
- * Created by enrico
- * on 27/02/2020.
- */
 class SeraLintRegistry : IssueRegistry() {
   override val issues: List<Issue>
     get() = listOf(
