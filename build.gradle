@@ -6,10 +6,10 @@ buildscript {
         ktxVersion = "1.3.1"
         fragmentVersion = "1.3.0-alpha07"
         activityVersion = "1.2.0-alpha07"
-        appCompatVersion = "1.1.0"
+        appCompatVersion = "1.2.0"
         materialVersion = "1.2.0-beta01"
         swipeRefreshLayoutVersion = "1.0.0"
-        constraintLayoutVersion = "2.0.0-beta8"
+        constraintLayoutVersion = "2.0.0-rc1"
         flexboxVersion = "2.0.1"
         lifecycleVersion = "2.2.0"
         coroutineVersion = "1.3.8"
@@ -21,7 +21,7 @@ buildscript {
         gsonVersion = "2.8.6"
         workManagerVersion = "2.4.0"
         timberVersion = "4.7.1"
-        googlePlayServicesVersion = "18.0.0"
+        googlePlayServicesVersion = "18.1.0"
         navigationVersion = "2.3.0"
 
         // Tools
@@ -36,14 +36,14 @@ buildscript {
 
         testCoreVersion = "1.2.0"
         testArchCoreVersion = "2.1.0"
-        testJunitVersion = "1.1.2-rc02"
-        testRulesVersion = "1.3.0-rc02"
+        testJunitVersion = "1.1.2-rc03"
+        testRulesVersion = "1.3.0-rc03"
 
         mockkVersion = "1.10.0"
 
         // Instrument Test
-        testRunnerVersion = "1.3.0-rc02"
-        testEspresso = "3.3.0-rc02"
+        testRunnerVersion = "1.3.0-rc03"
+        testEspresso = "3.3.0-rc03"
         testAndroidXVersion = "1.2.0"
     }
 
