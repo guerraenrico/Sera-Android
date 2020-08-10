@@ -11,18 +11,14 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
-/**
- * Created by enrico
- * on 04/12/2019.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class WorkersModuleBinds {
   @Binds
   @IntoSet
-  abstract fun provideAppInitializer(bind: TodosWorkerInitializer): AppInitializer
+  internal abstract fun provideAppInitializer(bind: TodosWorkerInitializer): AppInitializer
 
   @Binds
   @Singleton
-  abstract fun provideTodosWorker(bind: TodosWorkerImpl): TodosWorker
+  internal abstract fun provideTodosWorker(bind: TodosWorkerImpl): TodosWorker
 }
