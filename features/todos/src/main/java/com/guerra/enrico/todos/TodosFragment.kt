@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
 import com.guerra.enrico.base.extensions.exhaustive
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
 import com.guerra.enrico.base_android.extensions.applyWindowInsets
@@ -35,7 +36,12 @@ import kotlinx.android.synthetic.main.fragment_todos.*
 internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
   private val viewModel: TodosViewModel by viewModels()
 
-  private lateinit var adapter: TaskAdapter
+  private val adapter: TaskAdapter by lazyFast {
+    TaskAdapter(
+      onTaskClick = viewModel::onTaskClick,
+      onSwipeToComplete = viewModel::onTaskSwipeToComplete
+    )
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -66,8 +72,6 @@ internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
 
   private fun setupRecyclerView() {
     refreshLayout.setOnRefreshListener { viewModel.onRefreshData() }
-
-    adapter = TaskAdapter(viewModel)
 
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     val defaultItemAnimator = DefaultItemAnimator().apply {

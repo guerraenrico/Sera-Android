@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.guerra.enrico.base.extensions.exhaustive
 import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_todos_search.*
 
 @AndroidEntryPoint
 internal class TodoSearchFragment : BaseFragment() {
-  private val viewModel: TodoSearchViewModel by activityViewModels()
+  private val viewModel: TodoSearchViewModel by viewModels()
 
   private val suggestionAdapter: SuggestionAdapter by lazyFast {
     SuggestionAdapter {

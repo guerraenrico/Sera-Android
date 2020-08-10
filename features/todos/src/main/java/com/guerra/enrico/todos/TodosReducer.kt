@@ -20,12 +20,11 @@ class TodosReducer @Inject constructor() {
     }
   }
 
-  fun addPendingCompletedTask(state: TodosState.Data, taskId: String): TodosState {
-    val task = state.tasks.first { it.id == taskId }
+  fun addPendingCompletedTask(state: TodosState.Data, task: Task): TodosState {
     return state.copy(pendingCompletedTasks = state.pendingCompletedTasks + task)
   }
 
-  fun removePendingCompletedTask(state: TodosState.Data, taskId: String): TodosState {
-    return state.copy(pendingCompletedTasks = state.pendingCompletedTasks.filter { it.id != taskId })
+  fun removePendingCompletedTask(state: TodosState.Data, task: Task): TodosState {
+    return state.copy(pendingCompletedTasks = state.pendingCompletedTasks.filter { it != task })
   }
 }

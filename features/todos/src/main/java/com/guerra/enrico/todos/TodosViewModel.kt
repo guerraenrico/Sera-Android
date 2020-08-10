@@ -12,6 +12,7 @@ import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.domain.observers.todos.ObserveTasks
+import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.models.SnackbarEvent
 import com.guerra.enrico.todos.models.TodosEvent
@@ -36,7 +37,7 @@ internal class TodosViewModel @ViewModelInject constructor(
   private val syncTodos: SyncTodos
 ) : SingleStateViewModel<TodosState>(
   initialState = TodosState.Idle, dispatcher = dispatcher
-), EventActions {
+) {
 
   private val _events = ConflatedBroadcastChannel<Event<TodosEvent>>()
   val events: Flow<Event<TodosEvent>>
@@ -76,14 +77,14 @@ internal class TodosViewModel @ViewModelInject constructor(
     }
   }
 
-  override fun onTaskClick(taskId: String) {
+  fun onTaskClick(task: Task) {
 
   }
 
-  override fun onTaskSwipeToComplete(taskId: String) = runIf<TodosState.Data> { data ->
-    state = reducer.addPendingCompletedTask(data, taskId)
+  fun onTaskSwipeToComplete(task: Task) = runIf<TodosState.Data> { data ->
+    state = reducer.addPendingCompletedTask(data, task)
     _events.event = TodosEvent.ShowSnackbar(SnackbarEvent.UndoCompleteTask(
-      onAction = { undoCompletedTask(taskId) },
+      onAction = { undoCompletedTask(task) },
       onDismiss = { commitPendingCompletedTasks() }
     ))
   }
@@ -108,7 +109,7 @@ internal class TodosViewModel @ViewModelInject constructor(
     }
   }
 
-  private fun undoCompletedTask(taskId: String) = runIf<TodosState.Data> { data ->
-    state = reducer.removePendingCompletedTask(data, taskId)
+  private fun undoCompletedTask(task: Task) = runIf<TodosState.Data> { data ->
+    state = reducer.removePendingCompletedTask(data, task)
   }
 }

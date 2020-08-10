@@ -17,17 +17,17 @@ import com.google.android.flexbox.JustifyContent
 import com.guerra.enrico.base.extensions.toDateString
 import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.models.todos.Task
-import com.guerra.enrico.todos.EventActions
 import com.guerra.enrico.todos.R
 import kotlin.math.abs
 
 internal class TaskAdapter(
-  private val eventActions: EventActions
+  private val onTaskClick: (Task) -> Unit,
+  private val onSwipeToComplete: (Task) -> Unit
 ) : ListAdapter<Task, TaskViewHolder>(TaskDiff) {
 
   private val itemTouchHelper = ItemTouchHelper(SwipeToCompleteCallback { position ->
     val task = getItem(position)
-    eventActions.onTaskSwipeToComplete(task.id)
+    onSwipeToComplete(task)
   })
 
   override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -37,18 +37,15 @@ internal class TaskAdapter(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
     val view = parent.inflate(R.layout.item_task)
-    return TaskViewHolder(view, eventActions)
+    return TaskViewHolder(view)
   }
 
   override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-    holder.bind(getItem(position))
+    holder.bind(getItem(position), onTaskClick)
   }
 }
 
-internal class TaskViewHolder(
-  view: View,
-  private val eventActions: EventActions
-) : RecyclerView.ViewHolder(view) {
+internal class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
   private val container: View = view.findViewById(R.id.containerTaskItem)
   private val title: TextView = view.findViewById(R.id.taskTitle)
@@ -70,8 +67,8 @@ internal class TaskViewHolder(
     }
   }
 
-  fun bind(task: Task) {
-    container.setOnClickListener { eventActions.onTaskClick(task.id) }
+  fun bind(task: Task, onClick: (Task) -> Unit) {
+    container.setOnClickListener { onClick(task) }
 
     title.text = task.title
 
