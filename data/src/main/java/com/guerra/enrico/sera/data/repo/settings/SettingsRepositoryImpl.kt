@@ -4,10 +4,6 @@ import com.guerra.enrico.local.prefs.PreferencesManager
 import com.guerra.enrico.models.Setting
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 01/04/2020.
- */
 class SettingsRepositoryImpl @Inject constructor(
   private val preferencesManager: PreferencesManager
 ) : SettingsRepository {

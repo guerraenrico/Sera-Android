@@ -11,10 +11,6 @@ import com.guerra.enrico.sera.data.repo.withAccessToken
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 01/04/2020.
- */
 class SyncRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager,

@@ -3,10 +3,6 @@ package com.guerra.enrico.sera.data.repo.auth
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.User
 
-/**
- * Created by enrico
- * on 14/10/2018.
- */
 interface AuthRepository {
   // Sign in
   suspend fun googleSignInCallback(code: String): Result<User>

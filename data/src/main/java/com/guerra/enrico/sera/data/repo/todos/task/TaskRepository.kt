@@ -8,10 +8,6 @@ import com.guerra.enrico.models.todos.Suggestion
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-/**
- * Created by enrico
- * on 10/09/2018.
- */
 interface TaskRepository {
 
   suspend fun pullTasks(from: Date?): Result<Unit>

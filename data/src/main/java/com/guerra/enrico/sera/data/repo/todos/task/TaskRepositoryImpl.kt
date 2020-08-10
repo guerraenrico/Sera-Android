@@ -17,10 +17,6 @@ import java.io.InvalidClassException
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 21/08/2018.
- */
 class TaskRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager,

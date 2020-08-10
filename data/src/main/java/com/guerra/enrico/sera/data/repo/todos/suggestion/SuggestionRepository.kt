@@ -4,10 +4,6 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 
-/**
- * Created by enrico
- * on 31/03/2020.
- */
 interface SuggestionRepository {
   suspend fun searchSuggestions(text: String): Result<List<Suggestion>>
 
