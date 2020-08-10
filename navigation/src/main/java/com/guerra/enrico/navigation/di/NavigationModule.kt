@@ -8,10 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
-/**
- * Created by enrico
- * on 14/05/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class NavigationModule {
