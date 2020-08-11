@@ -7,7 +7,6 @@ import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.base.extensions.event
 import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
-import com.guerra.enrico.domain.interactors.todos.SyncTodos
 import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
