@@ -14,10 +14,6 @@ import com.guerra.enrico.sera.data.repo.todos.task.TaskRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 10/11/2019.
- */
 class SyncTodos @Inject constructor(
   private val gson: Gson,
   private val syncRepository: SyncRepository,
@@ -25,18 +21,15 @@ class SyncTodos @Inject constructor(
   private val categoryRepository: CategoryRepository,
   private val authRepository: AuthRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher
-) : Interactor<SyncTodos.SyncTodosParams, Result<Unit>>() {
+) : Interactor<Unit, Result<Unit>>() {
 
-  override suspend fun doWork(params: SyncTodosParams): Result<Unit> =
+  override suspend fun doWork(params: Unit): Result<Unit> =
     authRepository.refreshTokenIfNotAuthorized {
 
       val result = syncRepository.sendSyncActions()
 
       if (result is Result.Error) {
         return@refreshTokenIfNotAuthorized Result.Error(result.exception)
-      }
-      if (result is Result.Loading) {
-        return@refreshTokenIfNotAuthorized Result.Error(IllegalStateException("Result loading result state is not supported for sync action"))
       }
 
       if (result is Result.Success) {
@@ -68,8 +61,4 @@ class SyncTodos @Inject constructor(
     val listType = object : TypeToken<T>() {}.type
     return gson.fromJson(value, listType)
   }
-
-  data class SyncTodosParams(
-    val forcePullData: Boolean
-  )
 }

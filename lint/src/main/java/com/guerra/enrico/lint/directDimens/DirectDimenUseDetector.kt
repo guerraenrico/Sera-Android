@@ -6,11 +6,6 @@ import com.android.tools.lint.detector.api.ResourceXmlDetector
 import com.android.tools.lint.detector.api.XmlContext
 import org.w3c.dom.Attr
 
-/**
- * Created by enrico
- * on 29/02/2020.
- */
-
 private val regexNumber = Regex("[1-9]")
 
 class DirectDimenUseDetector : ResourceXmlDetector() {

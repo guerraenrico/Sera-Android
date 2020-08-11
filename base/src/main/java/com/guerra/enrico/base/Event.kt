@@ -2,10 +2,6 @@ package com.guerra.enrico.base
 
 import androidx.lifecycle.Observer
 
-/**
- * Created by enrico
- * on 27/08/2019.
- */
 class Event<out T>(private val content: T) {
   var hasBeenHandled: Boolean = false
     private set

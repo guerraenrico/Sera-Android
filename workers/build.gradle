@@ -7,7 +7,6 @@ android {
     compileSdkVersion compileSdk
     defaultConfig {
         minSdkVersion minSdk
-        consumerProguardFiles 'consumer-rules.pro'
     }
 
     compileOptions {

@@ -17,10 +17,6 @@ import java.io.InvalidClassException
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 21/08/2018.
- */
 class TaskRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager,
   private val remoteDataManager: RemoteDataManager,
@@ -34,7 +30,6 @@ class TaskRepositoryImpl @Inject constructor(
         Result.Success(Unit)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 

@@ -3,16 +3,23 @@ package com.guerra.enrico.remote
 import com.guerra.enrico.models.sync.SyncedEntity
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
-import com.guerra.enrico.remote.request.*
+import com.guerra.enrico.remote.request.AccessTokenParams
+import com.guerra.enrico.remote.request.AuthRequestParams
+import com.guerra.enrico.remote.request.CategoryParams
+import com.guerra.enrico.remote.request.SyncParams
+import com.guerra.enrico.remote.request.TaskParams
+import com.guerra.enrico.remote.request.TaskToggleCompleteParams
 import com.guerra.enrico.remote.response.ApiResponse
 import com.guerra.enrico.remote.response.AuthData
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Query
 
-/**
- * Created by enrico
- * on 17/08/2018.
- */
-interface Api {
+internal interface Api {
   @POST("auth/google/signin/callback")
   suspend fun googleSignInCallback(
     @Body params: AuthRequestParams

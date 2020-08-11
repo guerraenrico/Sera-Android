@@ -10,10 +10,6 @@ import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-/**
- * Created by enrico
- * on 07/07/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 object CoroutineDispatcherModule {

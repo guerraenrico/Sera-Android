@@ -10,7 +10,7 @@
     tools:ignore="Overdraw">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_categories"
+        android:id="@+id/recyclerViewCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

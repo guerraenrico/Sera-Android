@@ -8,11 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.widget.TextViewCompat
 import kotlin.math.min
 
-/**
- * Created by enrico
- * on 01/02/2020.
- */
-
 class Button(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
   AppCompatButton(context, attrs, defStyleAttr) {
 

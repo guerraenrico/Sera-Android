@@ -3,73 +3,32 @@ package com.guerra.enrico.todos.add.steps
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.succeeded
+import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.add.TodoAddViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todo_add_schedule.*
-import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by enrico
- * on 21/10/2018.
- */
 @AndroidEntryPoint
-internal class ScheduleFragment : BaseFragment() {
-  private lateinit var root: WeakReference<View>
+internal class ScheduleFragment : BaseFragment(R.layout.fragment_todo_add_schedule) {
 
-  private val viewModel: TodoAddViewModel by activityViewModels()
+  private val viewModel: TodoAddViewModel  by activityViewModels()
 
   private var selectedDate = Date()
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val view = inflater.inflate(R.layout.fragment_todo_add_schedule, container, false)
-    root = WeakReference(view)
-    return view
-  }
-
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    observeCreateTask()
     scheduleDate.setOnClickListener {
       showDatePicker()
     }
     buttonAdd.setOnClickListener {
-      viewModel.onAddTask(selectedDate)
-    }
-  }
-  private fun observeCreateTask() {
-    observe(viewModel.createdTaskResult) { result ->
-      if (result is Result.Loading) {
-        showOverlayLoader()
-        return@observe
-      }
-      hideOverlayLoader()
-      if (result.succeeded) {
-        viewModel.goToNextStep(StepEnum.DONE)
-      }
-      if (result is Result.Error) {
-        root.get()?.let {
-          showSnackbar(
-            result.exception.message
-              ?: "An error occur while creating the task", it
-          )
-        }
-      }
-
+      viewModel.onSetTaskSchedule(selectedDate)
     }
   }
 

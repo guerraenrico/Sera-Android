@@ -1,100 +1,61 @@
 package com.guerra.enrico.todos
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.applyIfSucceeded
-import com.guerra.enrico.base.extensions.ifSucceeded
-import com.guerra.enrico.base_android.arch.SnackbarMessage
-import com.guerra.enrico.domain.interactors.todos.SyncTodos
+import com.guerra.enrico.base.dispatcher.IODispatcher
+import com.guerra.enrico.base.extensions.event
+import com.guerra.enrico.base_android.arch.viewmodel.SingleStateViewModel
 import com.guerra.enrico.domain.interactors.todos.UpdateTaskCompleteState
 import com.guerra.enrico.domain.invoke
 import com.guerra.enrico.domain.observers.todos.ObserveCategories
 import com.guerra.enrico.domain.observers.todos.ObserveTasks
-import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import com.guerra.enrico.navigation.models.todos.SearchData
-import com.guerra.enrico.todos.presentation.TaskPresentation
-import com.guerra.enrico.todos.presentation.taskToPresentations
-import com.guerra.enrico.todos.presentation.tasksToPresentations
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import com.guerra.enrico.todos.models.SnackbarEvent
+import com.guerra.enrico.todos.models.TodosEvent
+import com.guerra.enrico.todos.models.TodosState
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-/**
- * Created by enrico
- * on 30/05/2018.
- */
 internal class TodosViewModel @ViewModelInject constructor(
+  @IODispatcher dispatcher: CoroutineDispatcher,
+  private val reducer: TodosReducer,
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
-  private val updateTaskCompleteState: UpdateTaskCompleteState,
-  private val syncTodos: SyncTodos
-) : ViewModel(), EventActions {
+  private val updateTaskCompleteState: UpdateTaskCompleteState
+) : SingleStateViewModel<TodosState>(
+  initialState = TodosState.Idle, dispatcher = dispatcher
+) {
 
-  private val _categoriesResult: LiveData<Result<List<Category>>> = observeCategories.observe()
-    .onStart { Result.Loading }
-    .map { Result.Success(it) }
-    .asLiveData()
-
-  private var _tasksResult: LiveData<Result<List<Task>>> = observeTasks.observe()
-    .onStart { Result.Loading }
-    .map { Result.Success(it) }
-    .asLiveData()
-
-  private val _tasks = MediatorLiveData<Result<List<TaskPresentation>>>()
-  val tasks: LiveData<Result<List<TaskPresentation>>>
-    get() = _tasks
-
-  private val _categories = MediatorLiveData<List<Category>>()
-  val categories: LiveData<List<Category>>
-    get() = _categories
-
-  private val _snackbarMessage = MutableLiveData<Event<SnackbarMessage>>()
-  val snackbarMessage: LiveData<Event<SnackbarMessage>>
-    get() = _snackbarMessage
-
-  private val _swipeRefresh = MutableLiveData<Boolean>(false)
-  val swipeRefresh: LiveData<Boolean>
-    get() = _swipeRefresh
+  private val _events = ConflatedBroadcastChannel<Event<TodosEvent>>()
+  val events: Flow<Event<TodosEvent>>
+    get() = _events.asFlow()
 
   init {
-    _categories.addSource(_categoriesResult) { result ->
-      if (result is Result.Success) {
-        _categories.value = result.data
-      } else {
-        _categories.value = emptyList()
+    observeTasks.observe()
+      .onEach { tasks ->
+        state = reducer.updateWithTasks(state, tasks)
       }
-    }
-
-    _tasks.addSource(_tasksResult) { result ->
-      _tasks.value = when (result) {
-        is Result.Success -> Result.Success(tasksToPresentations(result.data))
-        is Result.Loading -> Result.Loading
-        is Result.Error -> Result.Error(result.exception)
+      .launchIn(viewModelScope)
+    observeCategories.observe()
+      .onEach { categories ->
+        state = reducer.updateWithCategories(state, categories)
       }
-    }
+      .launchIn(viewModelScope)
 
-    // Start load tasks
     observeTasks(ObserveTasks.Params())
     observeCategories()
-  }
-
-  /**
-   * Reload tasksResult
-   */
-  fun onRefreshData() {
-    viewModelScope.launch {
-      _swipeRefresh.value = true
-      syncTodos(SyncTodos.SyncTodosParams(forcePullData = false))
-      _swipeRefresh.value = false
-    }
   }
 
   fun onSearchResult(searchData: SearchData) {
@@ -109,57 +70,39 @@ internal class TodosViewModel @ViewModelInject constructor(
     }
   }
 
-  /**
-   * Handle when a task is clicked
-   * @param task selected task
-   */
-  override fun onTaskClick(task: Task) {
-//    val currentTasksResult = _tasksViewResult.value ?: return
-//    if (currentTasksResult is Result.Success) {
-//      _tasksViewResult.value =
-//        Result.Success(currentTasksResult.data.map { it.copy(isExpanded = it.task.id == task.id && !it.isExpanded) })
-//    }
+  fun onTaskClick(task: Task) {
+
   }
 
-  /**
-   * Set task as completed on swipe out
-   */
-  override fun onTaskSwipeToComplete(position: Int) = _tasks.ifSucceeded { list ->
-    val taskPresentation = list[position]
-    _tasks.value = Result.Success(list - taskPresentation)
-    _snackbarMessage.value = Event(SnackbarMessage(
-      messageId = R.string.message_task_completed,
-      actionId = R.string.snackbar_action_abort,
-      onAction = {
-        restoreCompleteTaskAction(taskPresentation.task, position)
-      },
-      onDismiss = {
-        launchCompleteTaskAction(taskPresentation.task, position)
-      }
+  fun onTaskSwipeToComplete(task: Task) = runIf<TodosState.Data> { data ->
+    state = reducer.addPendingCompletedTask(data, task)
+    _events.event = TodosEvent.ShowSnackbar(SnackbarEvent.UndoCompleteTask(
+      onAction = { undoCompletedTask(task) },
+      onDismiss = { commitPendingCompletedTasks() }
     ))
   }
 
-  private fun launchCompleteTaskAction(task: Task, position: Int) {
+  private fun commitPendingCompletedTasks(): Unit = runIf<TodosState.Data> { data ->
     viewModelScope.launch {
-      val result = updateTaskCompleteState(UpdateTaskCompleteState.Params(task, completed = true))
-      if (result is Result.Error) {
-        restoreCompleteTaskAction(task, position)
-        Event(
-          SnackbarMessage(
-            message = result.exception.message,
-            actionId = R.string.snackbar_action_retry,
-            onAction = { onTaskSwipeToComplete(position) })
-        )
+      withContext(NonCancellable) {
+        val actions = data.pendingCompletedTasks.map { task ->
+          async {
+            updateTaskCompleteState(UpdateTaskCompleteState.Params(task, completed = true))
+          }
+        }
+
+        val results = actions.awaitAll()
+
+        val errorResult = results.firstOrNull { it is Result.Error }
+        if (errorResult != null && errorResult is Result.Error) {
+          _events.event =
+            TodosEvent.ShowSnackbar(SnackbarEvent.Message(errorResult.exception))
+        }
       }
     }
   }
 
-  private fun restoreCompleteTaskAction(task: Task, position: Int) {
-    _tasks.value = _tasks.applyIfSucceeded { list ->
-      mutableListOf<TaskPresentation>().apply {
-        addAll(list)
-        add(position, taskToPresentations(task))
-      }.toList()
-    }
+  private fun undoCompletedTask(task: Task) = runIf<TodosState.Data> { data ->
+    state = reducer.removePendingCompletedTask(data, task)
   }
 }

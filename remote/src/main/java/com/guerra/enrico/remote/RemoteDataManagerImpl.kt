@@ -27,11 +27,7 @@ import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 02/06/2018.
- */
-class RemoteDataManagerImpl @Inject constructor(
+internal class RemoteDataManagerImpl @Inject constructor(
   private val api: Api,
   private val gson: Gson,
   @CPUDispatcher val dispatcher: CoroutineDispatcher,

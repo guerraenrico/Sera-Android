@@ -45,8 +45,6 @@ dependencies {
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 
     // Hilt
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"

@@ -7,10 +7,7 @@ import androidx.annotation.StyleRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-/**
- * Created by enrico
- * on 02/02/2020.
- */
+
 typealias OnBottomSheetSlide = (bottomSheet: View, offset: Float) -> Unit
 
 class BottomSheetDialogCustom(context: Context, @StyleRes theme: Int) :

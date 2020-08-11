@@ -7,10 +7,6 @@ import com.guerra.enrico.sera.data.repo.todos.suggestion.SuggestionRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 05/05/2020.
- */
 class RankUpSuggestion @Inject constructor(
   private val suggestionRepository: SuggestionRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher

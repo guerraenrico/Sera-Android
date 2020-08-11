@@ -1,5 +1,7 @@
 package com.guerra.enrico.todos.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -8,26 +10,28 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.app.ActivityCompat.finishAfterTransition
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
-import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.applyWindowInsets
-import com.guerra.enrico.base.extensions.observe
+import androidx.fragment.app.viewModels
+import com.guerra.enrico.base.extensions.exhaustive
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
-import com.guerra.enrico.base_android.exception.MessageExceptionManager
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
+import com.guerra.enrico.models.todos.Suggestion
+import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.R
 import com.guerra.enrico.todos.adapter.SuggestionAdapter
+import com.guerra.enrico.todos.search.models.TodoSearchEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos_search.*
 
-/**
- * Created by enrico
- * on 23/03/2020.
- */
 @AndroidEntryPoint
 internal class TodoSearchFragment : BaseFragment() {
-  private val viewModel: TodoSearchViewModel by activityViewModels()
+  private val viewModel: TodoSearchViewModel by viewModels()
 
-  private lateinit var suggestionAdapter: SuggestionAdapter
+  private val suggestionAdapter: SuggestionAdapter by lazyFast {
+    SuggestionAdapter {
+      viewModel.onSuggestionClick(it)
+    }
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -51,48 +55,10 @@ internal class TodoSearchFragment : BaseFragment() {
     }
 
     setupRecyclerView()
-    observeSuggestionList()
-  }
-
-  private fun observeSuggestionList() = observe(viewModel.suggestionsResult) { suggestionsResult ->
-    when (suggestionsResult) {
-      is Result.Loading -> {
-      }
-      is Result.Success -> {
-        message_layout.hide()
-        recycler_view_suggestions.isVisible = true
-        if (suggestionsResult.data.isEmpty()) {
-          recycler_view_suggestions.isVisible = false
-          message_layout.apply {
-            setMessage("No suggestions")
-            setButton(resources.getString(R.string.message_layout_button_try_again)) {
-              viewModel.loadWhileTyping("")
-            }
-            show()
-          }
-        } else {
-          suggestionAdapter.submitList(suggestionsResult.data)
-        }
-      }
-      is Result.Error -> {
-        val messageResources = MessageExceptionManager(Exception()).getResources()
-        recycler_view_suggestions.isVisible = false
-        message_layout.apply {
-          setImage(messageResources.icon)
-          setMessage(messageResources.message)
-          setButton(resources.getString(R.string.message_layout_button_try_again)) {
-            viewModel.loadWhileTyping("")
-          }
-          show()
-        }
-      }
-    }
+    setupObservers()
   }
 
   private fun setupRecyclerView() {
-    suggestionAdapter = SuggestionAdapter {
-      viewModel.onSuggestionClick(it)
-    }
     recycler_view_suggestions.apply {
       adapter = suggestionAdapter
     }
@@ -109,7 +75,51 @@ internal class TodoSearchFragment : BaseFragment() {
     }
   }
 
-  companion object {
-    fun newInstance() = TodoSearchFragment()
+  private fun setupObservers() {
+    observe(viewModel.viewState) { state ->
+      val suggestions = state.suggestions
+      if (suggestions.isEmpty()) {
+        bindEmptySuggestions()
+      } else {
+        bindSuggestions(suggestions)
+      }
+    }
+
+    observeEvent(viewModel.events) { event ->
+      when (event) {
+        is TodoSearchEvent.SearchResult -> sendResult(event.data)
+      }.exhaustive
+    }
   }
+
+  private fun bindEmptySuggestions() {
+    recycler_view_suggestions.isVisible = false
+    messageLayout.apply {
+      setMessage("No suggestions")
+      setButton(resources.getString(R.string.message_layout_button_try_again)) {
+        viewModel.loadWhileTyping("")
+      }
+      show()
+    }
+  }
+
+  private fun bindSuggestions(suggestions: List<Suggestion>) {
+    messageLayout.hide()
+    recycler_view_suggestions.isVisible = true
+    suggestionAdapter.submitList(suggestions)
+  }
+
+  private fun sendResult(searchData: SearchData) = with(requireActivity()) {
+    val intent = Intent().apply {
+      putExtra(SEARCH_RESULT_KEY, searchData)
+    }
+    setResult(Activity.RESULT_OK, intent)
+    finishAfterTransition()
+  }
+
+  companion object {
+    const val SEARCH_RESULT_KEY = "search_result_key"
+    const val SEARCH_RESULT_REQUEST_CODE = 1001
+  }
+
 }

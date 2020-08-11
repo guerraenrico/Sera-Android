@@ -8,10 +8,6 @@ import com.guerra.enrico.base.appinitializers.AppInitializer
 import com.guerra.enrico.domain.interactors.settings.Settings
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 09/03/2020.
- */
 class ThemeInitializer @Inject constructor(
   private val settings: Settings
 ) : AppInitializer {

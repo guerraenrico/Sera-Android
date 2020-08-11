@@ -10,10 +10,6 @@ import com.guerra.enrico.sera.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
 
-/**
- * Created by enrico
- * on 01/08/2020.
- */
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 

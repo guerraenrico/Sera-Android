@@ -6,10 +6,6 @@ import com.guerra.enrico.models.sync.SyncAction
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-/**
- * Created by enrico
- * on 10/09/2018.
- */
 interface CategoryRepository {
 
   suspend fun pullCategories(from: Date?): Result<Unit>

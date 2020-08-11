@@ -3,10 +3,6 @@ package com.guerra.enrico.local.db.converters
 import androidx.room.TypeConverter
 import java.util.*
 
-/**
- * Created by enrico
- * on 18/10/2018.
- */
 internal object DateConverter {
   @TypeConverter
   @JvmStatic

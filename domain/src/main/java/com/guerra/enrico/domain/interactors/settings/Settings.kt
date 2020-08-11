@@ -5,10 +5,6 @@ import com.guerra.enrico.models.Setting
 import com.guerra.enrico.sera.data.repo.settings.SettingsRepository
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 08/03/2020.
- */
 class Settings @Inject constructor(
   private val settingsRepository: SettingsRepository
 ) : MultiInteractor() {

@@ -9,11 +9,6 @@ import com.android.tools.lint.detector.api.ResourceXmlDetector
 import com.android.tools.lint.detector.api.XmlContext
 import org.w3c.dom.Element
 
-/**
- * Created by enrico
- * on 29/02/2020.
- */
-
 class MissingNightColorDetector : ResourceXmlDetector() {
   private val nightColors = mutableListOf<String>()
   private val regularColors = mutableMapOf<String, Location>()

@@ -8,10 +8,6 @@ import androidx.room.Transaction
 import com.guerra.enrico.models.todos.Category
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Created by enrico
- * on 02/06/2018.
- */
 @Dao
 interface CategoryDao {
   @Query("SELECT * FROM Category")
@@ -27,10 +23,7 @@ interface CategoryDao {
   suspend fun insertAll(categories: List<Category>): List<Long>
 
   @Query("UPDATE CATEGORY SET name= :name WHERE id =:id")
-  suspend fun updateFields(
-          id: String,
-          name: String
-  ): Int
+  suspend fun updateFields(id: String, name: String): Int
 
   @Query("DELETE FROM category WHERE id = :id")
   suspend fun removeOne(id: String): Int

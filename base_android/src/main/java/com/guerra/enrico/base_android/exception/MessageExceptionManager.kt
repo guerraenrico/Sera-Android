@@ -9,10 +9,6 @@ import com.guerra.enrico.models.exceptions.GenericException
 import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.models.exceptions.RemoteException
 
-/**
- * Created by enrico
- * on 04/12/2018.
- */
 class MessageExceptionManager(private val throwable: Throwable) {
 
   fun getResources(): ExceptionResources = when (throwable) {

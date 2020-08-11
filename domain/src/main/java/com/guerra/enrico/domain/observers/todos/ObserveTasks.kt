@@ -10,10 +10,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 12/11/2019.
- */
 class ObserveTasks @Inject constructor(
   private val taskRepository: TaskRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher

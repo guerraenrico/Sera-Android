@@ -7,10 +7,6 @@ import androidx.lifecycle.Observer
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-/**
- * Created by enrico
- * on 27/05/2020.
- */
 class AutoClearValue<T : Any>(private val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
   private var _value: T? = null
 

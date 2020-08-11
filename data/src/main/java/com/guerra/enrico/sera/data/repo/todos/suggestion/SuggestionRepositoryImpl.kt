@@ -8,10 +8,6 @@ import com.guerra.enrico.models.todos.Suggestion
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 31/03/2020.
- */
 class SuggestionRepositoryImpl @Inject constructor(
   private val localDbManager: LocalDbManager
 ) : SuggestionRepository {

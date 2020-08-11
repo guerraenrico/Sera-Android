@@ -10,11 +10,7 @@ import com.guerra.enrico.base.logger.Logger
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 20/12/2018.
- */
-class TodosWorkerImpl @Inject constructor(
+internal class TodosWorkerImpl @Inject constructor(
   private val workManager: WorkManager,
   private val logger: Logger
 ) : TodosWorker {

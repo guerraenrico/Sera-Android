@@ -8,10 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-/**
- * Created by enrico
- * on 04/07/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 object WorkerModule {

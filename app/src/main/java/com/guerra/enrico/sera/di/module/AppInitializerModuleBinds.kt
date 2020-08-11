@@ -8,10 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.multibindings.IntoSet
 
-/**
- * Created by enrico
- * on 09/03/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class AppInitializerModuleBinds {

@@ -9,10 +9,6 @@ import com.guerra.enrico.remote.response.AuthData
 import com.guerra.enrico.remote.response.CallResult
 import java.util.*
 
-/**
- * Created by enrico
- * on 10/09/2018.
- */
 interface RemoteDataManager {
   /* Sign In */
 

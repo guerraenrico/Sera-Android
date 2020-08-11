@@ -6,11 +6,6 @@ import com.android.tools.lint.detector.api.ResourceXmlDetector
 import com.android.tools.lint.detector.api.XmlContext
 import org.w3c.dom.Attr
 
-/**
- * Created by enrico
- * on 27/02/2020.
- */
-
 class DirectColorUseDetector : ResourceXmlDetector() {
   override fun getApplicableAttributes(): Collection<String>? {
     return listOf(

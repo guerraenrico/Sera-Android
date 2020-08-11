@@ -8,10 +8,6 @@ import com.guerra.enrico.sera.data.repo.todos.category.CategoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 12/11/2019.
- */
 class InsertCategory @Inject constructor(
   private val categoryRepository: CategoryRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher

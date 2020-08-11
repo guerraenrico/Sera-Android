@@ -1,42 +1,25 @@
 package com.guerra.enrico.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
-import com.guerra.enrico.base.extensions.applyWindowInsets
-import com.guerra.enrico.base.extensions.launchWhenResumed
-import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.extensions.observeEvent
 import com.guerra.enrico.base_android.arch.BaseFragment
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
+import com.guerra.enrico.components.recyclerview.decorators.VerticalDividerItemDecoration
+import com.guerra.enrico.settings.models.SettingsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.coroutines.delay
 
-/**
- * Created by enrico
- * on 08/03/2020.
- */
 @AndroidEntryPoint
-internal class SettingsFragment : BaseFragment() {
+internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
   private val viewModel: SettingsViewModel by viewModels()
 
   private lateinit var settingAdapter: SettingAdapter
-
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_settings, container, false)
-  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -53,41 +36,39 @@ internal class SettingsFragment : BaseFragment() {
     toolbar.applyWindowInsets(top = true)
 
     initRecyclerView()
-    observe(viewModel.list) {
-      settingAdapter.submitList(it)
-    }
-    observeEvent(viewModel.enableDarkTheme) {
-      launchWhenResumed {
-        delay(400)
-        if (it) {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-      }
-    }
+    setupObservers()
   }
 
   private fun initRecyclerView() {
     settingAdapter = SettingAdapter(viewModel)
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    val defaultItemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
     recycler_view_settings.apply {
       layoutManager = linearLayoutManager
       adapter = settingAdapter
-      (itemAnimator as DefaultItemAnimator).run {
-        supportsChangeAnimations = false
-        addDuration = 160L
-        moveDuration = 160L
-        changeDuration = 160L
-        removeDuration = 120L
+      itemAnimator = defaultItemAnimator
+      addItemDecoration(VerticalDividerItemDecoration(context))
+    }
+  }
+
+  private fun setupObservers() {
+    observe(viewModel.viewState) { state ->
+      when (state) {
+        SettingsState.Idle -> {
+        }
+        is SettingsState.Items -> {
+          val list = state.toOptions()
+          settingAdapter.submitList(list)
+        }
       }
-      addItemDecoration(
-        DividerItemDecoration(
-          requireContext(),
-          DividerItemDecoration.VERTICAL
-        ).apply {
-          setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
-        })
+    }
+
+    observeEvent(viewModel.enableDarkTheme) { enabled ->
+      if (enabled) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+      } else {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+      }
     }
   }
 }

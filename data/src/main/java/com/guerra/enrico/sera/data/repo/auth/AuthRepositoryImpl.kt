@@ -10,19 +10,11 @@ import com.guerra.enrico.models.exceptions.ConnectionException
 import com.guerra.enrico.models.exceptions.LocalException
 import com.guerra.enrico.models.exceptions.RemoteException
 import com.guerra.enrico.remote.RemoteDataManager
-import com.guerra.enrico.remote.response.ApiError
 import com.guerra.enrico.remote.response.AuthData
-import com.guerra.enrico.remote.response.CallResult
-import com.guerra.enrico.remote.response.toRemoteExceptionOrUnknown
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import java.io.InvalidClassException
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 14/10/2018.
- */
 class AuthRepositoryImpl @Inject constructor(
   private val remoteDataManager: RemoteDataManager,
   private val localDbManager: LocalDbManager,
@@ -40,7 +32,6 @@ class AuthRepositoryImpl @Inject constructor(
         Result.Success(data.user)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
@@ -59,7 +50,6 @@ class AuthRepositoryImpl @Inject constructor(
         Result.Success(data.user)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 
@@ -77,7 +67,6 @@ class AuthRepositoryImpl @Inject constructor(
         Result.Success(Unit)
       }
       is Result.Error -> Result.Error(apiResult.exception)
-      is Result.Loading -> throw InvalidClassException("Result class not supported")
     }
   }
 

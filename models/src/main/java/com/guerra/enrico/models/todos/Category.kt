@@ -13,10 +13,6 @@ import com.guerra.enrico.models.sync.Syncable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-/**
- * Created by enrico
- * on 02/06/2018.
- */
 @Parcelize
 @Entity(tableName = "Category")
 data class Category constructor(

@@ -8,10 +8,6 @@ import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 
-/**
- * Created by enrico
- * on 29/02/2020.
- */
 object DirectDimenUseIssue {
   private const val ID = "DirectDimenUse"
   private const val DESCRIPTION = "Dimen used directly"

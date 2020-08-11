@@ -1,15 +1,16 @@
 package com.guerra.enrico.local.dao.todos
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-/**
- * Created by enrico
- * on 02/06/2018.
- */
 @Dao
 interface TaskDao {
   @Query("SELECT * FROM Task  WHERE completed = :completed")

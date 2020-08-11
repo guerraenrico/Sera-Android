@@ -11,10 +11,6 @@ import android.view.ViewGroup
 import androidx.core.content.withStyledAttributes
 import com.guerra.enrico.base_android.R
 
-/**
- * Created by enrico
- * on 22/03/2020.
- */
 class FadeTransition(context: Context, attributeSet: AttributeSet) :
   Transition(context, attributeSet) {
 

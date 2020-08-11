@@ -14,10 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/**
- * Created by enrico
- * on 05/07/2020.
- */
 @HiltAndroidTest
 @UninstallModules(CoroutineDispatcherModule::class)
 @RunWith(AndroidJUnit4::class)
@@ -33,7 +29,7 @@ class RootActivityTest {
 
   @Test
   fun testLoadTodosFragment() {
-    onView(withId(R.id.todos_container)).check(matches(isDisplayed()))
+    onView(withId(R.id.container)).check(matches(isDisplayed()))
   }
 
 }

@@ -8,10 +8,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 12/11/2019.
- */
 class ObserveCategories @Inject constructor(
   private val categoryRepository: CategoryRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher

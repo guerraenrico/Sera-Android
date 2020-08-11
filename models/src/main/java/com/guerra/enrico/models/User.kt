@@ -4,10 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-/**
- * Created by enrico
- * on 14/10/2018.
- */
 @Entity(tableName = "User")
 data class User constructor(
   @PrimaryKey @ColumnInfo(name = "id") val id: String = "",

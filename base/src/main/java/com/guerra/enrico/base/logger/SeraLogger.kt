@@ -3,10 +3,6 @@ package com.guerra.enrico.base.logger
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 12/12/2019.
- */
 class SeraLogger @Inject constructor() : Logger {
   override fun e(code: String) {
     Timber.e("code: $code")

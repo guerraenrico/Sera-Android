@@ -6,10 +6,6 @@ import com.google.gson.reflect.TypeToken
 import com.guerra.enrico.models.todos.Category
 import java.util.Collections.emptyList
 
-/**
- * Created by enrico
- * on 01/06/2019.
- */
 internal object CategoryConverter {
   @TypeConverter
   @JvmStatic

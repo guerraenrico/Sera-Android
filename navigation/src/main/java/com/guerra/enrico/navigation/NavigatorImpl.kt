@@ -6,10 +6,6 @@ import androidx.annotation.StringRes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 16/05/2020.
- */
 internal class NavigatorImpl @Inject constructor(
   @ApplicationContext private val context: Context
 ) : Navigator {

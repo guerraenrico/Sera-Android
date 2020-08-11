@@ -2,19 +2,16 @@ package com.guerra.enrico.remote.response
 
 import com.guerra.enrico.base.Result as Res
 
-/**
- * Created by enrico
- * on 15/12/2019.
- */
 sealed class CallResult<out R: Any> {
   data class Result<out T: Any>(val apiResponse: ApiResponse<T>) : CallResult<T>() {
 
-    fun getDataIfSucceeded(): T? =
-      if (apiResponse.success) {
+    fun dataOrNull(): T? {
+      return if (apiResponse.success) {
         apiResponse.data
       } else {
         null
       }
+    }
 
   }
 
@@ -23,7 +20,7 @@ sealed class CallResult<out R: Any> {
   fun toResult(): Res<R> =
     when (this) {
       is Result -> {
-        val data = this.getDataIfSucceeded()
+        val data = this.dataOrNull()
         if (data != null) {
           Res.Success(data)
         } else {

@@ -4,48 +4,44 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.util.Pair
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
-import com.guerra.enrico.base.Result
-import com.guerra.enrico.base.extensions.applyWindowInsets
-import com.guerra.enrico.base.extensions.makeSceneTransitionAnimation
-import com.guerra.enrico.base.extensions.observe
-import com.guerra.enrico.base.extensions.observeEvent
+import com.guerra.enrico.base.extensions.exhaustive
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.exception.MessageExceptionManager
+import com.guerra.enrico.base_android.extensions.applyWindowInsets
+import com.guerra.enrico.base_android.extensions.makeSceneTransitionAnimation
+import com.guerra.enrico.base_android.widget.SnackbarBuilder
+import com.guerra.enrico.components.recyclerview.decorators.VerticalDividerItemDecoration
 import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.adapter.TaskAdapter
-import com.guerra.enrico.todos.search.TodoSearchActivity
+import com.guerra.enrico.todos.models.SnackbarEvent
+import com.guerra.enrico.todos.models.TodosEvent
+import com.guerra.enrico.todos.models.TodosState
+import com.guerra.enrico.todos.search.TodoSearchFragment.Companion.SEARCH_RESULT_KEY
+import com.guerra.enrico.todos.search.TodoSearchFragment.Companion.SEARCH_RESULT_REQUEST_CODE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_todos.*
 
-/**
- * Created by enrico
- * on 27/05/2018.
- */
 @AndroidEntryPoint
-internal class TodosFragment : BaseFragment() {
-  private val todosViewModel: TodosViewModel by viewModels()
+internal class TodosFragment : BaseFragment(R.layout.fragment_todos) {
+  private val viewModel: TodosViewModel by viewModels()
 
-  private lateinit var taskAdapter: TaskAdapter
-
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_todos, container, false)
+  private val taskAdapter: TaskAdapter by lazyFast {
+    TaskAdapter(
+      onTaskClick = viewModel::onTaskClick,
+      onSwipeToComplete = viewModel::onTaskSwipeToComplete
+    )
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,90 +68,84 @@ internal class TodosFragment : BaseFragment() {
 
     setupRecyclerView()
     setupSearch()
-
-    observeTaskList()
-    observeSnackbarMessage()
-    observeRefresh()
-  }
-
-  private fun observeTaskList() {
-    observe(todosViewModel.tasks) { tasksResult ->
-      if (tasksResult is Result.Loading) {
-        return@observe
-      }
-      message_layout.hide()
-      if (tasksResult is Result.Success) {
-        recycler_view_tasks.visibility = View.VISIBLE
-        taskAdapter.submitList(tasksResult.data)
-        return@observe
-      }
-      if (tasksResult is Result.Error) {
-        val messageResources = MessageExceptionManager(tasksResult.exception).getResources()
-        recycler_view_tasks.visibility = View.GONE
-        message_layout.apply {
-          setImage(messageResources.icon)
-          setMessage(messageResources.message)
-          setButton(resources.getString(R.string.message_layout_button_try_again)) {
-            todosViewModel.onRefreshData()
-          }
-          show()
-        }
-      }
-    }
-  }
-
-  private fun observeSnackbarMessage() {
-    observeEvent(todosViewModel.snackbarMessage) {
-      showSnackbar(
-        message = it.getMessage(requireContext()),
-        actionText = it.getActionText(requireContext()),
-        onAction = it.onAction,
-        onDismiss = it.onDismiss
-      )
-    }
-  }
-
-  private fun observeRefresh() {
-    observe(todosViewModel.swipeRefresh) { refresh ->
-      refresh_layout_tasks.isRefreshing = refresh
-    }
+    setupObservers()
   }
 
   private fun setupRecyclerView() {
-    refresh_layout_tasks.setOnRefreshListener { todosViewModel.onRefreshData() }
-
-    taskAdapter = TaskAdapter(todosViewModel)
-
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-    recycler_view_tasks.apply {
+    val defaultItemAnimator = DefaultItemAnimator().apply {
+      supportsChangeAnimations = false
+      addDuration = 160L
+      moveDuration = 160L
+      changeDuration = 160L
+      removeDuration = 120L
+    }
+    recyclerView.apply {
       layoutManager = linearLayoutManager
       adapter = taskAdapter
-      (itemAnimator as DefaultItemAnimator).run {
-        supportsChangeAnimations = false
-        addDuration = 160L
-        moveDuration = 160L
-        changeDuration = 160L
-        removeDuration = 120L
-      }
-      addItemDecoration(
-        DividerItemDecoration(
-          requireContext(),
-          DividerItemDecoration.VERTICAL
-        ).apply {
-          setDrawable(requireContext().getDrawable(R.drawable.line_item_divider) ?: return)
-        })
+      itemAnimator = defaultItemAnimator
+      addItemDecoration(VerticalDividerItemDecoration(requireContext()))
     }
   }
 
   private fun setupSearch() {
-    toolbar_edit_text_search.setOnClickListener {
+    editTextSearch.setOnClickListener {
       val options = requireActivity().makeSceneTransitionAnimation(
-        Pair(root_container as View, getString(R.string.todos_container_transition)),
-        Pair(toolbar_edit_text_search as View, getString(R.string.todos_search_transition))
+        Pair(rootContainer as View, getString(R.string.todos_container_transition)),
+        Pair(editTextSearch as View, getString(R.string.todos_search_transition))
       )
       val extras = ActivityNavigator.Extras.Builder().setActivityOptions(options).build()
       findNavController().navigate(R.id.startTodoSearchActivity, null, null, extras)
     }
+  }
+
+  private fun setupObservers() {
+    observe(viewModel.viewState) { state ->
+      when (state) {
+        TodosState.Idle -> {
+        }
+        is TodosState.Data -> renderData(state)
+        is TodosState.Error -> renderError(state)
+      }.exhaustive
+    }
+
+    observeEvent(viewModel.events) { event ->
+      when (event) {
+        is TodosEvent.ShowSnackbar -> renderSnackbar(event.snackbarEvent)
+      }.exhaustive
+    }
+  }
+
+  private fun renderData(state: TodosState.Data) {
+    messageLayout.hide()
+    recyclerView.isVisible = true
+    taskAdapter.submitList(state.visibleTasks)
+  }
+
+  private fun renderError(state: TodosState.Error) {
+    recyclerView.isVisible = false
+    val messageResources = MessageExceptionManager(state.exception).getResources()
+    messageLayout.apply {
+      setImage(messageResources.icon)
+      setMessage(messageResources.message)
+      show()
+    }
+  }
+
+  private fun renderSnackbar(snackbarEvent: SnackbarEvent) {
+    var builder = SnackbarBuilder()
+    builder = when (snackbarEvent) {
+      is SnackbarEvent.UndoCompleteTask ->
+        builder
+          .message(R.string.message_task_completed)
+          .action(R.string.snackbar_action_abort, snackbarEvent.onAction)
+          .onDismiss(snackbarEvent.onDismiss)
+      is SnackbarEvent.Message -> {
+        val exceptionResources = MessageExceptionManager(snackbarEvent.exception)
+        builder.message(exceptionResources.getResources().message)
+      }
+    }
+    showSnackbar(builder)
   }
 
   private fun onMenuItemClick(item: MenuItem): Boolean {
@@ -169,17 +159,14 @@ internal class TodosFragment : BaseFragment() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    val code = TodoSearchActivity.SEARCH_RESULT_REQUEST_CODE
-    val key = TodoSearchActivity.SEARCH_RESULT_KEY
+    val code = SEARCH_RESULT_REQUEST_CODE
+    val key = SEARCH_RESULT_KEY
 
     if (requestCode == code) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-
         val searchData = data.getParcelableExtra<SearchData>(key) ?: return
-        todosViewModel.onSearchResult(searchData)
+        viewModel.onSearchResult(searchData)
       }
-    } else {
-      super.onActivityResult(requestCode, resultCode, data)
     }
   }
 }

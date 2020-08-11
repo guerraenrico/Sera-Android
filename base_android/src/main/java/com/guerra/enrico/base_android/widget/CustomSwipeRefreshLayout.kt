@@ -7,9 +7,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlin.math.abs
 
 /**
- * Created by enrico
- * on 05/01/2020.
- *
  * The refresh layout animate only if the user scroll with a more
  * up-down gesture
  */

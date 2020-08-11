@@ -6,22 +6,34 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.base.extensions.inflate
+import com.guerra.enrico.base_android.extensions.inflate
+import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.todos.R
-import com.guerra.enrico.todos.presentation.CategoryPresentation
 
-/**
- * Created by enrico
- * on 21/08/2018.
- */
 internal enum class ViewSize {
   NORMAL, SMALL
 }
 
 internal class CategoryAdapter(
   private val viewSize: ViewSize = ViewSize.NORMAL,
-  private val onCategoryClick: (CategoryPresentation) -> Unit
-) : ListAdapter<CategoryPresentation, CategoryViewHolder>(CategoryDiff) {
+  private val onCategoryClick: (Category) -> Unit
+) : ListAdapter<Category, CategoryViewHolder>(CategoryDiff) {
+
+  private var selectedCategory: Category? = null
+
+  fun updateSelectedCategory(category: Category?) {
+    if (selectedCategory == category) return
+
+    val selectedPosition = currentList.indexOf(selectedCategory)
+    val newSelectedPosition = currentList.indexOf(category)
+    selectedCategory = category
+    if (selectedPosition != -1) {
+      notifyItemChanged(selectedPosition)
+    }
+    if (newSelectedPosition != -1) {
+      notifyItemChanged(newSelectedPosition)
+    }
+  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
     val itemView = parent.inflate(viewType)
@@ -29,7 +41,8 @@ internal class CategoryAdapter(
   }
 
   override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-    holder.bind(getItem(position), onCategoryClick)
+    val category = getItem(position)
+    holder.bind(category, onCategoryClick, category.id == selectedCategory?.id)
   }
 
   override fun getItemViewType(position: Int): Int {
@@ -42,28 +55,21 @@ internal class CategoryAdapter(
 
 internal class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-  private val name: TextView = view.findViewById(R.id.label_category_name)
+  private val name: TextView = itemView.findViewById(R.id.categoryName)
 
-  fun bind(categoryPresentation: CategoryPresentation, onClick: (CategoryPresentation) -> Unit) {
-    name.text = categoryPresentation.category.name
-    name.isSelected = categoryPresentation.isChecked
-    name.setOnClickListener { onClick(categoryPresentation) }
+  fun bind(category: Category, onClick: (Category) -> Unit, isSelected: Boolean) {
+    name.text = category.name
+    name.isSelected = isSelected
+    name.setOnClickListener { onClick(category) }
   }
 }
 
-internal object CategoryDiff : DiffUtil.ItemCallback<CategoryPresentation>() {
-  override fun areItemsTheSame(
-    oldItem: CategoryPresentation,
-    newItem: CategoryPresentation
-  ): Boolean {
-    return oldItem.category.id == newItem.category.id
+internal object CategoryDiff : DiffUtil.ItemCallback<Category>() {
+  override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+    return oldItem.id == newItem.id
   }
 
-  override fun areContentsTheSame(
-    oldItem: CategoryPresentation,
-    newItem: CategoryPresentation
-  ): Boolean {
+  override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
     return oldItem == newItem
   }
-
 }

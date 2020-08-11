@@ -7,11 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 16/10/2018.
- */
-class PreferencesManagerImpl @Inject constructor(
+internal class PreferencesManagerImpl @Inject constructor(
   @ApplicationContext context: Context,
   @PreferencesFile preferenceFile: String
 ) : PreferencesManager {

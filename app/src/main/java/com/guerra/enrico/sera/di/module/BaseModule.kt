@@ -10,10 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
-/**
- * Created by enrico
- * on 16/02/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class BaseModule {

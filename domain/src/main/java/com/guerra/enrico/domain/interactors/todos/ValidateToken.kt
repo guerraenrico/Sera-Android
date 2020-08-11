@@ -8,18 +8,14 @@ import com.guerra.enrico.sera.data.repo.auth.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-/**
- * Created by enrico
- * on 12/11/2019.
- */
 class ValidateToken @Inject constructor(
   private val authRepository: AuthRepository,
   @IODispatcher override val dispatcher: CoroutineDispatcher
 ) : Interactor<Unit, Result<User>>() {
 
-  override suspend fun doWork(params: Unit): Result<User> =
-    authRepository.refreshTokenIfNotAuthorized {
+  override suspend fun doWork(params: Unit): Result<User> {
+    return authRepository.refreshTokenIfNotAuthorized {
       authRepository.validateAccessToken()
     }
-
+  }
 }

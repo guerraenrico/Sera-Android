@@ -13,30 +13,26 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
-/**
- * Created by enrico
- * on 31/03/2020.
- */
 @InstallIn(ApplicationComponent::class)
 @Module
 object LocalModule {
   @Provides
   @Singleton
-  fun provideSeraDatabase(@ApplicationContext context: Context): SeraDatabase =
+  internal fun provideSeraDatabase(@ApplicationContext context: Context): SeraDatabase =
     SeraDatabase.getInstance(context)
 
   @Provides
   @Singleton
-  fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager =
+  internal fun provideLocalDbManager(localDbManager: LocalDbManagerImpl): LocalDbManager =
     localDbManager
 
   @Provides
   @Singleton
-  fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager =
+  internal fun providePreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager =
     preferencesManager
 
   @Provides
   @Singleton
   @PreferencesFile
-  fun providePreferencesFile(): String = "com.guerra.enrico.sera.prefs"
+  internal fun providePreferencesFile(): String = "com.guerra.enrico.sera.prefs"
 }

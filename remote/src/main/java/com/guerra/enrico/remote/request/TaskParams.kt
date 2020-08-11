@@ -4,10 +4,6 @@ import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Task
 import java.util.*
 
-/**
- * Created by enrico
- * on 17/10/2018.
- */
 data class TaskParams(
   val id: String,
   val title: String,

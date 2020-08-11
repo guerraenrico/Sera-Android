@@ -4,14 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.guerra.enrico.base.extensions.inflate
+import com.guerra.enrico.base_android.extensions.inflate
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.todos.R
 
-/**
- * Created by enrico
- * on 04/01/2020.
- */
 internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHolder>() {
   var categories = emptyList<Category>()
 
@@ -28,7 +24,7 @@ internal class SimpleCategoryAdapter : RecyclerView.Adapter<SimpleCategoryViewHo
 }
 
 internal class SimpleCategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-  private val name: TextView = view.findViewById(R.id.label_category_name)
+  private val name: TextView = view.findViewById(R.id.categoryName)
   fun bind(category: Category) {
     name.text = category.name
   }

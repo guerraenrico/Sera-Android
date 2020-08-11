@@ -19,10 +19,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
-/**
- * Created by enrico
- * on 31/03/2020.
- */
+
 @InstallIn(ApplicationComponent::class)
 @Module
 abstract class DataModule {

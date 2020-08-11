@@ -6,7 +6,7 @@
 
     <transitionSet>
         <targets>
-            <target android:targetId="@id/todos_container" />
+            <target android:targetId="@id/container" />
         </targets>
         <transition
             class="com.guerra.enrico.base_android.animation.FadeTransition"
