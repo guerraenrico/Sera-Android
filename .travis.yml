@@ -21,6 +21,6 @@ cache:
   - "$HOME/.gradle/wrapper/"
   - "$HOME/.android/build-cache"
 
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
