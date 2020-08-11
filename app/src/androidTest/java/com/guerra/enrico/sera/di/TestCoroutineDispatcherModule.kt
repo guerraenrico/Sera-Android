@@ -12,10 +12,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
 
-/**
- * Created by enrico
- * on 07/07/2020.
- */
 @Module
 @InstallIn(ApplicationComponent::class)
 object TestCoroutineDispatcherModule {

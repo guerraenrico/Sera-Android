@@ -14,10 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/**
- * Created by enrico
- * on 05/07/2020.
- */
 @HiltAndroidTest
 @UninstallModules(CoroutineDispatcherModule::class)
 @RunWith(AndroidJUnit4::class)
