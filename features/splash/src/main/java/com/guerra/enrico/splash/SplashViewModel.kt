@@ -14,7 +14,10 @@ import kotlinx.coroutines.launch
 internal class SplashViewModel @ViewModelInject constructor(
   @IODispatcher dispatcher: CoroutineDispatcher,
   validateToken: ValidateToken
-) : SingleStateViewModel<SplashState>(dispatcher = dispatcher, initialState = SplashState.Idle) {
+) : SingleStateViewModel<SplashState, Unit>(
+  dispatcher = dispatcher,
+  initialState = SplashState.Idle
+) {
   init {
     viewModelScope.launch {
       isLoading = true

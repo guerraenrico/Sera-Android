@@ -1,11 +1,14 @@
 package com.guerra.enrico.base_android.arch.viewmodel
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guerra.enrico.base.Event
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
@@ -13,39 +16,43 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-open class BaseViewModel<VMS : Any, VS : Any>(
+open class BaseViewModel<VMS : Any, VS : Any, E : Any>(
   initialState: VMS,
   converter: Converter<VMS, VS>,
   dispatcher: CoroutineDispatcher,
   configuration: Configuration = Configuration(debounce = 50L)
 ) : ViewModel() {
 
-  private val _state = MutableStateFlow(initialState)
+  private val stateFlow = MutableStateFlow(initialState)
   protected var state: VMS
-    get() = _state.value
+    get() = stateFlow.value
     set(value) {
-      _state.value = value
+      stateFlow.value = value
     }
 
-  private val _viewState = MutableStateFlow(converter.convert(initialState))
+  private val viewStateFlow = MutableStateFlow(converter.convert(initialState))
   val viewState: Flow<VS>
-    get() = _viewState
+    get() = viewStateFlow
 
   protected var isLoading: Boolean = false
     set(value) {
-      _loading.value = Event(value)
+      loadingFlow.value = Event(value)
     }
-  private val _loading = MutableStateFlow(Event(isLoading))
+  private val loadingFlow = MutableStateFlow(Event(isLoading))
   val loading: Flow<Event<Boolean>>
-    get() = _loading
+    get() = loadingFlow
+
+  protected val eventsChannel = ConflatedBroadcastChannel<Event<E>>()
+  val events: Flow<Event<E>>
+    get() = eventsChannel.asFlow()
 
   init {
-    _state
+    stateFlow
       .debounce(configuration.debounce)
       .map { converter.convert(it) }
       .distinctUntilChanged()
       .flowOn(dispatcher)
-      .onEach { _viewState.value = it }
+      .onEach { viewStateFlow.value = it }
       .launchIn(viewModelScope)
   }
 
@@ -54,5 +61,11 @@ open class BaseViewModel<VMS : Any, VS : Any>(
     if (currentState is T) {
       block(currentState)
     }
+  }
+
+  @CallSuper
+  override fun onCleared() {
+    super.onCleared()
+    eventsChannel.cancel()
   }
 }

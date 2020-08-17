@@ -2,7 +2,6 @@ package com.guerra.enrico.todos
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.IODispatcher
 import com.guerra.enrico.base.extensions.event
@@ -20,9 +19,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -34,13 +30,9 @@ internal class TodosViewModel @ViewModelInject constructor(
   observeCategories: ObserveCategories,
   private val observeTasks: ObserveTasks,
   private val updateTaskCompleteState: UpdateTaskCompleteState
-) : SingleStateViewModel<TodosState>(
+) : SingleStateViewModel<TodosState, TodosEvent>(
   initialState = TodosState.Idle, dispatcher = dispatcher
 ) {
-
-  private val _events = ConflatedBroadcastChannel<Event<TodosEvent>>()
-  val events: Flow<Event<TodosEvent>>
-    get() = _events.asFlow()
 
   init {
     observeTasks.observe()
@@ -76,7 +68,7 @@ internal class TodosViewModel @ViewModelInject constructor(
 
   fun onTaskSwipeToComplete(task: Task) = runIf<TodosState.Data> { data ->
     state = reducer.addPendingCompletedTask(data, task)
-    _events.event = TodosEvent.ShowSnackbar(SnackbarEvent.UndoCompleteTask(
+    eventsChannel.event = TodosEvent.ShowSnackbar(SnackbarEvent.UndoCompleteTask(
       onAction = { undoCompletedTask(task) },
       onDismiss = { commitPendingCompletedTasks() }
     ))
@@ -95,7 +87,7 @@ internal class TodosViewModel @ViewModelInject constructor(
 
         val errorResult = results.firstOrNull { it is Result.Error }
         if (errorResult != null && errorResult is Result.Error) {
-          _events.event =
+          eventsChannel.event =
             TodosEvent.ShowSnackbar(SnackbarEvent.Message(errorResult.exception))
         }
       }

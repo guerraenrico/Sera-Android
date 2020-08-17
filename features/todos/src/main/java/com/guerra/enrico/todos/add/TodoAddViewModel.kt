@@ -2,7 +2,6 @@ package com.guerra.enrico.todos.add
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.dispatcher.CPUDispatcher
 import com.guerra.enrico.base.extensions.event
@@ -16,9 +15,6 @@ import com.guerra.enrico.todos.add.models.Step
 import com.guerra.enrico.todos.add.models.TodoAddEvent
 import com.guerra.enrico.todos.add.models.TodoAddState
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,14 +26,10 @@ internal class TodoAddViewModel @ViewModelInject constructor(
   observeCategories: ObserveCategories,
   private val insertCategory: InsertCategory,
   private val insertTask: InsertTask
-) : SingleStateViewModel<TodoAddState>(
+) : SingleStateViewModel<TodoAddState, TodoAddEvent>(
   initialState = TodoAddState(),
   dispatcher = dispatcher
 ) {
-
-  private val _events = ConflatedBroadcastChannel<Event<TodoAddEvent>>()
-  val events: Flow<Event<TodoAddEvent>>
-    get() = _events.asFlow()
 
   init {
     observeCategories.observe()
@@ -68,7 +60,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
           goToNextStep(Step.ADD_TASK)
         }
         is Result.Error -> {
-          _events.event = TodoAddEvent.ShowSnackbar(result.exception)
+          eventsChannel.event = TodoAddEvent.ShowSnackbar(result.exception)
         }
       }
     }
@@ -93,7 +85,7 @@ internal class TodoAddViewModel @ViewModelInject constructor(
           goToNextStep(Step.DONE)
         }
         is Result.Error -> {
-          _events.event = TodoAddEvent.ShowSnackbar(result.exception)
+          eventsChannel.event = TodoAddEvent.ShowSnackbar(result.exception)
         }
       }
     }
