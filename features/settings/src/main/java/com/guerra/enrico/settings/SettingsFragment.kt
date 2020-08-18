@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialFadeThrough
+import com.guerra.enrico.base.extensions.exhaustive
+import com.guerra.enrico.base.extensions.lazyFast
 import com.guerra.enrico.base_android.arch.BaseFragment
 import com.guerra.enrico.base_android.extensions.applyWindowInsets
 import com.guerra.enrico.components.recyclerview.decorators.VerticalDividerItemDecoration
+import com.guerra.enrico.settings.models.SettingEvent
 import com.guerra.enrico.settings.models.SettingsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -19,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
   private val viewModel: SettingsViewModel by viewModels()
 
-  private lateinit var settingAdapter: SettingAdapter
+  private val settingAdapter: SettingAdapter by lazyFast {
+    SettingAdapter(viewModel)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -40,7 +45,6 @@ internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
   }
 
   private fun initRecyclerView() {
-    settingAdapter = SettingAdapter(viewModel)
     val linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     val defaultItemAnimator = DefaultItemAnimator().apply { supportsChangeAnimations = false }
     recycler_view_settings.apply {
@@ -63,12 +67,18 @@ internal class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
       }
     }
 
-    observeEvent(viewModel.enableDarkTheme) { enabled ->
-      if (enabled) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-      } else {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-      }
+    observeEvent(viewModel.events) { event ->
+      when (event) {
+        is SettingEvent.EnableDarkMode -> toggleNightMode(event.enable)
+      }.exhaustive
+    }
+  }
+
+  private fun toggleNightMode(enabled: Boolean) {
+    if (enabled) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
   }
 }

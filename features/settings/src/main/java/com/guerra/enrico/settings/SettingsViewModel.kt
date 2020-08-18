@@ -19,8 +19,7 @@ internal class SettingsViewModel @ViewModelInject constructor(
 ) : SingleStateViewModel<SettingsState, SettingEvent>(
   initialState = SettingsState.Idle,
   dispatcher = dispatcher
-),
-  EventActions {
+), EventActions {
 
   init {
     getList()
