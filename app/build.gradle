@@ -75,8 +75,6 @@ dependencies {
 
     implementation project(":navigation")
 
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.android:flexbox:$flexboxVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"

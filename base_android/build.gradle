@@ -27,8 +27,6 @@ dependencies {
     implementation project(":models")
     implementation project(":common:resources") // Maybe not optimal
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 
