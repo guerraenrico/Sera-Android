@@ -16,7 +16,7 @@ internal class LoginViewModel @ViewModelInject constructor(
   @IODispatcher val dispatcher: CoroutineDispatcher,
   private val signIn: SignIn,
   private val syncTodos: SyncTodos
-) : SingleStateViewModel<LoginState>(dispatcher = dispatcher, initialState = LoginState.Login) {
+) : SingleStateViewModel<LoginState, Unit>(dispatcher = dispatcher, initialState = LoginState.Login) {
 
   fun onCodeReceived(code: String) {
     viewModelScope.launch {

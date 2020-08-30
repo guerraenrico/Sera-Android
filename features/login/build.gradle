@@ -35,8 +35,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation project(":base")
     implementation project(":base_android")
     implementation project(":components")
@@ -45,7 +43,6 @@ dependencies {
     implementation project(":common:resources")
     implementation project(":navigation")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"

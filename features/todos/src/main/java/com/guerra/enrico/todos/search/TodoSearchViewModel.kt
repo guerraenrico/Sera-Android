@@ -2,7 +2,6 @@ package com.guerra.enrico.todos.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import com.guerra.enrico.base.Event
 import com.guerra.enrico.base.Result
 import com.guerra.enrico.base.coroutine.AutoDisposableJob
 import com.guerra.enrico.base.dispatcher.CPUDispatcher
@@ -17,10 +16,7 @@ import com.guerra.enrico.navigation.models.todos.SearchData
 import com.guerra.enrico.todos.search.models.TodoSearchEvent
 import com.guerra.enrico.todos.search.models.TodoSearchState
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,16 +30,12 @@ internal class TodoSearchViewModel @ViewModelInject constructor(
   private val getSuggestions: GetSuggestions,
   private val createSuggestion: CreateSuggestion,
   private val rankUpSuggestion: RankUpSuggestion
-) : SingleStateViewModel<TodoSearchState>(
+) : SingleStateViewModel<TodoSearchState, TodoSearchEvent>(
   dispatcher = dispatcher,
   initialState = TodoSearchState()
 ) {
 
   private val typingFlow = MutableStateFlow("")
-
-  private val _events = ConflatedBroadcastChannel<Event<TodoSearchEvent>>()
-  val events: Flow<Event<TodoSearchEvent>>
-    get() = _events.asFlow()
 
   private var job by AutoDisposableJob()
 
@@ -72,21 +64,21 @@ internal class TodoSearchViewModel @ViewModelInject constructor(
   fun onSearch(text: String) {
     viewModelScope.launch {
       createSuggestion(CreateSuggestion.Params.WithText(text))
-      _events.event = TodoSearchEvent.SearchResult(SearchData(text = text))
+      eventsChannel.event = TodoSearchEvent.SearchResult(SearchData(text = text))
     }
   }
 
   fun onCategoryClick(category: Category) {
     viewModelScope.launch {
       createSuggestion(CreateSuggestion.Params.WithCategory(category))
-      _events.event = TodoSearchEvent.SearchResult(SearchData(category = category))
+      eventsChannel.event = TodoSearchEvent.SearchResult(SearchData(category = category))
     }
   }
 
   fun onSuggestionClick(suggestion: Suggestion) {
     viewModelScope.launch {
       rankUpSuggestion(RankUpSuggestion.Params(suggestion))
-      _events.event = TodoSearchEvent.SearchResult(SearchData(suggestion = suggestion))
+      eventsChannel.event = TodoSearchEvent.SearchResult(SearchData(suggestion = suggestion))
     }
   }
 
