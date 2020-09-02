@@ -1,16 +1,16 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+import com.guerra.enrico.sera.buildsrc.Libs
 
-dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
-    compileOnly "com.android.tools.lint:lint-api:$lintVersion"
-    compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
+plugins {
+    id 'java-library'
+    id 'kotlin'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+dependencies {
+
+    compileOnly Libs.Lint.api
+    compileOnly Libs.Lint.checks
+}
+
 
 jar {
     manifest {

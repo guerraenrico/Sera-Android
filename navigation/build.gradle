@@ -1,8 +1,12 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
     compileSdkVersion compileSdk
@@ -22,10 +26,10 @@ dependencies {
     implementation project(":models")
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation Libs.Navigation.fragmentKtx
+    implementation Libs.Navigation.uiKtx
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
 }

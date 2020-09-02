@@ -1,7 +1,11 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+import com.guerra.enrico.sera.buildsrc.Libs
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
 
 android {
     compileSdkVersion compileSdk
@@ -17,11 +21,11 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    implementation Libs.Kotlin.coroutines
 
-    implementation "androidx.test:core:$testCoreVersion"
-    implementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+    implementation Libs.AndroidX.Test.core
+    implementation Libs.AndroidX.Test.archCore
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    implementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    implementation Libs.Kotlin.Test.coroutines
+    implementation Libs.Kotlin.Test.kotlin
 }
