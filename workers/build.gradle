@@ -28,6 +28,8 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
+    implementation Libs.Hilt.work
+
 
     // Work Manager
     implementation Libs.WorkManager
