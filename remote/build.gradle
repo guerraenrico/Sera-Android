@@ -1,14 +1,19 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,16 +41,16 @@ dependencies {
     implementation project(":models")
 
     // Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    implementation Libs.Kotlin.coroutines
 
     // Gson
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation Libs.Gson
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation Libs.Retrofit.lib
+    implementation Libs.Retrofit.converterGson
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
 }

@@ -1,12 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
     }
 
     compileOptions {
@@ -20,11 +25,10 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-
     implementation project(":common:resources")
 
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.Google.material
+    implementation Libs.AndroidX.constraintLayout
 }

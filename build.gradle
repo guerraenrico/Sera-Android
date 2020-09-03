@@ -1,52 +1,6 @@
+import com.guerra.enrico.sera.buildsrc.Libs
+
 buildscript {
-    ext {
-        compileSdk = 29
-        minSdk = 21
-        kotlinVersion = "1.4.0"
-        ktxVersion = "1.3.1"
-        fragmentVersion = "1.3.0-alpha07"
-        activityVersion = "1.2.0-alpha07"
-        appCompatVersion = "1.2.0"
-        materialVersion = "1.2.0-beta01"
-        swipeRefreshLayoutVersion = "1.0.0"
-        constraintLayoutVersion = "2.0.0-rc1"
-        flexboxVersion = "2.0.1"
-        lifecycleVersion = "2.2.0"
-        coroutineVersion = "1.3.9"
-        roomVersion = "2.2.5"
-        daggerHiltVersion = "2.28.3-alpha"
-        hiltVersion = "1.0.0-alpha02"
-        daggerVersion = "2.27"
-        retrofitVersion = "2.8.1"
-        gsonVersion = "2.8.6"
-        workManagerVersion = "2.4.0"
-        timberVersion = "4.7.1"
-        googlePlayServicesVersion = "18.1.0"
-        navigationVersion = "2.3.0"
-
-        // Tools
-        leakCanary = "2.4"
-        lintVersion = "26.4.1"
-
-        // Unit Test
-        junitVersion = "4.13"
-        robolectricVersion = "4.3.1"
-        mockitoKotlinVersion = "2.1.0"
-        mockitoVersion = "2.23.4"
-
-        testCoreVersion = "1.2.0"
-        testArchCoreVersion = "2.1.0"
-        testJunitVersion = "1.1.2-rc03"
-        testRulesVersion = "1.3.0-rc03"
-
-        mockkVersion = "1.10.0"
-
-        // Instrument Test
-        testRunnerVersion = "1.3.0-rc03"
-        testEspresso = "3.3.0-rc03"
-        testAndroidXVersion = "1.2.0"
-        kotlin_version = '1.3.72'
-    }
 
     repositories {
         google()
@@ -54,9 +8,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$daggerHiltVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Libs.Navigation.version}"
     }
 }
 

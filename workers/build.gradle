@@ -1,12 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
     }
 
     compileOptions {
@@ -16,17 +21,17 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(":base")
     implementation project(":domain")
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
-    implementation "androidx.hilt:hilt-work:$hiltVersion"
-    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    implementation Libs.Hilt.lifecycleViewModel
+    kapt Libs.Hilt.compiler
+    implementation Libs.Hilt.work
+
 
     // Work Manager
-    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+    implementation Libs.WorkManager
 }

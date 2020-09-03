@@ -1,20 +1,25 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 def configPropertiesFile = rootProject.file("config.properties")
 def configProperties = new Properties()
 configProperties.load(new FileInputStream(configPropertiesFile))
 
 android {
-    compileSdkVersion compileSdk
-    buildToolsVersion "29.0.3"
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
     defaultConfig {
         applicationId "com.guerra.enrico.sera"
-        minSdkVersion minSdk
-        targetSdkVersion 29
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.guerra.enrico.sera.SeraTestRunner"
@@ -75,91 +80,84 @@ dependencies {
 
     implementation project(":navigation")
 
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "com.google.android:flexbox:$flexboxVersion"
-    implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation "androidx.activity:activity-ktx:$activityVersion"
-
+    implementation Libs.Google.flexbox
+    implementation Libs.Google.material
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.constraintLayout
+    implementation Libs.AndroidX.fragmentKtx
+    implementation Libs.AndroidX.activityKtx
 
     // Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-
-    // Architecture Component
+    implementation Libs.Kotlin.coroutines
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation Libs.Lifecycle.viewModelKtx
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
-    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
-    implementation "androidx.hilt:hilt-work:$hiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    implementation Libs.Hilt.lifecycleViewModel
+    kapt Libs.Hilt.compiler
+    implementation Libs.Hilt.work
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation Libs.Retrofit.lib
+    implementation Libs.Retrofit.converterGson
 
     // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation Libs.Room.runtime
+    kapt Libs.Room.compiler
+    implementation Libs.Room.ktx
 
     // Gson
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation Libs.Gson
 
     // Work Manager
-    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+    implementation Libs.WorkManager
 
     // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation Libs.Timber
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
-
-    // Leak canary
-    // debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+    implementation Libs.Navigation.fragmentKtx
+    implementation Libs.Navigation.uiKtx
 
     // Unit Test
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation Libs.Junit
+    testImplementation Libs.Robolectric
+    testImplementation Libs.MockitoCore
+    testImplementation Libs.Mockk.lib
 
-    testImplementation "androidx.test:core:$testCoreVersion"
-    testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.archCore
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
 
-    kaptTest "androidx.room:room-compiler:$roomVersion"
-    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptTest Libs.Room.compiler
 
     // Instrument Test
-    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation Libs.Junit
 
-    androidTestImplementation "androidx.test:core-ktx:$testAndroidXVersion"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$testJunitVersion"
-    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
-    androidTestImplementation "androidx.test:rules:$testRulesVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+    androidTestImplementation Libs.AndroidX.Test.coreKtx
+    androidTestImplementation Libs.AndroidX.Test.junitKtx
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.archCore
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$testEspresso"
-    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$testEspresso"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$testEspresso"
+    androidTestImplementation Libs.Espresso.core
+    androidTestImplementation Libs.Espresso.contrib
+    androidTestImplementation Libs.Espresso.idlingResource
+    androidTestImplementation Libs.Espresso.intents
 
-    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation Libs.Mockk.android
 
-    androidTestImplementation  "com.google.dagger:hilt-android-testing:$daggerHiltVersion"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    androidTestImplementation Libs.Hilt.Test.android
+    kaptAndroidTest Libs.Hilt.Test.androidCompiler
 
-    androidTestImplementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
-    kaptAndroidTest "androidx.hilt:hilt-compiler:$hiltVersion"
-    androidTestImplementation "androidx.hilt:hilt-work:$hiltVersion"
+    androidTestImplementation Libs.Hilt.lifecycleViewModel
+    kaptAndroidTest Libs.Hilt.compiler
+    androidTestImplementation Libs.Hilt.work
 
 }

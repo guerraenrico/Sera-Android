@@ -1,14 +1,20 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
     }
 
     compileOptions {
@@ -27,31 +33,31 @@ dependencies {
     implementation project(":models")
     implementation project(":common:resources") // Maybe not optimal
 
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+    implementation Libs.AndroidX.fragmentKtx
+    implementation Libs.AndroidX.swipeRefresh
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation Libs.Lifecycle.commonJava8
+
 
     // Material Component
-    implementation "com.google.android.material:material:$materialVersion"
+    implementation Libs.Google.material
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
 
     // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation Libs.Timber
 
-    testImplementation "androidx.test:core:$testCoreVersion"
-    testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.archCore
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$testEspresso"
-    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$testJunitVersion"
-    androidTestImplementation "androidx.test:rules:$testRulesVersion"
-
+    androidTestImplementation Libs.Espresso.core
+    androidTestImplementation Libs.AndroidX.Test.junitKtx
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.rules
 }

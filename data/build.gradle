@@ -1,14 +1,19 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,30 +42,31 @@ dependencies {
     api project(":local")
 
     // Gson
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation Libs.Gson
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation Libs.Retrofit.lib
+    implementation Libs.Retrofit.converterGson
 
     // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation Libs.Room.runtime
+    kapt Libs.Room.compiler
+    implementation Libs.Room.ktx
 
     // Hilt
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    implementation Libs.Hilt.lifecycleViewModel
 
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "io.mockk:mockk:$mockkVersion"
+    // Unit Test
+    testImplementation Libs.Junit
+    testImplementation Libs.Robolectric
+    testImplementation Libs.MockitoCore
+    testImplementation Libs.Mockk.lib
 
-    testImplementation "androidx.test:core:$testCoreVersion"
-    testImplementation "androidx.arch.core:core-testing:$testArchCoreVersion"
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.archCore
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
 }

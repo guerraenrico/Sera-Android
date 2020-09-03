@@ -1,14 +1,20 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
 
 android {
-    compileSdkVersion compileSdk
+    compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        minSdkVersion minSdk
+        minSdkVersion Versions.minSdk
     }
 
     compileOptions {
@@ -30,28 +36,26 @@ dependencies {
     implementation project(":common:resources")
     implementation project(":navigation")
 
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation Libs.Google.material
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.constraintLayout
+    implementation Libs.AndroidX.fragmentKtx
+    implementation Libs.AndroidX.activityKtx
 
     // Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-
-    // Architecture Component
+    implementation Libs.Kotlin.coroutines
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation Libs.Lifecycle.viewModelKtx
 
     // Hilt
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltVersion"
-    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    implementation Libs.Hilt.lifecycleViewModel
+    kapt Libs.Hilt.compiler
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation Libs.Navigation.fragmentKtx
+    implementation Libs.Navigation.uiKtx
 }
