@@ -1,4 +1,5 @@
 import com.guerra.enrico.sera.buildsrc.Libs
+import com.guerra.enrico.sera.buildsrc.Versions
 
 plugins {
     id 'com.android.application'
@@ -13,12 +14,12 @@ def configProperties = new Properties()
 configProperties.load(new FileInputStream(configPropertiesFile))
 
 android {
-    compileSdkVersion compileSdk
-    buildToolsVersion "29.0.3"
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
     defaultConfig {
         applicationId "com.guerra.enrico.sera"
-        minSdkVersion minSdk
-        targetSdkVersion 29
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.guerra.enrico.sera.SeraTestRunner"

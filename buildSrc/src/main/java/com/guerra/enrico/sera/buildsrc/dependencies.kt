@@ -2,6 +2,13 @@
 
 package com.guerra.enrico.sera.buildsrc
 
+object Versions {
+    const val compileSdk = 29
+    const val minSdk = 21
+    const val targetSdk = 29
+    const val buildTools = "29.0.3"
+}
+
 object Libs {
 
     object Kotlin {
@@ -51,7 +58,7 @@ object Libs {
     }
 
     object Hilt {
-        private const val androidVersion = "2.28.3-alpha"
+        const val androidVersion = "2.28.3-alpha"
         private const val version = "1.0.0-alpha02"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -89,14 +96,14 @@ object Libs {
     const val Timber = "com.jakewharton.timber:timber:4.7.1"
 
     object Navigation {
-        private const val version = "2.3.0"
+        const val version = "2.3.0"
 
         const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$version"
         const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
     }
 
     object PlayServices {
-        private const val version = ""
+        private const val version = "18.1.0"
 
         const val auth = "com.google.android.gms:play-services-auth:$version"
     }
