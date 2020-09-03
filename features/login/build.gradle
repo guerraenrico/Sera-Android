@@ -1,11 +1,13 @@
 import com.guerra.enrico.sera.buildsrc.Libs
 import com.guerra.enrico.sera.buildsrc.Versions
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 def configPropertiesFile = rootProject.file("config.properties")
 def configProperties = new Properties()
