@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="login_deep_link">sera://login</string>
     <string name="main_deep_link">sera://main</string>
     <string name="todos_deep_link">sera://todos</string>
     <string name="goals_deep_link">sera://goals</string>

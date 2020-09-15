@@ -9,12 +9,6 @@ import com.guerra.enrico.models.todos.Task
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDbManager {
-  // Session
-
-  suspend fun getSession(): Session?
-  suspend fun getSessionAccessToken(): String?
-  suspend fun getSessionUserId(): String?
-  suspend fun insertSession(userId: String, accessToken: String)
 
   // User
 
@@ -30,7 +24,6 @@ interface LocalDbManager {
   suspend fun clearCategories()
   suspend fun updateCategory(category: Category): Int
   suspend fun deleteCategory(category: Category): Int
-  suspend fun syncCategories(categories: List<Category>)
 
   // Tasks
 
@@ -42,7 +35,6 @@ interface LocalDbManager {
   suspend fun searchTask(searchText: String): List<Task>
   suspend fun updateTask(task: Task): Int
   suspend fun deleteTask(task: Task): Int
-  suspend fun syncTasks(tasks: List<Task>)
 
   // Suggestions
   suspend fun searchSuggestions(text: String): List<Suggestion>
@@ -50,10 +42,4 @@ interface LocalDbManager {
   suspend fun insertSuggestion(suggestion: Suggestion): Long
   suspend fun updateSuggestion(suggestion: Suggestion): Int
 
-  // Sync
-
-  suspend fun getSyncActions(): List<SyncAction>
-  suspend fun insertSyncAction(syncAction: SyncAction): Long
-  suspend fun deleteSyncAction(syncAction: SyncAction): Int
-  suspend fun deleteSyncActions(syncActions: List<SyncAction>): Int
 }

@@ -36,18 +36,12 @@ internal class SplashFragment : BaseFragment() {
       when (state) {
         SplashState.Idle -> {}
         SplashState.Complete -> gotoMain()
-        SplashState.Error -> gotoLogin()
       }.exhaustive
     }
   }
 
   private fun gotoMain() {
     val uri = navigator.getUriMain()
-    findNavController().navigate(uri)
-  }
-
-  private fun gotoLogin() {
-    val uri = navigator.getUriLogin()
     findNavController().navigate(uri)
   }
 }

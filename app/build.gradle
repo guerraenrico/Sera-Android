@@ -70,7 +70,6 @@ dependencies {
     implementation project(":domain")
     implementation project(":workers")
     implementation project(":features:splash")
-    implementation project(":features:login")
     implementation project(":features:todos")
     implementation project(":features:goals")
     implementation project(":features:results")

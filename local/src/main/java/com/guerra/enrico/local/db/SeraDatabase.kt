@@ -5,29 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.guerra.enrico.local.dao.SessionDao
 import com.guerra.enrico.local.dao.UserDao
-import com.guerra.enrico.local.dao.sync.SyncActionDao
 import com.guerra.enrico.local.dao.todos.CategoryDao
 import com.guerra.enrico.local.dao.todos.SuggestionDao
 import com.guerra.enrico.local.dao.todos.TaskDao
 import com.guerra.enrico.local.db.converters.CategoryConverter
 import com.guerra.enrico.local.db.converters.DateConverter
-import com.guerra.enrico.local.db.converters.OperationConverter
-import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
-import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.models.todos.Task
 
 @Database(
-  entities = [Session::class, User::class, Category::class, Task::class, Suggestion::class, SyncAction::class],
+  entities = [User::class, Category::class, Task::class, Suggestion::class],
   version = 1
 )
-@TypeConverters(DateConverter::class, CategoryConverter::class, OperationConverter::class)
+@TypeConverters(DateConverter::class, CategoryConverter::class)
 abstract class SeraDatabase : RoomDatabase() {
-  abstract fun sessionDao(): SessionDao
 
   abstract fun userDao(): UserDao
 
@@ -36,8 +30,6 @@ abstract class SeraDatabase : RoomDatabase() {
   abstract fun taskDao(): TaskDao
 
   abstract fun suggestionDao(): SuggestionDao
-
-  abstract fun syncAction(): SyncActionDao
 
   companion object {
     private var INSTANCE: SeraDatabase? = null
