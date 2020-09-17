@@ -38,11 +38,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
         }
         release {
-            buildConfigField "String", "ApiBaseUri", configProperties['ApiBaseUri']
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -70,7 +67,6 @@ dependencies {
     implementation project(":domain")
     implementation project(":workers")
     implementation project(":features:splash")
-    implementation project(":features:login")
     implementation project(":features:todos")
     implementation project(":features:goals")
     implementation project(":features:results")
@@ -100,10 +96,6 @@ dependencies {
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
     implementation Libs.Hilt.work
-
-    // Retrofit
-    implementation Libs.Retrofit.lib
-    implementation Libs.Retrofit.converterGson
 
     // Room
     implementation Libs.Room.runtime

@@ -10,10 +10,6 @@ internal class NavigatorImpl @Inject constructor(
   @ApplicationContext private val context: Context
 ) : Navigator {
 
-  override fun getUriLogin(): Uri {
-    return context.getDeepLink(R.string.login_deep_link)
-  }
-
   override fun getUriMain(): Uri {
     return context.getDeepLink(R.string.main_deep_link)
   }

@@ -1,39 +1,15 @@
 package com.guerra.enrico.local.db
 
-import com.guerra.enrico.models.Session
 import com.guerra.enrico.models.User
-import com.guerra.enrico.models.sync.SyncAction
 import com.guerra.enrico.models.todos.Category
 import com.guerra.enrico.models.todos.Suggestion
 import com.guerra.enrico.models.todos.Task
 import kotlinx.coroutines.flow.Flow
-import java.util.*
 import javax.inject.Inject
 
 class LocalDbManagerImpl @Inject constructor(
   private val database: SeraDatabase
 ) : LocalDbManager {
-
-  // Session
-
-  override suspend fun getSession(): Session? =
-    database.sessionDao().getFirst()
-
-  override suspend fun getSessionAccessToken(): String? =
-    getSession()?.accessToken
-
-  override suspend fun getSessionUserId(): String? =
-    getSession()?.userId
-
-  override suspend fun insertSession(userId: String, accessToken: String) {
-    database.sessionDao().insert(
-      Session(
-        userId = userId,
-        accessToken = accessToken,
-        createdAt = Date()
-      )
-    )
-  }
 
   // User
 
@@ -68,10 +44,6 @@ class LocalDbManagerImpl @Inject constructor(
 
   override suspend fun deleteCategory(category: Category): Int =
     database.categoryDao().removeOne(category.id)
-
-  override suspend fun syncCategories(categories: List<Category>) {
-    database.categoryDao().sync(categories)
-  }
 
   // Tasks
 
@@ -108,10 +80,6 @@ class LocalDbManagerImpl @Inject constructor(
   override suspend fun deleteTask(task: Task): Int =
     database.taskDao().removeOne(task.id)
 
-  override suspend fun syncTasks(tasks: List<Task>) {
-    database.taskDao().sync(tasks)
-  }
-
   override suspend fun searchSuggestions(text: String): List<Suggestion> =
     database.suggestionDao().search("%$text%")
 
@@ -125,18 +93,4 @@ class LocalDbManagerImpl @Inject constructor(
 
   override suspend fun updateSuggestion(suggestion: Suggestion): Int =
     database.suggestionDao().update(suggestion)
-
-  // Sync
-
-  override suspend fun getSyncActions(): List<SyncAction> =
-    database.syncAction().get()
-
-  override suspend fun insertSyncAction(syncAction: SyncAction): Long =
-    database.syncAction().insert(syncAction)
-
-  override suspend fun deleteSyncAction(syncAction: SyncAction): Int =
-    database.syncAction().delete(syncAction)
-
-  override suspend fun deleteSyncActions(syncActions: List<SyncAction>): Int =
-    database.syncAction().deleteAll(syncActions)
 }

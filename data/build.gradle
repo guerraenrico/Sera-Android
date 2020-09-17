@@ -38,15 +38,10 @@ android {
 dependencies {
     implementation project(":base")
     implementation project(":models")
-    api project(":remote")
     api project(":local")
 
     // Gson
     implementation Libs.Gson
-
-    // Retrofit
-    implementation Libs.Retrofit.lib
-    implementation Libs.Retrofit.converterGson
 
     // Room
     implementation Libs.Room.runtime

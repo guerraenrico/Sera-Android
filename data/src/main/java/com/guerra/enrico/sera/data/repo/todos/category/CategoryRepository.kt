@@ -8,8 +8,6 @@ import java.util.*
 
 interface CategoryRepository {
 
-  suspend fun pullCategories(from: Date?): Result<Unit>
-
   suspend fun insertCategories(categories: List<Category>): Result<Unit>
 
   suspend fun insertCategory(category: Category): Result<Category>
@@ -17,6 +15,4 @@ interface CategoryRepository {
   suspend fun deleteCategory(category: Category): Result<Int>
 
   fun getCategories(): Flow<List<Category>>
-
-  suspend fun syncAction(syncAction: SyncAction): Result<Any>
 }
