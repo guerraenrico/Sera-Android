@@ -2,7 +2,6 @@
 .gradle
 /captures
 /build
-buildSrc/build
 
 /local.properties
 config.properties
